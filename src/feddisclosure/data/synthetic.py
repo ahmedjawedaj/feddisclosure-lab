@@ -39,6 +39,15 @@ def initialize_database(db_path: str | Path, spec: InstitutionSpec) -> None:
             count INTEGER NOT NULL,
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
         )""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS query_audit (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            experiment_id TEXT NOT NULL,
+            query_id TEXT NOT NULL,
+            policy TEXT NOT NULL,
+            approved INTEGER NOT NULL,
+            reason TEXT NOT NULL,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )""")
         current = dict(conn.execute("SELECT key, value FROM metadata"))
         desired = {"name": spec.name, "rows": str(spec.rows), "positive": str(spec.positive)}
         if current and current != desired:

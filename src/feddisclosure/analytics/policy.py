@@ -24,7 +24,9 @@ def evaluate_release(conn: sqlite3.Connection, request: AggregateRequest, min_ce
     selected = matched_record_ids(conn, request.query_id)
     count = len(selected)
     if count < min_cell:
-        return ReleaseDecision(False, None, "small_cell")
+        decision = ReleaseDecision(False, None, "small_cell")
+        _audit(conn, request, decision)
+        return decision
     if request.policy == "history":
         for (prior_json,) in conn.execute(
             "SELECT membership_json FROM release_history WHERE experiment_id=? AND policy=?",
@@ -33,12 +35,24 @@ def evaluate_release(conn: sqlite3.Connection, request: AggregateRequest, min_ce
             prior = frozenset(json.loads(prior_json))
             difference = selected.symmetric_difference(prior)
             if 0 < len(difference) < min_cell:
-                return ReleaseDecision(False, None, "near_duplicate_complement")
+                decision = ReleaseDecision(False, None, "near_duplicate_complement")
+                _audit(conn, request, decision)
+                return decision
     conn.execute(
         "INSERT INTO release_history(experiment_id, query_id, policy, membership_json, count) VALUES (?, ?, ?, ?, ?)",
         (request.experiment_id, request.query_id, request.policy, json.dumps(sorted(selected)), count),
     )
-    return ReleaseDecision(True, count, "released")
+    decision = ReleaseDecision(True, count, "released")
+    _audit(conn, request, decision)
+    return decision
+
+
+def _audit(conn: sqlite3.Connection, request: AggregateRequest, decision: ReleaseDecision) -> None:
+    """Only metadata. Matched IDs never enter audit rows, logs, or HTTP responses."""
+    conn.execute(
+        "INSERT INTO query_audit(experiment_id, query_id, policy, approved, reason) VALUES (?, ?, ?, ?, ?)",
+        (request.experiment_id, request.query_id, request.policy, int(decision.approved), decision.reason),
+    )
 
 
 def evaluate_at_site(db_path: str, request: AggregateRequest, min_cell: int) -> ReleaseDecision:
