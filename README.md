@@ -2,7 +2,7 @@
 
 **A reproducible privacy leakage and defense benchmark for federated analytics and learning**
 
-Status: **Sprint 0 built, Sprint 1 core implemented and locally integration-tested, Sprints 2–6 planned**. Updated 2026-11-18.
+Status: **Sprint 0 built; Sprint 1 analytics hardened and locally verified (Docker gate open); Sprint 2 PyTorch reference verified and native Flower app implemented (Flower run gate open); Sprints 3–6 planned**. Updated 2026-11-18.
 
 This is an independent research-engineering project using **only synthetic data**. No thesis novelty, production security, differential privacy or secure aggregation is claimed at this stage.
 
@@ -26,6 +26,29 @@ python scripts/run_local_stack.py --once
 
 The local runner starts **four real processes** (three institutions and one gateway) on dynamically assigned localhost ports, with distinct SQLite databases in temporary storage. It automatically stops the services and writes `reports/results/analytics_local.json`.
 
+## Sprint 2: verified 3-client PyTorch reference and native Flower app
+
+PyTorch + scikit-learn can execute the reproducible CPU-only three-worker baseline even when Flower cannot be installed:
+
+```bash
+python -m pip install -e '.[ml,test]'  # on a network-enabled machine
+python scripts/run_torch_reference.py --config configs/training/fedavg_digits_iid.yaml --data-dir data/training/digits-iid --output reports/results/sprint2/torch_iid_reference.json --references
+python scripts/run_torch_reference.py --config configs/training/fedavg_digits_non_iid.yaml --data-dir data/training/digits-non-iid --output reports/results/sprint2/torch_non_iid_reference.json --references
+python scripts/plot_training.py
+```
+
+This is **actual PyTorch training using 3 separate OS worker processes**, but **not Flower**. The privileged evaluator is a separate process that accesses *public* test data. Local-only and pooled references are explicitly evaluator-only and have different optimizer schedules. Tracked JSON results include measured training metrics, explicit limitations and SHA-256 references to final public-digit `.pt` checkpoints (the checkpoints are Git-ignored and included only in the downloadable release archive).
+
+The native Flower 1.27 `ServerApp` and `ClientApp` are implemented against the official Message API, but could not be executed here because neither Flower nor package-network access was available:
+
+```bash
+python scripts/run_flower_experiment.py  # needs flwr[simulation] + its dependencies
+```
+
+This launches actual `flwr run` with 3 SuperNodes and writes failure/success logs, checkpoint and validation summary. **Native Flower remains an open runtime acceptance gate.** For real physically isolated institutions use independent SuperNodes on separate mounts/containers; the simulation is a protocol baseline, not strong OS isolation.
+
+See `docs/fl-experiment-protocol.md`, `CURRENT_STATE.md`, and `NEXT_SPRINT.md`.
+
 ## Run with Docker Compose (configured, not verified here)
 
 You must have Docker Engine and Compose v2. On the Docker host:
@@ -44,6 +67,8 @@ Only the gateway is published, at `127.0.0.1:8080`. Institutional services are r
 export FDL_RESEARCH_KEY='the-same-key-as-in-.env'
 python -m feddisclosure.cli analytics-benchmark --gateway http://127.0.0.1:8080
 ```
+
+On a Docker host, use `bash scripts/verify_compose.sh` to perform the full network/volume/port inspection and save benchmark/log evidence. This native execution was **not possible** in the build environment.
 
 Stop with `docker compose down`. Add `-v` only when deliberately resetting research datasets and release histories. The `.env` file is gitignored. Do not expose this prototype to the public Internet; the API keys and experimental policy switch are not hardened production authorization.
 
@@ -92,13 +117,13 @@ feddisclosure-lab/
 |---|---|---|
 | 0: Foundation | Implemented | Typed configs, threat models, tests, agent handoff |
 | 1: Federated analytics | Core implemented; Docker pending | Three independent sites; count differencing and history rule |
-| 2: Flower + PyTorch | Planned | 3-client FedAvg, IID/non-IID, local/pooled comparisons |
+| 2: Flower + PyTorch | Public-digits PyTorch reference executed; native Flower code written but not run | 3-client native Flower FedAvg, IID/non-IID, local/pooled comparisons |
 | 3: Leakage attacks | Planned | Reproduce gradient inversion + membership inference |
 | 4: Defenses | Planned | OpenDP, Opacus, Flower SecAgg+ under matched threat models |
 | 5: Benchmarks | Planned | Multi-seed ablations, accuracy/leakage/efficiency figures |
 | 6: Research release | Planned | Dashboard, report, clean-install & faculty presentation |
 
-See `docs/roadmap.md` for sprint tasks and acceptance criteria. The `training`, `federation`, `defenses`, `dashboard` and remaining service modules contain planned integration points, not working implementations.
+See `docs/roadmap.md` for sprint tasks and acceptance criteria. `training` now includes executed PyTorch reference code and a native Flower implementation pending runtime verification. `federation`, `defenses`, the dashboard and other service modules remain future work.
 
 ## Scope boundaries
 

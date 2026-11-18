@@ -6,11 +6,11 @@
 
 **Audience:** Researchers, academic supervisors, ML engineers and privacy/security reviewers.
 
-**Working environment:** First phase: Python 3.11–3.13 and FastAPI multi-process local validation; Docker Compose created for a single future Docker host. Later: Flower + PyTorch, optional GPU/Colab experimentation. Cloud deployment **not** verified.
+**Working environment:** Python 3.13 for the local FastAPI analytic stack, PyTorch 2.10 CPU + scikit-learn for executed federated-training reference. Docker Compose is prepared but Docker is unavailable here. Flower ServerApp/ClientApp has been implemented but the Flower package/runtime could not be installed or executed in this restricted environment. Optional GPU/Colab later. Cloud deployment **not** verified.
 
 **Nonnegotiable rules:** No real confidential data. No fabricated benchmark results. No unsupported formal DP guarantees. No evaluator-truth leakage to attack code. No custom secure-aggregation crypto.
 
-**What is done:** Sprint 0 repository/research infrastructure, Sprint 1 three-site analytics service and reproduced 110–107=3 leakage with history-aware rejection, results and 18 automated tests.
+**What is done:** Sprint 0 repository/research infrastructure; Sprint 1 3-site HTTP analytics, 110–107=3 leakage/history denial, audit and failure/concurrency tests; Sprint 2 executed PyTorch three-worker FedAvg IID/non-IID + separate evaluator, exactly reproduced IID, figures, native Flower Message API implementation and an automatic Flower workflow. 26 tests passed, one optional Flower test skipped. **No native Docker/Flower verification yet.**
 
 **Where to resume:** `CURRENT_STATE.md` and `NEXT_SPRINT.md` are canonical. For how to work, read `AGENTS.md`, `docs/execution-loops.md` and `.agents/skills/` or `.claude/skills/`.
 

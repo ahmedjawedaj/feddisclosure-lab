@@ -41,8 +41,9 @@ For threat-model or disclosure work use `.agents/skills/threat-model-review/SKIL
 - Three independent HTTP site processes, one HTTP gateway, and private per-process SQLite files were run via `scripts/run_local_stack.py --once`.
 - Synthetic naive query responses: 110 and 107; inferred restricted subgroup: 3.
 - History-aware second query: denied; no inferred value.
-- Docker configuration exists but Docker Engine is unavailable in the initial development environment. Do **not** mark container deployment as tested.
+- Sprint 2: executed separate-process PyTorch 3-client FedAvg reference on public 8x8 digits (IID and label-skew non-IID). Evaluator runs in a separate process; IID repeat metrics matched exactly. This is **not** a Flower run.
+- Docker and Flower native runtime gates are still **NOT VERIFIED** because Docker Engine and the Flower package were unavailable. Do not mark them complete from generated scripts or static code.
 
 ## Next priority
 
-Complete Sprint 1 hardening and its Docker integration gate, then implement a Flower **ServerApp/ClientApp** for Sprint 2. Use current Flower APIs, not deprecated `start_simulation` shortcuts. See `NEXT_SPRINT.md`.
+Execute the pending Sprint 1 Docker gate and Sprint 2 native Flower ServerApp/ClientApp runtime gate; extend experiments only after collecting observed evidence. See `NEXT_SPRINT.md` and `docs/fl-experiment-protocol.md`.

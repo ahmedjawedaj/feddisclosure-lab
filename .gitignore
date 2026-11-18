@@ -17,3 +17,16 @@ reports/results/*.json
 reports/figures/*.png
 !reports/figures/.gitkeep
 !reports/figures/sprint1_analytics.png
+
+# Generated partitioned image/tabular public examples and ML weights
+/data/
+*.pt
+*.pth
+reports/results/sprint2/*.json
+!reports/results/sprint2/.gitkeep
+!reports/results/sprint2/torch_iid_reference.json
+!reports/results/sprint2/torch_non_iid_reference.json
+!reports/results/sprint2/torch_iid_repeat.json
+reports/results/sprint1/docker_*.txt
+
+!reports/figures/sprint2_training_reference.png

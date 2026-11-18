@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "feddisclosure-lab"
-version = "0.2.0"
+version = "0.3.0"
 description = "Reproducible federated analytics disclosure and privacy evaluation laboratory"
 requires-python = ">=3.11,<3.14"
 dependencies = [
@@ -17,7 +17,7 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest>=8,<10", "pytest-cov>=5,<8"]
-ml = ["torch>=2.3,<3", "torchvision>=0.18,<1", "flwr>=1.20,<2"]
+ml = ["torch>=2.3,<3", "torchvision>=0.18,<1", "scikit-learn>=1.4,<2", "flwr[simulation]>=1.27,<1.28"]
 privacy = ["opendp>=0.12,<1", "opacus>=1.4,<2"]
 visual = ["streamlit>=1.39,<2", "pandas>=2.2,<3", "matplotlib>=3.8,<4"]
 
@@ -31,6 +31,33 @@ where = ["src"]
 testpaths = ["tests"]
 pythonpath = ["src", "."]
 addopts = "-ra"
+markers = ["slow: subprocess-based PyTorch training smoke tests"]
 
 [tool.coverage.run]
 source = ["src/feddisclosure", "services"]
+
+[tool.flwr.app]
+publisher = "feddisclosure"
+
+[tool.flwr.app.components]
+serverapp = "feddisclosure.training.flower_server:app"
+clientapp = "feddisclosure.training.flower_client:app"
+
+[tool.flwr.app.config]
+num-server-rounds = 2
+local-epochs = 1
+batch-size = 32
+learning-rate = 0.15
+clients = 3
+seed = 20261118
+features = 64
+classes = 10
+data-root = "data/training/digits-iid"
+artifact-dir = "reports/results/sprint2/flower"
+
+[tool.flwr.federations]
+default = "local-simulation"
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 3
+

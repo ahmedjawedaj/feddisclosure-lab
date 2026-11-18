@@ -4,7 +4,7 @@ Sprint 0 (foundation): config/schema, threat models, test infrastructure, canoni
 
 Sprint 1 (analytics): three separated site processes/SQLite stores, gateway with typed queries, naive disclosure and history heuristic, cross-site error handling, metrics. Core built. Remaining: actual Docker validation, broader query-family regression, policy heterogeneity, audit statistics, stronger gateway request accounting.
 
-Sprint 2 (FL): current Flower ServerApp/ClientApp on three nodes, PyTorch MNIST partition downloader with checksums, IID and Dirichlet non-IID, baselines local/pooled/FedAvg, real persisted metrics, round communication accounting. **Gate:** verified independent client execution, no mislabeled simulation, deterministic test on a small synthetic partition.
+Sprint 2 (FL): PUBLIC digit PyTorch reference on three OS worker processes, IID/label-skew non-IID, per-client held-out validation and public-data local/pooled comparators: **executed and artifact-backed**. Native Flower ServerApp/ClientApp written but cannot be verified without dependencies; actual MNIST data and longer/5-seed ablations remain pending. **Gate:** verified Flower three-client execution and one-round numerical cross-check. Do not relabel the offline reference as Flower.
 
 Sprint 3 (attacks): exact gradient inversion reference using controlled public MNIST, batch sizes and budgets; output-only membership inference; observe-only attacks, explicit unsuccessful results. **Gate:** scored genuine attack results and artifact images, no truth path into attack.
 

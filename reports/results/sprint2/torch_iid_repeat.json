@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "experiment_id": "digits-iid-smoke-v1",
+  "config": {
+    "id": "digits-iid-smoke-v1",
+    "seed": 20261118,
+    "dataset": "sklearn_digits",
+    "partition": "iid",
+    "clients": 3,
+    "rounds": 2,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.15,
+    "source_limit": 600,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ]
+  },
+  "versions": {
+    "torch": "2.10.0+cpu",
+    "python": "3.13.5"
+  },
+  "manifest_sha256": "7823ffdfadfdd2470c9ecc07c508313a6ec91ca978e0788e94aeae6515d0f100",
+  "final_checkpoint": {
+    "path": "reports/results/sprint2/checkpoints/digits-iid-smoke-v1_final.pt",
+    "sha256": "5ae8fe93cc5f5dd73b32016f60016c1ba445aba5cbb31005d9ff96397e391fff"
+  },
+  "partition_label_histograms": [
+    [
+      14,
+      12,
+      9,
+      12,
+      9,
+      11,
+      13,
+      16,
+      18,
+      14
+    ],
+    [
+      14,
+      16,
+      13,
+      13,
+      9,
+      10,
+      16,
+      12,
+      9,
+      16
+    ],
+    [
+      16,
+      14,
+      15,
+      11,
+      11,
+      13,
+      12,
+      7,
+      18,
+      11
+    ]
+  ],
+  "model_bytes": 9640,
+  "rounds": [
+    {
+      "round": 1,
+      "public_test": {
+        "accuracy": 0.15,
+        "loss": 2.287809117635091,
+        "num-examples": 120
+      },
+      "worst_client_local_update_validation_accuracy": 0.125,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 2.3028510212898254,
+          "num-examples": 128,
+          "worker_pid": 5129,
+          "local_update_validation": {
+            "accuracy": 0.21875,
+            "loss": 2.269077777862549,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.7211,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 2.3028605580329895,
+          "num-examples": 128,
+          "worker_pid": 5131,
+          "local_update_validation": {
+            "accuracy": 0.125,
+            "loss": 2.308082342147827,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.6488,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 2.306964874267578,
+          "num-examples": 128,
+          "worker_pid": 5132,
+          "local_update_validation": {
+            "accuracy": 0.3125,
+            "loss": 2.2483367919921875,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.68492,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 2,
+      "public_test": {
+        "accuracy": 0.20833333333333334,
+        "loss": 2.2572274525960285,
+        "num-examples": 120
+      },
+      "worst_client_local_update_validation_accuracy": 0.15625,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 2.270573914051056,
+          "num-examples": 128,
+          "worker_pid": 5173,
+          "local_update_validation": {
+            "accuracy": 0.28125,
+            "loss": 2.241773843765259,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.64628,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 2.2712126970291138,
+          "num-examples": 128,
+          "worker_pid": 5175,
+          "local_update_validation": {
+            "accuracy": 0.15625,
+            "loss": 2.278954267501831,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.72553,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 2.2715970873832703,
+          "num-examples": 128,
+          "worker_pid": 5174,
+          "local_update_validation": {
+            "accuracy": 0.34375,
+            "loss": 2.218989849090576,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.76168,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    }
+  ],
+  "final_global_per_client_validation": [
+    {
+      "client_id": 0,
+      "worker_pid": 5223,
+      "evaluation": {
+        "accuracy": 0.1875,
+        "loss": 2.249652862548828,
+        "num-examples": 32
+      }
+    },
+    {
+      "client_id": 1,
+      "worker_pid": 5222,
+      "evaluation": {
+        "accuracy": 0.1875,
+        "loss": 2.266514539718628,
+        "num-examples": 32
+      }
+    },
+    {
+      "client_id": 2,
+      "worker_pid": 5221,
+      "evaluation": {
+        "accuracy": 0.28125,
+        "loss": 2.217072010040283,
+        "num-examples": 32
+      }
+    }
+  ],
+  "final_global_worst_client_validation_accuracy": 0.1875,
+  "total_elapsed_seconds": 16.1943,
+  "observer": "honest_but_curious_coordinator",
+  "actual_observations": [
+    "per_client_model_parameters",
+    "sample_counts",
+    "scalar_metrics"
+  ],
+  "limitations": [
+    "Not a Flower execution: uses independent local PyTorch worker processes, no Docker isolation.",
+    "Client datasets are public digit partitions, with no real institution records.",
+    "Public evaluator test is global held-out accuracy. Final worst-client metric evaluates aggregated model on each site's held-out local validation.",
+    "Communication uses raw tensor byte counts and excludes protocol, headers and transport overhead.",
+    "Coordinator sees individual model updates; there is no DP or secure aggregation.",
+    "Evaluator runs in a separate process with public ground truth. Process separation alone does not enforce filesystem permissions."
+  ],
+  "references": {
+    "pooled_public_data_reference": {
+      "accuracy": 0.36666666666666664,
+      "loss": 2.1185043970743815,
+      "num-examples": 120
+    },
+    "local_only_public_data_reference": [
+      {
+        "client_id": 0,
+        "public_test": {
+          "accuracy": 0.25,
+          "loss": 2.2619969685872396,
+          "num-examples": 120
+        }
+      },
+      {
+        "client_id": 1,
+        "public_test": {
+          "accuracy": 0.16666666666666666,
+          "loss": 2.263828150431315,
+          "num-examples": 120
+        }
+      },
+      {
+        "client_id": 2,
+        "public_test": {
+          "accuracy": 0.2916666666666667,
+          "loss": 2.2549307505289713,
+          "num-examples": 120
+        }
+      }
+    ],
+    "disclaimer": "Privileged evaluator-only public-data comparison, not a deployed federation. Optimizer schedules differ."
+  }
+}

@@ -39,3 +39,15 @@
 ## Disclosure checklist for every experiment
 
 Observer identity, training or query access, exact observations, number of participants, label knowledge, query and time budget, local step count, synthetic/public dataset, metric, failure criteria, exclusions and defense assumptions.
+
+## Analytics gateway operator (documented, not attacked yet)
+
+**Sees:** Individual institution-level aggregate responses in the gateway's internal HTTP traffic, plus request and policy. This actor is stronger than the external analytics user (which sees only the total or a generic refusal). Even if the public gateway refuses a query, the operator may have received responses from a subset of sites; those are not public responses.
+
+**Implication:** The history rule for the external user cannot be claimed as protection against a curious gateway operator. Rejection can itself serve as a side channel. Site history updates are not a cross-service atomic commit; an interrupted/rejected federated query may leave local history entries, which deserves a future two-phase release-control design. No secure aggregation exists in Sprint 1.
+
+## Federated learning coordinator (reference implemented; native Flower execution pending)
+
+**Sees:** Per-client complete post-local-training model arrays and sample counts; aggregate scalar metrics. **Does not receive** raw sample arrays, private per-site label lists, or evaluator public test labels. Individual model updates are not individual-example gradients. One-client reconstruction experiments must not be described as multi-client leakage under this observer.
+
+**Evaluator separation:** Offline reference evaluator and local client training execute as separate OS processes; the evaluator has permitted public ground truth. This does not enforce container-level filesystem permissions. CI and future Docker deployments must further isolate respective roles.

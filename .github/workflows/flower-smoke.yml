@@ -1,0 +1,29 @@
+name: flower-smoke
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/feddisclosure/training/**'
+      - 'configs/training/**'
+      - 'pyproject.toml'
+      - 'scripts/run_flower_experiment.py'
+      - '.github/workflows/flower-smoke.yml'
+jobs:
+  flower:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install ML dependencies
+        run: python -m pip install -e '.[ml,test]'
+      - name: Execute actual Flower ServerApp and 3 ClientApps
+        run: python scripts/run_flower_experiment.py
+      - name: Show measured result (no fabricated success)
+        run: cat reports/results/sprint2/flower/flower_run.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flower-smoke-evidence
+          path: reports/results/sprint2/flower/
