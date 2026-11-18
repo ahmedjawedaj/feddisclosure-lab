@@ -1,0 +1,6 @@
+id: gradient-inversion-planned
+status: planned
+observer: server_individual_gradient
+batch_sizes: [1, 8, 32]
+metrics: [mse, psnr, ssim, runtime_seconds]
+# Sprint 3: reproduce a published baseline and record failures.

@@ -1,0 +1,12 @@
+id: analytic-differencing-v1
+track: analytics
+seed: 20261118
+institutions:
+  institution-a: {rows: 40, positive: 1}
+  institution-b: {rows: 35, positive: 1}
+  institution-c: {rows: 35, positive: 1}
+min_cell: 5
+queries: [all_records, negative_records]
+policies: [naive, history]
+attacker_observation: gateway_aggregate_counts_only
+metrics: [inferred_positive_count, abs_error, rejected_queries, successful_disclosure]

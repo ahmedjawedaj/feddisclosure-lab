@@ -1,0 +1,6 @@
+id: privacy-defenses-planned
+status: planned
+analytics_dp: OpenDP
+training_dp: Opacus
+aggregation: Flower SecAgg+
+# Distinguish query-level DP, training DP and secure aggregation claims.

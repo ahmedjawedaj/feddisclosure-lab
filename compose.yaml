@@ -1,0 +1,74 @@
+# Research sandbox: only gateway is accessible from the host, bound to loopback.
+x-client: &client
+  build: .
+  command: uvicorn services.client.app:app --host 0.0.0.0 --port 8000
+  env_file: [.env]
+  environment:
+    FDL_MIN_CELL: ${FDL_MIN_CELL:-5}
+  networks: [internal]
+  read_only: true
+  tmpfs: [/tmp]
+  restart: unless-stopped
+  healthcheck:
+    test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+    interval: 5s
+    timeout: 4s
+    retries: 10
+
+services:
+  institution-a:
+    <<: *client
+    environment:
+      FDL_INSTITUTION: institution-a
+      FDL_DB_PATH: /data/institution.sqlite
+      FDL_ROWS: 40
+      FDL_CASES: 1
+      FDL_MIN_CELL: ${FDL_MIN_CELL:-5}
+      FDL_INTERNAL_TOKEN: ${FDL_INTERNAL_TOKEN:?Set FDL_INTERNAL_TOKEN in .env}
+    volumes: [institution_a:/data]
+  institution-b:
+    <<: *client
+    environment:
+      FDL_INSTITUTION: institution-b
+      FDL_DB_PATH: /data/institution.sqlite
+      FDL_ROWS: 35
+      FDL_CASES: 1
+      FDL_MIN_CELL: ${FDL_MIN_CELL:-5}
+      FDL_INTERNAL_TOKEN: ${FDL_INTERNAL_TOKEN:?Set FDL_INTERNAL_TOKEN in .env}
+    volumes: [institution_b:/data]
+  institution-c:
+    <<: *client
+    environment:
+      FDL_INSTITUTION: institution-c
+      FDL_DB_PATH: /data/institution.sqlite
+      FDL_ROWS: 35
+      FDL_CASES: 1
+      FDL_MIN_CELL: ${FDL_MIN_CELL:-5}
+      FDL_INTERNAL_TOKEN: ${FDL_INTERNAL_TOKEN:?Set FDL_INTERNAL_TOKEN in .env}
+    volumes: [institution_c:/data]
+  gateway:
+    build: .
+    command: uvicorn services.gateway.app:app --host 0.0.0.0 --port 8000
+    env_file: [.env]
+    environment:
+      FDL_CLIENT_URLS: http://institution-a:8000,http://institution-b:8000,http://institution-c:8000
+      FDL_INTERNAL_TOKEN: ${FDL_INTERNAL_TOKEN:?Set FDL_INTERNAL_TOKEN in .env}
+      FDL_RESEARCH_KEY: ${FDL_RESEARCH_KEY:?Set FDL_RESEARCH_KEY in .env}
+    ports: ["127.0.0.1:8080:8000"]
+    networks: [internal]
+    depends_on:
+      institution-a: {condition: service_healthy}
+      institution-b: {condition: service_healthy}
+      institution-c: {condition: service_healthy}
+    read_only: true
+    tmpfs: [/tmp]
+    restart: unless-stopped
+
+volumes:
+  institution_a:
+  institution_b:
+  institution_c:
+
+networks:
+  internal:
+    internal: true

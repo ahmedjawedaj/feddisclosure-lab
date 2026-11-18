@@ -1,0 +1,11 @@
+id: mnist-fedavg-planned
+status: planned
+seed: 20261118
+clients: 3
+rounds: 5
+local_epochs: 1
+batch_size: 32
+data: MNIST
+partition: iid
+framework: Flower
+# Sprint 2: implement a real Flower ServerApp/ClientApp, not a mocked run.

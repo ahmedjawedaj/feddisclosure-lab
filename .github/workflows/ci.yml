@@ -1,0 +1,35 @@
+name: tests
+on:
+  push:
+  pull_request:
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "${{ matrix.python-version }}"}
+      - run: python -m pip install -e '.[test]'
+      - run: pytest -q
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m pip install -e '.[test]'
+      - run: python scripts/run_local_stack.py --once --output reports/results/ci.json
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cp .env.example .env
+      - run: docker compose config -q
+      - run: docker compose up -d --build --wait
+      - run: docker compose ps
+      - run: python -m pip install -e .
+      - run: FDL_RESEARCH_KEY=replace-with-a-different-long-random-token python -m feddisclosure.cli analytics-benchmark --gateway http://127.0.0.1:8080 --output reports/results/compose_ci.json
+      - run: docker compose down -v

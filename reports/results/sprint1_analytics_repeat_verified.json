@@ -1,0 +1,102 @@
+{
+  "experiment": "analytic-differencing-v1",
+  "timestamp_utc": "2026-11-18T18:43:46.725968+00:00",
+  "config": {
+    "id": "analytic-differencing-v1",
+    "track": "analytics",
+    "seed": 20261118,
+    "institutions": {
+      "institution-a": {
+        "rows": 40,
+        "positive": 1
+      },
+      "institution-b": {
+        "rows": 35,
+        "positive": 1
+      },
+      "institution-c": {
+        "rows": 35,
+        "positive": 1
+      }
+    },
+    "min_cell": 5,
+    "queries": [
+      "all_records",
+      "negative_records"
+    ],
+    "policies": [
+      "naive",
+      "history"
+    ],
+    "attacker_observation": "gateway_aggregate_counts_only",
+    "metrics": [
+      "inferred_positive_count",
+      "abs_error",
+      "rejected_queries",
+      "successful_disclosure"
+    ]
+  },
+  "attacker_observation": "gateway_aggregate_counts_only",
+  "versions": {
+    "feddisclosure-lab": "uninstalled (source tree)",
+    "httpx": "0.28.1"
+  },
+  "results": {
+    "naive": {
+      "experiment_id": "analytic-differencing-v1-naive-f07711f105c7",
+      "releases": [
+        {
+          "query_id": "all_records",
+          "released": true,
+          "count": 110
+        },
+        {
+          "query_id": "negative_records",
+          "released": true,
+          "count": 107
+        }
+      ],
+      "metrics": {
+        "inferred_positive_count": 3,
+        "restricted_ground_truth": 3,
+        "absolute_error": 0,
+        "exact_inference": true,
+        "successful_small_group_disclosure": true,
+        "rejected_queries": 0,
+        "legitimate_query_rejection_rate": 0.0
+      },
+      "elapsed_seconds": 0.08612
+    },
+    "history": {
+      "experiment_id": "analytic-differencing-v1-history-1fca49c17873",
+      "releases": [
+        {
+          "query_id": "all_records",
+          "released": true,
+          "count": 110
+        },
+        {
+          "query_id": "negative_records",
+          "released": false,
+          "count": null
+        }
+      ],
+      "metrics": {
+        "inferred_positive_count": null,
+        "restricted_ground_truth": 3,
+        "absolute_error": null,
+        "exact_inference": false,
+        "successful_small_group_disclosure": false,
+        "rejected_queries": 1,
+        "legitimate_query_rejection_rate": 0.5
+      },
+      "elapsed_seconds": 0.033924
+    }
+  },
+  "limitations": [
+    "Synthetic counts; this is a controlled existence proof, not a population risk estimate.",
+    "History near-duplicate control is a heuristic and provides no formal privacy guarantee.",
+    "Ground truth is evaluator-only. Attacker code receives published counts only.",
+    "No differential privacy or secure aggregation is implemented in this experiment."
+  ]
+}
