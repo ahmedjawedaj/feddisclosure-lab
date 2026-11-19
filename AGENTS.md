@@ -55,3 +55,5 @@ Execute the pending Sprint 1 Docker gate and Sprint 2 native Flower ServerApp/Cl
 - Five matched IID/non-IID training seeds on three separate PyTorch worker processes. Still NOT a native Flower run.
 - Schema-v2 coordinator manifest excludes label histograms and rejects v1 input. Guard against oracle leakage if evolving the data pipeline.
 - Continue preserving negative outcomes and unmet Docker/Flower gates. `NEXT_SPRINT.md` is current.
+
+- v0.4.1 also executes local SGD **model-delta**, not exact-gradient, inversion across 1/4/16 steps. See `docs/disclosure-protocol.md`; multi-example Flower update inversion still pending.

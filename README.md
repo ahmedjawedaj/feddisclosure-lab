@@ -2,17 +2,18 @@
 
 **A reproducible privacy leakage and defense benchmark for federated analytics and learning**
 
-Status: **v0.4.0: Sprints 0/1 core and offline Sprint 2/Sprint 3 research pilots executed; native Docker and Flower gates blocked/unverified; formal defenses and final release pending**. Updated 2026-11-19.
+Status: **v0.4.1: Sprints 0/1 core and offline Sprint 2/Sprint 3 research pilots executed; native Docker and Flower gates blocked/unverified; formal defenses and final release pending**. Updated 2026-11-19.
 
 This is an independent research-engineering project using **only synthetic or approved public data**. No thesis novelty, production security, differential privacy or secure aggregation is claimed at this stage.
 
-## v0.4.0 measured update — 19 November 2026
+## v0.4.1 measured update — 19 November 2026
 
 - **Analytics:** live three-institution/four-HTTP-process experiment still reproduces a 3-person synthetic disclosure (`110-107`) and a blocked second query under the history heuristic.
 - **Training:** 5 paired seeds × IID/severe label skew (10 real three-client PyTorch reference runs), plus 1/5-client single-seed pilots. These runs are **NOT native Flower** and do not justify a convergence claim.
 - **Disclosure:** exact-gradient inversion on public 8×8 digits, five matched exact/noisy examples and one batch-8 known-label case. Successful low-error reconstruction occurs with deliberately privileged gradients. No formally private noise mechanism is present.
+- **Local model updates:** measured one-, four-, and sixteen-step actual SGD model-delta inversion on one repeatedly used public image; reconstruction degrades with the longer local-update schedule.
 - **Membership:** output-only confidence-based baseline on the frozen public model; five query-seed AUCs are near chance. The attacker never receives membership labels; no safety guarantee follows from this negative result.
-- **Verification:** 38 fast tests and both slow independent training integration tests passed as separate invocations; one Flower-dependent test skipped. Real local analytics passed again. Native Docker/Flower gates are still **blocked**, with recorded failed attempts.
+- **Verification:** 40 fast tests and both slow independent training integration tests passed as separate invocations; one Flower-dependent test skipped. Real local analytics passed again. Native Docker/Flower gates are still **blocked**, with recorded failed attempts.
 
 The new work and scripts are described in `docs/disclosure-protocol.md`, `docs/fl-experiment-protocol.md`, `CURRENT_STATE.md`, and `NEXT_SPRINT.md`. The release includes actual JSON evidence and generated research figures. For the Python benchmark environment, install `pip install -e '.[research,test]'`; native Flower remains a separate `.[ml,test]` extra.
 

@@ -1,6 +1,6 @@
 # CURRENT STATE — 2026-11-19
 
-**Version:** 0.4.0. **Working baseline:** Sprint 0, Sprint 1 analytics, offline Sprint 2 FedAvg reference and first Sprint 3 model-disclosure experiments. **NOT a completed native Flower/Docker/DP release.**
+**Version:** 0.4.1. **Working baseline:** Sprint 0, Sprint 1 analytics, offline Sprint 2 FedAvg reference and first Sprint 3 model-disclosure experiments. **NOT a completed native Flower/Docker/DP release.**
 
 ## Executed here: analytical disclosure (Sprint 1)
 
@@ -21,16 +21,18 @@ Three separate FastAPI institution processes, three private SQLite databases and
 
 **Output-only membership inference.** On the frozen two-round public-digit reference checkpoint, the attacker saw only class confidence vectors, scoring maximum confidence; the evaluator alone saw balanced class-matched membership truth. The first pilot ROC-AUC was 0.5475. Across five **query-subset** seeds (one fixed model), mean ROC-AUC **0.47811 ± 0.01832 SD**. This is near-chance/negative evidence, not proof of model privacy, and not five independently trained models.
 
+**Actual local-update inversion (additional measured loop):** The simulated unprotected coordinator receives an initial model and an actual SGD client parameter delta, *not* an exact gradient. When the attacker divides that delta by the known learning rate and number of local steps, one-step inversion MSE was **2.02613e-9**, four-step MSE **0.0271682**, sixteen-step MSE **0.140351**; the proxy-gradient relative L2 error increased from **1.55e-7** to **0.4757** and **0.7569**. Same public digit and initialization across cases, one record reused for local SGD (a deliberately idealized tiny client). The label was inferred in all three cases. This is not a realistic multi-record Flower update, and does not involve secure aggregation. Full `reports/results/sprint3/model_update_inversion/` evidence and a generated figure are included.
+
 - Evidence: `reports/results/sprint3/gradient_b1/`, `gradient_b1_noisy/`, `gradient_b8_known_labels/`, `matrix/matrix_summary.json`, `membership_smoke/`, `membership_matrix/membership_matrix_summary.json`. `scripts/plot_disclosure.py` regenerated three figures from original measured artifacts.
 - Attack CLI arguments cannot include original public images or membership truth. These live under `evaluator_only/` and are passed only to the evaluation subprocess. This is a code/interface boundary, NOT an OS security boundary.
 
 ## Test and release evidence
 
-- Executed `pytest -q -m 'not slow'`: **38 passed, 1 optional Flower import skipped, 2 slow deselected**.
+- Executed `pytest -q -m 'not slow'`: **40 passed, 1 optional Flower import skipped, 2 slow deselected**.
 - Ran each of the two slow three-client subprocess integration tests independently: **both passed**, each with successful exit code. An unsplit full-suite command timed out during subprocess tests; do not claim that invocation passed.
 - Ran the live four-process analytics harness and research evidence checker successfully. Recorded structured failed attempts for unavailable Docker/Flower gates. Three new figures generated from real saved results.
 - Git history includes baseline commits, sprint hardening, disclosure work, tests and agent-skill handoffs. Files/data are approved public or synthetic only. No GitHub remote/Actions execution is claimed.
 
 ## Known limitations and next steps
 
-Docker, Flower, MNIST network download, five independently trained membership models, inversion from genuine multi-step per-client FedAvg updates, OpenDP, Opacus, SecAgg+, dashboard and digital-twin validation remain **unimplemented, blocked, or unverified**. The short training baseline has poor quality, and attacker processes share a development filesystem. Revisit after native runtime gates. `NEXT_SPRINT.md`, `docs/disclosure-protocol.md`, `docs/fl-experiment-protocol.md`, and `AGENTS.md` are the next agent's first reads.
+Docker, Flower, MNIST network download, five independently trained membership models, realistic multi-record/multi-minibatch FedAvg update inversion, OpenDP, Opacus, SecAgg+, dashboard and digital-twin validation remain **unimplemented, blocked, or unverified**. The short training baseline has poor quality, and attacker processes share a development filesystem. Revisit after native runtime gates. `NEXT_SPRINT.md`, `docs/disclosure-protocol.md`, `docs/fl-experiment-protocol.md`, and `AGENTS.md` are the next agent's first reads.

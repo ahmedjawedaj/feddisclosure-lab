@@ -21,3 +21,6 @@ Track C simulation is optional and cannot block the two core tracks.
 - Sprint 2: five-seed paired three-client public-digit study complete; one-seed 1/3/5 client-count pilot; evaluator-only histograms now excluded from coordinator manifest. **Native Flower/Docker still unverified.** No completed MNIST download, FedProx or converged multi-round study.
 - Sprint 3: controlled exact-gradient (batch 1 and batch 8 with labels) and output-confidence membership benchmarks **executed**. Five matched exact/noisy gradient seeds and five membership-query seeds; figures and results saved. Remaining: actual multi-step FL update inversion, batch 32, multiple training seeds for membership, realistic attacks and observer isolation.
 - Sprint 4: DP/secure aggregation still pending and not claimed by the unaccounted noise experiment.
+
+
+- v0.4.1: an extra experimentally measured actual local SGD model-delta attack (1/4/16 repeated-one-image steps) bridges exact gradients to more realistic observer access. True multi-record Flower update inversion remains next.

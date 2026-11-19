@@ -80,9 +80,35 @@ def plot_membership(root: Path, output: Path):
     plt.close(fig)
 
 
+def plot_model_update(root: Path, output: Path):
+    """Evaluator-only comparison for a single example reused by local SGD."""
+    fig, axes = plt.subplots(2, 3, figsize=(10, 5.5))
+    for col, steps in enumerate((1, 4, 16)):
+        case = root / f"steps_{steps}"
+        with np.load(case / "evaluator_only" / "original.npz") as file:
+            original = file["x"][0]
+        with np.load(case / "attacker" / "recovered.npz") as file:
+            recovered = file["x"][0]
+        evaluation = json.loads((case / "evaluation.json").read_text())
+        for row, image in enumerate((original, recovered)):
+            axes[row, col].imshow(image.reshape(8, 8), cmap="gray", vmin=0, vmax=1)
+            axes[row, col].set_xticks([])
+            axes[row, col].set_yticks([])
+        axes[0, col].set_title(f"{steps} local SGD step{'s' if steps>1 else ''}")
+        axes[1, col].set_xlabel(f"Reconstruction MSE {evaluation['mean_mse']:.4f}")
+    axes[0, 0].set_ylabel("Original public image")
+    axes[1, 0].set_ylabel("Reconstructed from update")
+    fig.suptitle("Unprotected per-client model delta: proxy-gradient inversion")
+    fig.tight_layout()
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(output, dpi=150)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     root = Path("reports/results/sprint3")
     plot_gradient(root, Path("reports/figures/sprint3_gradient_comparison.png"))
     plot_sweep(Path("reports/results/sprint2/sweep/sweep_summary.json"), Path("reports/figures/sprint2_five_seed_accuracy.png"))
     plot_membership(root / "membership_smoke", Path("reports/figures/sprint3_membership_roc.png"))
-    print("Generated three figures from recorded experiment artifacts")
+    plot_model_update(root / "model_update_inversion", Path("reports/figures/sprint3_model_update_inversion.png"))
+    print("Generated four figures from recorded experiment artifacts")

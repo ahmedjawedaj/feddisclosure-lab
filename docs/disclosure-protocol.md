@@ -43,3 +43,18 @@ The checkpoint used by membership tests was trained in v0.3 against the `2026111
 - No attack receives evaluator ground truth directly. The shared development filesystem does **not** enforce genuine attacker/evaluator access separation.
 - Perfect gradient inversion of a small sample should not be generalized without trials, harder architectures and realistic observation assumptions.
 - An AUC near 0.5 is a weak or negative attack result, not proof of membership privacy; additional attacks and repeated training seeds are needed.
+
+## v0.4.1: actual per-client SGD model-delta observations (executed)
+
+A second, more realistic *type of observation* is `server_individual_model_delta`: an unprotected coordinator sees initial parameters and the difference between initial and locally trained client parameters, plus a known SGD learning rate and local step count. An attacker computes `delta / (learning_rate * local_steps)` as a proxy gradient and runs the same reconstruction algorithm. That proxy is exactly equal to the first-step gradient only up to floating-point effects for **one step**. For multiple steps it is an *approximation* that can fail. The privileged setup records the exact first-step gradient only for a separate evaluator-only proxy-error metric, never in the attack observation.
+
+Executed a same-image, same-model 1/4/16-step ablation using **one public digit repeatedly** in SGD. The label was inferred from the permitted delta-derived bias proxy in each case. Result: MSE 2.02613e-9, 0.0271682, 0.140351, respectively; average-gradient proxy relative L2 error 1.55e-7, 0.4757, 0.7569. These observations are real local SGD parameter changes, **not Flower execution** and **not typical multi-record client training**. This is deliberately an intermediate experiment between exact-gradient inversion and actual federated multi-minibatch updates.
+
+Reproduce:
+
+```bash
+python scripts/run_update_inversion.py --site-file data/training/disclosure/institution-00/train.npz --output-dir reports/results/sprint3/model_update_inversion --local-steps 1 4 16 --attack-iterations 350 --seed 231
+python scripts/plot_disclosure.py
+```
+
+Next: use actual per-client model updates from multi-example Flower local training and compare attack baselines under honest labels/steps and realistic, resource-matched scenarios.

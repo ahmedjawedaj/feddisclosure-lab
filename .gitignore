@@ -48,3 +48,4 @@ reports/results/sprint1/docker_*.txt
 !reports/figures/sprint2_five_seed_accuracy.png
 !reports/figures/sprint3_gradient_comparison.png
 !reports/figures/sprint3_membership_roc.png
+!reports/figures/sprint3_model_update_inversion.png

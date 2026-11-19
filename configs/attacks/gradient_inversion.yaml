@@ -18,3 +18,12 @@ perturbation:
   formal_dp_guarantee: false
 seeds: [231, 232, 233, 234, 235]
 research_protocol: docs/disclosure-protocol.md
+model_delta_update_ablation:
+  status: executed
+  observer: server_individual_model_delta
+  local_steps: [1, 4, 16]
+  batch_size: 1
+  same_public_image_reused: true
+  attacker_knows: [initial_model_parameters, final_parameter_delta, learning_rate, local_steps]
+  gradient_proxy: delta_divided_by_learning_rate_times_local_steps
+  claim: no_formal_privacy_guarantee

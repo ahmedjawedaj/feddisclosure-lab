@@ -32,3 +32,18 @@ These are **not five training repeats** and do not establish that the model prov
 - All artifacts and figures derive from executed configurations, not illustration placeholders. Plots regenerate using `python scripts/plot_disclosure.py`.
 - Scoring records unsuccessful attacks, uncertain low-FPR results and matched noise scenarios separately; it never invents a combined privacy score.
 - Flower `flwr` package and Docker Engine were unavailable: `results/runtime_gates/status.json` documents failed native verification.
+
+
+## Additional model-update observation experiment (v0.4.1)
+
+Rather than giving the attacker an exact initial gradient, the simulated coordinator provides an actual individual client's model **delta** after 1, 4 or 16 SGD steps, plus known optimizer details. The attacker attempts input reconstruction from `delta / (learning_rate * steps)`. No exact intermediate gradient is observable to the attacker. Exactly one same public image is used repeatedly for these controlled local updates.
+
+| Local SGD steps | Proxy-gradient relative L2 error | Image reconstruction MSE |
+|---:|---:|---:|
+| 1 | 1.55e-7 | 2.02613e-9 |
+| 4 | 0.4757 | 0.0271682 |
+| 16 | 0.7569 | 0.140351 |
+
+The diminishing quality under multi-step local training is a *single-example pilot*, not evidence of privacy from FedAvg, especially when other attack methods or repeated examples are available. Artifacts: `results/sprint3/model_update_inversion/update_attack_summary.json` and figure `figures/sprint3_model_update_inversion.png`.
+
+The gradient-input attack remains a distinct observer contract; no exact-gradient attack result is silently reclassified as a client-update attack.

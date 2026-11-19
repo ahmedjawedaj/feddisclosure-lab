@@ -1,0 +1,39 @@
+{
+  "observer": "server_individual_model_delta",
+  "dataset": "approved_public_8x8_digits",
+  "seed": 231,
+  "sample_budget": "one image repeated for local SGD steps",
+  "runs": [
+    {
+      "local_steps": 1,
+      "image_mean_mse": 2.026127043919246e-09,
+      "mean_psnr_db": 86.93333326624675,
+      "gradient_proxy_relative_l2_error": 1.548049937127871e-07,
+      "attack_iterations": 350,
+      "result": "steps_1/evaluation.json"
+    },
+    {
+      "local_steps": 4,
+      "image_mean_mse": 0.027168162167072296,
+      "mean_psnr_db": 15.659397391196494,
+      "gradient_proxy_relative_l2_error": 0.47572338581085205,
+      "attack_iterations": 350,
+      "result": "steps_4/evaluation.json"
+    },
+    {
+      "local_steps": 16,
+      "image_mean_mse": 0.14035148918628693,
+      "mean_psnr_db": 8.527829749643065,
+      "gradient_proxy_relative_l2_error": 0.7568604350090027,
+      "attack_iterations": 350,
+      "result": "steps_16/evaluation.json"
+    }
+  ],
+  "note": "1-step SGD update corresponds to gradient, multi-step averaged delta is only an approximation",
+  "secure_aggregation": false,
+  "differential_privacy": false,
+  "limitations": [
+    "One client update visible, not a secure aggregate",
+    "A single image repeated across local steps is not realistic multi-minibatch client training"
+  ]
+}

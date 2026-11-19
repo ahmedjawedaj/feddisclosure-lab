@@ -59,3 +59,8 @@ Receives a **full exact first-step gradient** for one isolated example or batch,
 ## Sprint 3: output-only model observer (EXECUTED OFFLINE REPLAY)
 
 Receives softmax probability vectors only. It neither accesses model weights nor knows which predictions refer to member records; it returns confidence-based membership scores to the evaluator. The evaluator constructs matched member/non-member public digit queries, retains membership labels and computes ROC metrics. A deployed HTTP inference API with authentication and query budgeting is not yet tested. This is distinct from the gradient observer and the privileged evaluator.
+
+
+## Sprint 3: unprotected individual model-delta coordinator (EXECUTED LOCAL SGD PILOT)
+
+Sees initial and final client model parameters after known-step-rate SGD and may compute an **average-gradient proxy**, not exact intermediate step gradients. No original image pixels or ground-truth labels are passed to the attacker. One repeated public image under 1, 4 or 16 SGD steps is an intentionally privileged one-record client. This actor is closer to an unprotected FL coordinator than the exact-gradient observer, but still does **not** model multiple local batches, secure aggregation or a full Flower runtime. The evaluator separately measures proxy-gradient error and reconstruction quality.

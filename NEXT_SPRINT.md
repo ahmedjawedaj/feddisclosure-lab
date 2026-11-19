@@ -1,6 +1,6 @@
 # NEXT SPRINT — Native gates and realistic-observation benchmarks
 
-**At handoff (2026-11-19, v0.4):** Core analytics, five-seed offline PyTorch reference, exact-gradient reconstruction and output-only membership baseline are executed. Docker and Flower **not verified**; do not misrepresent these as complete.
+**At handoff (2026-11-19, v0.4.1):** Core analytics, five-seed offline PyTorch reference, exact-gradient reconstruction and output-only membership baseline are executed. Docker and Flower **not verified**; do not misrepresent these as complete.
 
 ## P0 — Native runtime acceptance (still blocked here)
 
@@ -12,7 +12,7 @@
 
 1. Run approved MNIST with SHA-256 provenance and split manifest, including a real image dataset license check. Keep datasets out of Git.
 2. Train long enough to obtain stable, nontrivial utility, with 5 **training** seeds and matched optimizer budgets for local-only, pooled reference and FedAvg/FedProx. Preserve worst-client global-model validation and distribution-shift details.
-3. Reproduce inversion from an **actual single-step local model delta**, then 2+ local steps, 1/8/32 examples, partial/no labels, different observer capabilities. Compare with exact-gradient benchmark, measure failures and isolate oracle information.
+3. **Done in idealized one-record SGD:** reconstruction from genuine 1-, 4-, and 16-step local parameter deltas. **Next:** actual multiple *different* local examples/minibatches, varying batch 1/8/32, known vs unknown labels, realistic Flower client updates, and honest-but-curious server observation boundaries. Compare with exact-gradient benchmark, measure failures and isolate oracle information.
 4. For output-only membership, train and score multiple independently seeded models, test reasonable stronger attacks and report uncertainty/low-FPR reliability. Keep model-user confidence-only threat model separate from gradient-observing server.
 5. Add OS-level attacker/evaluator isolation and atomic artifact access controls; currently separation is logical only.
 

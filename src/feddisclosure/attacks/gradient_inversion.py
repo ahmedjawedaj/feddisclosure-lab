@@ -34,8 +34,11 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
     """Optimize dummy input images to match only permitted gradient observations."""
     if not (1 <= iterations <= 3000) or lr <= 0 or tv_weight < 0:
         raise ValueError("Invalid reconstruction hyperparameters")
-    if observation.get("schema_version") != 1 or observation.get("observer") != "server_individual_exact_gradient":
-        raise ValueError("Only exact individual-gradient observations are supported")
+    observer = observation.get("observer")
+    if observation.get("schema_version") != 1 or observer not in (
+        "server_individual_exact_gradient", "server_individual_model_delta"
+    ):
+        raise ValueError("Only explicit individual-gradient/update observer contracts are supported")
     torch.set_num_threads(1)
     features, classes = int(observation["features"]), int(observation["classes"])
     batch_size = int(observation["batch_size"])
@@ -44,7 +47,18 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
     model = DigitMLP(features, classes)
     model.load_state_dict(observation["model_state"])
     model.eval()
-    gradients = observation["gradients"]
+    if observer == "server_individual_model_delta":
+        steps = int(observation["local_steps"])
+        rate = float(observation["learning_rate"])
+        if steps < 1 or rate <= 0:
+            raise ValueError("Untrusted model-delta optimizer configuration")
+        # The attacker *computes* an effective average gradient from the allowed
+        # initial parameters, final-model delta, step count and SGD rate. This
+        # is exact for one SGD step, approximate for multiple steps.
+        gradients = {k: delta / (rate * steps)
+                     for k, delta in observation["model_delta"].items()}
+    else:
+        gradients = observation["gradients"]
     names = list(dict(model.named_parameters()))
     if list(gradients) != names:
         raise ValueError("Observation gradient structure does not match the model")
@@ -81,7 +95,10 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
             history.append({"iteration": step, "gradient_match_sum_squared": float(match.detach()),
                             "objective": float(objective.detach())})
     recovery = dummy.detach().cpu().numpy()
-    return recovery, {"algorithm": "DLG_Adam_exact_gradient_matching", "observer": observation["observer"],
+    return recovery, {"algorithm": "DLG_Adam_gradient_matching_or_model_delta_proxy",
+                      "observer": observation["observer"],
+                      "local_steps": int(observation.get("local_steps", 1)),
+                      "gradient_target": "model_delta_divided_by_lr_times_steps" if observer == "server_individual_model_delta" else "exact_released_gradient",
                       "batch_size": batch_size, "labels_available": "known_labels" in observation,
                       "recovered_labels": labels.tolist(), "iterations": iterations,
                       "lr": lr, "tv_weight": tv_weight, "seed": seed,
@@ -90,7 +107,8 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
                       "limitations": ["Single model gradient from one forward/backward pass, not a multi-step FedAvg update",
                                       "Requires full per-example or per-batch exact gradients and known architecture/weights",
                                       "Batch>1 tests disclose true labels as an additional attacker privilege",
-                                      "A low gradient residual does not prove recognizable image reconstruction"]}
+                                      "A low gradient residual does not prove recognizable image reconstruction",
+                                      "Model-delta proxy is not a true initial gradient when local_steps > 1"]}
 
 
 def run_attack(observation_path: str | Path, output_dir: str | Path, **kwargs) -> dict:

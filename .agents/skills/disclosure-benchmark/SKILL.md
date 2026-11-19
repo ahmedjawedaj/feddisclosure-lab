@@ -12,3 +12,5 @@ membership inference, and matched noise/clipping ablations.
 7. Save JSON and figures from real runs, execute `pytest -q -m 'not slow'`, update handoff documents, and commit measured changes.
 
 See `scripts/run_gradient_inversion.py`, `scripts/run_disclosure_matrix.py`, `scripts/run_membership_inference.py`, and `scripts/run_membership_matrix.py`.
+
+8. For model-update inversion, read `src/feddisclosure/evaluation/update_observer.py` and `scripts/run_update_inversion.py`; keep real initial/final parameters separate from invented exact gradients. The delta/(lr*steps) proxy is approximate for >1 local step, and the repeated-one-record setup is only a controlled pilot.
