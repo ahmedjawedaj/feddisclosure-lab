@@ -30,6 +30,7 @@ def main():
     parser.add_argument("--batch-size", type=int, required=True)
     parser.add_argument("--lr", type=float, required=True)
     parser.add_argument("--seed", type=int, required=True)
+    parser.add_argument("--proximal-mu", type=float, default=0.0)
     args = parser.parse_args()
     torch.set_num_threads(1)
     start = time.perf_counter()
@@ -47,7 +48,7 @@ def main():
         return
     x, y = load_site_partition(args.site_file)
     metrics = train_local(model, x, y, epochs=args.epochs, batch_size=args.batch_size,
-                          lr=args.lr, seed=args.seed)
+                          lr=args.lr, seed=args.seed, proximal_mu=args.proximal_mu)
     metrics.update({"worker_pid": os.getpid(), "local_update_validation": evaluate_local(model, val_x, val_y),
                     "elapsed_seconds": round(time.perf_counter() - start, 5),
                     "communication_upload_bytes": model_bytes(model.state_dict())})

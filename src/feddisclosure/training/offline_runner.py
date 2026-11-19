@@ -6,6 +6,7 @@ public-data evaluator computes reference pooled/local-only performance.
 """
 from __future__ import annotations
 import hashlib
+import math
 from concurrent.futures import ThreadPoolExecutor
 import json
 from pathlib import Path
@@ -26,6 +27,12 @@ def load_config(path):
             raise ValueError(f"Missing training config key: {key}")
     if config["clients"] < 1 or config["rounds"] < 1 or config["local_epochs"] < 1 or config["batch_size"] < 1:
         raise ValueError("Invalid training dimensions")
+    algorithm = config.get("algorithm", "fedavg")
+    mu = float(config.get("proximal_mu", 0.0))
+    if algorithm not in ("fedavg", "fedprox") or not math.isfinite(mu) or mu < 0 or (algorithm == "fedavg" and mu != 0):
+        raise ValueError("Invalid federation algorithm or proximal regularization")
+    config["algorithm"] = algorithm
+    config["proximal_mu"] = mu
     return config
 
 
@@ -88,7 +95,7 @@ def run_reference(config_path: str | Path, data_dir: str | Path, output_path: st
                        "--weights-out", str(output), "--metrics-out", str(metric_file),
                        "--features", str(manifest["num_features"]), "--classes", str(manifest["num_classes"]),
                        "--epochs", str(config["local_epochs"]), "--batch-size", str(config["batch_size"]),
-                       "--lr", str(config["learning_rate"]), "--seed", str(config["seed"] + i)]
+                       "--lr", str(config["learning_rate"]), "--proximal-mu", str(config["proximal_mu"]), "--seed", str(config["seed"] + i)]
                 pending.append((cmd, site, output, metric_file))
             with ThreadPoolExecutor(max_workers=min(config["clients"], 3)) as pool:
                 for finished in pool.map(lambda item: subprocess.run(item[0], check=True, timeout=90, capture_output=True), pending):
@@ -129,7 +136,7 @@ def run_reference(config_path: str | Path, data_dir: str | Path, output_path: st
                    "--metrics-out", str(metric_path),
                    "--features", str(manifest["num_features"]), "--classes", str(manifest["num_classes"]),
                    "--epochs", str(config["local_epochs"]), "--batch-size", str(config["batch_size"]),
-                   "--lr", str(config["learning_rate"]), "--seed", str(config["seed"] + site_id)]
+                   "--lr", str(config["learning_rate"]), "--proximal-mu", str(config["proximal_mu"]), "--seed", str(config["seed"] + site_id)]
             pending.append((cmd, site_id, metric_path))
         with ThreadPoolExecutor(max_workers=min(config["clients"], 3)) as pool:
             list(pool.map(lambda item: subprocess.run(item[0], check=True, timeout=90, capture_output=True), pending))
@@ -150,7 +157,7 @@ def run_reference(config_path: str | Path, data_dir: str | Path, output_path: st
     torch.save(global_model.state_dict(), checkpoint)
     checkpoint_sha = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
     result = {"schema_version": 1, "engine": "torch_independent_process_reference_NOT_Flower",
-              "experiment_id": config["id"], "config": config,
+              "experiment_id": config["id"], "algorithm": config["algorithm"], "config": config,
               "versions": {"torch": torch.__version__, "python": sys.version.split()[0]},
               "manifest_sha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
               "final_checkpoint": {"path": str(checkpoint), "sha256": checkpoint_sha},

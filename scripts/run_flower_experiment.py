@@ -36,6 +36,7 @@ def main():
         raise SystemExit("Prepared data does not match the experiment configuration")
     cfg = {"num-server-rounds": config["rounds"], "local-epochs": config["local_epochs"],
            "batch-size": config["batch_size"], "learning-rate": config["learning_rate"],
+           "proximal-mu": float(config.get("proximal_mu", 0.0)),
            "clients": config["clients"], "seed": config["seed"],
            "features": manifest["num_features"], "classes": manifest["num_classes"],
            "data-root": str(data_dir), "artifact-dir": str(output)}

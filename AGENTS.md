@@ -57,3 +57,10 @@ Execute the pending Sprint 1 Docker gate and Sprint 2 native Flower ServerApp/Cl
 - Continue preserving negative outcomes and unmet Docker/Flower gates. `NEXT_SPRINT.md` is current.
 
 - v0.4.1 also executes local SGD **model-delta**, not exact-gradient, inversion across 1/4/16 steps. See `docs/disclosure-protocol.md`; multi-example Flower update inversion still pending.
+
+## v0.5 handoff (newly executed)
+
+- Distinct-record client update inversion now supports batches 1/8/32 and multiple local SGD steps. `scripts/run_multirecord_update_inversion.py` produces five actual attack/evaluator results. Attackers do not receive images; batches >1 explicitly assume known labels. This still reuses a fixed batch and does NOT demonstrate Flower training or secure-aggregation leakage.
+- FedProx uses a `mu/2 * ||w-w_global||^2` penalty in the common training task; mu=0 numerically equals FedAvg. Three matched severe label-skew paired-seed runs on public 8x8 digits were executed by `scripts/run_fedprox_ablation.py`, mean FedAvg 55.19% vs FedProx 49.07% and all worst-client accuracies zero. Native Flower code is wired but not verified. See `docs/fedprox-ablation.md`.
+- New evidence and plots under `reports/results/sprint2/ablations/paired/`, `reports/results/sprint3/multirecord_update/`, and `reports/figures/`. Do not claim DP or SecAgg+, or infer generalizability from one attack seed/three training seeds.
+- Runtime here lacks Docker and Flower. `pip install -e . --no-build-isolation --no-deps` works when requirements already exist. Execute each marked-slow test individually if the combined suite hits a watchdog. Update `CURRENT_STATE.md` and `NEXT_SPRINT.md` after every next milestone.

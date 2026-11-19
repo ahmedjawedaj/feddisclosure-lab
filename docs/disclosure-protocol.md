@@ -58,3 +58,45 @@ python scripts/plot_disclosure.py
 ```
 
 Next: use actual per-client model updates from multi-example Flower local training and compare attack baselines under honest labels/steps and realistic, resource-matched scenarios.
+
+## v0.5.0: distinct-record client-update inversion (executed)
+
+To avoid the one-image-only limitation, the privileged setup trained on fixed
+batches containing **1, 8 or 32 distinct approved public digit images**.
+Each case produced a real initial-model-minus-final-model parameter delta
+from either 1 or 4 full-batch SGD steps, and an attacker-observable initial
+model and learning rate. Attacker code inferred a label only for batch=1;
+**all true labels for batches 8/32 were explicitly disclosed** as an enhanced
+attacker privilege. The public image truth and source row indices were saved
+separately under `evaluator_only/`. The evaluator uses privileged optimal
+assignment to score MSE and SSIM. No image truth is passed to the attack CLI.
+
+| Distinct records | Local SGD steps | Mean reconstruction MSE | SSIM | Fraction MSE < 0.05 |
+|---|---:|---:|---:|---:|
+| 1 | 1 | 9.59e-9 | 1.000 | 100% |
+| 8 | 1 | 0.00740 | 0.970 | 100% |
+| 8 | 4 | 0.04949 | 0.725 | 75% |
+| 32 | 1 | 0.06339 | 0.690 | 56.25% |
+| 32 | 4 | 0.07000 | 0.672 | 43.75% |
+
+**Status:** Single-seed pilot (seed 241), 160 reconstruction iterations,
+initialization held fixed within each case. Larger batches and multiple
+optimizer steps were harder *under these attack conditions*. These are still
+fixed batches reused over the SGD steps, **not a changing mini-batch schedule
+or actual Flower client**, and there is no calibrated DP or SecAgg+.
+Known-label batch attacks are not directly comparable with batch=1 inferred
+labels. The apparent recovery threshold is a predeclared illustrative MSE
+cutoff, not a universal privacy metric or face-recognition benchmark.
+
+Reproduction:
+
+```bash
+python scripts/prepare_fl_data.py --output data/training/digits-iid --seed 20261118 --limit 900
+python scripts/run_multirecord_update_inversion.py --site-file data/training/digits-iid/institution-00/train.npz --output-dir reports/results/sprint3/multirecord_update --attack-iterations 160 --seed 241
+python scripts/plot_new_benchmarks.py
+```
+
+Output includes each attack observation, separate ground truth, independent
+evaluator score and `multirecord_update_summary.json`. The next methodological
+step is inversion on genuine changing-minibatch FedAvg updates, with a
+registered exact attacker observation and multiple seeds.

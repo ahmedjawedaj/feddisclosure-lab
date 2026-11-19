@@ -65,7 +65,8 @@ def train(msg: Message, context: Context) -> Message:
     seed = int(context.run_config["seed"]) + site_id
     metrics = train_local(model, x, y, epochs=int(context.run_config["local-epochs"]),
                           batch_size=int(context.run_config["batch-size"]),
-                          lr=float(msg.content["config"]["lr"]), seed=seed)
+                          lr=float(msg.content["config"]["lr"]), seed=seed,
+                          proximal_mu=float(msg.content["config"].get("proximal-mu", 0.0)))
     reply = RecordDict({"arrays": ArrayRecord(model.state_dict()), "metrics": MetricRecord(metrics)})
     return Message(content=reply, reply_to=msg)
 

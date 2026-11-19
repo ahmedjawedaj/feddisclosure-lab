@@ -14,3 +14,5 @@ Read `docs/threat-models.md`, `docs/fl-experiment-protocol.md`, `CURRENT_STATE.m
 6. On a Docker host run `bash scripts/verify_compose.sh`; do not claim the Docker gate based on YAML parsing.
 7. Keep IID and non-IID benchmarks separate. Do not compare local-only and pooled baselines without stating their different training schedules and privilege assumptions.
 8. Record failed runs, exact commands, model/accuracy/communication metrics, and honest limitations before updating state files.
+
+9. For FedProx, test `mu=0` equality to FedAvg and implement proximal penalty against the LOCAL INITIAL GLOBAL model, not against a changing snapshot. Run `scripts/run_fedprox_ablation.py` for paired-seed comparisons and verify all per-run checkpoint hashes. Distinguish offline PyTorch from native Flower. Read `docs/fedprox-ablation.md`.

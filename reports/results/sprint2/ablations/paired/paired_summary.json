@@ -1,0 +1,130 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "dataset": "sklearn_digits",
+  "partition": "label_skew",
+  "matched_fields": [
+    "seed",
+    "data_partitions",
+    "initial_model",
+    "rounds",
+    "local_epochs",
+    "batch_size",
+    "learning_rate",
+    "communication_accounting"
+  ],
+  "different_fields": [
+    "algorithm",
+    "proximal_mu"
+  ],
+  "mu": 0.3,
+  "rounds": 4,
+  "completed_seeds": 3,
+  "results": [
+    {
+      "seed": 241,
+      "manifest_source": "sklearn.load_digits, 8x8 public digits",
+      "fedavg": {
+        "last_test_acc": 0.5111111111111111,
+        "worst_client_acc": 0.0,
+        "round_acc": [
+          0.2222222222222222,
+          0.4111111111111111,
+          0.48333333333333334,
+          0.5111111111111111
+        ],
+        "model_bytes_total": 231360,
+        "checkpoint_sha256": "e6d8a0d0ebf7155f76446cffde7fa692852311e8967aa26b09b9aaaebc4fc990"
+      },
+      "fedprox": {
+        "last_test_acc": 0.4777777777777778,
+        "worst_client_acc": 0.0,
+        "round_acc": [
+          0.21666666666666667,
+          0.39444444444444443,
+          0.45555555555555555,
+          0.4777777777777778
+        ],
+        "model_bytes_total": 231360,
+        "checkpoint_sha256": "53306358f62ca73eff2c915eb4115105a70094b64d1dd2bdf6def0152e925f99"
+      },
+      "fedprox_minus_fedavg_pp": -3.333333333333327
+    },
+    {
+      "seed": 242,
+      "manifest_source": "sklearn.load_digits, 8x8 public digits",
+      "fedavg": {
+        "last_test_acc": 0.5444444444444444,
+        "worst_client_acc": 0.0,
+        "round_acc": [
+          0.2833333333333333,
+          0.42777777777777776,
+          0.4722222222222222,
+          0.5444444444444444
+        ],
+        "model_bytes_total": 231360,
+        "checkpoint_sha256": "93b71482ea3699320c3b9746969cdb2430774e4c610a84541e0d799d18a1e3b9"
+      },
+      "fedprox": {
+        "last_test_acc": 0.49444444444444446,
+        "worst_client_acc": 0.0,
+        "round_acc": [
+          0.24444444444444444,
+          0.37777777777777777,
+          0.45555555555555555,
+          0.49444444444444446
+        ],
+        "model_bytes_total": 231360,
+        "checkpoint_sha256": "08111dd92bb46e3ccece08e07ee5cb0745bf266dac63fd5cab0b54625476f600"
+      },
+      "fedprox_minus_fedavg_pp": -4.999999999999993
+    },
+    {
+      "seed": 243,
+      "manifest_source": "sklearn.load_digits, 8x8 public digits",
+      "fedavg": {
+        "last_test_acc": 0.6,
+        "worst_client_acc": 0.0,
+        "round_acc": [
+          0.1111111111111111,
+          0.23333333333333334,
+          0.48333333333333334,
+          0.6
+        ],
+        "model_bytes_total": 231360,
+        "checkpoint_sha256": "a99f15283e6e5f3e33eae04abe413314dcd2dcef7aa1f907b8d482f3b856dc9d"
+      },
+      "fedprox": {
+        "last_test_acc": 0.5,
+        "worst_client_acc": 0.0,
+        "round_acc": [
+          0.12222222222222222,
+          0.13333333333333333,
+          0.3388888888888889,
+          0.5
+        ],
+        "model_bytes_total": 231360,
+        "checkpoint_sha256": "947469bd7c5a6d99acaa69aa9ff7afe3935e51608ed89d2cb29212da153f86aa"
+      },
+      "fedprox_minus_fedavg_pp": -9.999999999999998
+    }
+  ],
+  "fedavg_accuracy": {
+    "mean": 0.5518518518518518,
+    "sample_std": 0.0449050209369709
+  },
+  "fedprox_accuracy": {
+    "mean": 0.49074074074074076,
+    "sample_std": 0.011564811108145171
+  },
+  "paired_difference_pp": {
+    "mean": -6.111111111111106,
+    "sample_std": 3.469443332443557
+  },
+  "limitations": [
+    "Short 4-round runs on public 8x8 digits; no MNIST or real hospital data",
+    "The dataset is severely class-sorted and makes a worst-client failure possible",
+    "This is PyTorch process-based FedAvg/FedProx, NOT native Flower",
+    "Server-observed model updates are not protected by DP or secure aggregation",
+    "Exploratory three-seed comparison; no inferential or generalization claim"
+  ]
+}

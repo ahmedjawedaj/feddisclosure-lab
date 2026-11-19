@@ -1,4 +1,20 @@
-# CURRENT STATE — 2026-11-19
+# CURRENT STATE — 2026-11-19 — v0.5.0
+
+**Status:** Executed Sprint 0/1 analytics, PyTorch multi-process FedAvg/FedProx (NOT Flower), and controlled gradient/model-update disclosure. Native Docker, native Flower, OpenDP, Opacus and SecAgg+ are **NOT VERIFIED**. Prior evidence remains below.
+
+## This milestone: measured v0.5.0 progress
+
+- Actual unprotected *individual-client model deltas* from fixed batches of 1, 8 or 32 distinct public 8x8 images, with one/four full-batch SGD steps. Attacker receives only initial model, delta, optimizer metadata, and privileged labels for batches larger than one. It has no image truth. Five single-seed attack/evaluator cases were executed at 160 iterations. MSE: 1:1 9.59e-9; 8:1 0.00740; 8:4 0.04949; 32:1 0.06339; 32:4 0.07000. Fixed batches were reused across steps; not real changing minibatches or native Flower. See `reports/results/sprint3/multirecord_update/` and `docs/disclosure-protocol.md`.
+- FedProx added to the shared PyTorch training code and wired to future Flower ClientApp train configuration. `mu=0` exactly reproduced FedAvg updates; `mu=3` reduced client parameter drift in unit tests. **Three matched severe non-IID seeds** 241, 242, 243 executed for FedAvg `mu=0` versus FedProx `mu=0.3`, with three independent clients, four rounds and two local epochs. Mean held-out global accuracy 55.19% versus 49.07%; paired change −6.11 percentage points (SD 3.47 pp). Final worst-site global-model validation accuracy remained zero in all six runs. Both methods transmitted an estimated 231,360 raw tensor bytes each run. No general algorithm superiority or fairness claim; undertrained tiny public-data models.
+- Revalidated first research benchmark with four separate live HTTP processes: 110 - 107 = 3 inferred without history protection; history-aware query blocked. All tests and figures recorded as research evidence, not production privacy.
+- Verification: **44 passed, 1 optional Flower skip, 2 slow deselected** fast tests. Each of two independent-worker slow integration tests **passed separately**. Read-only evidence verification passed, including hashes of all six paired training checkpoints, five multi-record cases, older baseline evidence, and regeneration of two new figures. The combined slow+fast invocation was not claimed successful.
+- Environment limitations: native `docker` absent; `flwr` package absent and package-network DNS unavailable. Fresh extraction required an editable install; `python -m pip install -e . --no-build-isolation --no-deps` worked with preinstalled dependencies. An initial longer 8-round experiment timed out and generated no complete evidence; replaced with successful matched four-round runs. Do not count timed-out work.
+
+**Next:** native Docker/Flower runtime gate on a suitable host; longer MNIST and IID/non-IID training with supported distributed orchestration; real changing-minibatch update inversion and independent attacker OS sandbox; matched defended DP/SecAgg+ comparisons using established libraries. See `NEXT_SPRINT.md`.
+
+---
+
+# Prior state — v0.4.1
 
 **Version:** 0.4.1. **Working baseline:** Sprint 0, Sprint 1 analytics, offline Sprint 2 FedAvg reference and first Sprint 3 model-disclosure experiments. **NOT a completed native Flower/Docker/DP release.**
 

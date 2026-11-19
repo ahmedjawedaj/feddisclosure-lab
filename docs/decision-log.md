@@ -28,3 +28,26 @@ Implemented DLG-style Adam input optimization, iDLG-style single-label recovery,
 ## 2026-11-19 — v0.4.1 local-model-update leakage bridge
 
 Added a distinct unprotected model-delta observer with initial model parameters, actual local SGD parameter delta, known learning rate and step count. Attack code converts the delta to a proxy gradient; no original public image or exact intermediate gradients are available to the attack. Measured one public digit repeatedly optimized for 1, 4, and 16 steps: MSE 2.02613e-9, 0.0271682, 0.140351; approximation L2 errors 1.55e-7, 0.4757 and 0.7569. This bridges the exact-gradient demonstration toward server-visible FL updates but is **not yet multi-example/multi-minibatch Flower training**. All three attack/evaluator artifact pairs and generated figure are preserved. Native Flower/Docker gates remain pending.
+
+## 2026-11-19 — v0.5.0 distinct-record update inversion and FedProx comparison
+
+Expanded privileged observed client model delta to fixed local batches of 1,
+8 and 32 *different* public digits, with one/four SGD steps. The attacker sees
+only model state/delta and declared hyperparameters plus explicit known labels
+for batches >1. Evaluator-only truth/assignment remain separate. Five
+experiments completed and were scored; larger batch and four-step cases show
+higher reconstruction MSE, but fixed-batch and one-seed limitations remain.
+
+Implemented FedProx loss in the shared PyTorch training path (and prepared the
+native Flower ClientApp configuration), tested `mu=0` equivalence and positive
+penalty reduction of parameter drift. Three matched-seed non-IID PyTorch
+FedAvg/FedProx studies executed with identical data, model and optimizer budget:
+mean global accuracy 55.19% versus 49.07%, paired change -6.11 pp, with zero
+worst-site validation accuracy for either method. Saved six checkpoints,
+hashes, per-round metrics and a new figure. Retained the negative result.
+
+Portability issue found on clean runtime: tests spawn worker modules that
+require an installed package; used `pip install -e . --no-build-isolation
+--no-deps` since build isolation tries network DNS here. Fast tests and
+integration tests were executed separately. Docker binary absent; native
+Flower dependency unavailable; these gates remain explicitly unverified.

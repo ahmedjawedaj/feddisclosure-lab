@@ -1,4 +1,50 @@
-# NEXT SPRINT — Native gates and realistic-observation benchmarks
+# NEXT SPRINT — Native runtime gates and stronger disclosure evidence (post v0.5.0)
+
+## Newly completed (observed, not just designed)
+
+- [x] One/8/32 **distinct-record** fixed local-batch model-update inversion across 1/4 SGD steps (five scored runs, attacker/evaluator separated).
+- [x] FedProx locally implemented/tested and three matched severe non-IID FedAvg/FedProx four-round PyTorch references completed (one selected mu=0.3, negative results preserved).
+- [x] Five attack case scores and six trained checkpoints plus hashes checked in read-only evidence verifier; two new plots regenerated.
+- [x] Fast tests 44 passed, optional Flower test skipped; two slow integration tests passed **separately**; four-process HTTP disclosure regression passed.
+
+## P0 — Still a release blocker; do not bypass
+
+1. Run `bash scripts/verify_compose.sh` on a Docker Engine + Compose v2 host. Require the native network/volume/isolation evidence and real HTTP benchmark. Docker binary is absent here.
+2. On Python 3.12 with package access run `pip install -e '.[ml,test]'` and `python scripts/run_flower_experiment.py`. Confirm genuine three-node Flower ServerApp/ClientApp evidence, weights/metrics/checkpoint and strict participant count. Cross-check one identical Flower round against reference initial weights, site samples, order and aggregation. Flower is absent here.
+3. Trigger GitHub CI on an authorized remote and preserve workflow run IDs and artifacts. No remote or completed Actions execution is claimed.
+
+## P1 — Experimental depth
+
+1. Improve model convergence: approved MNIST with data hashes, longer rounds, multiple training seeds, matched local-only / pooled reference optimizer budget. Preserve worst-client scores and full per-round curves. Existing four-round results on 8×8 digits are insufficient for a scientific accuracy claim.
+2. Compare multiple non-IID severities and several FedProx `mu` values with registered selection protocol; investigate zero worst-client accuracy and quantify uncertainty. Current data partitions are intentionally severe.
+3. Invert **actual changing-minibatch** local updates with batch 1/8/32, local 1/4/16 steps, and (where feasible) Flower ClientApp training. Record known vs unknown-label threat privileges, including attack failures and timing/communication costs.
+4. For output-only membership inference, train five independent target models rather than merely resampling API requests to one frozen model. Record TPR at low FPR and model utility.
+5. Enforce attacker/evaluator OS-level permissions rather than relying only on directory roles and CLI contracts.
+
+## P2 — Defenses, benchmarks, thesis readiness
+
+- Implement OpenDP with explicit count adjacency, sensitivity, epsilon/delta and release composition; Opacus with calibrated DP-SGD and accountant; Flower SecAgg+ with valid threshold/dropout settings. Run defended/unprotected matched baselines. No cryptographic protocol reimplementation.
+- Benchmark actual bytes, accuracy/utility, latency, information budgets and failure rates. Run multiple seeds, regenerate figures and technical report, prepare faculty review.
+
+## Reproduction commands for new evidence
+
+```bash
+python -m pip install -e . --no-build-isolation --no-deps
+pytest -q -m 'not slow'
+pytest -q 'tests/training/test_runner_integration.py::test_independent_worker_training[iid]'
+pytest -q 'tests/training/test_runner_integration.py::test_independent_worker_training[label_skew]'
+python scripts/run_local_stack.py --once
+python scripts/run_fedprox_ablation.py --seeds 241 242 243 --rounds 4 --mu 0.3
+python scripts/run_multirecord_update_inversion.py --site-file data/training/digits-iid/institution-00/train.npz --output-dir reports/results/sprint3/multirecord_update --attack-iterations 160 --seed 241
+python scripts/plot_new_benchmarks.py
+python scripts/verify_research_evidence.py
+```
+
+The extended scripts can preserve completed run files and refuse stale configs/partition/checkpoint mismatches. See `docs/fedprox-ablation.md` and `docs/disclosure-protocol.md` for exact observer privileges.
+
+---
+
+# Previous v0.4.1 next-sprint ledger
 
 **At handoff (2026-11-19, v0.4.1):** Core analytics, five-seed offline PyTorch reference, exact-gradient reconstruction and output-only membership baseline are executed. Docker and Flower **not verified**; do not misrepresent these as complete.
 

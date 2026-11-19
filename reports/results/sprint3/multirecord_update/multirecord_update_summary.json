@@ -1,0 +1,79 @@
+{
+  "timestamp_utc": "2026-11-19T11:26:35.109771+00:00",
+  "threat_model": "server_individual_model_delta_unprotected",
+  "dataset": "approved_public_8x8_digits",
+  "seed": 241,
+  "attack_iterations": 160,
+  "matched_initialization": true,
+  "known_labels_for_batch_gt_1": true,
+  "fixed_local_batch_repeated": true,
+  "secure_aggregation": false,
+  "differential_privacy": false,
+  "runs": [
+    {
+      "batch_size": 1,
+      "local_steps": 1,
+      "known_labels": false,
+      "image_mean_mse": 9.585513716103833e-09,
+      "mean_psnr_db": 80.18384607033113,
+      "mean_ssim": 0.9999998509883881,
+      "reconstruction_rate_mse_below_0_05": 1.0,
+      "gradient_proxy_relative_l2_error": 1.485295797465369e-07,
+      "elapsed_seconds": 3.977,
+      "evaluator_result": "batch_1_steps_1/evaluation.json"
+    },
+    {
+      "batch_size": 8,
+      "local_steps": 1,
+      "known_labels": true,
+      "image_mean_mse": 0.007398330140858889,
+      "mean_psnr_db": 22.920805612062935,
+      "mean_ssim": 0.9700678158551455,
+      "reconstruction_rate_mse_below_0_05": 1.0,
+      "gradient_proxy_relative_l2_error": 6.144285293885332e-07,
+      "elapsed_seconds": 3.83,
+      "evaluator_result": "batch_8_steps_1/evaluation.json"
+    },
+    {
+      "batch_size": 8,
+      "local_steps": 4,
+      "known_labels": true,
+      "image_mean_mse": 0.049488138407468796,
+      "mean_psnr_db": 14.424924158201378,
+      "mean_ssim": 0.7245837354566902,
+      "reconstruction_rate_mse_below_0_05": 0.75,
+      "gradient_proxy_relative_l2_error": 0.29553696513175964,
+      "elapsed_seconds": 4.034,
+      "evaluator_result": "batch_8_steps_4/evaluation.json"
+    },
+    {
+      "batch_size": 32,
+      "local_steps": 1,
+      "known_labels": true,
+      "image_mean_mse": 0.0633908286690712,
+      "mean_psnr_db": 12.900146245122095,
+      "mean_ssim": 0.6902613313286565,
+      "reconstruction_rate_mse_below_0_05": 0.5625,
+      "gradient_proxy_relative_l2_error": 1.3356905128603103e-06,
+      "elapsed_seconds": 4.44,
+      "evaluator_result": "batch_32_steps_1/evaluation.json"
+    },
+    {
+      "batch_size": 32,
+      "local_steps": 4,
+      "known_labels": true,
+      "image_mean_mse": 0.07000134885311127,
+      "mean_psnr_db": 12.318545107474852,
+      "mean_ssim": 0.6715562138742825,
+      "reconstruction_rate_mse_below_0_05": 0.4375,
+      "gradient_proxy_relative_l2_error": 0.19511647522449493,
+      "elapsed_seconds": 4.698,
+      "evaluator_result": "batch_32_steps_4/evaluation.json"
+    }
+  ],
+  "limitations": [
+    "One tiny client dataset per case; no changing minibatch schedule",
+    "All batch labels disclosed to attack for batch sizes 8/32",
+    "Not a Flower runtime or a DP mechanism; no general privacy implication"
+  ]
+}

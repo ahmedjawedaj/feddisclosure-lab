@@ -53,3 +53,30 @@ A more relevant **individual client model-update observer** was then tested. A t
 A separate **output-only membership** attack ranked full softmax probabilities using an uncalibrated max-confidence heuristic, with the evaluator alone knowing train/held-out labels. Five query-subsampling seeds on one frozen two-round public-digit model had mean ROC-AUC 0.4781 (sample SD 0.0183), essentially at chance. These are not independently trained target models and do not justify broad membership-privacy conclusions.
 
 The new machine-readable artifacts and figure-generation script support detailed review, reproducibility and honest negative findings. These are applied-research engineering benchmarks, not yet an original algorithm or publication-ready experimental study. See `reports/sprint3-evidence.md`, `docs/disclosure-protocol.md` and `docs/threat-models.md`.
+
+## v0.5.0: Multi-record local-update disclosure and matched FedProx ablation
+
+We expanded the unprotected server's update-observation model from a one-record
+SGD loop to fixed local batches of 1, 8 and 32 *distinct* public images. Across
+five single-seed cases at 160 attacker iterations, image MSE ranged from
+9.59e-9 (one image, one SGD step) to 0.07000 (32 images, four repeated
+full-batch local steps). The 8/32 image cases had a **stronger attacker** who
+knew every label. Privileged evaluator-only optimal image matching produced
+MSE/SSIM metrics; no original training rows were supplied to attack code.
+The observations are local model deltas rather than exact initial gradients,
+but still not real changing-minibatch Flower updates. The experiment does not
+measure DP or SecAgg+.
+
+A matched *offline PyTorch process* ablation compared FedAvg and FedProx
+(mu=0.3) under severe label skew for three seeds, three institutions, four
+rounds and two local epochs. FedAvg public-test accuracy was 51.11%, 54.44%,
+60.00%, versus FedProx 47.78%, 49.44%, 50.00%. The paired accuracy difference
+(FedProx minus FedAvg) averaged -6.11 percentage points (sample SD 3.47 pp).
+Both arms had zero worst-client validation accuracy on all three seeds despite
+improved global accuracy; the tested proximal penalty did not resolve that
+failure. Neither experiment is a general comparison of the algorithms.
+
+See `docs/fedprox-ablation.md`, `docs/disclosure-protocol.md`, the
+machine-readable `paired_summary.json`/`multirecord_update_summary.json`,
+and the v0.5 figures. The native Flower and Docker execution gates remain
+blocked, not complete. No formally private defense has yet been executed.

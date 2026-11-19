@@ -20,7 +20,7 @@ def main(grid: Grid, context: Context) -> None:
                       min_evaluate_nodes=int(config["clients"]),
                       min_available_nodes=int(config["clients"]))
     result = strategy.start(grid=grid, initial_arrays=ArrayRecord(model.state_dict()),
-                            train_config=ConfigRecord({"lr": float(config["learning-rate"])}),
+                            train_config=ConfigRecord({"lr": float(config["learning-rate"]), "proximal-mu": float(config.get("proximal-mu", 0.0))}),
                             num_rounds=int(config["num-server-rounds"]))
     out = Path(str(config["artifact-dir"]))
     out.mkdir(parents=True, exist_ok=True)

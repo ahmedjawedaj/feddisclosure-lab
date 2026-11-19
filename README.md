@@ -149,3 +149,10 @@ The former starter project was documented as a single-process synthetic SQLite d
 ## First figure
 
 Run `python scripts/plot_analytics.py` after installing the optional `visual` dependency group. The generated `reports/figures/sprint1_analytics.png` truthfully distinguishes a withheld response from a count of zero.
+
+## v0.5.0 measured extensions
+
+- Multi-record unprotected client-model-delta reconstruction: batches 1, 8, 32; local SGD steps 1 or 4; five scored public-image attack cases with strict evaluator-only image truth and explicit label visibility. See `docs/disclosure-protocol.md`.
+- Paired offline multi-process FedAvg versus FedProx (mu=0.3) on severe non-IID public digits, three seeds, four rounds, mean global test accuracy 55.19% versus 49.07% and zero worst-client validation for both. See `docs/fedprox-ablation.md` and `scripts/run_fedprox_ablation.py`.
+- Added SHA-256 cross-check of six trained model checkpoints, run resume/manifest guards, two research figures, tests and updated Claude/Codex handoff. Verify with `python scripts/verify_research_evidence.py` after extracting the full evidence archive.
+- **Not verified:** real Flower execution, Docker Compose, calibrated OpenDP/Opacus privacy, Flower SecAgg+, external MNIST. The word "federated" in offline references denotes separate training processes with no OS-enforced data isolation.

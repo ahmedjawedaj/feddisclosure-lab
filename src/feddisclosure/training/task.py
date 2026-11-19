@@ -1,6 +1,7 @@
 """Shared PyTorch model and local training math, with no federation access."""
 from __future__ import annotations
 from collections import OrderedDict
+import math
 import numpy as np
 import torch
 from torch import nn
@@ -23,15 +24,23 @@ def loader(x: np.ndarray, y: np.ndarray, *, batch_size: int = 32, seed: int = 0,
 
 
 def train_local(model: DigitMLP, x: np.ndarray, y: np.ndarray, *, epochs: int, batch_size: int,
-                lr: float, seed: int) -> dict:
+                lr: float, seed: int, proximal_mu: float = 0.0) -> dict:
+    if not math.isfinite(proximal_mu) or proximal_mu < 0:
+        raise ValueError("proximal_mu must be finite and nonnegative")
     torch.set_num_threads(1)
     model.train()
+    # FedProx: local objective f_i(w) + mu/2 * ||w - w_global||^2.
+    reference = [p.detach().clone() for p in model.parameters()] if proximal_mu > 0 else []
     optimizer = torch.optim.SGD(model.parameters(), lr=lr)
     total_loss, batches = 0.0, 0
     for epoch in range(epochs):
         for features, labels in loader(x, y, batch_size=batch_size, shuffle=True, seed=seed + epoch):
             optimizer.zero_grad()
             loss = nn.functional.cross_entropy(model(features), labels)
+            if proximal_mu > 0:
+                penalty = sum(torch.sum((p - initial).square())
+                              for p, initial in zip(model.parameters(), reference))
+                loss = loss + (proximal_mu / 2) * penalty
             loss.backward()
             optimizer.step()
             total_loss += float(loss.detach())

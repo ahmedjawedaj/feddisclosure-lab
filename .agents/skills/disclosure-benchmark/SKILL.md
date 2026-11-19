@@ -14,3 +14,5 @@ membership inference, and matched noise/clipping ablations.
 See `scripts/run_gradient_inversion.py`, `scripts/run_disclosure_matrix.py`, `scripts/run_membership_inference.py`, and `scripts/run_membership_matrix.py`.
 
 8. For model-update inversion, read `src/feddisclosure/evaluation/update_observer.py` and `scripts/run_update_inversion.py`; keep real initial/final parameters separate from invented exact gradients. The delta/(lr*steps) proxy is approximate for >1 local step, and the repeated-one-record setup is only a controlled pilot.
+
+9. `scripts/run_multirecord_update_inversion.py` exercises actual model deltas on 1/8/32 DISTINCT approved public records. For batch>1 only the known-label (extra attacker privilege) configuration is solved by current DLG optimizer; unknown labels must fail closed. Never copy evaluator-only originals/source indices into attack observations. Fixed-batch reuse is not changing-minibatch Flower training.

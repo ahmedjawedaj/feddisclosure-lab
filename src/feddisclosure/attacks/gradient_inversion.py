@@ -104,9 +104,9 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
                       "lr": lr, "tv_weight": tv_weight, "seed": seed,
                       "duration_seconds": round(time.perf_counter() - start, 4),
                       "gradient_matching_history": history,
-                      "limitations": ["Single model gradient from one forward/backward pass, not a multi-step FedAvg update",
+                      "limitations": ["An exact gradient or a proxy derived from an individual local model update (not secure aggregation)",
                                       "Requires full per-example or per-batch exact gradients and known architecture/weights",
-                                      "Batch>1 tests disclose true labels as an additional attacker privilege",
+                                      "Batch>1 runs require true labels as an explicitly declared extra attacker privilege",
                                       "A low gradient residual does not prove recognizable image reconstruction",
                                       "Model-delta proxy is not a true initial gradient when local_steps > 1"]}
 
