@@ -1,0 +1,486 @@
+{
+  "schema_version": 1,
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "experiment_id": "fedprox-labelskew-8round-seed241",
+  "algorithm": "fedprox",
+  "config": {
+    "id": "fedprox-labelskew-8round-seed241",
+    "seed": 241,
+    "dataset": "sklearn_digits",
+    "partition": "label_skew",
+    "clients": 3,
+    "rounds": 8,
+    "local_epochs": 2,
+    "batch_size": 32,
+    "learning_rate": 0.15,
+    "source_limit": 900,
+    "algorithm": "fedprox",
+    "proximal_mu": 0.3,
+    "observer": "honest_but_curious_coordinator"
+  },
+  "versions": {
+    "torch": "2.10.0+cpu",
+    "python": "3.13.5"
+  },
+  "manifest_sha256": "a1d4c2a78c6258c0a2962fa14ccabf7f605afe8aa7179aeb574ecd577a300400",
+  "final_checkpoint": {
+    "path": "reports/results/sprint2/extended/checkpoints/fedprox-labelskew-8round-seed241_final.pt",
+    "sha256": "b4b4d603998e8e8c93109e580a9e6cd85ce3c947be692fa1545e4ea68e404b86"
+  },
+  "model_bytes": 9640,
+  "rounds": [
+    {
+      "round": 1,
+      "public_test": {
+        "accuracy": 0.21666666666666667,
+        "loss": 2.256614727444119,
+        "num-examples": 180
+      },
+      "worst_client_local_update_validation_accuracy": 0.0,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 1.911994218826294,
+          "num-examples": 192,
+          "worker_pid": 4140,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 2.6012492179870605,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.78452,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 1.7242502570152283,
+          "num-examples": 192,
+          "worker_pid": 4142,
+          "local_update_validation": {
+            "accuracy": 0.2708333333333333,
+            "loss": 2.789107322692871,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.79633,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 1.7484549780686696,
+          "num-examples": 192,
+          "worker_pid": 4143,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 2.5496748288472495,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.7202,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 2,
+      "public_test": {
+        "accuracy": 0.39444444444444443,
+        "loss": 2.183457522922092,
+        "num-examples": 180
+      },
+      "worst_client_local_update_validation_accuracy": 0.0,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 1.6707749267419179,
+          "num-examples": 192,
+          "worker_pid": 4148,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 2.681515375773112,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.69613,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 1.326217879851659,
+          "num-examples": 192,
+          "worker_pid": 4149,
+          "local_update_validation": {
+            "accuracy": 0.3333333333333333,
+            "loss": 3.0582803090413413,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.64037,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 1.4065136114756267,
+          "num-examples": 192,
+          "worker_pid": 4150,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 2.4550530115763345,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.64689,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 3,
+      "public_test": {
+        "accuracy": 0.45555555555555555,
+        "loss": 2.0824397616916235,
+        "num-examples": 180
+      },
+      "worst_client_local_update_validation_accuracy": 0.0,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 1.5062436759471893,
+          "num-examples": 192,
+          "worker_pid": 4164,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 2.5246008237202964,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.82341,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 1.088455523053805,
+          "num-examples": 192,
+          "worker_pid": 4165,
+          "local_update_validation": {
+            "accuracy": 0.3333333333333333,
+            "loss": 3.132009506225586,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.85357,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 1.2409721215565999,
+          "num-examples": 192,
+          "worker_pid": 4167,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 2.3202964464823403,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.79164,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 4,
+      "public_test": {
+        "accuracy": 0.4777777777777778,
+        "loss": 1.9621277279324,
+        "num-examples": 180
+      },
+      "worst_client_local_update_validation_accuracy": 0.0,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 1.370067874590556,
+          "num-examples": 192,
+          "worker_pid": 4173,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 2.2935377756754556,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.77968,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 0.9028170704841614,
+          "num-examples": 192,
+          "worker_pid": 4176,
+          "local_update_validation": {
+            "accuracy": 0.3333333333333333,
+            "loss": 3.138258616129557,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.74488,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 1.1187331130107243,
+          "num-examples": 192,
+          "worker_pid": 4175,
+          "local_update_validation": {
+            "accuracy": 0.020833333333333332,
+            "loss": 2.1281236012776694,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.70859,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 5,
+      "public_test": {
+        "accuracy": 0.4888888888888889,
+        "loss": 1.834906726413303,
+        "num-examples": 180
+      },
+      "worst_client_local_update_validation_accuracy": 0.0,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 1.2404027531544368,
+          "num-examples": 192,
+          "worker_pid": 4181,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 2.0464839935302734,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.70492,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 0.7496758103370667,
+          "num-examples": 192,
+          "worker_pid": 4183,
+          "local_update_validation": {
+            "accuracy": 0.3333333333333333,
+            "loss": 3.127716064453125,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.75251,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 1.0036268432935078,
+          "num-examples": 192,
+          "worker_pid": 4182,
+          "local_update_validation": {
+            "accuracy": 0.0625,
+            "loss": 1.9223594665527344,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.70004,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 6,
+      "public_test": {
+        "accuracy": 0.55,
+        "loss": 1.7093237559000651,
+        "num-examples": 180
+      },
+      "worst_client_local_update_validation_accuracy": 0.0,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 1.1195279508829117,
+          "num-examples": 192,
+          "worker_pid": 4191,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 1.813212235768636,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.65235,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 0.6238722379008929,
+          "num-examples": 192,
+          "worker_pid": 4194,
+          "local_update_validation": {
+            "accuracy": 0.3333333333333333,
+            "loss": 3.0931084950764975,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.65802,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 0.8960163046916326,
+          "num-examples": 192,
+          "worker_pid": 4195,
+          "local_update_validation": {
+            "accuracy": 0.1875,
+            "loss": 1.7311296463012695,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.65578,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 7,
+      "public_test": {
+        "accuracy": 0.5777777777777777,
+        "loss": 1.589623006184896,
+        "num-examples": 180
+      },
+      "worst_client_local_update_validation_accuracy": 0.0,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 1.011284162600835,
+          "num-examples": 192,
+          "worker_pid": 4199,
+          "local_update_validation": {
+            "accuracy": 0.0,
+            "loss": 1.5936595598856609,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.69344,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 0.5237557714184126,
+          "num-examples": 192,
+          "worker_pid": 4201,
+          "local_update_validation": {
+            "accuracy": 0.3333333333333333,
+            "loss": 3.0376564661661782,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.68258,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 0.8022004812955856,
+          "num-examples": 192,
+          "worker_pid": 4202,
+          "local_update_validation": {
+            "accuracy": 0.2708333333333333,
+            "loss": 1.5863110224405925,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.63776,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 8,
+      "public_test": {
+        "accuracy": 0.6055555555555555,
+        "loss": 1.4807799021402994,
+        "num-examples": 180
+      },
+      "worst_client_local_update_validation_accuracy": 0.1875,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 0.9159063001473745,
+          "num-examples": 192,
+          "worker_pid": 4206,
+          "local_update_validation": {
+            "accuracy": 0.1875,
+            "loss": 1.3880362510681152,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.72653,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 0.4455276106794675,
+          "num-examples": 192,
+          "worker_pid": 4208,
+          "local_update_validation": {
+            "accuracy": 0.3333333333333333,
+            "loss": 2.965057055155436,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.71046,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 0.7168584366639456,
+          "num-examples": 192,
+          "worker_pid": 4209,
+          "local_update_validation": {
+            "accuracy": 0.3333333333333333,
+            "loss": 1.4913736979166667,
+            "num-examples": 48
+          },
+          "elapsed_seconds": 0.77345,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    }
+  ],
+  "final_global_per_client_validation": [
+    {
+      "client_id": 0,
+      "worker_pid": 4223,
+      "evaluation": {
+        "accuracy": 0.0,
+        "loss": 2.289198398590088,
+        "num-examples": 48
+      }
+    },
+    {
+      "client_id": 1,
+      "worker_pid": 4224,
+      "evaluation": {
+        "accuracy": 0.2916666666666667,
+        "loss": 1.723306655883789,
+        "num-examples": 48
+      }
+    },
+    {
+      "client_id": 2,
+      "worker_pid": 4226,
+      "evaluation": {
+        "accuracy": 0.6875,
+        "loss": 1.4280519485473633,
+        "num-examples": 48
+      }
+    }
+  ],
+  "final_global_worst_client_validation_accuracy": 0.0,
+  "total_elapsed_seconds": 47.2381,
+  "observer": "honest_but_curious_coordinator",
+  "actual_observations": [
+    "per_client_model_parameters",
+    "sample_counts",
+    "scalar_metrics"
+  ],
+  "limitations": [
+    "Not a Flower execution: uses independent local PyTorch worker processes, no Docker isolation.",
+    "Client datasets are public digit partitions, with no real institution records.",
+    "Public evaluator test is global held-out accuracy. Final worst-client metric evaluates aggregated model on each site's held-out local validation.",
+    "Communication uses raw tensor byte counts and excludes protocol, headers and transport overhead.",
+    "Coordinator sees individual model updates; there is no DP or secure aggregation.",
+    "Evaluator runs in a separate process with public ground truth. Process separation alone does not enforce filesystem permissions."
+  ]
+}

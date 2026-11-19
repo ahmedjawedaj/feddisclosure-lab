@@ -42,8 +42,8 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
     torch.set_num_threads(1)
     features, classes = int(observation["features"]), int(observation["classes"])
     batch_size = int(observation["batch_size"])
-    if batch_size not in (1, 8, 32) or features != 64:
-        raise ValueError("Supported controlled experiments use 1, 8, or 32 public 8x8 digits")
+    if batch_size not in (1, 8, 16, 32, 64) or features != 64:
+        raise ValueError("Supported controlled experiments use 1, 8, 16, 32, or 64 public 8x8 digits")
     model = DigitMLP(features, classes)
     model.load_state_dict(observation["model_state"])
     model.eval()

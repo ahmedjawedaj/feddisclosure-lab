@@ -1,0 +1,228 @@
+{
+  "engine": "output_only_membership_multiple_independent_training_seeds",
+  "training_seed_count": 3,
+  "query_seed_policy": "training_seed+1000",
+  "model_observer": "predictions_softmax_only",
+  "attacker_knows_true_labels": false,
+  "attacker_knows_membership": false,
+  "methods_pre_registered": [
+    "max_confidence",
+    "negative_entropy",
+    "top2_margin"
+  ],
+  "runs": [
+    {
+      "training_seed": 241,
+      "query_seed": 1241,
+      "training_algorithm": "fedavg",
+      "rounds": 4,
+      "checkpoint_sha256": "e6d8a0d0ebf7155f76446cffde7fa692852311e8967aa26b09b9aaaebc4fc990",
+      "query_count": 120,
+      "per_class_requested": 6,
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.5025000000000001,
+          "attack_advantage": 0.15000000000000002,
+          "tpr_at_fpr": {
+            "0.01": 0.05,
+            "0.05": 0.1,
+            "0.1": 0.15
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        },
+        "negative_entropy": {
+          "roc_auc": 0.508888888888889,
+          "attack_advantage": 0.08333333333333334,
+          "tpr_at_fpr": {
+            "0.01": 0.05,
+            "0.05": 0.11666666666666667,
+            "0.1": 0.16666666666666666
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        },
+        "top2_margin": {
+          "roc_auc": 0.5266666666666667,
+          "attack_advantage": 0.11666666666666664,
+          "tpr_at_fpr": {
+            "0.01": 0.03333333333333333,
+            "0.05": 0.08333333333333333,
+            "0.1": 0.13333333333333333
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        }
+      }
+    },
+    {
+      "training_seed": 242,
+      "query_seed": 1242,
+      "training_algorithm": "fedavg",
+      "rounds": 4,
+      "checkpoint_sha256": "93b71482ea3699320c3b9746969cdb2430774e4c610a84541e0d799d18a1e3b9",
+      "query_count": 120,
+      "per_class_requested": 6,
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.5405555555555555,
+          "attack_advantage": 0.18333333333333324,
+          "tpr_at_fpr": {
+            "0.01": 0.05,
+            "0.05": 0.13333333333333333,
+            "0.1": 0.18333333333333332
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        },
+        "negative_entropy": {
+          "roc_auc": 0.5616666666666668,
+          "attack_advantage": 0.16666666666666674,
+          "tpr_at_fpr": {
+            "0.01": 0.03333333333333333,
+            "0.05": 0.1,
+            "0.1": 0.2
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        },
+        "top2_margin": {
+          "roc_auc": 0.46277777777777773,
+          "attack_advantage": 0.08333333333333334,
+          "tpr_at_fpr": {
+            "0.01": 0.06666666666666667,
+            "0.05": 0.1,
+            "0.1": 0.1
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        }
+      }
+    },
+    {
+      "training_seed": 243,
+      "query_seed": 1243,
+      "training_algorithm": "fedavg",
+      "rounds": 4,
+      "checkpoint_sha256": "a99f15283e6e5f3e33eae04abe413314dcd2dcef7aa1f907b8d482f3b856dc9d",
+      "query_count": 120,
+      "per_class_requested": 6,
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.5836111111111111,
+          "attack_advantage": 0.21666666666666656,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.11666666666666667,
+            "0.1": 0.15
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        },
+        "negative_entropy": {
+          "roc_auc": 0.5599999999999999,
+          "attack_advantage": 0.15000000000000002,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.2,
+            "0.1": 0.21666666666666667
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        },
+        "top2_margin": {
+          "roc_auc": 0.5700000000000001,
+          "attack_advantage": 0.23333333333333328,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.06666666666666667,
+            "0.1": 0.18333333333333332
+          },
+          "num_members": 60,
+          "num_nonmembers": 60,
+          "baseline_chance_auc": 0.5,
+          "limitations": [
+            "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+            "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+          ]
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Small public 8x8 digit networks, four training rounds",
+    "Three different model training seeds, one query subset per model; no model confidence interval claim",
+    "Class-matched, balanced sampled queries and unrestricted confidence access",
+    "These are uncalibrated heuristics and not a proof of protection or vulnerability",
+    "No deployed HTTP inference API or rate limiting verified"
+  ],
+  "aggregate": {
+    "max_confidence": {
+      "auc_mean": 0.5422222222222222,
+      "auc_sample_sd": 0.04058123235872813,
+      "observed_aucs": [
+        0.5025000000000001,
+        0.5405555555555555,
+        0.5836111111111111
+      ]
+    },
+    "negative_entropy": {
+      "auc_mean": 0.5435185185185185,
+      "auc_sample_sd": 0.03000171462864139,
+      "observed_aucs": [
+        0.508888888888889,
+        0.5616666666666668,
+        0.5599999999999999
+      ]
+    },
+    "top2_margin": {
+      "auc_mean": 0.5198148148148148,
+      "auc_sample_sd": 0.05393850331551388,
+      "observed_aucs": [
+        0.5266666666666667,
+        0.46277777777777773,
+        0.5700000000000001
+      ]
+    }
+  }
+}

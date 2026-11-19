@@ -9,6 +9,8 @@ on:
       - 'scripts/run_gradient_inversion.py'
       - 'scripts/run_membership_inference.py'
       - 'scripts/run_torch_reference.py'
+      - 'scripts/run_minibatch_update_inversion.py'
+      - 'scripts/run_membership_training_seeds.py'
       - '.github/workflows/research-smoke.yml'
 jobs:
   smoke:
@@ -40,6 +42,12 @@ jobs:
           --checkpoint reports/results/ci/checkpoints/digits-iid-smoke-v1_final.pt
           --data-dir data/training/ci-public-digits
           --output-dir reports/results/ci/membership
+      - name: Changing-minibatch individual update inversion
+        run: >-
+          python scripts/run_minibatch_update_inversion.py
+          --site-file data/training/ci-public-digits/institution-00/train.npz
+          --output-dir reports/results/ci/minibatch_update
+          --cases 8:4:0 --iterations 60 --seed 241
       - uses: actions/upload-artifact@v4
         if: always()
         with:

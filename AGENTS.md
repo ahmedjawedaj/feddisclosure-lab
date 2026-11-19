@@ -1,3 +1,7 @@
+## v0.6.0 handoff priority
+
+Read `CURRENT_STATE.md` and `NEXT_SPRINT.md` first. Reproduce `docs/v0.6-experiment-protocol.md` against `docs/v0.6-research-report.md` before editing experiments. **Do not conflate** 8 vs 32 distinct-record changing-minibatch inversion, independently seeded membership models vs query seeds, or imbalanced Dirichlet vs equal-sized severe label skew. Added `.agents/skills/changing-minibatch-update/SKILL.md` and `.agents/skills/model-output-research/SKILL.md` (mirrored under `.claude/skills/`). The Flower parity *checker* has unit fixtures, but a native Flower run remains unverified. Use `scripts/verify_v060_evidence.py` on the full evidence archive.
+
 # FedDisclosure Lab agent instructions (Codex and Claude)
 
 ## Mandatory first read

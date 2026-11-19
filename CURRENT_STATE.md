@@ -1,3 +1,17 @@
+# CURRENT STATE — 2026-11-19 — v0.6.0
+
+**Actual completed milestone:** 3 changing-minibatch individual client model-delta attack/evaluator runs, 3 separately trained FedAvg models evaluated against 3 predeclared output-only membership attacks each (9 runs), 2 matched 8-round severe non-IID FedAvg/FedProx runs, 1 8-round Dirichlet(alpha=0.5) FedAvg experiment, deterministic Dirichlet partition tests and a native Flower checkpoint-parity *validator*. See `docs/v0.6-research-report.md`, `docs/v0.6-experiment-protocol.md`, and `reports/results/`.
+
+**Evidence:** changing-minibatch MSEs 0.0149083, 0.0756175 and 0.0794448; independent-model MIA mean ROC-AUC 0.542/0.544/0.520; 8-round severe skew FedAvg 0.63333 global and 0.0625 worst-client; matched FedProx(mu=.3) 0.60556 and 0.0; Dirichlet(alpha=.5) FedAvg 0.82778 and 0.79592 worst-client. Dirichlet has unequal site sizes and optimizer-step counts; do not interpret as a causal benefit of partition skew alone. All are public 8x8 digit, small pilot studies; no DP claim. The eight-round severe runs exactly reproduce their earlier four-round accuracy trajectories.
+
+**Verification this cycle:** 55 fast tests passed, 1 Flower skip, 2 slow tests deselected; two independent-worker slow tests passed separately. Live four-process synthetic analytics repeated 110 - 107 = 3, with the history defense refusing the second query. Legacy and v0.6 evidence verifiers passed. Three current research figures regenerated.
+
+**Native Flower and Docker: NOT VERIFIED.** This runtime still lacks the Docker daemon and the Flower package/network access. `scripts/verify_flower_parity.py` has only passed *fixture contract tests*, which are not real Flower runs. Do not claim actual Flower parity. OpenDP/Opacus/SecAgg+ are NOT IMPLEMENTED/VERIFIED.
+
+**Handoff:** Run `pytest -q -m 'not slow'`, separately test the two slow integration cases, `python scripts/run_local_stack.py --once`, `python scripts/verify_research_evidence.py`, and `python scripts/verify_v060_evidence.py` on the complete archive. For the native protocols, run `bash scripts/verify_compose.sh`, `python scripts/run_flower_experiment.py` and `python scripts/verify_flower_parity.py` on a capable host. Continue from `NEXT_SPRINT.md`.
+
+---
+
 # CURRENT STATE — 2026-11-19 — v0.5.0
 
 **Status:** Executed Sprint 0/1 analytics, PyTorch multi-process FedAvg/FedProx (NOT Flower), and controlled gradient/model-update disclosure. Native Docker, native Flower, OpenDP, Opacus and SecAgg+ are **NOT VERIFIED**. Prior evidence remains below.

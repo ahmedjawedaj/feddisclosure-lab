@@ -100,3 +100,8 @@ Output includes each attack observation, separate ground truth, independent
 evaluator score and `multirecord_update_summary.json`. The next methodological
 step is inversion on genuine changing-minibatch FedAvg updates, with a
 registered exact attacker observation and multiple seeds.
+
+
+## v0.6: genuine changing-minibatch local SGD and multiple independently trained models
+
+See `docs/v0.6-experiment-protocol.md` and `docs/v0.6-research-report.md`. Three executed model-delta cases (8 distinct examples, one step; 32 distinct examples, four steps with two matched batch orders) only expose the **final client delta**, initial weights, known learning rate/steps, and a privileged list of all contributing labels; the attack never sees original images, example IDs, per-step gradients or SGD schedule. The output-only membership study executes three score heuristics across three independent 4-round models rather than repeated query seeds on one model. These are separate observer models and no privacy guarantee or production-security claim is justified.

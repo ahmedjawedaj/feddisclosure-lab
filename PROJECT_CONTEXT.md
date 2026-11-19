@@ -1,3 +1,5 @@
+**v0.6.0 handoff, 2026-11-19:** Completed three changing-minibatch local model-delta inversion experiments, 9 output-only membership evaluations across 3 independently trained model seeds, 8-round severe skew FedAvg/FedProx, and one 8-round moderate Dirichlet(alpha=0.5) FedAvg run. Last global accuracies: 63.33% severe FedAvg, 60.56% severe FedProx, 82.78% moderate Dirichlet FedAvg. Last worst-client: 6.25%, 0%, 79.59%. **Confounded partition study:** unequal site sample sizes and local SGD budgets. Native Docker/Flower, DP and SecAgg+ STILL NOT VERIFIED. See `docs/v0.6-experiment-protocol.md` and `docs/v0.6-research-report.md`.
+
 # FEDDISCLOSURE LAB 2.0 — PROJECT CONTEXT
 
 **Scope:** Reproducible privacy leakage and defense benchmark for federated analytics and federated learning. Two core tracks: statistical queries and distributed training. Optional later simulation/digital twin. Independent portfolio/research project, not currently a thesis or publishable novelty claim.

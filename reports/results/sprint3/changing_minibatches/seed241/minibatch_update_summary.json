@@ -1,0 +1,61 @@
+{
+  "timestamp_utc": "2026-11-19T12:10:37.334038+00:00",
+  "engine": "local_SGD_changing_minibatches_NOT_Flower",
+  "observer": "unprotected_honest_but_curious_coordinator_individual_update",
+  "data_seed": 241,
+  "attack_iterations": 160,
+  "attacker_has_all_contributing_labels": true,
+  "attacker_has_true_images": false,
+  "minibatch_schedule_disclosed": false,
+  "cases": [
+    {
+      "minibatch_size": 8,
+      "local_steps": 1,
+      "total_distinct_records": 8,
+      "schedule_seed": 0,
+      "known_all_labels": true,
+      "reconstruction_mse": 0.014908336102962494,
+      "psnr_db": 19.393477082726427,
+      "ssim": 0.9419460091739893,
+      "gradient_proxy_relative_l2_error": 4.0839273651727126e-07,
+      "elapsed_seconds": 4.878,
+      "contract_path": "minibatch_8_steps_1_schedule_0/observation_contract.json",
+      "evaluation_path": "minibatch_8_steps_1_schedule_0/evaluation.json"
+    },
+    {
+      "minibatch_size": 8,
+      "local_steps": 4,
+      "total_distinct_records": 32,
+      "schedule_seed": 0,
+      "known_all_labels": true,
+      "reconstruction_mse": 0.07561749219894409,
+      "psnr_db": 11.886442879866895,
+      "ssim": 0.6607668927827035,
+      "gradient_proxy_relative_l2_error": 0.31950676441192627,
+      "elapsed_seconds": 4.239,
+      "contract_path": "minibatch_8_steps_4_schedule_0/observation_contract.json",
+      "evaluation_path": "minibatch_8_steps_4_schedule_0/evaluation.json"
+    },
+    {
+      "minibatch_size": 8,
+      "local_steps": 4,
+      "total_distinct_records": 32,
+      "schedule_seed": 1,
+      "known_all_labels": true,
+      "reconstruction_mse": 0.0794447511434555,
+      "psnr_db": 11.879885415968552,
+      "ssim": 0.6262708068434222,
+      "gradient_proxy_relative_l2_error": 0.29557645320892334,
+      "elapsed_seconds": 4.199,
+      "contract_path": "minibatch_8_steps_4_schedule_1/observation_contract.json",
+      "evaluation_path": "minibatch_8_steps_4_schedule_1/evaluation.json"
+    }
+  ],
+  "limitations": [
+    "One client and public 8x8 digit examples; no native Flower runtime",
+    "Known all labels is a strong additional attacker privilege",
+    "Data seed matched across schedule variants; one SGD epoch across disjoint records",
+    "No DP or secure aggregation and no cryptographic privacy claim",
+    "Attacker/evaluator are separate processes but not OS-level sandboxed"
+  ]
+}

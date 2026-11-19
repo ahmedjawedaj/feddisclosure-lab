@@ -1,3 +1,17 @@
+# NEXT SPRINT — post-v0.6.0 research execution gates
+
+1. **P0 native protocol:** Run real Docker Compose isolation and Flower 1.27 three-SuperNode simulation in Python 3.12 with successful logs. The Flower CI workflow now runs the independent-worker reference then `scripts/verify_flower_parity.py` with matched data manifest/config and final tensor tolerance. **Do not mark passed until actually executed.** Preserve logs, CI URL/run ID, and reproducible hashes.
+2. **P1 matched heterogeneity ablation:** Design equal per-client sample-count and equal local optimizer-step controls for class-conditional Dirichlet alpha (e.g. 0.1, 0.5, 10) vs severe skew and IID. Run >=5 matched *training* seeds with global and worst-client accuracy, uncertainty, and accurate communication bytes. Current v0.6 Dirichlet differences are *confounded* by site sizes (133/244/200 vs 192/192/192 training records) and steps.
+3. **P1 more realistic privacy:** Attack genuine client multi-epoch/multi-minibatch Flower updates once Flower runs, with unknown labels and explicit attacker observations. Current changing-minibatch pilot is distinct-record one-pass local SGD with *all labels disclosed* and no real Flower runtime. Explore stronger output-only attacks with query budgets on multiple independently trained models and characterize low-FPR uncertainty.
+4. **P2 formal defenses:** Integrate established OpenDP and Opacus libraries, defining adjacency, accounting, clipping, epsilon/delta and composition; then Flower SecAgg+ with a legitimate participation threshold, dropout/collusion assumptions and actual native execution. No homemade cryptographic protocol, no claims for manually added noise.
+5. **P2 scientific hygiene:** Add attacker/evaluator OS filesystem isolation, alternative public MNIST with verifiable provenance, additional datasets, configuration-specific reproducibility and saved negative experiments. Prepare faculty demo/report only after these controls are credible.
+
+**Completed this cycle:** three disjoint-minibatch inversion attacks, nine membership evaluations on three model seeds, eight-round FedAvg/FedProx and Dirichlet pilot, parity-check tool/CI workflow, research figure generation, Claude/Codex skills, integrity verification and handoff documents.
+
+**Reproduce:** use `docs/v0.6-research-report.md` and `docs/v0.6-experiment-protocol.md`, plus the previous sprint history below.
+
+---
+
 # NEXT SPRINT — Native runtime gates and stronger disclosure evidence (post v0.5.0)
 
 ## Newly completed (observed, not just designed)

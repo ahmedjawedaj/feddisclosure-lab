@@ -2,11 +2,21 @@
 
 **A reproducible privacy leakage and defense benchmark for federated analytics and learning**
 
-Status: **v0.4.1: Sprints 0/1 core and offline Sprint 2/Sprint 3 research pilots executed; native Docker and Flower gates blocked/unverified; formal defenses and final release pending**. Updated 2026-11-19.
+Status: **v0.6.0: analytic disclosure + three-client PyTorch FedAvg/FedProx and model leakage experiments executed; native Docker/Flower and formal privacy defenses remain NOT VERIFIED**. Updated 2026-11-19.
 
 This is an independent research-engineering project using **only synthetic or approved public data**. No thesis novelty, production security, differential privacy or secure aggregation is claimed at this stage.
 
-## v0.4.1 measured update — 19 November 2026
+## v0.6.0 verified research extensions — 19 November 2026
+
+- Measured gradient-matching attacks from **changing disjoint SGD minibatches**, using one observed individual-client model delta, 8 or 32 different public digit examples and privileged labels. The four-step runs have no intermediate-gradient visibility.
+- Compared three independently trained FedAvg checkpoints under output-only model access. Three predeclared membership scores × three training seeds produced nine ROC-AUC results, mostly near chance.
+- Executed matched eight-round severe label-skew **FedAvg vs FedProx** for seed241, plus an eight-round moderate Dirichlet(alpha=0.5) FedAvg experiment. The moderate run has **unequal site sizes/optimizer steps**; see the research report for confounders.
+- Added model-parameter parity verification for the real Flower app, fail-closed config/hash checks, a Flower CI gate, reproducible plots, two additional agent skills for Codex/Claude, and evidence verification.
+- **Native Flower, Docker Compose, OpenDP, Opacus, SecAgg+, external MNIST and Colab remain unexecuted/unverified here.**
+
+Read `docs/v0.6-research-report.md`, `docs/v0.6-experiment-protocol.md`, `CURRENT_STATE.md` and `NEXT_SPRINT.md`. To verify the full evidence bundle, run `python scripts/verify_v060_evidence.py` from the extracted repository root.
+
+## Historical v0.4.1 measured update — 19 November 2026
 
 - **Analytics:** live three-institution/four-HTTP-process experiment still reproduces a 3-person synthetic disclosure (`110-107`) and a blocked second query under the history heuristic.
 - **Training:** 5 paired seeds × IID/severe label skew (10 real three-client PyTorch reference runs), plus 1/5-client single-seed pilots. These runs are **NOT native Flower** and do not justify a convergence claim.

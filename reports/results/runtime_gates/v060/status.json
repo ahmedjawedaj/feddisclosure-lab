@@ -1,0 +1,17 @@
+{
+  "timestamp_utc": "2026-11-19T12:27:37.250481+00:00",
+  "python_version": "3.13.5",
+  "docker": {
+    "binary": null,
+    "exit_code": 2,
+    "verified": false,
+    "stderr": "Docker Engine/Compose required. This gate is not verified.\n"
+  },
+  "flower": {
+    "module_installed": false,
+    "exit_code": 1,
+    "verified": false,
+    "stderr": "Flower is missing: install Python 3.12 and pip install -e '.[ml,test]' on a network-enabled host\n"
+  },
+  "note": "These commands were actually attempted. Neither passed; no native Docker or Flower claim is made."
+}

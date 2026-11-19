@@ -51,3 +51,9 @@ require an installed package; used `pip install -e . --no-build-isolation
 --no-deps` since build isolation tries network DNS here. Fast tests and
 integration tests were executed separately. Docker binary absent; native
 Flower dependency unavailable; these gates remain explicitly unverified.
+
+## 2026-11-19 — v0.6.0 practical experiments and unresolved native gates
+
+Added disjoint changing-minibatch client-model-delta observer with known-label capability explicitly logged, three executed attack/evaluator trials and distinct attacker/evaluator artifacts. Expanded the output-only attack to three **predeclared** scores and ran all nine combinations on three independently trained 4-round FedAvg models, preserving weak and below-chance outcomes. Extended the two methods' severe-non-IID training to eight rounds and added class-conditional Dirichlet(alpha=0.5) partitions; recorded both observed improvement and the unequal-sample/optimizer-steps confound. Added a fail-closed native Flower checkpoint parity checker/CI requirement but **did not** run Flower or Docker in this environment. Formal DP and SecAgg+ remain future stages. The research methodology prioritizes a matched multiple-seed partition study before any generalization or thesis claim.
+
+**v0.6 closure:** 55 fast tests and two separately invoked slow worker tests passed; live HTTP analytics disclosure remained 110/107/3. Baseline and new research artifact hashes/metrics were checked. Attempting the actual Docker verifier returned 2 (no Docker binary), and the Flower runner returned 1 (missing `flwr` module); both were retained as explicit unsuccessful runtime gates. Do not reinterpret the Flower parity fixture unit tests as real Flower execution.

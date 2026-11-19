@@ -28,6 +28,25 @@ def _source(name: str, root: Path):
     raise ValueError(f"Unknown dataset: {name}")
 
 
+def _dirichlet_groups(train_idx, labels, clients, rng, alpha: float = 0.5):
+    """Class-conditioned site allocation with minimum train/validation support.
+
+    This is intentionally a data-preparation/evaluator helper, not a client API.
+    It returns index partitions; site label statistics remain evaluator-only.
+    """
+    for _ in range(100):
+        groups = [[] for _ in range(clients)]
+        for label in np.unique(labels[train_idx]):
+            indices = rng.permutation(train_idx[labels[train_idx] == label])
+            proportions = rng.dirichlet([alpha] * clients)
+            pieces = np.split(indices, (np.cumsum(proportions)[:-1] * len(indices)).astype(int))
+            for i, piece in enumerate(pieces):
+                groups[i].extend(piece.tolist())
+        if all(len(g) >= 20 for g in groups):
+            return [rng.permutation(np.asarray(g, dtype=np.int64)) for g in groups]
+    raise RuntimeError("Dirichlet split failed to give each institution enough examples")
+
+
 def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits", clients: int = 3,
                        partition: str = "iid", seed: int = 20261118, limit: int | None = None) -> dict:
     """Split once, write one NPZ per site and a separate evaluator-only test set.
@@ -35,8 +54,8 @@ def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits
     Existing output refuses overwrite to prevent silent changes to an experiment.
     This setup function may see the full public dataset. It must never run in clients.
     """
-    if clients < 1 or partition not in ("iid", "label_skew"):
-        raise ValueError("clients >= 1 and partition in {iid,label_skew} required")
+    if clients < 1 or partition not in ("iid", "label_skew", "dirichlet_0.5"):
+        raise ValueError("clients >= 1 and partition in {iid,label_skew,dirichlet_0.5} required")
     output = Path(output_dir)
     if output.exists() and any(output.iterdir()):
         raise FileExistsError(f"Refusing to overwrite existing partition dataset: {output}")
@@ -56,12 +75,13 @@ def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits
         train_idx = train_idx[np.argsort(y[train_idx], kind="stable")]
     else:
         train_idx = rng.permutation(train_idx)
-    groups = np.array_split(train_idx, clients)
+    groups = _dirichlet_groups(train_idx, y, clients, rng) if partition == "dirichlet_0.5" else np.array_split(train_idx, clients)
     if any(len(g) == 0 for g in groups):
         raise ValueError("Empty client partition")
     manifest = {"schema_version": 2, "source": dataset, "provenance": provenance,
                 "seed": seed, "partition": partition, "clients": clients, "source_limit": limit,
                 "num_features": int(x.shape[1]), "num_classes": int(y.max() + 1),
+                "dirichlet_alpha": 0.5 if partition == "dirichlet_0.5" else None,
                 "client_partitions": [], "evaluator_test": {},
                 "raw_data_policy": "only client-owned NPZ files in training; evaluator test is separate"}
     evaluator_histograms = []

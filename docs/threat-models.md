@@ -64,3 +64,12 @@ Receives softmax probability vectors only. It neither accesses model weights nor
 ## Sprint 3: unprotected individual model-delta coordinator (EXECUTED LOCAL SGD PILOT)
 
 Sees initial and final client model parameters after known-step-rate SGD and may compute an **average-gradient proxy**, not exact intermediate step gradients. No original image pixels or ground-truth labels are passed to the attacker. One repeated public image under 1, 4 or 16 SGD steps is an intentionally privileged one-record client. This actor is closer to an unprotected FL coordinator than the exact-gradient observer, but still does **not** model multiple local batches, secure aggregation or a full Flower runtime. The evaluator separately measures proxy-gradient error and reconstruction quality.
+
+
+## v0.6 executed observer refinements
+
+**Unprotected FL coordinator, disjoint-minibatch update:** sees one final individual-client model delta after local SGD across 8 or 32 distinct public-digit records, together with architecture, initial weights, known learning rate/step count. It does not see minibatch indices or images; in privileged batch reconstruction cases it is additionally given **every contributing label**. This access does not apply to SecAgg+-masked individual updates.
+
+**External output-only model user, multi-trained-model evaluation:** receives only softmax vectors. Three fixed heuristics (confidence, negative entropy, top-two margin) cannot access ground truth. Evaluator samples member/nonmember examples using matched classes, independently repeats model training seeds 241/242/243 and computes ROC curves. There is no formal privacy budget or API query policy.
+
+**Dirichlet partition and fairness:** site label histograms continue to be evaluator-only. Size-imbalanced clients have different optimizer work; compare as observational distribution sensitivity, not isolated label-skew effect.

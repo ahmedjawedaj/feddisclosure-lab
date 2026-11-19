@@ -1,0 +1,13 @@
+id: fedprox-labelskew-8round-seed241
+seed: 241
+dataset: sklearn_digits
+partition: label_skew
+clients: 3
+rounds: 8
+local_epochs: 2
+batch_size: 32
+learning_rate: 0.15
+source_limit: 900
+algorithm: fedprox
+proximal_mu: 0.3
+observer: honest_but_curious_coordinator
