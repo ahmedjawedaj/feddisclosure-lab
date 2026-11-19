@@ -1,0 +1,3 @@
+# Equal-work heterogeneity research skill
+
+Read `docs/v0.7-pre-registered-protocol.md`, `docs/v0.7-research-report.md` and `NEXT_SPRINT.md`. Keep seed, source-cohort, test-cohort, train/validation site sizes, local SGD step counts and model architecture matched. `dirichlet_0.5` is historically imbalanced; never call it equal-budget. Use `dirichlet_balanced_0.1`, `dirichlet_balanced_0.5`, `dirichlet_balanced_10` for matched tests. Run `scripts/run_balanced_heterogeneity.py` and `scripts/verify_v070_evidence.py`. Ground-truth class histograms belong in evaluator-only artifacts. Retain all failed/negative results, disclose validation-difficulty confounds, and report all five seed metrics with sample SD. Do not call the PyTorch reference native Flower.

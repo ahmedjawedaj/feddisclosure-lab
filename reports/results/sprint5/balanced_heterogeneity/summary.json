@@ -1,0 +1,1073 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "protocol": "docs/v0.7-pre-registered-protocol.md#b1-equal-capacity-non-iid-study",
+  "seeds_requested": [
+    241,
+    242,
+    243,
+    244,
+    245
+  ],
+  "partitions_requested": [
+    "iid",
+    "dirichlet_balanced_0.1",
+    "dirichlet_balanced_0.5",
+    "dirichlet_balanced_10"
+  ],
+  "rounds": 4,
+  "source_limit": 900,
+  "results": [
+    {
+      "seed": 241,
+      "partition": "iid",
+      "test_cohort_sha256": "d4b480bc4c55bdc7616ca6fa5a9833dc26a45030d7169e9414880cf3b9c40413",
+      "config_sha256": "6257cfc8e0ba8590c629263a3ed797ef083dedc72431d337f8e824f3876e1111",
+      "metrics": {
+        "test_accuracy": 0.6833333333333333,
+        "worst_client_accuracy": 0.6666666666666666,
+        "client_accuracy_gap": 0.02083333333333337,
+        "round_accuracies": [
+          0.2777777777777778,
+          0.5777777777777777,
+          0.6277777777777778,
+          0.6833333333333333
+        ],
+        "client_validation_accuracies": [
+          0.6666666666666666,
+          0.6875,
+          0.6875
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.078125,
+        "per_client_label_tv": [
+          0.09027777777777779,
+          0.06944444444444443,
+          0.07465277777777779
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "3e4dbc6f2752ab5c6406720fc85a7aff92d22292bd4a038dd9afc12f397911c8",
+        "checkpoint_sha256": "7c1340a9b58bdcd04699062acde3988bb32950587ee91935c1b2c602097952d0"
+      }
+    },
+    {
+      "seed": 241,
+      "partition": "dirichlet_balanced_0.1",
+      "test_cohort_sha256": "d4b480bc4c55bdc7616ca6fa5a9833dc26a45030d7169e9414880cf3b9c40413",
+      "config_sha256": "8f7dc3c04fb7b9084f687cb00e40aa21af384b440b88a35e9e3fac0c5ed27848",
+      "metrics": {
+        "test_accuracy": 0.6833333333333333,
+        "worst_client_accuracy": 0.2708333333333333,
+        "client_accuracy_gap": 0.625,
+        "round_accuracies": [
+          0.25,
+          0.5,
+          0.6222222222222222,
+          0.6833333333333333
+        ],
+        "client_validation_accuracies": [
+          0.2708333333333333,
+          0.8958333333333334,
+          0.8541666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.41435185185185186,
+        "per_client_label_tv": [
+          0.3819444444444444,
+          0.4305555555555556,
+          0.4305555555555555
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "1a9a7c616b5b0e7c879e8a181936b342c212bb36649e9ef18c49595bbd828023",
+        "checkpoint_sha256": "06186e5c4efba518823a6f76b199e02fc546773a941f14832510397ac4818684"
+      }
+    },
+    {
+      "seed": 241,
+      "partition": "dirichlet_balanced_0.5",
+      "test_cohort_sha256": "d4b480bc4c55bdc7616ca6fa5a9833dc26a45030d7169e9414880cf3b9c40413",
+      "config_sha256": "ce67866e0d2b5bcc2c14ca770c3c978e6fcf05a9f272ff29e456e7c1afe8013a",
+      "metrics": {
+        "test_accuracy": 0.5833333333333334,
+        "worst_client_accuracy": 0.5625,
+        "client_accuracy_gap": 0.10416666666666663,
+        "round_accuracies": [
+          0.2777777777777778,
+          0.4388888888888889,
+          0.49444444444444446,
+          0.5833333333333334
+        ],
+        "client_validation_accuracies": [
+          0.6666666666666666,
+          0.625,
+          0.5625
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.36053240740740744,
+        "per_client_label_tv": [
+          0.36458333333333337,
+          0.3836805555555556,
+          0.33333333333333337
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "274ffcef055e43524cf5124ca38fe51622dd8002118954624317fc5a78cc4387",
+        "checkpoint_sha256": "9eb087b57304349b4daf4de41325df38824a9d58b8bae7ad454e4805b7d523d4"
+      }
+    },
+    {
+      "seed": 241,
+      "partition": "dirichlet_balanced_10",
+      "test_cohort_sha256": "d4b480bc4c55bdc7616ca6fa5a9833dc26a45030d7169e9414880cf3b9c40413",
+      "config_sha256": "06fed2ac3ebf4bd72aed8733fd45507f0644161db67b35f69b3dcc1108efebdf",
+      "metrics": {
+        "test_accuracy": 0.6833333333333333,
+        "worst_client_accuracy": 0.7291666666666666,
+        "client_accuracy_gap": 0.0625,
+        "round_accuracies": [
+          0.22777777777777777,
+          0.4888888888888889,
+          0.6222222222222222,
+          0.6833333333333333
+        ],
+        "client_validation_accuracies": [
+          0.7291666666666666,
+          0.75,
+          0.7916666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.10995370370370372,
+        "per_client_label_tv": [
+          0.10243055555555555,
+          0.10937500000000001,
+          0.11805555555555555
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "692ef271f1eb92b137e9b3dcb5c359a235361a239306871b5546b855cec7c101",
+        "checkpoint_sha256": "ac6fca1dbba50adf1afd7d549c9f60fcb500e827d0ccc0f2856a21f52792c277"
+      }
+    },
+    {
+      "seed": 242,
+      "partition": "iid",
+      "test_cohort_sha256": "894e3bbe34b11cde999f5e48836d4a070a7b3b10924fead1488082e8103a865a",
+      "config_sha256": "ce499adcbc3a7f2223cd63f47e1afe5adb4bc2ad878e148bc368d24dbc5386f4",
+      "metrics": {
+        "test_accuracy": 0.6555555555555556,
+        "worst_client_accuracy": 0.6666666666666666,
+        "client_accuracy_gap": 0.04166666666666674,
+        "round_accuracies": [
+          0.37222222222222223,
+          0.5611111111111111,
+          0.6666666666666666,
+          0.6555555555555556
+        ],
+        "client_validation_accuracies": [
+          0.7083333333333334,
+          0.6666666666666666,
+          0.6666666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.059606481481481476,
+        "per_client_label_tv": [
+          0.07118055555555555,
+          0.05902777777777777,
+          0.04861111111111112
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "3deb71e09f95dd9de9d0564659f5fc5dbd2b3c16bafdf22feb2c70d5a845b3fe",
+        "checkpoint_sha256": "75fd90cd13934455ed13b6631f22e87760d13845d14139cd28c20f3b952b035a"
+      }
+    },
+    {
+      "seed": 242,
+      "partition": "dirichlet_balanced_0.1",
+      "test_cohort_sha256": "894e3bbe34b11cde999f5e48836d4a070a7b3b10924fead1488082e8103a865a",
+      "config_sha256": "11a7327da16b2686934383a2dc2c13131d0d89da2eb30b7189aab0c5550a0241",
+      "metrics": {
+        "test_accuracy": 0.6611111111111111,
+        "worst_client_accuracy": 0.4166666666666667,
+        "client_accuracy_gap": 0.43749999999999994,
+        "round_accuracies": [
+          0.18333333333333332,
+          0.4,
+          0.5888888888888889,
+          0.6611111111111111
+        ],
+        "client_validation_accuracies": [
+          0.8541666666666666,
+          0.4166666666666667,
+          0.7083333333333334
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.4207175925925926,
+        "per_client_label_tv": [
+          0.5416666666666667,
+          0.22222222222222224,
+          0.49826388888888895
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "2b67d67fa89a8f10e2512b554427b5f4b0a88b1b8a2022b6d44a03862b83de3a",
+        "checkpoint_sha256": "b123e63f9265562a35a6bdcf2485ddd02556fcd17587b45316001c70769e7809"
+      }
+    },
+    {
+      "seed": 242,
+      "partition": "dirichlet_balanced_0.5",
+      "test_cohort_sha256": "894e3bbe34b11cde999f5e48836d4a070a7b3b10924fead1488082e8103a865a",
+      "config_sha256": "9266297977f17259b4ffc9ff637c7c09b3cab9089139a3186252169ecd330d35",
+      "metrics": {
+        "test_accuracy": 0.7,
+        "worst_client_accuracy": 0.6666666666666666,
+        "client_accuracy_gap": 0.125,
+        "round_accuracies": [
+          0.3111111111111111,
+          0.6111111111111112,
+          0.6444444444444445,
+          0.7
+        ],
+        "client_validation_accuracies": [
+          0.6666666666666666,
+          0.6666666666666666,
+          0.7916666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.3975694444444444,
+        "per_client_label_tv": [
+          0.4826388888888889,
+          0.3663194444444444,
+          0.34375
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "bda78e2f5014535fcfd4c422dfea0b2a75325d0ac7bb35e31825075463ae6b40",
+        "checkpoint_sha256": "2166ef089c5f0b312866c15021a7e43409e727c2aac2dae388bcfbb109156e6f"
+      }
+    },
+    {
+      "seed": 242,
+      "partition": "dirichlet_balanced_10",
+      "test_cohort_sha256": "894e3bbe34b11cde999f5e48836d4a070a7b3b10924fead1488082e8103a865a",
+      "config_sha256": "792200d8d85b5e0c1ade7aa030f398d60c211b1673d95f1f0ccee07494133d9e",
+      "metrics": {
+        "test_accuracy": 0.6611111111111111,
+        "worst_client_accuracy": 0.6458333333333334,
+        "client_accuracy_gap": 0.08333333333333326,
+        "round_accuracies": [
+          0.2777777777777778,
+          0.4444444444444444,
+          0.5166666666666667,
+          0.6611111111111111
+        ],
+        "client_validation_accuracies": [
+          0.6458333333333334,
+          0.7291666666666666,
+          0.6666666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.08275462962962962,
+        "per_client_label_tv": [
+          0.07812499999999999,
+          0.07118055555555552,
+          0.09895833333333334
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "7cb7d342166f9641c44ff3e91c444fd30b9cbf9e6e8d310f19596a21506028df",
+        "checkpoint_sha256": "b0a677a24a995fb533e4deb0587adb275c477c529e2ebb08d1325d72a7791063"
+      }
+    },
+    {
+      "seed": 243,
+      "partition": "iid",
+      "test_cohort_sha256": "25a0bd59bf0cf32f1a9ebbc93748df8d4901ab3ce570ba883485559b13775185",
+      "config_sha256": "869c7cb334d05845efd18f16304324feac4c558a558eada812a9d9188c0af60f",
+      "metrics": {
+        "test_accuracy": 0.6722222222222223,
+        "worst_client_accuracy": 0.625,
+        "client_accuracy_gap": 0.0625,
+        "round_accuracies": [
+          0.28888888888888886,
+          0.45555555555555555,
+          0.5722222222222222,
+          0.6722222222222223
+        ],
+        "client_validation_accuracies": [
+          0.625,
+          0.6875,
+          0.625
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.07465277777777778,
+        "per_client_label_tv": [
+          0.09027777777777778,
+          0.078125,
+          0.05555555555555555
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "519ed436c098403904a5e75d7838eaa56c5e3555e485ad88311d6c686a32cdc4",
+        "checkpoint_sha256": "73961eea089761756809b924436e24421a652cd060f202e9e81e297de11c24c2"
+      }
+    },
+    {
+      "seed": 243,
+      "partition": "dirichlet_balanced_0.1",
+      "test_cohort_sha256": "25a0bd59bf0cf32f1a9ebbc93748df8d4901ab3ce570ba883485559b13775185",
+      "config_sha256": "c75eebe55328c520346d6b3fc55956422aae81dc7a8845738863809c3d4a9d5d",
+      "metrics": {
+        "test_accuracy": 0.7388888888888889,
+        "worst_client_accuracy": 0.6875,
+        "client_accuracy_gap": 0.1875,
+        "round_accuracies": [
+          0.28888888888888886,
+          0.45,
+          0.6111111111111112,
+          0.7388888888888889
+        ],
+        "client_validation_accuracies": [
+          0.6875,
+          0.875,
+          0.8125
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.3703703703703704,
+        "per_client_label_tv": [
+          0.4791666666666667,
+          0.42187500000000006,
+          0.21006944444444442
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "54a67bf72b896a5ab448e52f5f0c37a3de85532d35702ffe2b1f14440e831371",
+        "checkpoint_sha256": "c23a0085a1b218d82d1ba1b0c03d98a9a0e9d10b425a9b5ccd3d1ed4152125ca"
+      }
+    },
+    {
+      "seed": 243,
+      "partition": "dirichlet_balanced_0.5",
+      "test_cohort_sha256": "25a0bd59bf0cf32f1a9ebbc93748df8d4901ab3ce570ba883485559b13775185",
+      "config_sha256": "b9d9b79b1e6afc17616dd30f2c0ac38fbfe793b14c064f3f2a98b00d26054039",
+      "metrics": {
+        "test_accuracy": 0.7611111111111111,
+        "worst_client_accuracy": 0.625,
+        "client_accuracy_gap": 0.20833333333333337,
+        "round_accuracies": [
+          0.18888888888888888,
+          0.40555555555555556,
+          0.5722222222222222,
+          0.7611111111111111
+        ],
+        "client_validation_accuracies": [
+          0.8333333333333334,
+          0.6666666666666666,
+          0.625
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.359375,
+        "per_client_label_tv": [
+          0.3628472222222222,
+          0.4444444444444445,
+          0.2708333333333333
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "fdefd4715e01c551df8b3e0420154884e135ab43abfe10b829c468892a974f98",
+        "checkpoint_sha256": "876cffe2b2f67ae4195418ef5d7c987056d9e3e800d5ef60bb6038aab2c9e5c2"
+      }
+    },
+    {
+      "seed": 243,
+      "partition": "dirichlet_balanced_10",
+      "test_cohort_sha256": "25a0bd59bf0cf32f1a9ebbc93748df8d4901ab3ce570ba883485559b13775185",
+      "config_sha256": "46e8da04de954daa2faf8d20e6e2676ec6ed1049942da44803d59008d314fe81",
+      "metrics": {
+        "test_accuracy": 0.7555555555555555,
+        "worst_client_accuracy": 0.6666666666666666,
+        "client_accuracy_gap": 0.10416666666666674,
+        "round_accuracies": [
+          0.28888888888888886,
+          0.49444444444444446,
+          0.6611111111111111,
+          0.7555555555555555
+        ],
+        "client_validation_accuracies": [
+          0.7708333333333334,
+          0.75,
+          0.6666666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.13368055555555558,
+        "per_client_label_tv": [
+          0.13020833333333334,
+          0.125,
+          0.14583333333333334
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "40498a7220b56fa821991b8fe738cd28a2ff90c8c2221cdf7af789b042aa0d4c",
+        "checkpoint_sha256": "3b48ea41f5cce771726d600afef255cb43707657487554f972e87a35c5af6b32"
+      }
+    },
+    {
+      "seed": 244,
+      "partition": "iid",
+      "test_cohort_sha256": "c5acb25edc53872c2a0a650c6d6e4f1d5b2ea724121f574a577160be4e46aadf",
+      "config_sha256": "126ba2edfec72ff7076d691538116b39f874ba90681c58ad0d9387117ef2f2c4",
+      "metrics": {
+        "test_accuracy": 0.7055555555555556,
+        "worst_client_accuracy": 0.625,
+        "client_accuracy_gap": 0.22916666666666663,
+        "round_accuracies": [
+          0.26666666666666666,
+          0.3277777777777778,
+          0.5,
+          0.7055555555555556
+        ],
+        "client_validation_accuracies": [
+          0.625,
+          0.8541666666666666,
+          0.7083333333333334
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.06597222222222222,
+        "per_client_label_tv": [
+          0.05902777777777779,
+          0.06597222222222221,
+          0.07291666666666666
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "1ec0f4fe0333de6de5969a4c97dfefaa1a8898435d5b34bd467112d0b65cd670",
+        "checkpoint_sha256": "63849528bb554b01884ef0a2fe2b17a3843b158dd9ffd252cc34644c8a6836ce"
+      }
+    },
+    {
+      "seed": 244,
+      "partition": "dirichlet_balanced_0.1",
+      "test_cohort_sha256": "c5acb25edc53872c2a0a650c6d6e4f1d5b2ea724121f574a577160be4e46aadf",
+      "config_sha256": "42fa2acb281bc4370d62939c2a5b43c4b2b92bb29be4fe89ae1a162d2f54d8c6",
+      "metrics": {
+        "test_accuracy": 0.7,
+        "worst_client_accuracy": 0.6666666666666666,
+        "client_accuracy_gap": 0.14583333333333337,
+        "round_accuracies": [
+          0.18333333333333332,
+          0.3055555555555556,
+          0.6111111111111112,
+          0.7
+        ],
+        "client_validation_accuracies": [
+          0.6666666666666666,
+          0.8125,
+          0.8125
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.3385416666666667,
+        "per_client_label_tv": [
+          0.16666666666666666,
+          0.39236111111111116,
+          0.4565972222222222
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "c2e0b45e7ee388cd86d1333a84b2de5f5fe43a6316bdddd8270718a40ca41538",
+        "checkpoint_sha256": "26e593b6b33366f70643982d5bab4b02b8ee58d4176d1d5e3d258aa8d876ec44"
+      }
+    },
+    {
+      "seed": 244,
+      "partition": "dirichlet_balanced_0.5",
+      "test_cohort_sha256": "c5acb25edc53872c2a0a650c6d6e4f1d5b2ea724121f574a577160be4e46aadf",
+      "config_sha256": "7f9c81a832e4805c672572149a021895bfaefd359808cd62c00520330b8eeaf4",
+      "metrics": {
+        "test_accuracy": 0.6666666666666666,
+        "worst_client_accuracy": 0.6875,
+        "client_accuracy_gap": 0.08333333333333337,
+        "round_accuracies": [
+          0.14444444444444443,
+          0.3388888888888889,
+          0.49444444444444446,
+          0.6666666666666666
+        ],
+        "client_validation_accuracies": [
+          0.6875,
+          0.7708333333333334,
+          0.6875
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.36747685185185186,
+        "per_client_label_tv": [
+          0.3958333333333333,
+          0.32812500000000006,
+          0.3784722222222222
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "5937ff9eaf5e66b960ebc3c453f0b7bfdd3fd3fc224e45fc810f3428eaea4dfe",
+        "checkpoint_sha256": "76b7261770328d7161a6f917e2cad6f8a9a2f12fed924ddf69ab6dbd9bb7f683"
+      }
+    },
+    {
+      "seed": 244,
+      "partition": "dirichlet_balanced_10",
+      "test_cohort_sha256": "c5acb25edc53872c2a0a650c6d6e4f1d5b2ea724121f574a577160be4e46aadf",
+      "config_sha256": "d1615872f39bf6b8c599c5862857b10e68d451300a9396fa5dd9c55382c44adb",
+      "metrics": {
+        "test_accuracy": 0.7166666666666667,
+        "worst_client_accuracy": 0.6041666666666666,
+        "client_accuracy_gap": 0.16666666666666674,
+        "round_accuracies": [
+          0.25555555555555554,
+          0.46111111111111114,
+          0.6166666666666667,
+          0.7166666666666667
+        ],
+        "client_validation_accuracies": [
+          0.75,
+          0.7708333333333334,
+          0.6041666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.14583333333333334,
+        "per_client_label_tv": [
+          0.13020833333333331,
+          0.17361111111111108,
+          0.13368055555555558
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "72e7fe07e22ff43808f62e8ad8fff09b7c363e3a4167bf2f612810ac473dfe05",
+        "checkpoint_sha256": "3b013af9fc8eaa988cd6b3d1fa4bac5b34599cf0ae3dfcaf654a687d7420226b"
+      }
+    },
+    {
+      "seed": 245,
+      "partition": "iid",
+      "test_cohort_sha256": "bba353b1fc29ffad2baaa83719f037c2659b82defcabd3171eabc2e03ea031e5",
+      "config_sha256": "d3cf195df323d15fcf8dad87bc7155e6116a1706972990e87950b23fe1d0c225",
+      "metrics": {
+        "test_accuracy": 0.7277777777777777,
+        "worst_client_accuracy": 0.6666666666666666,
+        "client_accuracy_gap": 0.02083333333333337,
+        "round_accuracies": [
+          0.4,
+          0.49444444444444446,
+          0.6055555555555555,
+          0.7277777777777777
+        ],
+        "client_validation_accuracies": [
+          0.6875,
+          0.6666666666666666,
+          0.6666666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.05902777777777777,
+        "per_client_label_tv": [
+          0.05555555555555556,
+          0.05381944444444444,
+          0.06770833333333331
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "61af54526e56d20eeb5a5fee9d3f5aaacfee7c39c6e65dd3f9b1a15ba82fa705",
+        "checkpoint_sha256": "512979a70ef9fe6bd0c196efe2d7813d621dd3b0644f4ec78a22e8a8defa40f3"
+      }
+    },
+    {
+      "seed": 245,
+      "partition": "dirichlet_balanced_0.1",
+      "test_cohort_sha256": "bba353b1fc29ffad2baaa83719f037c2659b82defcabd3171eabc2e03ea031e5",
+      "config_sha256": "f58d8e52a0266fabcdac060384bbfb3e17c865f4b8d62e8e90b6409c2b1b4a4e",
+      "metrics": {
+        "test_accuracy": 0.7777777777777778,
+        "worst_client_accuracy": 0.625,
+        "client_accuracy_gap": 0.22916666666666663,
+        "round_accuracies": [
+          0.3055555555555556,
+          0.5777777777777777,
+          0.7222222222222222,
+          0.7777777777777778
+        ],
+        "client_validation_accuracies": [
+          0.8125,
+          0.8541666666666666,
+          0.625
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.46759259259259256,
+        "per_client_label_tv": [
+          0.515625,
+          0.4895833333333333,
+          0.3975694444444445
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "9ef4a9cd63862000d11afd68783fdc2fb1727006af8396a12e1ecc4862551500",
+        "checkpoint_sha256": "dd5e74ae4129cd9f5e2c95772c1aa988e30bf61302dff37d84a2e4fc9f994ac6"
+      }
+    },
+    {
+      "seed": 245,
+      "partition": "dirichlet_balanced_0.5",
+      "test_cohort_sha256": "bba353b1fc29ffad2baaa83719f037c2659b82defcabd3171eabc2e03ea031e5",
+      "config_sha256": "6460ae873a63ffd801b45a1c72816eabf515f39ebaf1544396c4561de96c2fe1",
+      "metrics": {
+        "test_accuracy": 0.6722222222222223,
+        "worst_client_accuracy": 0.4583333333333333,
+        "client_accuracy_gap": 0.31250000000000006,
+        "round_accuracies": [
+          0.32222222222222224,
+          0.4111111111111111,
+          0.5111111111111111,
+          0.6722222222222223
+        ],
+        "client_validation_accuracies": [
+          0.7708333333333334,
+          0.6041666666666666,
+          0.4583333333333333
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.4230324074074074,
+        "per_client_label_tv": [
+          0.39583333333333326,
+          0.43229166666666663,
+          0.4409722222222222
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "05045600e585354c05af2eeb1fceb229e203742f2da0d5261ef33eff82855dbb",
+        "checkpoint_sha256": "b44d2203560e0339cd8d35506b0b7b27636fff3b6a72480f3950c5ae18281b91"
+      }
+    },
+    {
+      "seed": 245,
+      "partition": "dirichlet_balanced_10",
+      "test_cohort_sha256": "bba353b1fc29ffad2baaa83719f037c2659b82defcabd3171eabc2e03ea031e5",
+      "config_sha256": "7dad5dce3cb1369a44455287348af4d535336c805371e5a5f20fe3bc61771393",
+      "metrics": {
+        "test_accuracy": 0.7611111111111111,
+        "worst_client_accuracy": 0.625,
+        "client_accuracy_gap": 0.10416666666666663,
+        "round_accuracies": [
+          0.40555555555555556,
+          0.6055555555555555,
+          0.6888888888888889,
+          0.7611111111111111
+        ],
+        "client_validation_accuracies": [
+          0.7083333333333334,
+          0.625,
+          0.7291666666666666
+        ],
+        "train_samples_per_client": [
+          192,
+          192,
+          192
+        ],
+        "val_samples_per_client": [
+          48,
+          48,
+          48
+        ],
+        "local_optimizer_batches_per_round_per_client": [
+          12,
+          12,
+          12
+        ],
+        "mean_client_label_tv": 0.10763888888888888,
+        "per_client_label_tv": [
+          0.11979166666666666,
+          0.08680555555555555,
+          0.11631944444444445
+        ],
+        "total_communication_bytes": 231360,
+        "manifest_sha256": "d0eca91674d6824b7168ca718604b9a0bb90ab14ccce3359c515691325c610cb",
+        "checkpoint_sha256": "83ecc04805a8ecde6f864e8752af9f256f859d14c537aca069e655ddd6588daf"
+      }
+    }
+  ],
+  "aggregate": {
+    "completed_seeds": [
+      241,
+      242,
+      243,
+      244,
+      245
+    ],
+    "by_partition": {
+      "iid": {
+        "n": 5,
+        "accuracy": {
+          "mean": 0.6888888888888889,
+          "sample_sd": 0.02832788618662657,
+          "min": 0.6555555555555556,
+          "max": 0.7277777777777777
+        },
+        "worst_client_accuracy": {
+          "mean": 0.65,
+          "sample_sd": 0.022821773229381902,
+          "min": 0.625,
+          "max": 0.6666666666666666
+        },
+        "mean_client_label_tv": {
+          "mean": 0.06747685185185184,
+          "sample_sd": 0.008667041950366354,
+          "min": 0.05902777777777777,
+          "max": 0.078125
+        }
+      },
+      "dirichlet_balanced_0.1": {
+        "n": 5,
+        "accuracy": {
+          "mean": 0.7122222222222222,
+          "sample_sd": 0.046381403254981794,
+          "min": 0.6611111111111111,
+          "max": 0.7777777777777778
+        },
+        "worst_client_accuracy": {
+          "mean": 0.5333333333333333,
+          "sample_sd": 0.1819788983493538,
+          "min": 0.2708333333333333,
+          "max": 0.6875
+        },
+        "mean_client_label_tv": {
+          "mean": 0.40231481481481485,
+          "sample_sd": 0.04957873212821212,
+          "min": 0.3385416666666667,
+          "max": 0.46759259259259256
+        }
+      },
+      "dirichlet_balanced_0.5": {
+        "n": 5,
+        "accuracy": {
+          "mean": 0.6766666666666666,
+          "sample_sd": 0.06423817564249891,
+          "min": 0.5833333333333334,
+          "max": 0.7611111111111111
+        },
+        "worst_client_accuracy": {
+          "mean": 0.6,
+          "sample_sd": 0.09246808758821728,
+          "min": 0.4583333333333333,
+          "max": 0.6875
+        },
+        "mean_client_label_tv": {
+          "mean": 0.3815972222222222,
+          "sample_sd": 0.027878866983430915,
+          "min": 0.359375,
+          "max": 0.4230324074074074
+        }
+      },
+      "dirichlet_balanced_10": {
+        "n": 5,
+        "accuracy": {
+          "mean": 0.7155555555555555,
+          "sample_sd": 0.04381498700695633,
+          "min": 0.6611111111111111,
+          "max": 0.7611111111111111
+        },
+        "worst_client_accuracy": {
+          "mean": 0.6541666666666667,
+          "sample_sd": 0.047961935138422236,
+          "min": 0.6041666666666666,
+          "max": 0.7291666666666666
+        },
+        "mean_client_label_tv": {
+          "mean": 0.11597222222222223,
+          "sample_sd": 0.02456799998719995,
+          "min": 0.08275462962962962,
+          "max": 0.14583333333333334
+        }
+      }
+    },
+    "paired_minus_iid_accuracy_pp": {
+      "dirichlet_balanced_0.1": {
+        "by_seed": {
+          "241": 0.0,
+          "242": 0.5555555555555536,
+          "243": 6.666666666666665,
+          "244": -0.5555555555555647,
+          "245": 5.000000000000004
+        },
+        "mean": 2.3333333333333317
+      },
+      "dirichlet_balanced_0.5": {
+        "by_seed": {
+          "241": -9.999999999999998,
+          "242": 4.444444444444439,
+          "243": 8.888888888888879,
+          "244": -3.8888888888888973,
+          "245": -5.5555555555555465
+        },
+        "mean": -1.2222222222222248
+      },
+      "dirichlet_balanced_10": {
+        "by_seed": {
+          "241": 0.0,
+          "242": 0.5555555555555536,
+          "243": 8.333333333333325,
+          "244": 1.1111111111111072,
+          "245": 3.3333333333333326
+        },
+        "mean": 2.666666666666664
+      }
+    }
+  },
+  "limitations": [
+    "Public 8x8 digits, no native Flower, no DP or secure aggregation",
+    "Small, short-duration exploratory study; do not claim monotonicity or significance",
+    "Same record/optimizer budgets, but label assignment changes validation difficulty"
+  ]
+}

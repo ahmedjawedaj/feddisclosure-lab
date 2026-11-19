@@ -10,3 +10,5 @@
 - **ADR-008: Public dataset reproducibility.** Store only partition metadata/hash in tracked results; generate immutable private NPZ partitions in ignored per-site directories. Keep public evaluator ground truth in separate role.
 - **ADR-009: Dual training engines.** A transparent, executed independent-process PyTorch reference establishes numerical baseline; a genuine Flower ServerApp/ClientApp uses the officially documented Message API. Never relabel the former as native Flower.
 - **ADR-010: Honest Docker gate.** Compose inspection and full integration benchmark are required for a verified Docker claim; running subprocesses or parsing YAML does not clear the gate.
+
+- **ADR-015: Matched heterogeneity and honest DP runtime.** Enforce equal client volumes and per-round optimizer budgets for Dirichlet comparisons; label distributions are evaluator-only. A fake-tested transactional budget is not an Opacus/OpenDP measurement; formal claims require native OpenDP privacy-map and noise execution in a DP-only deployment.

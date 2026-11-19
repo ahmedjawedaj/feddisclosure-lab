@@ -8,7 +8,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="data/training/digits-iid")
     parser.add_argument("--dataset", choices=["sklearn_digits", "mnist"], default="sklearn_digits")
-    parser.add_argument("--partition", choices=["iid", "label_skew"], default="iid")
+    parser.add_argument("--partition", choices=["iid", "label_skew", "dirichlet_0.5", "dirichlet_balanced_0.1", "dirichlet_balanced_0.5", "dirichlet_balanced_10"], default="iid")
     parser.add_argument("--clients", type=int, default=3)
     parser.add_argument("--seed", type=int, default=20261118)
     parser.add_argument("--limit", type=int, default=600)

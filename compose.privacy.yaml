@@ -1,0 +1,31 @@
+# Opt-in OpenDP deployment; compose.yaml remains the deliberately vulnerable lab.
+# IMPORTANT: use FRESH volumes; never reuse unprotected site volumes.
+services:
+  institution-a:
+    build:
+      context: .
+      dockerfile: Dockerfile.privacy
+    environment:
+      FDL_DP_ENABLED: "1"
+      FDL_DP_EPSILON: ${FDL_DP_EPSILON:-0.25}
+      FDL_DP_TOTAL_BUDGET: ${FDL_DP_TOTAL_BUDGET:-1.0}
+  institution-b:
+    build:
+      context: .
+      dockerfile: Dockerfile.privacy
+    environment:
+      FDL_DP_ENABLED: "1"
+      FDL_DP_EPSILON: ${FDL_DP_EPSILON:-0.25}
+      FDL_DP_TOTAL_BUDGET: ${FDL_DP_TOTAL_BUDGET:-1.0}
+  institution-c:
+    build:
+      context: .
+      dockerfile: Dockerfile.privacy
+    environment:
+      FDL_DP_ENABLED: "1"
+      FDL_DP_EPSILON: ${FDL_DP_EPSILON:-0.25}
+      FDL_DP_TOTAL_BUDGET: ${FDL_DP_TOTAL_BUDGET:-1.0}
+  gateway:
+    environment:
+      FDL_DP_ENABLED: "1"
+      FDL_DP_EPSILON: ${FDL_DP_EPSILON:-0.25}

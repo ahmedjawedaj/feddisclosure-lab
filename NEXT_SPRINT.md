@@ -1,3 +1,34 @@
+# NEXT SPRINT — post v0.7.0 gates
+
+## Sprint 5 equal-work sensitivity: COMPLETED (short pilot)
+
+- [x] Implemented deterministic class-conditioned capacity-constrained Dirichlet α=.1,.5,10, equal client sizes and isolated evaluator class histograms.
+- [x] Executed 5 true matched training seeds × 4 partitions = 20 FedAvg four-round runs using independent private-data workers and separate evaluator, with identical 192/48 client train/val counts and 12 local minibatches per client per round.
+- [x] Stored per-run checkpoint SHA-256, manifest hashes, all 20 scalar results, per-client accuracy and round curves, and one regenerated figure. All matching and integrity gates passed.
+- [ ] **Research refinement:** longer 8–20-round five-seed study plus an independent confirmed replication, alternative public MNIST and controlled label-stratified validation. Current five-seed short pilot cannot establish convergence or significance.
+
+## Sprint 4 DP count mechanism: IMPLEMENTED, NATIVE ACCEPTANCE OPEN
+
+- [x] OpenDP-only count measurement adapter, ε map check, pure-DP count adjacency/sensitivity documented, budget ledger and fail-closed errors.
+- [x] DP-only protected-site and gateway HTTP routes, raw-query and prior-audit bypass protections, transactional budget accounting, concurrent exhaustion tests, and gateway partial-failure tests. **Tests use injected fake measurements and do not establish DP**.
+- [x] Created native runner, privacy Docker overlay and native OpenDP CI workflow, all currently UNEXECUTED.
+- [ ] **P0 native:** On a supported Python 3.12 host with OpenDP, run actual measurement privacy-map and HTTP smoke. Save measured noisy releases, epsilon usage, MAE and budget exhaustion from real native noise; match against no-defense and history baselines. Do NOT substitute NumPy or a fake mechanism.
+- [ ] **P0 Docker:** verify `compose.yaml` and `compose.privacy.yaml` on a clean Docker Compose host with clean volumes and `bash scripts/verify_compose.sh`; review protected-mode isolation.
+- [ ] **P0 Flower:** install flwr[simulation], run 3 real clients, save observable native run and strict tensor-level parity against matched reference. Existing separate-process PyTorch work does not clear the Flower gate.
+- [ ] Opacus DP-SGD on approved public digits/MNIST, real accountant epsilon/delta composition, matched utility against non-DP client training; test privacy budget and key assumptions.
+- [ ] Flower SecAgg+ with participant threshold >1 and tested dropout/collusion assumptions (established Flower implementation ONLY, no custom crypto).
+- [ ] Real container filesystem and attacker/evaluator OS permissions; named authorized roles, no evaluator truth shared with attacker.
+- [ ] CI actual workflow artifacts and run IDs after the owner authorizes a remote; no GitHub push was performed.
+
+## Next working loop
+
+1. Reproduce `pytest -q -m 'not slow'` and `scripts/verify_v070_evidence.py` from the archive.
+2. Run the actual OpenDP smoke on a supported host. If unavailable, preserve failure and implement the next measured utility/attack ablation without inventing epsilon claims.
+3. Independently run the Flower native/parity and Docker gates, documenting exact runtime, version, logs, failures.
+4. For every research run: predefine observer/config/metric, save raw allowed observation separately from evaluator truth, retain negative cases, verify hashes, regenerate plots, update `CURRENT_STATE.md` and this file.
+
+---
+
 # NEXT SPRINT — post-v0.6.0 research execution gates
 
 1. **P0 native protocol:** Run real Docker Compose isolation and Flower 1.27 three-SuperNode simulation in Python 3.12 with successful logs. The Flower CI workflow now runs the independent-worker reference then `scripts/verify_flower_parity.py` with matched data manifest/config and final tensor tolerance. **Do not mark passed until actually executed.** Preserve logs, CI URL/run ID, and reproducible hashes.

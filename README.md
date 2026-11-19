@@ -2,9 +2,36 @@
 
 **A reproducible privacy leakage and defense benchmark for federated analytics and learning**
 
-Status: **v0.6.0: analytic disclosure + three-client PyTorch FedAvg/FedProx and model leakage experiments executed; native Docker/Flower and formal privacy defenses remain NOT VERIFIED**. Updated 2026-11-19.
+Status: **v0.7.0: 20 matched equal-work public-data FedAvg runs executed; OpenDP HTTP/ledger adapter tested with fake mechanism, native OpenDP/Docker/Flower still NOT VERIFIED**. Updated 2026-11-19.
 
 This is an independent research-engineering project using **only synthetic or approved public data**. No thesis novelty, production security, differential privacy or secure aggregation is claimed at this stage.
+
+## v0.7.0 equal-work federation and privacy release controls
+
+- **20 executed experiments**: five matched seeds (241–245) × IID/balanced Dirichlet α 0.1, 0.5 and 10.0, four rounds and identical 192 train/48 validation examples per client. Training uses separate PyTorch worker processes; not native Flower.
+- **Mean global accuracies:** 68.89% IID, 71.22% α=0.1, 67.67% α=0.5, 71.56% α=10. **Mean worst-client validation:** 65.00%, 53.33%, 60.00%, 65.42%, respectively. Exploratory, not statistically significant; α differences are not monotonic.
+- **Privacy-defense implementation:** site-local OpenDP Laplace count adapter, persistent epsilon ledger, DP-only `/v1/dp-count`, federated aggregate `/v1/federated-dp-count`, protection against raw-route bypass and restarts to/from unsafe database history. Tests use a **fake measurement** to check application behavior. Native OpenDP could not run and no privacy guarantee is claimed for these tests.
+- Protocol and results: `docs/v0.7-pre-registered-protocol.md`, `docs/v0.7-research-report.md` and `docs/opendp-runtime.md`. Integrity verification: `python scripts/verify_v070_evidence.py`. Figure: `reports/figures/sprint5_balanced_heterogeneity.png`.
+- Native test workflow files for OpenDP and balanced federation are included but have not executed on GitHub. Current release check: 76 fast tests passed, 2 skipped, 2 slow integration tests passed independently, 20 checkpoint hashes verified. Unsplit full-suite timed out and is not counted as passing. Docker, Flower, OpenDP, Opacus, SecAgg+ remain open gates.
+
+### Reproduce v0.7 benchmarks
+
+```bash
+python -m pip install -e '.[research,test]'  # public data only
+python scripts/run_balanced_heterogeneity.py --seeds 241 242 243 244 245 --rounds 4
+python scripts/plot_balanced_heterogeneity.py
+python scripts/verify_v070_evidence.py
+pytest -q -m 'not slow'
+```
+
+### Native OpenDP on a capable host (not executed here)
+
+```bash
+python -m pip install -e '.[privacy,test]'
+python scripts/run_dp_analytics.py --epsilon 0.25 --total-budget 1.0
+```
+
+**Do not deploy both raw and DP query modes to the same analytics user.** Use fresh site volumes, run the real OpenDP map test, and validate assumptions before citing privacy guarantees. See `docs/opendp-runtime.md`.
 
 ## v0.6.0 verified research extensions — 19 November 2026
 

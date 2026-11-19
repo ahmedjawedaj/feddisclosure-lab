@@ -1,3 +1,11 @@
+## 2026-11-19 — ADR-015, capacity-constrained partitions and native privacy gate
+
+Replace unbalanced Dirichlet interpretation with a deterministic **capacity-weighted** class-conditional allocator for matched-budget studies. Keep legacy `dirichlet_0.5` behavior as a distinct *imbalanced* condition for historical reproduction. Preselect 3 matched seeds, then transparently add 2 exploratory replication seeds and report all 20 runs. Preserve per-client training budget and cohort hashes.
+
+OpenDP is the required measurement implementation for the protected count mode, with a site-local transactional budget keyed to a principal scope, not arbitrary experiment IDs. Explicitly disable raw count endpoints when DP mode is on and prevent startup with old query-audit evidence. The injection boundary exists for deterministic ledger/HTTP tests only; no fake test noise is usable for formal DP claims. Site process, Docker, library runtime and CI remain separately verified gates. See `docs/opendp-runtime.md`.
+
+---
+
 # Engineering decision and evidence log
 
 ## 2026-11-18 — Sprint 0 and early Sprint 1

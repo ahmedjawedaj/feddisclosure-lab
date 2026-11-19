@@ -47,6 +47,41 @@ def _dirichlet_groups(train_idx, labels, clients, rng, alpha: float = 0.5):
     raise RuntimeError("Dirichlet split failed to give each institution enough examples")
 
 
+
+# Capacities are applied to *training+validation* indices before per-site splits.
+# This is an experimental partition generator, not a production privacy mechanism.
+_BALANCED_DIRICHLET = {
+    "dirichlet_balanced_0.1": 0.1,
+    "dirichlet_balanced_0.5": 0.5,
+    "dirichlet_balanced_10": 10.0,
+}
+
+
+def _balanced_dirichlet_groups(train_idx, labels, clients, rng, alpha: float):
+    """Class-conditioned probabilistic allocation with exact client-size quotas.
+
+    The remaining capacity enters the sampling weights so the entire cohort is
+    assigned once and client sizes differ by at most one. Unlike the previous
+    independent Dirichlet allocation, this keeps the number of local SGD steps
+    fixed when the batch size and local epochs are held constant.
+    """
+    if not np.isfinite(alpha) or alpha <= 0:
+        raise ValueError("Dirichlet alpha must be positive and finite")
+    capacities = np.array([len(group) for group in np.array_split(train_idx, clients)], dtype=np.int64)
+    remaining = capacities.copy()
+    preferences = rng.dirichlet([alpha] * clients, size=int(labels.max()) + 1)
+    assigned = [[] for _ in range(clients)]
+    for item in rng.permutation(train_idx):
+        scores = preferences[int(labels[item])] * remaining
+        scores[remaining == 0] = 0.0
+        if not np.isfinite(scores).all() or scores.sum() <= 0:
+            raise RuntimeError("Invalid capacity-weighted Dirichlet allocation")
+        client = int(rng.choice(clients, p=scores / scores.sum()))
+        assigned[client].append(int(item))
+        remaining[client] -= 1
+    assert not remaining.any()
+    return [rng.permutation(np.asarray(group, dtype=np.int64)) for group in assigned]
+
 def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits", clients: int = 3,
                        partition: str = "iid", seed: int = 20261118, limit: int | None = None) -> dict:
     """Split once, write one NPZ per site and a separate evaluator-only test set.
@@ -54,8 +89,8 @@ def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits
     Existing output refuses overwrite to prevent silent changes to an experiment.
     This setup function may see the full public dataset. It must never run in clients.
     """
-    if clients < 1 or partition not in ("iid", "label_skew", "dirichlet_0.5"):
-        raise ValueError("clients >= 1 and partition in {iid,label_skew,dirichlet_0.5} required")
+    if clients < 1 or partition not in ("iid", "label_skew", "dirichlet_0.5", *_BALANCED_DIRICHLET):
+        raise ValueError("Invalid client count or partition mode")
     output = Path(output_dir)
     if output.exists() and any(output.iterdir()):
         raise FileExistsError(f"Refusing to overwrite existing partition dataset: {output}")
@@ -75,13 +110,21 @@ def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits
         train_idx = train_idx[np.argsort(y[train_idx], kind="stable")]
     else:
         train_idx = rng.permutation(train_idx)
-    groups = _dirichlet_groups(train_idx, y, clients, rng) if partition == "dirichlet_0.5" else np.array_split(train_idx, clients)
+    if partition == "dirichlet_0.5":
+        groups = _dirichlet_groups(train_idx, y, clients, rng)
+    elif partition in _BALANCED_DIRICHLET:
+        groups = _balanced_dirichlet_groups(train_idx, y, clients, rng, _BALANCED_DIRICHLET[partition])
+    else:
+        groups = np.array_split(train_idx, clients)
     if any(len(g) == 0 for g in groups):
         raise ValueError("Empty client partition")
     manifest = {"schema_version": 2, "source": dataset, "provenance": provenance,
                 "seed": seed, "partition": partition, "clients": clients, "source_limit": limit,
                 "num_features": int(x.shape[1]), "num_classes": int(y.max() + 1),
-                "dirichlet_alpha": 0.5 if partition == "dirichlet_0.5" else None,
+                "dirichlet_alpha": (0.5 if partition == "dirichlet_0.5" else _BALANCED_DIRICHLET.get(partition)),
+                "allocation_method": ("capacity_weighted_dirichlet" if partition in _BALANCED_DIRICHLET
+                                      else "unconstrained_dirichlet" if partition == "dirichlet_0.5"
+                                      else "iid_or_sorted_chunks"),
                 "client_partitions": [], "evaluator_test": {},
                 "raw_data_policy": "only client-owned NPZ files in training; evaluator test is separate"}
     evaluator_histograms = []

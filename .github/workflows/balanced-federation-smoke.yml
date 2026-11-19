@@ -1,0 +1,30 @@
+name: balanced-heterogeneity-smoke
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/feddisclosure/training/datasets.py'
+      - 'scripts/run_balanced_heterogeneity.py'
+      - 'tests/training/test_balanced_*.py'
+      - '.github/workflows/balanced-federation-smoke.yml'
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m pip install -e '.[research,test]'
+      - run: pytest -q tests/training/test_balanced_partition.py tests/training/test_balanced_study.py
+      - name: Two-seed short matched training smoke
+        run: >-
+          python scripts/run_balanced_heterogeneity.py
+          --seeds 241 242 --rounds 2
+          --partitions iid dirichlet_balanced_0.1 dirichlet_balanced_10
+          --out reports/results/ci/balanced_heterogeneity
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: balanced-heterogeneity-ci-evidence
+          path: reports/results/ci/balanced_heterogeneity/

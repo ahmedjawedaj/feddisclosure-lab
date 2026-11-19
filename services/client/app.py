@@ -1,11 +1,15 @@
 """Each Docker instance loads only its own isolated synthetic SQLite volume."""
 from dataclasses import dataclass
+import math
+import sqlite3
 import hmac
 import os
 from pathlib import Path
 from fastapi import FastAPI, Header, HTTPException
 from feddisclosure.analytics.policy import evaluate_at_site
-from feddisclosure.common.models import AggregateRelease, AggregateRequest
+from feddisclosure.common.models import AggregateRelease, AggregateRequest, DPCountRequest, DPSiteCountRelease
+from feddisclosure.defenses.dp_release import BudgetExhausted, release_dp_at_site
+from feddisclosure.defenses.opendp_count import OpenDPCount
 from feddisclosure.data.synthetic import InstitutionSpec, initialize_database
 
 
@@ -17,6 +21,9 @@ class ClientSettings:
     positive: int
     min_cell: int
     internal_token: str
+    dp_enabled: bool = False
+    dp_epsilon: float = 0.25
+    dp_total_budget: float = 1.0
 
     @classmethod
     def from_env(cls) -> "ClientSettings":
@@ -27,13 +34,37 @@ class ClientSettings:
             positive=int(os.getenv("FDL_CASES", "1")),
             min_cell=int(os.getenv("FDL_MIN_CELL", "5")),
             internal_token=os.getenv("FDL_INTERNAL_TOKEN", "local-dev-internal-token"),
+            dp_enabled=os.getenv("FDL_DP_ENABLED", "0") == "1",
+            dp_epsilon=float(os.getenv("FDL_DP_EPSILON", "0.25")),
+            dp_total_budget=float(os.getenv("FDL_DP_TOTAL_BUDGET", "1.0")),
         )
 
 
-def create_app(settings: ClientSettings) -> FastAPI:
+def create_app(settings: ClientSettings, *, _test_mechanism=None) -> FastAPI:
     if not settings.internal_token:
         raise ValueError("internal token is required")
     initialize_database(settings.db_path, InstitutionSpec(settings.institution, settings.rows, settings.positive))
+    if settings.dp_enabled:
+        if not (math.isfinite(settings.dp_epsilon) and math.isfinite(settings.dp_total_budget)
+                and 0 < settings.dp_epsilon <= settings.dp_total_budget):
+            raise ValueError("Invalid DP configuration")
+        with sqlite3.connect(settings.db_path) as conn:
+            previous = conn.execute("SELECT COUNT(*) FROM query_audit").fetchone()[0]
+        if previous:
+            raise ValueError("DP mode requires a fresh database without earlier unprotected queries")
+        # A production DP-enabled service will NOT start without OpenDP.
+        mechanism = _test_mechanism if _test_mechanism is not None else OpenDPCount(settings.dp_epsilon)
+    else:
+        if _test_mechanism is not None:
+            raise ValueError("Test measurement cannot be injected unless DP mode enabled")
+        # A restart must not silently downgrade a protected site to an
+        # unprotected analytics API while keeping the old privacy ledger.
+        with sqlite3.connect(settings.db_path) as conn:
+            exists = conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='dp_budget'").fetchone()
+            spent = conn.execute("SELECT COALESCE(SUM(spent_micro),0) FROM dp_budget").fetchone()[0] if exists else 0
+        if spent:
+            raise ValueError("Database already has DP releases; refusing unprotected-mode downgrade")
+        mechanism = None
     api = FastAPI(title=f"FedDisclosure {settings.institution}", docs_url=None, redoc_url=None)
 
     @api.get("/health")
@@ -44,6 +75,8 @@ def create_app(settings: ClientSettings) -> FastAPI:
     def aggregate(payload: AggregateRequest, x_internal_token: str = Header(default="")) -> AggregateRelease:
         if not hmac.compare_digest(x_internal_token, settings.internal_token):
             raise HTTPException(401, "missing or invalid internal token")
+        if settings.dp_enabled:
+            raise HTTPException(403, "unprotected query route is disabled in DP-only mode")
         decision = evaluate_at_site(settings.db_path, payload, settings.min_cell)
         if not decision.approved:
             raise HTTPException(403, {"code": "release_blocked", "reason": decision.reason})
@@ -51,6 +84,24 @@ def create_app(settings: ClientSettings) -> FastAPI:
             institution=settings.institution, query_id=payload.query_id,
             policy=payload.policy, count=decision.count,
         )
+
+    @api.post("/v1/dp-count", response_model=DPSiteCountRelease)
+    def dp_count(payload: DPCountRequest, x_internal_token: str = Header(default="")) -> DPSiteCountRelease:
+        if not hmac.compare_digest(x_internal_token, settings.internal_token):
+            raise HTTPException(401, "missing or invalid internal token")
+        if not settings.dp_enabled:
+            raise HTTPException(503, "OpenDP count mode is not enabled")
+        try:
+            release = release_dp_at_site(
+                settings.db_path, query_id=payload.query_id,
+                principal_scope="all_research_access", epsilon=settings.dp_epsilon,
+                total_budget=settings.dp_total_budget, mechanism=mechanism,
+            )
+        except BudgetExhausted as exc:
+            raise HTTPException(409, "privacy budget exhausted") from exc
+        return DPSiteCountRelease(institution=settings.institution,
+            query_id=payload.query_id, noisy_count=release.noisy_count,
+            epsilon_this_release=release.epsilon_spent_this_release, delta=release.delta)
 
     return api
 

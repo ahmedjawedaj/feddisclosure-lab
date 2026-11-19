@@ -1,3 +1,7 @@
+## v0.7.0 agent handoff priority
+
+Read `CURRENT_STATE.md`, `NEXT_SPRINT.md`, `docs/v0.7-pre-registered-protocol.md`, `docs/v0.7-research-report.md` and `docs/opendp-runtime.md`. **Twenty native PyTorch, not Flower, matched study runs** are complete. Run `python scripts/verify_v070_evidence.py` to check hashes, data disjointness, identical optimizer budgets and reported metrics. The new OpenDP adapter is **not executed natively**: its test-double transport and ledger tests cannot certify ε-DP. Do not claim native Docker, Flower, Opacus or SecAgg+ execution. Skills: `.agents/skills/balanced-heterogeneity/` and `.agents/skills/private-query-budget/`, mirrored under `.claude/skills/`. Keep public raw data and model observations out of Git. Preserve all 20 seeds/conditions and record negative outcomes.
+
 ## v0.6.0 handoff priority
 
 Read `CURRENT_STATE.md` and `NEXT_SPRINT.md` first. Reproduce `docs/v0.6-experiment-protocol.md` against `docs/v0.6-research-report.md` before editing experiments. **Do not conflate** 8 vs 32 distinct-record changing-minibatch inversion, independently seeded membership models vs query seeds, or imbalanced Dirichlet vs equal-sized severe label skew. Added `.agents/skills/changing-minibatch-update/SKILL.md` and `.agents/skills/model-output-research/SKILL.md` (mirrored under `.claude/skills/`). The Flower parity *checker* has unit fixtures, but a native Flower run remains unverified. Use `scripts/verify_v060_evidence.py` on the full evidence archive.

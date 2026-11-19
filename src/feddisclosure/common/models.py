@@ -25,3 +25,25 @@ class FederatedRelease(BaseModel):
     policy: Policy
     count: int = Field(ge=0)
     participating_sites: int = Field(ge=1)
+
+
+class DPCountRequest(BaseModel):
+    experiment_id: str = Field(min_length=1, max_length=100, pattern=r"^[a-zA-Z0-9_-]+$")
+    query_id: QueryId
+
+
+class DPSiteCountRelease(BaseModel):
+    institution: str
+    query_id: QueryId
+    noisy_count: float = Field(allow_inf_nan=False)
+    epsilon_this_release: float = Field(gt=0)
+    delta: float = Field(ge=0)
+
+
+class DPFederatedCountRelease(BaseModel):
+    experiment_id: str
+    query_id: QueryId
+    noisy_count: float = Field(allow_inf_nan=False)
+    participating_sites: int = Field(ge=2)
+    epsilon_per_site_this_release: float = Field(gt=0)
+    delta_per_site: float = Field(ge=0)

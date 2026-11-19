@@ -1,0 +1,29 @@
+name: native-opendp-query-smoke
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/feddisclosure/defenses/**'
+      - 'services/client/app.py'
+      - 'services/gateway/app.py'
+      - 'scripts/run_dp_analytics.py'
+      - 'tests/privacy/test_dp_*.py'
+      - '.github/workflows/privacy-native.yml'
+jobs:
+  native-opendp:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m pip install -e '.[privacy,test]'
+      - name: Native OpenDP map test and protected HTTP/budget tests
+        run: pytest -q tests/privacy/test_dp_ledger.py tests/privacy/test_dp_http.py
+      - name: Real OpenDP three-site process-level privacy benchmark
+        run: python scripts/run_dp_analytics.py --epsilon 0.25 --total-budget 1.0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-opendp-evidence
+          path: reports/results/sprint4/
