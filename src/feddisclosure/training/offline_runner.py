@@ -24,7 +24,7 @@ def load_config(path):
     for key in ("seed", "dataset", "partition", "clients", "rounds", "local_epochs", "batch_size", "learning_rate"):
         if key not in config:
             raise ValueError(f"Missing training config key: {key}")
-    if config["clients"] < 2 or config["rounds"] < 1 or config["local_epochs"] < 1 or config["batch_size"] < 1:
+    if config["clients"] < 1 or config["rounds"] < 1 or config["local_epochs"] < 1 or config["batch_size"] < 1:
         raise ValueError("Invalid training dimensions")
     return config
 
@@ -59,6 +59,8 @@ def run_reference(config_path: str | Path, data_dir: str | Path, output_path: st
     # Workers verify the hashes inside their own processes before training.
     if len(manifest["client_partitions"]) != config["clients"]:
         raise ValueError("Mismatch in number of institution partitions")
+    if manifest.get("schema_version") != 2 or any("label_histogram" in p for p in manifest["client_partitions"]):
+        raise ValueError("Refusing legacy manifest with coordinator-visible evaluator-only label histograms; reprepare")
     torch.set_num_threads(1)
     torch.manual_seed(config["seed"])
     global_model = DigitMLP(manifest["num_features"], manifest["num_classes"])
@@ -88,7 +90,7 @@ def run_reference(config_path: str | Path, data_dir: str | Path, output_path: st
                        "--epochs", str(config["local_epochs"]), "--batch-size", str(config["batch_size"]),
                        "--lr", str(config["learning_rate"]), "--seed", str(config["seed"] + i)]
                 pending.append((cmd, site, output, metric_file))
-            with ThreadPoolExecutor(max_workers=config["clients"]) as pool:
+            with ThreadPoolExecutor(max_workers=min(config["clients"], 3)) as pool:
                 for finished in pool.map(lambda item: subprocess.run(item[0], check=True, timeout=90, capture_output=True), pending):
                     pass
             for _, site, output, metric_file in pending:
@@ -129,7 +131,7 @@ def run_reference(config_path: str | Path, data_dir: str | Path, output_path: st
                    "--epochs", str(config["local_epochs"]), "--batch-size", str(config["batch_size"]),
                    "--lr", str(config["learning_rate"]), "--seed", str(config["seed"] + site_id)]
             pending.append((cmd, site_id, metric_path))
-        with ThreadPoolExecutor(max_workers=config["clients"]) as pool:
+        with ThreadPoolExecutor(max_workers=min(config["clients"], 3)) as pool:
             list(pool.map(lambda item: subprocess.run(item[0], check=True, timeout=90, capture_output=True), pending))
         for _, site_id, metric_path in pending:
             final_global_metrics.append({"client_id": site_id, **json.loads(metric_path.read_text())})
@@ -152,7 +154,6 @@ def run_reference(config_path: str | Path, data_dir: str | Path, output_path: st
               "versions": {"torch": torch.__version__, "python": sys.version.split()[0]},
               "manifest_sha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
               "final_checkpoint": {"path": str(checkpoint), "sha256": checkpoint_sha},
-              "partition_label_histograms": [p["label_histogram"] for p in manifest["client_partitions"]],
               "model_bytes": model_bytes(global_model.state_dict()), "rounds": round_metrics,
               "final_global_per_client_validation": final_global_metrics,
               "final_global_worst_client_validation_accuracy": min(x["evaluation"]["accuracy"] for x in final_global_metrics),

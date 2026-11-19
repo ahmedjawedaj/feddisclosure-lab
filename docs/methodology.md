@@ -29,3 +29,11 @@ python scripts/run_local_stack.py --once --output reports/results/reproduction.j
 ```
 
 No Docker daemon was available in the initial build environment. Docker gate is separate and must be executed before claiming containerized deployment was validated. Save the **actual** stdout, versions, hardware and result artifacts for each run.
+
+## v0.4 controlled model-disclosure methodology
+
+Exact-gradient observations are produced by a privileged setup utility using approved public digits. Attacker and evaluator run as different CLI processes and receive distinct artifact files. The attacker has no ground-truth path argument. This is a *logical software boundary only*. Detailed protocol and caveats: `docs/disclosure-protocol.md`.
+
+Five paired image/gradient seeds compare exact gradients with Gaussian-perturbed gradients under fixed model initialization and record selection. These are empirical attack outcomes and carry **no formal DP guarantee**. The image evaluator uses an optimal assignment for multi-image batches; the attacker does not. Report MSE, PSNR, SSIM and attack budget separately.
+
+Membership inference uses a frozen public-digit reference checkpoint and only softmax vectors exposed to an uncalibrated max-confidence heuristic. Membership ground truth is evaluator-only; class-matched balanced samples make this an evaluation scenario, not an assumed deployment membership prior. Five query seeds vary the evaluated subset; they are not training replicates.

@@ -1,6 +1,20 @@
-id: gradient-inversion-planned
-status: planned
-observer: server_individual_gradient
-batch_sizes: [1, 8, 32]
-metrics: [mse, psnr, ssim, runtime_seconds]
-# Sprint 3: reproduce a published baseline and record failures.
+id: gradient-inversion-public-digits-v1
+status: executed
+observer: server_individual_exact_gradient
+dataset: sklearn_digits
+batch_sizes_executed: [1, 8]
+batch_size_32: pending
+initial_model_visible: true
+model_architecture_visible: true
+labels:
+  batch_1: inferred_from_output_bias_gradient
+  batch_8: known_to_attacker
+optimizer: adam
+iterations_single_example: 450
+iterations_batch_8: 400
+metrics: [mse, psnr, ssim, gradient_matching_residual, runtime_seconds]
+perturbation:
+  noise_std: [0.0, 0.01]
+  formal_dp_guarantee: false
+seeds: [231, 232, 233, 234, 235]
+research_protocol: docs/disclosure-protocol.md

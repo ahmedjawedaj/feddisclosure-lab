@@ -1,0 +1,14 @@
+id: membership-output-only-public-digits-v1
+status: executed
+observer: external_model_user_confidence_scores_only
+model: frozen_two_round_public_digits_fedavg_reference
+attack: max_confidence
+training_seed: 20261118
+query_seeds: [100, 101, 102, 103, 104]
+query_budget_per_class_per_group: 6
+known_labels: false
+seen: [softmax_probabilities]
+forbidden: [input_pixels, model_updates, model_weights, membership_labels, ground_truth]
+metrics: [roc_auc, attack_advantage, tpr_at_fpr_0.01, tpr_at_fpr_0.05, tpr_at_fpr_0.1]
+limitations: [query_seed_only_not_training_seed_repeats, offline_output_replay, small_training_budget]
+research_protocol: docs/disclosure-protocol.md

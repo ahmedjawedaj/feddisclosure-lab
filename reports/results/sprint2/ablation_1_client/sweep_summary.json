@@ -1,0 +1,29 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "comparison": "paired source/test seeds; IID vs severe label-skew; smoke not a significance claim",
+  "runs_completed": 1,
+  "conditions": {
+    "iid": {
+      "n": 1,
+      "public_accuracy_mean": 0.38333333333333336,
+      "public_accuracy_std": null,
+      "worst_client_accuracy_mean": 0.3125,
+      "worst_client_accuracy_std": null,
+      "individual_results": [
+        {
+          "seed": 11,
+          "partition": "iid",
+          "clients": 1,
+          "rounds": 2,
+          "public_test_accuracy": 0.38333333333333336,
+          "worst_client_accuracy": 0.3125,
+          "model_payload_bytes_total": 38560,
+          "elapsed_seconds": 14.489,
+          "result": "runs/c1_iid_seed11_r2.json",
+          "checkpoint_sha256": "b76208417b2bb20ccaf35ad71835e3e11de2f6bf2c7bdc6254c87dfb05f39cdf"
+        }
+      ]
+    }
+  },
+  "paired_differences": []
+}

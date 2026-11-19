@@ -1,0 +1,16 @@
+{
+  "roc_auc": 0.5475,
+  "attack_advantage": 0.15000000000000008,
+  "tpr_at_fpr": {
+    "0.01": 0.016666666666666666,
+    "0.05": 0.06666666666666667,
+    "0.1": 0.16666666666666666
+  },
+  "num_members": 60,
+  "num_nonmembers": 60,
+  "baseline_chance_auc": 0.5,
+  "limitations": [
+    "Finite-sample ROC can be unstable; report all results including near-chance attacks",
+    "TPR@FPR is measured at achievable empirical thresholds, not interpolated"
+  ]
+}

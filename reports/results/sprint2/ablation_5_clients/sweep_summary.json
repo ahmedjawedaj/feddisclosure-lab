@@ -1,0 +1,57 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "comparison": "paired source/test seeds; IID vs severe label-skew; smoke not a significance claim",
+  "runs_completed": 2,
+  "conditions": {
+    "iid": {
+      "n": 1,
+      "public_accuracy_mean": 0.175,
+      "public_accuracy_std": null,
+      "worst_client_accuracy_mean": 0.15789473684210525,
+      "worst_client_accuracy_std": null,
+      "individual_results": [
+        {
+          "seed": 11,
+          "partition": "iid",
+          "clients": 5,
+          "rounds": 2,
+          "public_test_accuracy": 0.175,
+          "worst_client_accuracy": 0.15789473684210525,
+          "model_payload_bytes_total": 192800,
+          "elapsed_seconds": 23.9691,
+          "result": "runs/c5_iid_seed11_r2.json",
+          "checkpoint_sha256": "3d2abbc48258b3808933bedef7b2236da54113b2f7108f61bf46704745ea5a45"
+        }
+      ]
+    },
+    "label_skew": {
+      "n": 1,
+      "public_accuracy_mean": 0.18333333333333332,
+      "public_accuracy_std": null,
+      "worst_client_accuracy_mean": 0.0,
+      "worst_client_accuracy_std": null,
+      "individual_results": [
+        {
+          "seed": 11,
+          "partition": "label_skew",
+          "clients": 5,
+          "rounds": 2,
+          "public_test_accuracy": 0.18333333333333332,
+          "worst_client_accuracy": 0.0,
+          "model_payload_bytes_total": 192800,
+          "elapsed_seconds": 26.6506,
+          "result": "runs/c5_label_skew_seed11_r2.json",
+          "checkpoint_sha256": "a0fcd7d63f8a6149e846f15bc8e8cfe8729bdf2af7e354ee642dc36faf248173"
+        }
+      ]
+    }
+  },
+  "paired_differences": [
+    {
+      "seed": 11,
+      "clients": 5,
+      "iid_minus_skew_accuracy": -0.008333333333333331,
+      "iid_minus_skew_worst_client_accuracy": 0.15789473684210525
+    }
+  ]
+}

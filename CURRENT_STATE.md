@@ -1,50 +1,36 @@
-# CURRENT STATE — 2026-11-18
+# CURRENT STATE — 2026-11-19
 
-**Project:** FedDisclosure Lab 2.0. **Version:** 0.3.0 — Sprint 1 hardening + partial Sprint 2.
+**Version:** 0.4.0. **Working baseline:** Sprint 0, Sprint 1 analytics, offline Sprint 2 FedAvg reference and first Sprint 3 model-disclosure experiments. **NOT a completed native Flower/Docker/DP release.**
 
-## VERIFIED HERE — SPRINT 0/1
+## Executed here: analytical disclosure (Sprint 1)
 
-- Three separate institution FastAPI processes and one gateway ran over HTTP with different private SQLite files (`scripts/run_local_stack.py --once`). 110 total and 107 negatives disclosed 3 restricted synthetic cases under the naive policy; the limited history rule refused the second query. Saved `reports/results/analytics_local_sprint2_validation.json`.
-- New concurrency test: 20 parallel site releases completed atomically with SQLite transactions. New `query_audit` stores *metadata only*, never raw member identifiers; internal `release_history` still requires simulated membership IDs for heuristic comparisons.
-- New unreachable-site test asserts gateway fails closed (503, no partial count). Other gateway/role boundary tests continue passing.
-- Docker verification script (`scripts/verify_compose.sh`) and CI job provide a native path to inspect distinct volumes, private network, host loopback and a real benchmark. **Docker is not installed here: gate remains UNVERIFIED.**
+Three separate FastAPI institution processes, three private SQLite databases and one HTTP gateway execute the allowlisted query benchmark. On 2026-11-19 the live local stack repeated the naive `110 - 107 = 3` restricted-group inference; the history-aware policy denied the second query. Result: `reports/results/sprint1_local_v0.4_validation.json`. Static Compose safety contract also passes. The native Compose runtime is **NOT VERIFIED**: `docker` binary is absent; actual verifier returned exit 2. See `reports/results/runtime_gates/status.json` and logged stderr.
 
-## VERIFIED HERE — SPRINT 2 REFERENCE ENGINE
+## Executed here: PyTorch federated-training reference (Sprint 2)
 
-- PyTorch 2.10 CPU + NumPy/scikit-learn public 8x8 digit dataset split into three institution-owned train and held-out validation files, plus separate evaluator-only public test. Deterministic IID and label-skew partitions, on-disk hashes, manifest and duplicate overwrite prevention.
-- Real **independent OS process** client workers trained locally; three workers run concurrently per round. Coordinator aggregates individual model arrays using a sample-count-weighted FedAvg reference and never imports raw data arrays. A separate evaluator process scores the public test and computes privileged pooled/local-only references. The final global model is separately evaluated on each client's private held-out validation through worker processes.
-- **IID smoke (600 selected public examples, 3 clients, 2 rounds, seed 20261118):** public test accuracy **0.2083333333**, final global worst-client validation accuracy **0.1875**, evaluator-only pooled reference accuracy **0.3666666667**, estimated 57,840 raw model-tensor bytes exchanged each round.
-- **Severe label-skew non-IID smoke:** public test accuracy **0.2**, final global worst-client validation accuracy **0.0**, evaluator-only pooled reference accuracy **0.25**. Zero worst-client accuracy on this tiny/short split is a reported negative result, not a deployed failure claim.
-- Independent IID rerun exactly matched each round's public test metrics, final global worst-client metric, reference baseline metrics and final model checkpoint SHA-256. Exact machine-readable files in `reports/results/sprint2/` and figure `reports/figures/sprint2_training_reference.png`.
-- FedAvg tensor arithmetic cross-checked against independent NumPy weighted averaging. **This is not a native Flower aggregation test.**
-- Test evidence: `pytest -q -m 'not slow'` **24 passed, 1 skipped, 2 deselected**. Two heavy integration tests each passed independently, hence **26 passed / 1 Flower import skipped** overall. Full-suite pytest displayed these results but its outer execution timed out after the summary; explicit split-suite commands exited successfully. Real analytics HTTP harness passed after the changes.
+- The CPU reference uses separate, concurrent OS processes for institutional clients and an independent evaluator, private public-digit NPZ partitions, immutable SHA-256 checks, FedAvg weighted model aggregation, and final global per-client validation. This is **NOT Flower** and its processes do not enforce filesystem isolation.
+- Ten paired reference runs: 5 seeds each for IID and severe label-skew partitions, 3 clients, 600 selected public 8×8 digit images, 2 rounds. Mean public test accuracy **0.2000 ± 0.06095 SD** IID and **0.17833 ± 0.05420 SD** non-IID. Mean worst-client global-model validation **0.11875** IID and **0.0000** severe non-IID. Short, weak convergence smoke results, not a general effect or statistical significance claim.
+- One-seed client-count pilot: 1 client IID public accuracy 0.3833; 5 clients IID 0.1750, severe non-IID 0.1833. **The different client counts do not have matched optimizer steps; do not compare these as fair efficiency or privacy effects.** Two initial timed-out five-client attempts were resolved by limiting simultaneous worker processes to 3. One institution cannot provide secure aggregation concealment.
+- Schema-v2 manifest now removes coordinator-readable `label_histogram` fields, saving distribution statistics in evaluator-only files. New training refuses legacy v1 manifests. Flower ClientApp additionally validates client partition hashes. A tampered client-partition test passes (fails closed). `scripts/run_training_sweep.py` can resume previously saved run JSONs without losing matching-condition summaries.
+- Evidence: `reports/results/sprint2/sweep/sweep_summary.json`, ablations under `reports/results/sprint2/`, figure `reports/figures/sprint2_five_seed_accuracy.png`; full public-digit checkpoints and hashes in the release archive.
+- Native Flower ServerApp/ClientApp source and CI exist, but `flwr` is absent and the Python package network is unavailable in this environment. `scripts/run_flower_experiment.py` exited 1 with a documented dependency error; **NO native Flower run or one-round Flower aggregation cross-check has occurred**.
 
-## IMPLEMENTED BUT NOT EXECUTED / VERIFIED
+## Executed here: controlled model disclosure (Sprint 3)
 
-- Native Flower 1.27 `ServerApp` + `ClientApp` Message API (`src/feddisclosure/training/flower_server.py` and `flower_client.py`) using PyTorch task, `FedAvg`, `ArrayRecord`, `MetricRecord`. Script `scripts/run_flower_experiment.py` launches actual `flwr run` and captures checkpoint, metrics and logs **on a dependency-enabled host**.
-- GitHub Actions `flower-smoke.yml` prepares an official Flower environment and runs the real three-client simulation; requires push to a repository with actions enabled. There is no observed Actions result or CI attestation yet.
-- MNIST download/partition path exists but was not executed, due to unavailable network and Flower dependency in this runtime.
-- `docker compose config`, container execution, network/volume inspection and remote independent Flower SuperNodes all remain unverified. There is no Docker executable/daemon available here.
+**Gradient inversion.** Implemented exact-gradient observation construction from approved public data in a privileged setup role, an independent DLG-style Adam optimization attack and an independent image evaluator. Batch 1 uses inferred label (iDLG-style output-layer bias rule), 450 steps; batch 8 uses explicitly known labels, 400 steps. Five matched single-example exact-vs-Gaussian-noise seed pairs executed. Exact mean MSE **2.42678e-9**; manually added noise 0.01 mean MSE **0.00121135**. The single-seed batch-8 reconstruction MSE was 0.010676. **No privacy guarantee or DP claim applies to the noise.** This measures highly privileged exact first-step gradients, not multi-step FL updates or SecAgg+ observations.
 
-## FURTHER LIMITATIONS
+**Output-only membership inference.** On the frozen two-round public-digit reference checkpoint, the attacker saw only class confidence vectors, scoring maximum confidence; the evaluator alone saw balanced class-matched membership truth. The first pilot ROC-AUC was 0.5475. Across five **query-subset** seeds (one fixed model), mean ROC-AUC **0.47811 ± 0.01832 SD**. This is near-chance/negative evidence, not proof of model privacy, and not five independently trained models.
 
-- Offline PyTorch clients are separate OS processes but not file-system-isolated containers. The evaluator process can access public original data by design; attacker roles do not. This testbed is **not** a production security boundary.
-- Public-digit hold-out is only a smoke test, 1 seed/2 rounds, not an effect size, significance or convergence study. Numerical pooled/local-only references use different optimization schedules from federated training.
-- Per-site membership history updates are not atomically rolled back across a failed federated query. Gateway operators have stronger visibility than external analytics users. Rejection may leak information.
-- No formal DP, secure aggregation, gradient reconstruction, model-output membership inference, dashboard, digital twin or publication claim.
+- Evidence: `reports/results/sprint3/gradient_b1/`, `gradient_b1_noisy/`, `gradient_b8_known_labels/`, `matrix/matrix_summary.json`, `membership_smoke/`, `membership_matrix/membership_matrix_summary.json`. `scripts/plot_disclosure.py` regenerated three figures from original measured artifacts.
+- Attack CLI arguments cannot include original public images or membership truth. These live under `evaluator_only/` and are passed only to the evaluation subprocess. This is a code/interface boundary, NOT an OS security boundary.
 
-## NEXT VERIFIED COMMANDS
+## Test and release evidence
 
-```bash
-python -m pip install -e '.[test]'  # on a network-enabled host; core deps
-pytest -q -m 'not slow'
-pytest -q tests/training/test_runner_integration.py  # when torch+sklearn available
-python scripts/run_local_stack.py --once
-python scripts/run_torch_reference.py --config configs/training/fedavg_digits_iid.yaml --data-dir data/training/digits-iid --output reports/results/sprint2/local_trial.json --references
-# Flower + Docker acceptance gates need matching native runtimes:
-# python -m pip install -e '.[ml,test]'
-# python scripts/run_flower_experiment.py
-# bash scripts/verify_compose.sh
-```
+- Executed `pytest -q -m 'not slow'`: **38 passed, 1 optional Flower import skipped, 2 slow deselected**.
+- Ran each of the two slow three-client subprocess integration tests independently: **both passed**, each with successful exit code. An unsplit full-suite command timed out during subprocess tests; do not claim that invocation passed.
+- Ran the live four-process analytics harness and research evidence checker successfully. Recorded structured failed attempts for unavailable Docker/Flower gates. Three new figures generated from real saved results.
+- Git history includes baseline commits, sprint hardening, disclosure work, tests and agent-skill handoffs. Files/data are approved public or synthetic only. No GitHub remote/Actions execution is claimed.
 
-See `NEXT_SPRINT.md` and `docs/fl-experiment-protocol.md`. No GitHub remote is configured. Source and evidence persist in the repository and its next ZIP handoff.
+## Known limitations and next steps
+
+Docker, Flower, MNIST network download, five independently trained membership models, inversion from genuine multi-step per-client FedAvg updates, OpenDP, Opacus, SecAgg+, dashboard and digital-twin validation remain **unimplemented, blocked, or unverified**. The short training baseline has poor quality, and attacker processes share a development filesystem. Revisit after native runtime gates. `NEXT_SPRINT.md`, `docs/disclosure-protocol.md`, `docs/fl-experiment-protocol.md`, and `AGENTS.md` are the next agent's first reads.

@@ -1,0 +1,18 @@
+{
+  "batch_size": 1,
+  "mean_mse": 1.889295830892479e-09,
+  "mean_psnr_db": 87.23700033785437,
+  "mean_ssim": 1.0000000894069672,
+  "per_image_mse": [
+    1.889295830892479e-09
+  ],
+  "per_image_psnr_db": [
+    87.23700033785437
+  ],
+  "reconstruction_rate_mse_below_0_05": 1.0,
+  "assignment": "privileged evaluator optimal MSE matching; not available to attacker",
+  "limitations": [
+    "Optimal matching is privileged scoring, not an attacker capability",
+    "PSNR computed on normalized 0..1 public images, not a perceptual identification test"
+  ]
+}

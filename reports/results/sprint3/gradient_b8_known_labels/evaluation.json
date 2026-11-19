@@ -1,0 +1,32 @@
+{
+  "batch_size": 8,
+  "mean_mse": 0.010676137171685696,
+  "mean_psnr_db": 26.39049632559579,
+  "mean_ssim": 0.94564956612885,
+  "per_image_mse": [
+    0.0005931887426413596,
+    0.026953373104333878,
+    0.00047814458957873285,
+    0.048619046807289124,
+    0.001548060798086226,
+    0.006247127894312143,
+    0.0003417728003114462,
+    0.0006283842958509922
+  ],
+  "per_image_psnr_db": [
+    32.26807099476308,
+    15.693868768991033,
+    33.204407540975176,
+    13.131935598981226,
+    28.102119869639438,
+    22.043196028701356,
+    34.662625031854596,
+    32.01774677086042
+  ],
+  "reconstruction_rate_mse_below_0_05": 1.0,
+  "assignment": "privileged evaluator optimal MSE matching; not available to attacker",
+  "limitations": [
+    "Optimal matching is privileged scoring, not an attacker capability",
+    "PSNR computed on normalized 0..1 public images, not a perceptual identification test"
+  ]
+}

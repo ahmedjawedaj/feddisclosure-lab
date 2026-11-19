@@ -4,6 +4,8 @@ A deployment SuperNode must mount one institution's training/validation NPZs.
 Only model arrays, scalar metrics, and sample counts are returned to coordinator.
 """
 from pathlib import Path
+import hashlib
+import json
 import os
 import torch
 from flwr.app import ArrayRecord, Context, Message, MetricRecord, RecordDict
@@ -28,6 +30,22 @@ def _site_files(context: Context) -> tuple[Path, Path]:
     train_file, val_file = directory / "train.npz", directory / "val.npz"
     if not train_file.is_file() or not val_file.is_file():
         raise FileNotFoundError("SuperNode may access only its own mounted train and val partitions")
+    if direct:
+        expected = (os.getenv("FDL_SITE_SHA256"), os.getenv("FDL_SITE_VAL_SHA256"))
+        if not all(expected) or "FDL_SITE_ID" not in os.environ:
+            raise RuntimeError("Deployment SuperNode requires site identity and per-file checksums")
+    else:
+        # The simulation runner stages a metadata-only manifest; no client data
+        # is imported through the app by the coordinator.
+        root = Path(str(context.run_config["data-root"]))
+        manifest = json.loads((root / "manifest.json").read_text())
+        if manifest.get("schema_version") != 2:
+            raise RuntimeError("Refusing old manifest with coordinator-visible private label histograms")
+        site = manifest["client_partitions"][index]
+        expected = (site["sha256"], site["val_sha256"])
+    for path, digest in zip((train_file, val_file), expected):
+        if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            raise RuntimeError("SuperNode partition integrity verification failed")
     return train_file, val_file
 
 

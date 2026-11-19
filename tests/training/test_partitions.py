@@ -31,6 +31,16 @@ def test_partitions_are_disjoint_reproducible_and_private(tmp_path):
 def test_non_iid_partition_more_skewed_than_iid(tmp_path):
     a = prepare_partitions(tmp_path / "iid", clients=3, seed=4, limit=600, partition="iid")
     b = prepare_partitions(tmp_path / "skew", clients=3, seed=4, limit=600, partition="label_skew")
-    def avg_classes(m):
-        return sum(sum(v > 0 for v in p["label_histogram"]) for p in m["client_partitions"]) / 3
-    assert avg_classes(b) < avg_classes(a)
+    def avg_classes(root):
+        private = json.loads((root / "evaluator_only" / "distribution_stats.json").read_text())
+        return sum(sum(v > 0 for v in p["label_histogram"])
+                   for p in private["client_label_histograms"]) / 3
+    assert avg_classes(tmp_path / "skew") < avg_classes(tmp_path / "iid")
+    assert "label_histogram" not in json.dumps(a)
+    assert "label_histogram" not in json.dumps(b)
+
+
+def test_one_client_reference_partition_has_no_federated_privacy_claim(tmp_path):
+    a = prepare_partitions(tmp_path / "one", clients=1, seed=8, limit=150)
+    assert len(a["client_partitions"]) == 1
+    assert a["schema_version"] == 2

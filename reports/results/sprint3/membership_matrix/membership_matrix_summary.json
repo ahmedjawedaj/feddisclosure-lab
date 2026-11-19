@@ -1,0 +1,76 @@
+{
+  "model": "one frozen FedAvg checkpoint from prior 2-round public digit experiment",
+  "variation": "query subsampling and ordering ONLY; not training seed",
+  "n": 5,
+  "mean_roc_auc": 0.4781111111111111,
+  "std_roc_auc": 0.018324282277558782,
+  "runs": [
+    {
+      "query_seed": 100,
+      "roc_auc": 0.4761111111111111,
+      "advantage": 0.050000000000000044,
+      "tpr_at_fpr": {
+        "0.01": 0.0,
+        "0.05": 0.05,
+        "0.1": 0.08333333333333333
+      },
+      "num_members": 60,
+      "num_nonmembers": 60
+    },
+    {
+      "query_seed": 101,
+      "roc_auc": 0.4922222222222222,
+      "advantage": 0.06666666666666665,
+      "tpr_at_fpr": {
+        "0.01": 0.0,
+        "0.05": 0.016666666666666666,
+        "0.1": 0.08333333333333333
+      },
+      "num_members": 60,
+      "num_nonmembers": 60
+    },
+    {
+      "query_seed": 102,
+      "roc_auc": 0.46361111111111114,
+      "advantage": 0.050000000000000044,
+      "tpr_at_fpr": {
+        "0.01": 0.0,
+        "0.05": 0.06666666666666667,
+        "0.1": 0.08333333333333333
+      },
+      "num_members": 60,
+      "num_nonmembers": 60
+    },
+    {
+      "query_seed": 103,
+      "roc_auc": 0.45777777777777773,
+      "advantage": 0.033333333333333326,
+      "tpr_at_fpr": {
+        "0.01": 0.0,
+        "0.05": 0.016666666666666666,
+        "0.1": 0.1
+      },
+      "num_members": 60,
+      "num_nonmembers": 60
+    },
+    {
+      "query_seed": 104,
+      "roc_auc": 0.5008333333333334,
+      "advantage": 0.06666666666666665,
+      "tpr_at_fpr": {
+        "0.01": 0.0,
+        "0.05": 0.0,
+        "0.1": 0.0
+      },
+      "num_members": 60,
+      "num_nonmembers": 60
+    }
+  ],
+  "observer": "external_model_user_confidence_scores_only",
+  "privacy_claim": "none",
+  "limitations": [
+    "Small sample, short-training baseline",
+    "Confidence heuristic is uncalibrated",
+    "Results do not generalize to deployed APIs"
+  ]
+}

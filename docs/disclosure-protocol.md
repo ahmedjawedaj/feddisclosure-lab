@@ -1,0 +1,45 @@
+# Sprint 3 disclosure protocol (v0.4) — executed pilot
+
+## Observers and exact permissions
+
+**Gradient observer:** A deliberately privileged *simulated coordinator* receives exact full gradients of a single public-data batch, model architecture and initial model weights. Batch 1 labels are **not** revealed; the attack infers them from the final-layer bias gradient (iDLG-style). Batch 8 labels **are** revealed, as an explicit stronger attacker privilege. Nothing here implies that a multi-epoch Flower/FedAvg server observes these gradients. The authentic Flower coordinator would see per-client **model updates** under the unprotected protocol. Neither SecAgg+ nor DP has been executed.
+
+**External model observer:** Receives only softmax confidence vectors for an equal, class-matched number of training and held-out public-digit records. No member/nonmember tags, true labels, input pixels, logits, model weights or gradients are in the attack artifact. The model is a previously trained two-round public-digit FedAvg reference; output responses are offline replay, not a deployed prediction API. Attack heuristic is maximum confidence, without privileged calibration.
+
+**Evaluator:** Holds original images or membership labels in separate `evaluator_only/` artifacts, optionally uses best-MSE Hungarian matching for batch reconstruction scoring, and writes scored outcomes. This is privileged scoring, not attacker information or guaranteed filesystem isolation. An OS/container-level access-control test remains pending.
+
+## Hypotheses and measured configurations
+
+- G1: Exact gradients on one 8×8 digit can be matched by input optimization under a known network and full gradient access. Adam minimizes squared gradient difference for 450 steps. Primary metrics: MSE, PSNR (unit data range), SSIM, runtime and gradient residual.
+- G2: Adding independent Gaussian noise of standard deviation 0.01 to each gradient entry reduces empirical reconstruction fidelity versus the *same* exact gradient. Five paired public examples/seeds 231–235, no epsilon claim, no calibrated sensitivity, no accountant.
+- G3: Batch 8 exact gradients and **known labels** permit some reconstruction; evaluator uses optimal assignment. This is a stronger-label-observation case, not directly comparable with unknown labels in batch 1.
+- M1: Maximum confidence can distinguish model members from nonmembers. ROC-AUC, advantage, and empirical TPR at attainable FPR <= 0.01, 0.05 and 0.1; five query seeds test subsampling stability for **one frozen checkpoint**, not five independent training seeds.
+
+## Reproduction (offline Python with `.[research,test]` installed)
+
+```bash
+python scripts/prepare_fl_data.py --output data/training/disclosure --seed 231 --limit 600
+python scripts/run_gradient_inversion.py --site-file data/training/disclosure/institution-00/train.npz --output-dir reports/results/sprint3/gradient_b1 --batch-size 1 --seed 231 --steps 450
+python scripts/run_gradient_inversion.py --site-file data/training/disclosure/institution-00/train.npz --output-dir reports/results/sprint3/gradient_b1_noisy --batch-size 1 --seed 231 --steps 450 --noise-std 0.01
+python scripts/run_gradient_inversion.py --site-file data/training/disclosure/institution-00/train.npz --output-dir reports/results/sprint3/gradient_b8_known_labels --batch-size 8 --known-labels --seed 231 --steps 400
+python scripts/run_disclosure_matrix.py --site-file data/training/disclosure/institution-00/train.npz --output-dir reports/results/sprint3/matrix --seeds 231 232 233 234 235 --steps 450
+```
+
+A reference FedAvg checkpoint is provided by `scripts/run_torch_reference.py` using the same partition parameters as in the archived v0.3 result. Do **not** test an unrelated checkpoint and present it as a trained-on-that-dataset membership attack.
+
+```bash
+python scripts/prepare_fl_data.py --output data/training/membership-reference --seed 20261118 --limit 600
+python scripts/run_membership_inference.py --checkpoint reports/results/sprint2/checkpoints/digits-iid-smoke-v1_final.pt --data-dir data/training/membership-reference --output-dir reports/results/sprint3/membership_smoke
+python scripts/run_membership_matrix.py --checkpoint reports/results/sprint2/checkpoints/digits-iid-smoke-v1_final.pt --data-dir data/training/membership-reference --output-dir reports/results/sprint3/membership_matrix
+python scripts/plot_disclosure.py
+```
+
+The checkpoint used by membership tests was trained in v0.3 against the `20261118` public-digits split, and its recorded SHA is in `reports/results/sprint2/torch_iid_reference.json`.
+
+## Interpretation and limits
+
+- Exact-gradient recovery is not evidence of leakage through model updates, model releases or SecAgg+. Results here are on a tiny public-digit classifier. Generalization to realistic model architectures and batch schedules is unknown.
+- The Gaussian perturbation is **not** DP. A proper DP-SGD baseline needs Opacus and an accountant; a query-statistics baseline needs OpenDP, explicit adjacency and sensitivity.
+- No attack receives evaluator ground truth directly. The shared development filesystem does **not** enforce genuine attacker/evaluator access separation.
+- Perfect gradient inversion of a small sample should not be generalized without trials, harder architectures and realistic observation assumptions.
+- An AUC near 0.5 is a weak or negative attack result, not proof of membership privacy; additional attacks and repeated training seeds are needed.

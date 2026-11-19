@@ -1,0 +1,177 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "comparison": "paired source/test seeds; IID vs severe label-skew; smoke not a significance claim",
+  "runs_completed": 10,
+  "conditions": {
+    "iid": {
+      "n": 5,
+      "public_accuracy_mean": 0.19999999999999998,
+      "public_accuracy_std": 0.06095307849303248,
+      "worst_client_accuracy_mean": 0.11875,
+      "worst_client_accuracy_std": 0.051348989766109326,
+      "individual_results": [
+        {
+          "seed": 11,
+          "partition": "iid",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.18333333333333332,
+          "worst_client_accuracy": 0.0625,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 15.247,
+          "result": "runs/c3_iid_seed11_r2.json",
+          "checkpoint_sha256": "10dcf1813a1328ee9dbc2aa0fd1bfa3ccbad13147b250a03b827048a6a8afc32"
+        },
+        {
+          "seed": 22,
+          "partition": "iid",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.15,
+          "worst_client_accuracy": 0.09375,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 14.079,
+          "result": "runs/c3_iid_seed22_r2.json",
+          "checkpoint_sha256": "6e47f4763dd44b88cf1e5d4a211cb5e94bd8ec82da7c01492e2006feb9e19ca9"
+        },
+        {
+          "seed": 33,
+          "partition": "iid",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.2833333333333333,
+          "worst_client_accuracy": 0.15625,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 14.7825,
+          "result": "runs/c3_iid_seed33_r2.json",
+          "checkpoint_sha256": "92a01833f93878b38d0aec7e0ff84119070774c6fa74676d5ed6fed6ba7cb09c"
+        },
+        {
+          "seed": 44,
+          "partition": "iid",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.14166666666666666,
+          "worst_client_accuracy": 0.1875,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 14.746,
+          "result": "runs/c3_iid_seed44_r2.json",
+          "checkpoint_sha256": "afabf51a88d9fa7efbfab4ffbfdf48c8aa8002e0a141ff410a850d1870c3e467"
+        },
+        {
+          "seed": 55,
+          "partition": "iid",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.24166666666666667,
+          "worst_client_accuracy": 0.09375,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 16.1429,
+          "result": "runs/c3_iid_seed55_r2.json",
+          "checkpoint_sha256": "3da9410fb3a595be5fdabd5478034ca8ed44a37717f97080c01fb14890743d74"
+        }
+      ]
+    },
+    "label_skew": {
+      "n": 5,
+      "public_accuracy_mean": 0.17833333333333334,
+      "public_accuracy_std": 0.054198708471697006,
+      "worst_client_accuracy_mean": 0.0,
+      "worst_client_accuracy_std": 0.0,
+      "individual_results": [
+        {
+          "seed": 11,
+          "partition": "label_skew",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.21666666666666667,
+          "worst_client_accuracy": 0.0,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 14.4747,
+          "result": "runs/c3_label_skew_seed11_r2.json",
+          "checkpoint_sha256": "42b9ca0ed85779129674332cb0c492f0a057c911d58984562c277957b8b3fc97"
+        },
+        {
+          "seed": 22,
+          "partition": "label_skew",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.15833333333333333,
+          "worst_client_accuracy": 0.0,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 14.8291,
+          "result": "runs/c3_label_skew_seed22_r2.json",
+          "checkpoint_sha256": "990bbc9c296703b0ebdafac74ed8ab30e66c6f5619d480bb1e371661d1ea264a"
+        },
+        {
+          "seed": 33,
+          "partition": "label_skew",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.21666666666666667,
+          "worst_client_accuracy": 0.0,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 14.1789,
+          "result": "runs/c3_label_skew_seed33_r2.json",
+          "checkpoint_sha256": "298626ea3abec1fc0914ecaba2b8b35ab32a1fb51efd7422f792a8a3cadd3f50"
+        },
+        {
+          "seed": 44,
+          "partition": "label_skew",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.09166666666666666,
+          "worst_client_accuracy": 0.0,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 15.4503,
+          "result": "runs/c3_label_skew_seed44_r2.json",
+          "checkpoint_sha256": "266da3bd2dc5cc0c9f60af1776bb78e135ee688dbee776aac593ae330a87accf"
+        },
+        {
+          "seed": 55,
+          "partition": "label_skew",
+          "clients": 3,
+          "rounds": 2,
+          "public_test_accuracy": 0.20833333333333334,
+          "worst_client_accuracy": 0.0,
+          "model_payload_bytes_total": 115680,
+          "elapsed_seconds": 15.2474,
+          "result": "runs/c3_label_skew_seed55_r2.json",
+          "checkpoint_sha256": "99a587d8ac747095fa0ef0ee33749dad94d1e3845672f1c782372cf693826dba"
+        }
+      ]
+    }
+  },
+  "paired_differences": [
+    {
+      "seed": 11,
+      "clients": 3,
+      "iid_minus_skew_accuracy": -0.033333333333333354,
+      "iid_minus_skew_worst_client_accuracy": 0.0625
+    },
+    {
+      "seed": 22,
+      "clients": 3,
+      "iid_minus_skew_accuracy": -0.008333333333333331,
+      "iid_minus_skew_worst_client_accuracy": 0.09375
+    },
+    {
+      "seed": 33,
+      "clients": 3,
+      "iid_minus_skew_accuracy": 0.06666666666666665,
+      "iid_minus_skew_worst_client_accuracy": 0.15625
+    },
+    {
+      "seed": 44,
+      "clients": 3,
+      "iid_minus_skew_accuracy": 0.05,
+      "iid_minus_skew_worst_client_accuracy": 0.1875
+    },
+    {
+      "seed": 55,
+      "clients": 3,
+      "iid_minus_skew_accuracy": 0.033333333333333326,
+      "iid_minus_skew_worst_client_accuracy": 0.09375
+    }
+  ]
+}

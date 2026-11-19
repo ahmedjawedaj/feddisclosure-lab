@@ -1,0 +1,17 @@
+{
+  "captured_utc": "2026-11-19T09:42:47.735922+00:00",
+  "python": "3.13.5",
+  "native_docker": {
+    "exit_code": 2,
+    "docker_executable": null,
+    "verified": false,
+    "log": "docker_stderr.log"
+  },
+  "native_flower": {
+    "exit_code": 1,
+    "flwr_module_installed": false,
+    "verified": false,
+    "log": "flower_stderr.log"
+  },
+  "note": "Native gates failed for absent dependencies. No claim of Docker or Flower execution."
+}

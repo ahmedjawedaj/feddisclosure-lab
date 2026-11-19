@@ -42,3 +42,7 @@
 ## Checkpoints and release archives
 
 Final model checkpoints are saved under `reports/results/sprint2/checkpoints/`, named by experiment ID, with their SHA-256 in the corresponding result JSON. `.pt` is ignored by Git to prevent accidental publication of future private-trained weights. Only the generated public-digit sample checkpoints are optionally bundled with the handoff ZIP.
+
+## v0.4 update — five-seed smoke and client-count pilot
+
+`python scripts/run_training_sweep.py --output reports/results/sprint2/sweep --seeds 11 22 33 44 55 --clients 3 --rounds 2` reproduced ten experiments with paired source/test seeds. The summary tracks actual model-tensor payload, global test and worst-client validation performance, elapsed seconds and checkpoint hashes. Single-seed 1-client and 5-client ablations run through the same reference code, with no single-client privacy claim and with non-matched optimization steps across different counts. Resource-limited 5-client trials can use at most three concurrent OS workers while preserving distinct process invocations. Schema v2 moves label histograms to evaluator-only files; v1 manifests are now rejected to prevent coordinator access to privileged ground truth. This changes generated dataset manifest hashes relative to v0.3. Flower integration has not been natively executed and remains a hard release gate.

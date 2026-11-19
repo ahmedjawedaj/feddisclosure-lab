@@ -30,3 +30,21 @@ reports/results/sprint2/*.json
 reports/results/sprint1/docker_*.txt
 
 !reports/figures/sprint2_training_reference.png
+
+# v0.4 derived public-data benchmark runs contain original images, model updates,
+# predicted confidence vectors and local datasets: keep raw artifacts out of Git.
+/reports/results/sprint2/sweep/
+/reports/results/sprint2/ablation_1_client/
+/reports/results/sprint2/ablation_5_clients/
+/reports/results/sprint2/sweep_progress.log
+/reports/results/sprint2/sweep_exit_code
+/reports/results/sprint3/
+/reports/results/runtime_gates/
+/reports/results/sprint1_local_v0.4_validation.json
+/reports/results/sprint3_*_stdout.log
+
+# Scientific public figures and selected metric summaries are force-added
+# explicitly after review. Do not force-add real private dataset artifacts.
+!reports/figures/sprint2_five_seed_accuracy.png
+!reports/figures/sprint3_gradient_comparison.png
+!reports/figures/sprint3_membership_roc.png

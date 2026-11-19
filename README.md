@@ -2,11 +2,21 @@
 
 **A reproducible privacy leakage and defense benchmark for federated analytics and learning**
 
-Status: **Sprint 0 built; Sprint 1 analytics hardened and locally verified (Docker gate open); Sprint 2 PyTorch reference verified and native Flower app implemented (Flower run gate open); Sprints 3–6 planned**. Updated 2026-11-18.
+Status: **v0.4.0: Sprints 0/1 core and offline Sprint 2/Sprint 3 research pilots executed; native Docker and Flower gates blocked/unverified; formal defenses and final release pending**. Updated 2026-11-19.
 
-This is an independent research-engineering project using **only synthetic data**. No thesis novelty, production security, differential privacy or secure aggregation is claimed at this stage.
+This is an independent research-engineering project using **only synthetic or approved public data**. No thesis novelty, production security, differential privacy or secure aggregation is claimed at this stage.
 
-## What runs today
+## v0.4.0 measured update — 19 November 2026
+
+- **Analytics:** live three-institution/four-HTTP-process experiment still reproduces a 3-person synthetic disclosure (`110-107`) and a blocked second query under the history heuristic.
+- **Training:** 5 paired seeds × IID/severe label skew (10 real three-client PyTorch reference runs), plus 1/5-client single-seed pilots. These runs are **NOT native Flower** and do not justify a convergence claim.
+- **Disclosure:** exact-gradient inversion on public 8×8 digits, five matched exact/noisy examples and one batch-8 known-label case. Successful low-error reconstruction occurs with deliberately privileged gradients. No formally private noise mechanism is present.
+- **Membership:** output-only confidence-based baseline on the frozen public model; five query-seed AUCs are near chance. The attacker never receives membership labels; no safety guarantee follows from this negative result.
+- **Verification:** 38 fast tests and both slow independent training integration tests passed as separate invocations; one Flower-dependent test skipped. Real local analytics passed again. Native Docker/Flower gates are still **blocked**, with recorded failed attempts.
+
+The new work and scripts are described in `docs/disclosure-protocol.md`, `docs/fl-experiment-protocol.md`, `CURRENT_STATE.md`, and `NEXT_SPRINT.md`. The release includes actual JSON evidence and generated research figures. For the Python benchmark environment, install `pip install -e '.[research,test]'`; native Flower remains a separate `.[ml,test]` extra.
+
+## Federated analytics runtime
 
 Three separate FastAPI institutional processes, each with its own SQLite database, answer two allowlisted count queries through a federated gateway. An analytics observer sees only gateway-wide totals. A controlled differencing attack combines individually released counts, and a history-aware release policy blocks that particular attack. An independent scorer measures inference and query rejection.
 
@@ -31,7 +41,7 @@ The local runner starts **four real processes** (three institutions and one gate
 PyTorch + scikit-learn can execute the reproducible CPU-only three-worker baseline even when Flower cannot be installed:
 
 ```bash
-python -m pip install -e '.[ml,test]'  # on a network-enabled machine
+python -m pip install -e '.[research,test]'  # on a network-enabled machine
 python scripts/run_torch_reference.py --config configs/training/fedavg_digits_iid.yaml --data-dir data/training/digits-iid --output reports/results/sprint2/torch_iid_reference.json --references
 python scripts/run_torch_reference.py --config configs/training/fedavg_digits_non_iid.yaml --data-dir data/training/digits-non-iid --output reports/results/sprint2/torch_non_iid_reference.json --references
 python scripts/plot_training.py
@@ -118,7 +128,7 @@ feddisclosure-lab/
 | 0: Foundation | Implemented | Typed configs, threat models, tests, agent handoff |
 | 1: Federated analytics | Core implemented; Docker pending | Three independent sites; count differencing and history rule |
 | 2: Flower + PyTorch | Public-digits PyTorch reference executed; native Flower code written but not run | 3-client native Flower FedAvg, IID/non-IID, local/pooled comparisons |
-| 3: Leakage attacks | Planned | Reproduce gradient inversion + membership inference |
+| 3: Leakage attacks | First public-data baselines executed | Gradient inversion and output-only membership; multi-step update leakage remains |
 | 4: Defenses | Planned | OpenDP, Opacus, Flower SecAgg+ under matched threat models |
 | 5: Benchmarks | Planned | Multi-seed ablations, accuracy/leakage/efficiency figures |
 | 6: Research release | Planned | Dashboard, report, clean-install & faculty presentation |

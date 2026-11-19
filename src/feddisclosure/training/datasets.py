@@ -35,8 +35,8 @@ def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits
     Existing output refuses overwrite to prevent silent changes to an experiment.
     This setup function may see the full public dataset. It must never run in clients.
     """
-    if clients < 2 or partition not in ("iid", "label_skew"):
-        raise ValueError("clients >= 2 and partition in {iid,label_skew} required")
+    if clients < 1 or partition not in ("iid", "label_skew"):
+        raise ValueError("clients >= 1 and partition in {iid,label_skew} required")
     output = Path(output_dir)
     if output.exists() and any(output.iterdir()):
         raise FileExistsError(f"Refusing to overwrite existing partition dataset: {output}")
@@ -44,7 +44,7 @@ def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits
     x, y, provenance = _source(dataset, output)
     rng = np.random.default_rng(seed)
     index = rng.permutation(len(y))
-    if limit:
+    if limit is not None:
         if limit < clients * 12 or limit > len(index):
             raise ValueError("limit must hold >= 12 samples/client and not exceed source size")
         index = index[:limit]
@@ -59,11 +59,12 @@ def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits
     groups = np.array_split(train_idx, clients)
     if any(len(g) == 0 for g in groups):
         raise ValueError("Empty client partition")
-    manifest = {"schema_version": 1, "source": dataset, "provenance": provenance,
+    manifest = {"schema_version": 2, "source": dataset, "provenance": provenance,
                 "seed": seed, "partition": partition, "clients": clients, "source_limit": limit,
                 "num_features": int(x.shape[1]), "num_classes": int(y.max() + 1),
                 "client_partitions": [], "evaluator_test": {},
                 "raw_data_policy": "only client-owned NPZ files in training; evaluator test is separate"}
+    evaluator_histograms = []
     for i, group in enumerate(groups):
         split = max(1, len(group) // 5)
         train_group, val_group = group[split:], group[:split]
@@ -75,13 +76,18 @@ def prepare_partitions(output_dir: str | Path, *, dataset: str = "sklearn_digits
         manifest["client_partitions"].append({"client_id": i, "file": str(path.relative_to(output)),
                                                "val_file": str(val_path.relative_to(output)),
                                                "samples": len(train_group), "val_samples": len(val_group),
-                                               "sha256": _hash(path), "val_sha256": _hash(val_path),
-                                               "label_histogram": np.bincount(y[train_group], minlength=manifest["num_classes"]).tolist()})
+                                               "sha256": _hash(path), "val_sha256": _hash(val_path)})
+        evaluator_histograms.append({"client_id": i, "label_histogram":
+                                     np.bincount(y[train_group], minlength=manifest["num_classes"]).tolist()})
     test_path = output / "evaluator_only" / "test.npz"
     test_path.parent.mkdir(parents=True)
     np.savez_compressed(test_path, x=x[test_idx], y=y[test_idx], source_idx=test_idx)
     manifest["evaluator_test"] = {"file": str(test_path.relative_to(output)), "samples": len(test_idx),
                                   "sha256": _hash(test_path)}
+    # Ground-truth label distributions are not available to the coordinator.
+    # They are used only to characterize a public-data partition in evaluation.
+    (output / "evaluator_only" / "distribution_stats.json").write_text(
+        json.dumps({"client_label_histograms": evaluator_histograms}, indent=2) + "\n")
     (output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     return manifest
 

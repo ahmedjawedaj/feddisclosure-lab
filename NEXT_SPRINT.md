@@ -1,37 +1,41 @@
-# NEXT SPRINT — Complete the native runtime gates, then extend Sprint 2
+# NEXT SPRINT — Native gates and realistic-observation benchmarks
 
-**Current work:** Sprint 1 hardened and the standalone three-client PyTorch FedAvg reference executed. Sprint 1 Docker and Sprint 2 *native Flower* gates remain open.
+**At handoff (2026-11-19, v0.4):** Core analytics, five-seed offline PyTorch reference, exact-gradient reconstruction and output-only membership baseline are executed. Docker and Flower **not verified**; do not misrepresent these as complete.
 
-## P0 — Native Compose acceptance (NOT VERIFIED)
+## P0 — Native runtime acceptance (still blocked here)
 
-1. In a Docker Engine/Compose v2 environment, run `bash scripts/verify_compose.sh`.
-2. Verify `docker compose config -q`, four healthy containers, distinct SQLite volumes, internal-only client network, localhost-only published gateway; run both analytics policies from host. Save `docker_isolation.json`, benchmark JSON and logs.
-3. If Compose fails, fix in the tested environment and rerun. Do not mark Sprint 1 closed from static YAML checks.
+1. **Compose:** On a host with Docker Engine/Compose v2, execute `bash scripts/verify_compose.sh`. Require actual healthy services, three distinct SQLite volumes, internal network, loopback-only gateway and executed analytics benchmark. Save logs, system versions, `docker_isolation.json` and JSON metrics. Fix and rerun any failing gate.
+2. **Flower:** Use supported Python 3.12 on a network-enabled host: `pip install -e '.[ml,test]'`. Run `python scripts/run_flower_experiment.py`. Confirm 3 actual ClientApp participants over 2 rounds, privacy boundary, aggregated validation and checkpoints; preserve full logs and failure evidence. Compare one Flower round against an **identical** Torch numerical reference including data order, initialization, weight units, dtype, local batch schedule. Do not claim local Flower simulation establishes filesystem-isolated SuperNodes.
+3. Trigger the `flower-smoke.yml`, `research-smoke.yml` and Compose CI workflows on an authorized GitHub remote and store actual green run IDs/artifacts; workflows have not run in this environment. If using remote institution clients or Colab, require separately provisioned SuperNodes, explicit mount/identity/hash controls, versioned data and secure coordinator connectivity. Do not assume indefinite Colab uptime.
 
-## P0 — Native Flower three-client acceptance (NOT VERIFIED)
+## P1 — More meaningful FL training and observer alignment
 
-1. Install supported Python 3.12 and `pip install -e '.[ml,test]'` in a network-enabled environment.
-2. Run `python scripts/run_flower_experiment.py` after checking `flwr --version` and Flower 1.27 compatibility. Save real Flower logs, `flower_run.json`, `flower_summary.json` and checkpoint.
-3. Assert three participating ClientApps, both rounds, correct client partition paths, aggregated validation metrics, no raw record transfer. Compare a one-round aggregated model to the transparent weighted reference under **matching** initialization, sample weights and client shuffle schedule.
-4. Make the Flower CI gate run and collect artifact; diagnose and fix actual runtime issues instead of reporting its presence as success.
-5. Evaluate separate SuperNodes mounted to per-site data volumes. A Flower local simulation is not evidence of OS-level client dataset isolation.
+1. Run approved MNIST with SHA-256 provenance and split manifest, including a real image dataset license check. Keep datasets out of Git.
+2. Train long enough to obtain stable, nontrivial utility, with 5 **training** seeds and matched optimizer budgets for local-only, pooled reference and FedAvg/FedProx. Preserve worst-client global-model validation and distribution-shift details.
+3. Reproduce inversion from an **actual single-step local model delta**, then 2+ local steps, 1/8/32 examples, partial/no labels, different observer capabilities. Compare with exact-gradient benchmark, measure failures and isolate oracle information.
+4. For output-only membership, train and score multiple independently seeded models, test reasonable stronger attacks and report uncertainty/low-FPR reliability. Keep model-user confidence-only threat model separate from gradient-observing server.
+5. Add OS-level attacker/evaluator isolation and atomic artifact access controls; currently separation is logical only.
 
-## P1 — Improve experiment quality
+## P2 — Safeguards under matched scenarios (not implemented)
 
-1. Run MNIST from an approved public download, save checksum/license/source and deterministic IID/label-skew splits. Never add raw datasets to Git.
-2. Run 5 seeds and more meaningful training rounds; record distributions and worst-client *global model* validation, not only local-update validation. Add a public-digits 1/3/5-client ablation.
-3. Keep matched local-only, pooled public reference and FedAvg scenarios with clear compute and optimizer differences. Later introduce FedProx with explicit reference paper.
-4. Record numerical model communication, wall-time and actual Flower transport bytes separately. Add a second OS-isolation test and intentional worker failure test.
-5. Add per-client Flower validation logging without exposing raw examples, and ensure negative cases survive regression.
+- Integrate **OpenDP** with explicit adjacency, sensitivity and accounting for aggregate releases, and **Opacus** with accountant, clipping and epsilon/delta for PyTorch training. Do not label the current Gaussian gradient noise DP.
+- Integrate Flower **SecAgg+** rather than implementing custom cryptography. Require participant threshold, dropout/collusion assumptions and a native Flower runtime.
+- Evaluate protected and unprotected matched observations, prediction accuracy, communication and operational cost. Avoid one combined privacy score.
 
-## Later, not this sprint
+## Reproduction from handoff archive
 
-- Sprint 3: controlled gradient inversion and output-only membership inference; separate exact gradient observations from multi-step model updates.
-- Sprint 4: OpenDP/Opacus/Flower SecAgg+ with proper accounting and assumptions.
-- No dashboard-first work, synthetic real-world privacy claims, or unvalidated digital twin.
+```bash
+python -m pip install -e '.[research,test]'  # network-enabled setup; core already installed here
+pytest -q -m 'not slow'
+pytest -q tests/training/test_runner_integration.py::test_independent_worker_training\[iid\]
+pytest -q tests/training/test_runner_integration.py::test_independent_worker_training\[label_skew\]
+python scripts/run_local_stack.py --once
+python scripts/verify_research_evidence.py
+python scripts/plot_disclosure.py
+```
+
+See `docs/disclosure-protocol.md` for exact individual attack reproduction commands and `docs/fl-experiment-protocol.md` for reference training.
 
 ## Exit criteria
 
-Sprint 1 Docker gate: **pending actual Docker execution**. Sprint 2 native Flower gate: **pending actual 3-client Flower run and one-round numerical cross-check**. Executed PyTorch reference results are valuable but cannot substitute for these tests.
-
-Whenever a gate succeeds, write machine-readable evidence, update `CURRENT_STATE.md`, `docs/decision-log.md` and README, then commit the tested change. Preserve failed logs and configs.
+Do not mark Sprint 1 Docker or Sprint 2 native Flower closed without actual runtime logs and cross-checks. Future attacks must operate under stated observations, with evaluator-only truth. Every milestone requires tests, machine-readable artifacts, limitations, changes to `CURRENT_STATE.md`/`NEXT_SPRINT.md`/`docs/decision-log.md`, and a coherent Git commit. Preserve observed failures and negative findings. No claims of production privacy, formal DP, validated digital twin or publishable novelty.

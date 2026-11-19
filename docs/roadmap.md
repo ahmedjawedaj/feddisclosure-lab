@@ -15,3 +15,9 @@ Sprint 5 (benchmarks): multiple clients, seeds, heterogeneity, gradient observab
 Sprint 6 (release): Streamlit read-only experiment explorer, paper-style report, reproducibility package and faculty presentation. **Gate:** fresh-environment replication and no unsupported thesis novelty or real-digital-twin claim.
 
 Track C simulation is optional and cannot block the two core tracks.
+
+## Status update, 2026-11-19 (v0.4)
+
+- Sprint 2: five-seed paired three-client public-digit study complete; one-seed 1/3/5 client-count pilot; evaluator-only histograms now excluded from coordinator manifest. **Native Flower/Docker still unverified.** No completed MNIST download, FedProx or converged multi-round study.
+- Sprint 3: controlled exact-gradient (batch 1 and batch 8 with labels) and output-confidence membership benchmarks **executed**. Five matched exact/noisy gradient seeds and five membership-query seeds; figures and results saved. Remaining: actual multi-step FL update inversion, batch 32, multiple training seeds for membership, realistic attacks and observer isolation.
+- Sprint 4: DP/secure aggregation still pending and not claimed by the unaccounted noise experiment.

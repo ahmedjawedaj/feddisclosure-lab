@@ -47,3 +47,11 @@ For threat-model or disclosure work use `.agents/skills/threat-model-review/SKIL
 ## Next priority
 
 Execute the pending Sprint 1 Docker gate and Sprint 2 native Flower ServerApp/ClientApp runtime gate; extend experiments only after collecting observed evidence. See `NEXT_SPRINT.md` and `docs/fl-experiment-protocol.md`.
+
+## v0.4 executed disclosure evidence
+
+- Five matched exact/noisy public-digit gradient-inversion seeds and batch-8 known-label case, scored separately by evaluator. See `docs/disclosure-protocol.md` and `.agents/skills/disclosure-benchmark/SKILL.md`.
+- Five query-seed output-only membership experiments on one frozen public-digit model (AUC near 0.5). Do not describe these as five training repeats.
+- Five matched IID/non-IID training seeds on three separate PyTorch worker processes. Still NOT a native Flower run.
+- Schema-v2 coordinator manifest excludes label histograms and rejects v1 input. Guard against oracle leakage if evolving the data pipeline.
+- Continue preserving negative outcomes and unmet Docker/Flower gates. `NEXT_SPRINT.md` is current.

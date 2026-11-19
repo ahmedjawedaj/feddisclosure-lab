@@ -51,3 +51,11 @@ Observer identity, training or query access, exact observations, number of parti
 **Sees:** Per-client complete post-local-training model arrays and sample counts; aggregate scalar metrics. **Does not receive** raw sample arrays, private per-site label lists, or evaluator public test labels. Individual model updates are not individual-example gradients. One-client reconstruction experiments must not be described as multi-client leakage under this observer.
 
 **Evaluator separation:** Offline reference evaluator and local client training execute as separate OS processes; the evaluator has permitted public ground truth. This does not enforce container-level filesystem permissions. CI and future Docker deployments must further isolate respective roles.
+
+## Sprint 3: stronger controlled exact-gradient observer (EXECUTED, distinct from FL coordinator)
+
+Receives a **full exact first-step gradient** for one isolated example or batch, known initial network weights, architecture and input dimensions. For batch 1 the true label is inferred through the output-layer bias-gradient minimum, assuming cross entropy/softmax. For batch 8 the oracle reveals labels (explicitly stronger privilege). It does **not** receive original image arrays, membership tags or evaluator-only optimal image assignment. This is not necessarily what a real coordinator sees after multiple local minibatches/steps and is not a SecAgg+-protected observer. Success is scored by the separate evaluator on approved public image data.
+
+## Sprint 3: output-only model observer (EXECUTED OFFLINE REPLAY)
+
+Receives softmax probability vectors only. It neither accesses model weights nor knows which predictions refer to member records; it returns confidence-based membership scores to the evaluator. The evaluator constructs matched member/non-member public digit queries, retains membership labels and computes ROC metrics. A deployed HTTP inference API with authentication and query budgeting is not yet tested. This is distinct from the gradient observer and the privileged evaluator.

@@ -1,0 +1,136 @@
+{
+  "observer": "server_individual_exact_gradient",
+  "dataset": "approved_public_sklearn_digits",
+  "conditions": {
+    "0.0": {
+      "runs": 5,
+      "mean_mse": 2.426779577291427e-09,
+      "std_mse": 1.27579716922434e-09,
+      "mean_psnr_db": 86.8915539164512,
+      "mean_ssim": 0.9999999910593033
+    },
+    "0.01": {
+      "runs": 5,
+      "mean_mse": 0.0012113544158637523,
+      "std_mse": 0.0011482600664784437,
+      "mean_psnr_db": 30.76310167128128,
+      "mean_ssim": 0.9952891349792481
+    }
+  },
+  "pairs": [
+    {
+      "seed": 231,
+      "noise_std": 0.0,
+      "mean_mse": 1.889295830892479e-09,
+      "mean_psnr_db": 87.23700033785437,
+      "mean_ssim": 1.0,
+      "result": "seed231_noise0p0/evaluation.json"
+    },
+    {
+      "seed": 231,
+      "noise_std": 0.01,
+      "mean_mse": 0.0029818618204444647,
+      "mean_psnr_db": 25.25512485634502,
+      "mean_ssim": 0.9881017506122589,
+      "result": "seed231_noise0p01/evaluation.json"
+    },
+    {
+      "seed": 232,
+      "noise_std": 0.0,
+      "mean_mse": 2.8221169845465965e-09,
+      "mean_psnr_db": 85.49424987502286,
+      "mean_ssim": 1.0,
+      "result": "seed232_noise0p0/evaluation.json"
+    },
+    {
+      "seed": 232,
+      "noise_std": 0.01,
+      "mean_mse": 0.001771327806636691,
+      "mean_psnr_db": 27.51701059679803,
+      "mean_ssim": 0.9928258508443832,
+      "result": "seed232_noise0p01/evaluation.json"
+    },
+    {
+      "seed": 233,
+      "noise_std": 0.0,
+      "mean_mse": 4.033847478268626e-09,
+      "mean_psnr_db": 83.94280526698009,
+      "mean_ssim": 0.9999999701976776,
+      "result": "seed233_noise0p0/evaluation.json"
+    },
+    {
+      "seed": 233,
+      "noise_std": 0.01,
+      "mean_mse": 0.0004430411499924958,
+      "mean_psnr_db": 33.53555934308083,
+      "mean_ssim": 0.9984888285398483,
+      "result": "seed233_noise0p01/evaluation.json"
+    },
+    {
+      "seed": 234,
+      "noise_std": 0.0,
+      "mean_mse": 2.7919955236654914e-09,
+      "mean_psnr_db": 85.54085282341475,
+      "mean_ssim": 0.9999999850988388,
+      "result": "seed234_noise0p0/evaluation.json"
+    },
+    {
+      "seed": 234,
+      "noise_std": 0.01,
+      "mean_mse": 0.0005175892729312181,
+      "mean_psnr_db": 32.86014733025319,
+      "mean_ssim": 0.9981399774551392,
+      "result": "seed234_noise0p01/evaluation.json"
+    },
+    {
+      "seed": 235,
+      "noise_std": 0.0,
+      "mean_mse": 5.966420690839414e-10,
+      "mean_psnr_db": 92.24286127898395,
+      "mean_ssim": 1.0,
+      "result": "seed235_noise0p0/evaluation.json"
+    },
+    {
+      "seed": 235,
+      "noise_std": 0.01,
+      "mean_mse": 0.0003429520293138921,
+      "mean_psnr_db": 34.64766622992933,
+      "mean_ssim": 0.9988892674446106,
+      "result": "seed235_noise0p01/evaluation.json"
+    }
+  ],
+  "paired_differences": [
+    {
+      "seed": 231,
+      "noise_std": 0.01,
+      "noisy_minus_exact_mse": 0.002981859931148634,
+      "exact_minus_noisy_psnr_db": 61.98187548150935
+    },
+    {
+      "seed": 232,
+      "noise_std": 0.01,
+      "noisy_minus_exact_mse": 0.0017713249845197065,
+      "exact_minus_noisy_psnr_db": 57.97723927822483
+    },
+    {
+      "seed": 233,
+      "noise_std": 0.01,
+      "noisy_minus_exact_mse": 0.0004430371161450175,
+      "exact_minus_noisy_psnr_db": 50.40724592389926
+    },
+    {
+      "seed": 234,
+      "noise_std": 0.01,
+      "noisy_minus_exact_mse": 0.0005175864809356945,
+      "exact_minus_noisy_psnr_db": 52.68070549316156
+    },
+    {
+      "seed": 235,
+      "noise_std": 0.01,
+      "noisy_minus_exact_mse": 0.00034295143267182304,
+      "exact_minus_noisy_psnr_db": 57.595195049054624
+    }
+  ],
+  "privacy_claim": "NONE: manually injected Gaussian gradient noise has no formal DP accountant, sampling or adjacency definition",
+  "interpretation": "An empirical attack-performance ablation only; not production FL or secure aggregation"
+}
