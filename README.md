@@ -1,3 +1,13 @@
+# v0.8.0 research milestone
+
+**Executed:** five seeds × individual/aggregate-only/colluding observer roles = 15 actual public-digit update inversion attacks, with a saved multi-seed figure and independent integrity verifier. Mean target MSE: 0.01664 / 0.10848 / 0.01664. The aggregate case is an idealized mean and uses a deliberately weak target-only probe; the all-but-one collusion case algebraically reveals the individual update. **No Flower SecAgg+ was executed.**
+
+**Implemented but native blocked:** local Opacus DP-SGD vs ordinary SGD code, accountant checks, CLI, config, tests and GitHub CI. No real native Opacus output or epsilon guarantee is available from this environment. Docker, Flower and native OpenDP are also unverified.
+
+To verify: `python scripts/verify_aggregate_collusion.py`, `pytest -q -m 'not slow'`. See `docs/v0.8-research-protocol.md`, `docs/v0.8-results.md`, `CURRENT_STATE.md`, `NEXT_SPRINT.md` and the original setup instructions below.
+
+---
+
 # FedDisclosure Lab
 
 **A reproducible privacy leakage and defense benchmark for federated analytics and learning**

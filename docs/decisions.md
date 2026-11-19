@@ -1,3 +1,7 @@
+## 2026-11-19 — Aggregate observation versus collusion (v0.8)
+
+Compare attacker observer privileges, not "privacy scores." An arithmetic mean is an *idealized visibility model*, not a secure-aggregation protocol. Grant target labels consistently, preserve weakness of aggregate-only target-proxy attack, and explicitly record all-but-one collusion. Add native Opacus DP-SGD only with a real accountant and no manual noise stand-ins; defer repeated FL accounting and formal claim until executed.
+
 # Architecture decisions
 
 - **ADR-001: Single machine first.** Docker Compose for three isolated institutional containers; local process harness used for testing where Docker daemon unavailable.

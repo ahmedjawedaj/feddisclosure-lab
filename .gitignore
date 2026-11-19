@@ -49,3 +49,8 @@ reports/results/sprint1/docker_*.txt
 !reports/figures/sprint3_gradient_comparison.png
 !reports/figures/sprint3_membership_roc.png
 !reports/figures/sprint3_model_update_inversion.png
+
+# v0.8 public digit model-observation cases are reproducible but contain
+# image ground truth and derived training information, and MUST not enter Git.
+/reports/results/sprint4/aggregate_collusion/
+/reports/results/sprint4/opacus_native/

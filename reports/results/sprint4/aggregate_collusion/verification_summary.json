@@ -1,0 +1,22 @@
+{
+  "seeds": [
+    241,
+    242,
+    243,
+    244,
+    245
+  ],
+  "cases": [
+    "individual",
+    "aggregate_only",
+    "all_but_one_collusion"
+  ],
+  "n_attack_executions": 15,
+  "mean_mse": {
+    "individual": 0.01664134841412306,
+    "aggregate_only": 0.10847776979207993,
+    "all_but_one_collusion": 0.016641349671408533
+  },
+  "integrity": "passed",
+  "warning": "No Flower SecAgg+ or cryptographic security claimed"
+}

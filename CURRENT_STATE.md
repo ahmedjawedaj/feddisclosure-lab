@@ -1,3 +1,13 @@
+# CURRENT STATE — 2026-11-19 — v0.8.0
+
+**Research milestone 1 (EXECUTED):** Five-seed, three-site idealized model-update aggregation/collusion study with 15 attacker/evaluator reconstructions. Same 8 target public digit images and known target labels across individual, aggregate-only target probe and all-but-one collusion roles, 160 Adam iterations per attack. Average target image MSE **0.01664135 individual**, **0.10847777 aggregate-only**, **0.01664135 collusion**. The collusion role algebraically isolates the target update with tensor max-error <2e-6; aggregate-only is a deliberately misspecified target-only attack, not a best possible attack. No native SecAgg+ or real cryptographic protection was used. See `docs/v0.8-research-protocol.md`, `docs/v0.8-results.md` and `scripts/verify_aggregate_collusion.py`. Source images, observations, scores and summary shipped in archive but private research tensors NOT committed.
+
+**Research milestone 2 (IMPLEMENTED, NATIVE BLOCKED):** Native Opacus adapter `defenses/opacus_training.py`, single-silo SGD versus DP-SGD runner `scripts/run_opacus_dp_sgd.py`, predeclared defense YAML, validation and native integration tests, and CI workflow `opacus-native.yml`. The runner checks actual Opacus accountant epsilon and private optimizer noise multiplier and refuses to claim DP if missing. This environment has no `opacus`, so the CLI exited status 2 and wrote no benchmark. No formal DP-SGD guarantee or private utility comparison is claimed. OpenDP native measurement, Flower, Docker and SecAgg+ remain unverified and blocked.
+
+**Verification:** 80 fast tests passed, 2 optional skips (Flower and native OpenDP), 3 slow deselected (2 independent worker cases passed separately and native Opacus case skipped); 15 attack scores and observations independently verified; live four-process analytics reproduced 110−107=3 and history rejection; v0.7 evidence integrity reverified. Opacus and OpenDP runners exited 2, Docker absent (127), no native results written. v0.7 20-run balanced training study and recorded historical evidence preserved. New figure `reports/figures/sprint4_aggregate_collusion.png` is generated from saved runs. Native blockers are not accepted as passes. See `NEXT_SPRINT.md` for gates.
+
+---
+
 # CURRENT STATE — 2026-11-19 — v0.7.0
 
 **Two workstreams advanced:** (1) Sprint 5 matched heterogeneity ablation completed on three independent PyTorch client processes with 20 saved runs; (2) Sprint 4 OpenDP query-release application transport and principal-wide budget ledger implemented and regression-tested using an injected *fake measurement* (NOT actual DP). Formal Sprint 4 acceptance remains BLOCKED because OpenDP is unavailable.

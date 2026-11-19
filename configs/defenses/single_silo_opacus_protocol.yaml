@@ -1,0 +1,26 @@
+experiment: single_silo_dp_sgd_native_opacus
+status: requires_native_opacus_runtime
+public_dataset: sklearn_digits_8x8
+client: institution-00
+unit_of_privacy: one_training_record
+adjacency: add_remove_one_record
+mechanism: opacus_dp_sgd
+accountant: rdp
+sampling: poisson
+secure_mode: false
+initial_model: shared_seeded_digit_mlp
+baseline: local_sgd_same_initialization_nominal_epochs
+optimizer: SGD
+learning_rate: 0.15
+epochs: 2
+nominal_batch_size: 32
+max_grad_norm: 1.0
+target_epsilon: 5.0
+target_delta: 0.00001
+model_release: final_model_weights
+metrics: [public_test_accuracy, public_test_loss, native_accounted_epsilon, delta, noise_multiplier, steps]
+limitations:
+  - No FL rounds or cross-institution composition
+  - Native library and real accountant mandatory
+  - Poisson realized batches differ from standard SGD baseline
+  - secure_mode_false_not_cryptographic_randomness

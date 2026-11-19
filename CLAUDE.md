@@ -1,3 +1,5 @@
+**v0.8 handoff:** Read `AGENTS.md`, `CURRENT_STATE.md`, `NEXT_SPRINT.md`, `docs/v0.8-research-protocol.md`, and `docs/v0.8-results.md` first. Preserve separate observer roles and native DP execution gates.
+
 ## v0.7.0 Claude handoff
 
 First read `CURRENT_STATE.md`, `NEXT_SPRINT.md`, `docs/v0.7-research-report.md`, and `docs/opendp-runtime.md`. Reproduce `scripts/verify_v070_evidence.py` and all fast tests; follow `.claude/skills/balanced-heterogeneity/SKILL.md` and `.claude/skills/private-query-budget/SKILL.md` when editing new experiments. PyTorch reference is not Flower. Fake DP transport tests are not native OpenDP or formal privacy evidence; do not claim epsilon guarantees before real OpenDP map and sampling pass. Update research decision log, evidence hashes and state after every loop.

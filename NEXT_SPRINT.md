@@ -1,3 +1,45 @@
+# NEXT SPRINT — post v0.8.0
+
+## Completed in this development cycle
+
+- [x] Three-client, one-step full-batch exact-mean observation construction; unprotected individual, aggregate-only, and all-but-one collusion cases use explicitly declared privileges.
+- [x] Five seeds × three roles = 15 actual reconstruction/evaluation runs against the same targets, with independent evaluation, SHA-256 hashes, strict metric replay, a figure and research-methodology report.
+- [x] Native Opacus **integration code** (DP-SGD, RDP accountant, Poisson sampling, eps/delta target check, SGD reference, evaluator subprocess), CI workflow, CLI and validation tests. **NOT executed natively.**
+
+## P0 blockers (must retain)
+
+1. Run real Docker Compose and isolation verifier on a Docker Engine host; preserve logs and distinct institution-volume evidence.
+2. Run native Flower ServerApp/ClientApp three-client training and weight parity. No same-process PyTorch reference can clear this gate.
+3. Run native OpenDP three-site count Laplace mechanism with privacy-map proof, budget ledger and matched utility. No fake measurement qualifies.
+4. Install real Opacus on Python 3.12, execute `python scripts/run_opacus_dp_sgd.py` against approved public digits. Check native Opacus RDP `get_epsilon(delta)`, privacy assumptions, achieved accuracy and comparison against SGD; persist actual artifacts and failures. Existing package-network DNS failure is environmental only.
+5. Then integrate real Flower SecAgg+ using established upstream workflow with threshold >1 and documented dropout/collusion policy. **The v0.8 arithmetic mean is not SecAgg+.**
+
+## P1 scientific next steps
+
+- Strengthen aggregate-only attacks by optimizing the full joint 3-client observation, not only the naive target-only proxy. Add matched known-label and unknown-label scenarios, consider correlated client auxiliary information and participation changes. Preserve all failures.
+- Isolate attackers/evaluators via OS-level access controls, not just folder naming.
+- Compose per-site DP-SGD privacy across repeated local FL rounds. Preserve accurate participation, sampling and accountant state. No cross-round DP claims from the current one-shot runner.
+- Longer five-seed equal-work 8–20-round FL study, convergence and worst-client uncertainty. Add a second approved public dataset with provenance.
+- Demonstrate query defense versus real native OpenDP releases and release refusal rate; document output-only attacker query budgets.
+
+## Reproduction and acceptance commands
+
+```bash
+pytest -q -m 'not slow'
+python scripts/verify_v070_evidence.py
+python scripts/verify_aggregate_collusion.py
+python scripts/plot_aggregate_collusion.py
+python scripts/run_local_stack.py --once
+# Native verification on Python3.12 network-enabled host:
+python -m pip install -e '.[privacy,research,test]'
+python scripts/run_dp_analytics.py
+python scripts/run_opacus_dp_sgd.py --data-root data/training/digits-iid --output-dir reports/results/sprint4/opacus_native
+bash scripts/verify_compose.sh  # Docker host only
+python scripts/run_flower_experiment.py # Flower host only
+```
+
+---
+
 # NEXT SPRINT — post v0.7.0 gates
 
 ## Sprint 5 equal-work sensitivity: COMPLETED (short pilot)

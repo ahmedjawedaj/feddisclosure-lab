@@ -36,7 +36,8 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
         raise ValueError("Invalid reconstruction hyperparameters")
     observer = observation.get("observer")
     if observation.get("schema_version") != 1 or observer not in (
-        "server_individual_exact_gradient", "server_individual_model_delta"
+        "server_individual_exact_gradient", "server_individual_model_delta",
+        "server_aggregate_model_delta_target_probe", "server_collusion_isolated_delta"
     ):
         raise ValueError("Only explicit individual-gradient/update observer contracts are supported")
     torch.set_num_threads(1)
@@ -47,7 +48,8 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
     model = DigitMLP(features, classes)
     model.load_state_dict(observation["model_state"])
     model.eval()
-    if observer == "server_individual_model_delta":
+    if observer in ("server_individual_model_delta",
+                    "server_aggregate_model_delta_target_probe", "server_collusion_isolated_delta"):
         steps = int(observation["local_steps"])
         rate = float(observation["learning_rate"])
         if steps < 1 or rate <= 0:
@@ -98,13 +100,13 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
     return recovery, {"algorithm": "DLG_Adam_gradient_matching_or_model_delta_proxy",
                       "observer": observation["observer"],
                       "local_steps": int(observation.get("local_steps", 1)),
-                      "gradient_target": "model_delta_divided_by_lr_times_steps" if observer == "server_individual_model_delta" else "exact_released_gradient",
+                      "gradient_target": "model_delta_divided_by_lr_times_steps" if observer != "server_individual_exact_gradient" else "exact_released_gradient",
                       "batch_size": batch_size, "labels_available": "known_labels" in observation,
                       "recovered_labels": labels.tolist(), "iterations": iterations,
                       "lr": lr, "tv_weight": tv_weight, "seed": seed,
                       "duration_seconds": round(time.perf_counter() - start, 4),
                       "gradient_matching_history": history,
-                      "limitations": ["An exact gradient or a proxy derived from an individual local model update (not secure aggregation)",
+                      "limitations": ["An exact gradient or model-delta proxy; aggregate-only is NOT individual-update reconstruction",
                                       "Requires full per-example or per-batch exact gradients and known architecture/weights",
                                       "Batch>1 runs require true labels as an explicitly declared extra attacker privilege",
                                       "A low gradient residual does not prove recognizable image reconstruction",

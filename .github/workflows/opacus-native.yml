@@ -1,0 +1,35 @@
+name: native-opacus-dp-sgd-smoke
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/feddisclosure/defenses/opacus_training.py'
+      - 'scripts/run_opacus_dp_sgd.py'
+      - 'tests/privacy/test_opacus_training.py'
+      - '.github/workflows/opacus-native.yml'
+jobs:
+  native-opacus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install native Opacus with public-data evaluation libraries
+        run: python -m pip install -e '.[privacy,research,test]'
+      - name: Unit tests and REAL native Opacus accountant test
+        run: pytest -q tests/privacy/test_opacus_training.py
+      - name: Prepare approved public-data partitions
+        run: python scripts/prepare_fl_data.py --output data/training/ci-public-digits --clients 3 --limit 600 --seed 20261118
+      - name: Train single-silo standard SGD versus native Opacus DP-SGD
+        run: >-
+          python scripts/run_opacus_dp_sgd.py
+          --data-root data/training/ci-public-digits
+          --output-dir reports/results/ci/opacus_native
+          --epsilon 5.0 --delta 0.00001 --epochs 2 --seed 241
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-opacus-evidence
+          path: reports/results/ci/opacus_native/
