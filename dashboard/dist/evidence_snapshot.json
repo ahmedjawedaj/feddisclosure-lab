@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "project": "FedDisclosure Lab",
+  "data_scope": "reviewed_scalar_evidence_only",
+  "native_protocol_verified": {
+    "docker": false,
+    "flower": false,
+    "opendp": false,
+    "opacus": false,
+    "secagg_plus": false
+  },
+  "heterogeneity": [
+    {
+      "name": "iid",
+      "global_accuracy": 68.88888888888889,
+      "worst_client_accuracy": 65.0,
+      "global_sd": 2.832788618662657,
+      "seeds": 5
+    },
+    {
+      "name": "dirichlet_balanced_0.1",
+      "global_accuracy": 71.22222222222221,
+      "worst_client_accuracy": 53.333333333333336,
+      "global_sd": 4.6381403254981795,
+      "seeds": 5
+    },
+    {
+      "name": "dirichlet_balanced_0.5",
+      "global_accuracy": 67.66666666666666,
+      "worst_client_accuracy": 60.0,
+      "global_sd": 6.423817564249891,
+      "seeds": 5
+    },
+    {
+      "name": "dirichlet_balanced_10",
+      "global_accuracy": 71.55555555555554,
+      "worst_client_accuracy": 65.41666666666667,
+      "global_sd": 4.381498700695633,
+      "seeds": 5
+    }
+  ],
+  "membership": [
+    {
+      "name": "max_confidence",
+      "auc_mean": 0.5422222222222222,
+      "auc_sd": 0.04058123235872813,
+      "trained_models": 3
+    },
+    {
+      "name": "negative_entropy",
+      "auc_mean": 0.5435185185185185,
+      "auc_sd": 0.03000171462864139,
+      "trained_models": 3
+    },
+    {
+      "name": "top2_margin",
+      "auc_mean": 0.5198148148148148,
+      "auc_sd": 0.05393850331551388,
+      "trained_models": 3
+    }
+  ],
+  "collusion": [
+    {
+      "name": "individual",
+      "mean_mse": 0.01664134841412306,
+      "seeds": 5
+    },
+    {
+      "name": "aggregate_only",
+      "mean_mse": 0.10847776979207993,
+      "seeds": 5
+    },
+    {
+      "name": "all_but_one_collusion",
+      "mean_mse": 0.016641349671408533,
+      "seeds": 5
+    }
+  ],
+  "joint_oracle": [
+    {
+      "seed": 241,
+      "pooled_mse": 0.05928162857890129,
+      "target_oracle_mse": 0.04788318648934364
+    },
+    {
+      "seed": 242,
+      "pooled_mse": 0.055843982845544815,
+      "target_oracle_mse": 0.050174206495285034
+    },
+    {
+      "seed": 243,
+      "pooled_mse": 0.05682353302836418,
+      "target_oracle_mse": 0.033090345561504364
+    }
+  ],
+  "source_sha256": {
+    "heterogeneity": "8dc5d6f6af6acf1b550db2355d7c4ba50fc647595fc8bcb64bb384e6cef36a4c",
+    "membership": "51b0931ee4ca3156e31b1fe17ac23b10a27b33e305ecaefbf991f99b734fd261",
+    "collusion": "b4a503076c30650c9503e2dc364a056f6def5cc7c1cda02bf9b4f7d133042c43",
+    "joint_241": "5c26ded71295d69c5e59e637875830642e6c35635832e33705114c845a12cdc5",
+    "joint_242": "cda069cc665a80569780388b07c35fbe9383ce83fa8fdd6fc1ef6293de40218e",
+    "joint_243": "ae4ea5e4f9b778541dd9731ef304184e2bda2c16d15442f0f3245885af3297d0"
+  },
+  "limitations": [
+    "OpenDP, Opacus, Flower and SecAgg+ native execution is not verified.",
+    "All attack data are approved public digits; no institutional patient records.",
+    "Joint aggregate observer knows all contributor labels; site attribution is not established.",
+    "Observed reconstruction error is not a formal privacy guarantee.",
+    "Five training seeds and three membership models are exploratory, not a publication-grade power analysis."
+  ]
+}

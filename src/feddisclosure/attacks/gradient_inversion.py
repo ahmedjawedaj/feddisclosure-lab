@@ -37,19 +37,21 @@ def reconstruct(observation: dict, *, iterations: int = 350, lr: float = 0.12,
     observer = observation.get("observer")
     if observation.get("schema_version") != 1 or observer not in (
         "server_individual_exact_gradient", "server_individual_model_delta",
-        "server_aggregate_model_delta_target_probe", "server_collusion_isolated_delta"
+        "server_aggregate_model_delta_target_probe", "server_collusion_isolated_delta",
+        "server_aggregate_model_delta_joint_oracle"
     ):
-        raise ValueError("Only explicit individual-gradient/update observer contracts are supported")
+        raise ValueError("Only explicitly allowlisted gradient/update observer contracts are supported")
     torch.set_num_threads(1)
     features, classes = int(observation["features"]), int(observation["classes"])
     batch_size = int(observation["batch_size"])
-    if batch_size not in (1, 8, 16, 32, 64) or features != 64:
-        raise ValueError("Supported controlled experiments use 1, 8, 16, 32, or 64 public 8x8 digits")
+    if batch_size not in (1, 8, 16, 24, 32, 64) or features != 64:
+        raise ValueError("Supported controlled experiments use 1, 8, 16, 24, 32, or 64 public 8x8 digits")
     model = DigitMLP(features, classes)
     model.load_state_dict(observation["model_state"])
     model.eval()
     if observer in ("server_individual_model_delta",
-                    "server_aggregate_model_delta_target_probe", "server_collusion_isolated_delta"):
+                    "server_aggregate_model_delta_target_probe", "server_collusion_isolated_delta",
+        "server_aggregate_model_delta_joint_oracle"):
         steps = int(observation["local_steps"])
         rate = float(observation["learning_rate"])
         if steps < 1 or rate <= 0:

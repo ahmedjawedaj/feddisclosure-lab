@@ -26,7 +26,7 @@ def _sha(path: Path) -> str:
 
 def create_aggregate_observations(site_files: list[str | Path], out_dir: str | Path, *,
                                   examples_per_site: int = 8, seed: int = 241,
-                                  learning_rate: float = 0.15) -> dict:
+                                  learning_rate: float = 0.15, joint_oracle: bool = False) -> dict:
     """One local full-batch SGD step/site; target site 0 and two other contributors.
 
     Each site must be a different file and use disjoint *source_idx* if present.
@@ -87,6 +87,37 @@ def create_aggregate_observations(site_files: list[str | Path], out_dir: str | P
     np.savez_compressed(eval_dir / "target.npz", x=target_x.numpy(), y=target_y.numpy(),
                         source_idx=target_indices)
 
+    # This extra observer receives the true labels of ALL 24 contributors,
+    # not only victim labels. Images remain evaluator-only. The mean of three
+    # equal-size one-step SGD updates equals the full pooled-batch gradient.
+    if joint_oracle:
+        pooled_x = torch.cat([entry[0] for entry in private_data])
+        pooled_y = torch.cat([entry[1] for entry in private_data])
+        # This is a stronger-than-realistic oracle: labels are in client blocks.
+        # Label/site grouping is therefore additionally visible; record images
+        # remain hidden. Do not call this a normal SecAgg+ observation.
+        np.savez_compressed(eval_dir / "pooled.npz", x=pooled_x.numpy(), y=pooled_y.numpy())
+        # Test mathematical identity before reporting any attack outcomes.
+        parity_model = DigitMLP()
+        parity_model.load_state_dict(initial)
+        pooled_gradient = torch.autograd.grad(
+            nn.functional.cross_entropy(parity_model(pooled_x), pooled_y),
+            tuple(parity_model.parameters()),
+        )
+        max_error = max(float((mean[k] / learning_rate - grad).abs().max())
+                        for k, grad in zip(initial, pooled_gradient))
+        if max_error > 1e-5:
+            raise RuntimeError("Pooled exact-gradient parity failed")
+        joint_dir = out / "aggregate_joint_oracle" / "attacker"
+        joint_dir.mkdir(parents=True)
+        torch.save({"schema_version": 1,
+                    "observer": "server_aggregate_model_delta_joint_oracle",
+                    "features": 64, "classes": 10,
+                    "batch_size": int(len(pooled_y)), "model_state": initial,
+                    "model_delta": mean, "learning_rate": learning_rate,
+                    "local_steps": 1, "known_labels": pooled_y.tolist()},
+                   joint_dir / "observation.pt")
+
     descriptions = {
         "individual": "Unprotected server directly observes target's own update",
         "aggregate_only": "Server sees ONLY the three-client arithmetic mean; naive target-gradient proxy",
@@ -115,6 +146,16 @@ def create_aggregate_observations(site_files: list[str | Path], out_dir: str | P
                            "privileged_target_labels": True,
                            "target_images_visible": False,
                            "other_client_updates_visible_to_attack": case == "all_but_one_collusion"}
+    if joint_oracle:
+        contracts["aggregate_joint_oracle"] = {
+            "observer": "server_aggregate_model_delta_joint_oracle",
+            "assumptions": "All contributor labels known and grouped by client; images hidden; no exact record identities",
+            "observation_sha256": _sha(joint_dir / "observation.pt"),
+            "privileged_all_contributor_labels": True,
+            "target_images_visible": False,
+            "other_client_updates_visible_to_attack": False,
+            "pooled_initial_gradient_max_error": max_error,
+        }
     report = {"schema_version": 1, "experiment": "idealized_aggregate_observation_collusion",
               "seed": seed, "sites": 3, "examples_per_site": examples_per_site,
               "initial_model_shared": True, "local_steps": 1,

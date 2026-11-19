@@ -1,3 +1,22 @@
+# v0.9.0 — Stronger aggregate attack, paired uncertainty, research explorer
+
+**Executed:** Three new seeds (241, 242, 243) of an all-contributor-label-oracle *joint* aggregate-only inversion. Each experiment jointly reconstructs 24 public 8×8 digit images from the arithmetic average of three independently computed SGD updates. All contributor labels (in site-grouped order) are disclosed as **extra attacker privileges**. Evaluation is separate, and exact image values are never provided to the attack process. The mean pooled label-matched MSE across these three seeds is about 0.0573; target-oracle best matching is not a real attacker identification capability. No Flower SecAgg+ or formal privacy protocol is claimed.
+
+**Executed:** A paired exploratory analysis over the existing five-seed, equal-work IID versus Dirichlet α=0.1 study. Mean difference (α=0.1 minus IID) was +2.33 percentage points global accuracy (95% t interval −1.73 to +6.40) and −11.67 points worst-client validation (interval −36.38 to +13.05). These wide intervals **do not establish a reliable effect**.
+
+**Delivered:** Offline HTML research explorer (`dashboard/dist/index.html`) and optional Streamlit UI (`dashboard/app.py`), both reading only allowlisted scalar research summaries. No raw datasets, attacker observations, recovery outputs, or private images are embedded. The static explorer works without any package installation.
+
+**Native blocker remains:** Docker, Flower, OpenDP, Opacus and SecAgg+ have NOT been successfully executed here. No GitHub Actions run has been observed. See `docs/v0.9-results.md`, `CURRENT_STATE.md` and `NEXT_SPRINT.md`. Reproduce with:
+
+```bash
+python scripts/verify_joint_aggregate.py
+python scripts/analyze_balanced_study.py
+python -m dashboard.build_dashboard
+PYTHONPATH=src:. pytest -q -m 'not slow'
+```
+
+---
+
 # v0.8.0 research milestone
 
 **Executed:** five seeds × individual/aggregate-only/colluding observer roles = 15 actual public-digit update inversion attacks, with a saved multi-seed figure and independent integrity verifier. Mean target MSE: 0.01664 / 0.10848 / 0.01664. The aggregate case is an idealized mean and uses a deliberately weak target-only probe; the all-but-one collusion case algebraically reveals the individual update. **No Flower SecAgg+ was executed.**

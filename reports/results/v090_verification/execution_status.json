@@ -1,0 +1,22 @@
+{
+  "version": "0.9.0",
+  "python": "3.13.5",
+  "docker_binary": false,
+  "native_packages": {
+    "flwr": false,
+    "opendp": false,
+    "opacus": false,
+    "streamlit": false
+  },
+  "executed": {
+    "fast_tests": "88 passed, 2 skipped, 3 slow deselected",
+    "analytics_http": "passed",
+    "legacy_v070_evidence": "passed",
+    "legacy_v080_collusion_evidence": "passed",
+    "joint_oracle_evidence": "3 seeds passed",
+    "offline_dashboard": "generated; static export tested",
+    "paired_statistics": "computed; intervals span zero"
+  },
+  "native_guarantees_claimed": false,
+  "limitation": "Combined slow integration run timed out; CI workflows not executed"
+}

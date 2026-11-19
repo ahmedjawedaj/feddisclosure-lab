@@ -1,0 +1,63 @@
+"""Export a completely offline, dependency-free interactive research explorer."""
+from __future__ import annotations
+import argparse
+import html
+import json
+from pathlib import Path
+
+from dashboard.evidence import ROOT, make_snapshot
+
+# Only the whitelisted scalar evidence snapshot is embedded, not raw training data.
+TEMPLATE = '''<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FedDisclosure Lab · Evidence Explorer</title>
+<style>
+:root{color-scheme:dark;font:16px system-ui,-apple-system,Segoe UI,sans-serif;background:#101723;color:#ebf1fa}
+*{box-sizing:border-box}body{margin:0;line-height:1.5}header{padding:32px max(5vw,22px);background:linear-gradient(110deg,#14263c,#1d2d35);border-bottom:1px solid #30445a}
+h1{font-size:clamp(28px,3vw,44px);margin:0 0 8px}.subtitle{color:#b4c7d7;max-width:800px;margin:0}
+main{max-width:1140px;margin:auto;padding:30px 20px 64px}.meta{color:#96b0c6;font-size:14px}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}button{border:1px solid #405670;background:#1c2c40;color:#e9f3ff;border-radius:9px;padding:10px 15px;cursor:pointer;font-size:14px}button[aria-selected=true]{background:#2b7375;border-color:#63b4a9;color:white}
+.panel{display:none}.panel.active{display:block}h2{margin:0 0 12px;font-size:23px}.card{border:1px solid #34495e;background:#192635;border-radius:12px;padding:20px;margin:14px 0}.bar-row{display:grid;grid-template-columns:minmax(165px,230px) 1fr 76px;align-items:center;gap:12px;margin:14px 0;font-size:14px}.track{height:16px;background:#344054;border-radius:6px;overflow:hidden}.bar{height:16px;background:#55aea8;min-width:2px;border-radius:6px}.muted{color:#a3b5ca}.warn{border-left:3px solid #e6bf6a;padding:10px 16px;background:#272b33;margin-top:20px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px}.stat{background:#1e3141;border:1px solid #384f63;border-radius:12px;padding:17px}.stat b{display:block;font-size:25px}a{color:#78d7d0}footer{color:#96b0c6;font-size:13px;margin-top:36px}
+@media(max-width:520px){.bar-row{grid-template-columns:1fr 1fr}.track{grid-column:1/3;grid-row:2}nav button{flex:1}}
+</style></head><body>
+<header><h1>FedDisclosure Lab</h1><p class="subtitle">Reproducible privacy-leakage research · Read-only evidence explorer</p></header>
+<main><p class="meta">Offline report · Verified scalar summaries only · No raw training records or attacker payloads embedded</p>
+<nav id="tabs" aria-label="Experiment sections"><button data-tab="training" aria-selected="true">Training utility</button><button data-tab="aggregates" aria-selected="false">Aggregate disclosure</button><button data-tab="membership" aria-selected="false">Membership inference</button><button data-tab="status" aria-selected="false">Verification & limits</button></nav>
+<section class="panel active" id="training"><h2>Federated training under heterogeneity</h2><p class="muted">Three clients, equal training sizes and optimizer budgets, four rounds, five seeds. Higher accuracy is better.</p><div class="card"><h3>Global held-out accuracy</h3><div id="global"></div></div><div class="card"><h3>Worst-client validation accuracy</h3><div id="worst"></div></div></section>
+<section class="panel" id="aggregates"><h2>Disclosure across observer privileges</h2><p class="muted">Lower MSE means more accurate reconstruction. These are model-update attacks, not a cryptographic SecAgg+ run.</p><div class="card"><h3>Five-seed model-update reconstruction</h3><div id="collusion"></div></div><div class="card"><h3>Joint aggregate-only, all-label oracle</h3><p class="muted">Joint reconstruction covers 24 public digit images. The evaluator can match images without identifying the victim institution.</p><div id="joint"></div></div></section>
+<section class="panel" id="membership"><h2>Output-only membership inference</h2><p class="muted">ROC-AUC across three independently trained models. Values around 0.5 suggest chance-level separation.</p><div class="card"><h3>Mean ROC-AUC by attack rule</h3><div id="member"></div></div></section>
+<section class="panel" id="status"><h2>Verification status and research limits</h2><div class="grid" id="gates"></div><div class="warn"><strong>Important interpretation limits</strong><ul id="limits"></ul></div><p class="muted">Original summary SHA-256 hashes are preserved in the exported evidence_snapshot.json alongside this report.</p></section>
+<footer>Evidence-driven research portfolio · Static HTML contains selected numerical summaries only. Source: FedDisclosure Lab local research artifacts.</footer></main>
+<script type="application/json" id="snapshot">__DATA__</script>
+<script>
+'use strict';const s=JSON.parse(document.getElementById('snapshot').textContent);
+function node(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el}
+function bars(id,rows,max,fmt){const target=document.getElementById(id);rows.forEach(r=>{let row=node('div','bar-row');row.append(node('span','',r.name));const tr=node('div','track');const bar=node('div','bar');bar.style.width=(Math.max(0,Math.min(100,100*r.value/max)))+'%';tr.append(bar);row.append(tr);row.append(node('strong','',fmt(r.value)));target.append(row)})}
+bars('global',s.heterogeneity.map(x=>({name:x.name,value:x.global_accuracy})),100,x=>x.toFixed(1)+'%');
+bars('worst',s.heterogeneity.map(x=>({name:x.name,value:x.worst_client_accuracy})),100,x=>x.toFixed(1)+'%');
+bars('collusion',s.collusion.map(x=>({name:x.name.replaceAll('_',' '),value:x.mean_mse})),0.15,x=>x.toFixed(4));
+bars('member',s.membership.map(x=>({name:x.name.replaceAll('_',' '),value:x.auc_mean})),1,x=>x.toFixed(3));
+const j=document.getElementById('joint');if(!s.joint_oracle.length){j.append(node('p','muted','No completed joint-oracle runs recorded.'))} else {bars('joint',s.joint_oracle.map(x=>({name:'Seed '+x.seed+' · pooled',value:x.pooled_mse})),0.15,x=>x.toFixed(4))}
+Object.entries(s.native_protocol_verified).forEach(([k,v])=>{const el=node('div','stat');el.append(node('span','muted',k.replaceAll('_',' ')));el.append(node('b','',v?'Executed':'Not verified'));document.getElementById('gates').append(el)});
+s.limitations.forEach(x=>document.getElementById('limits').append(node('li','',x)));
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected',String(x===b)));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab))}));
+</script></body></html>'''
+
+
+def build(root: Path = ROOT, destination: Path | None = None):
+    root = Path(root)
+    destination = destination or root / 'dashboard' / 'dist' / 'index.html'
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    snap = make_snapshot(root)
+    payload = json.dumps(snap, ensure_ascii=True, separators=(',', ':')).replace('<', '\\u003c').replace('>', '\\u003e')
+    destination.write_text(TEMPLATE.replace('__DATA__', payload), encoding='utf-8')
+    (destination.parent / 'evidence_snapshot.json').write_text(json.dumps(snap, indent=2) + '\n')
+    return destination
+
+
+if __name__ == '__main__':
+    p = argparse.ArgumentParser()
+    p.add_argument('--root', type=Path, default=ROOT)
+    p.add_argument('--output', type=Path, default=None)
+    a = p.parse_args()
+    print(build(a.root, a.output))

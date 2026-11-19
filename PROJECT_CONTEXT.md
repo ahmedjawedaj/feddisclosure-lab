@@ -1,3 +1,11 @@
+# v0.9.0 context refresh — 2026-11-19
+
+This is a **research-engineering portfolio**, NOT a finished privacy-certified product or a novel published thesis. Tracks A (analytics) and B (federated ML) remain the core; digital twin is optional. See `docs/v0.9-results.md` for current measured outcomes, `CURRENT_STATE.md` for exact verification and `NEXT_SPRINT.md` for open gates. The latest work adds three-seed joint arithmetic-aggregate reconstruction (very privileged all-contributor label oracle), paired uncertainty analysis over five existing training seeds, and a read-only offline experiment explorer. No native Docker, Flower, OpenDP, Opacus or SecAgg+ execution has been verified.
+
+Canonical method: keep per-site public/synthetic data and evaluator truth out of attack inputs, retain exact observed evidence with hashes, distinguish numerical aggregate simulations from cryptographic secure aggregation, and never invent epsilon or deployment claims.
+
+---
+
 ## v0.8.0 context addition
 
 Project remains a reproducible experimental benchmark, not a published thesis contribution or privacy certification. New observer model distinguishes raw individual client deltas, a three-client arithmetic aggregate, and all-but-one client collusion. The benchmark deliberately grants the target labels to all three roles and tests a simple target-only attack; never imply SecAgg+ was executed. Local DP-SGD integration via native Opacus is written but requires an actual native runtime, fresh accountant outputs and matched measurements before any epsilon statement. Full handoff in `CURRENT_STATE.md`, `NEXT_SPRINT.md`, `docs/v0.8-research-protocol.md`, `docs/v0.8-results.md`.

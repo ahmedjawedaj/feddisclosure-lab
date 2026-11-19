@@ -1,3 +1,37 @@
+# NEXT SPRINT — After v0.9.0
+
+## P0: close native-runtime and defense gates
+
+1. On a Python 3.12, network-enabled and Docker-enabled host, run `bash scripts/verify_compose.sh`. Preserve actual network/volume evidence. No local Docker was available for v0.9.
+2. Run Flower ServerApp/ClientApp against three approved public-digit partitions and verify its tensors against the independent worker FedAvg reference (`scripts/verify_flower_parity.py`). Preserve logs and CI run ID, do not infer parity from a prepared workflow.
+3. Execute native OpenDP count mechanism (not injected fake measurements), validate privacy map, adjacency/sensitivity, epsilon composition, budget exhaustion and actual statistical error across repeated defended queries.
+4. Execute native Opacus DP-SGD with real RDP accountant over matched public datasets and model setups. Report achieved epsilon/delta, clipped gradient settings, accuracy and warning on repeated FL rounds. Never claim standard manually-added noise is DP.
+5. Integrate upstream Flower SecAgg+ using at least three participants and a meaningful threshold. Test eligible collusion and dropout assumptions. No custom cryptography.
+
+## P1: research-quality improvements
+
+- Run the joint aggregate-only oracle attack with five prespecified seeds and consider a realistic **unknown contributor-label** method. Do not expose ground truth and do not treat evaluator matching as attacker identification.
+- Extend multi-round FL on 28x28 MNIST, five seeds and meaningful confidence intervals. Replicate with a second approved public dataset; document source/checksum/license.
+- Evaluate attack/utility tradeoffs matched within threat models; separately report individual-client, aggregate-only, and output-only observers.
+- Introduce OS-level evaluator permissions; current folder distinction is a software boundary only.
+- Expand dashboard from static results to predefined experiment launch controls only after authorization and resource isolation.
+
+## Reproduce and maintain
+
+```bash
+PYTHONPATH=src:. pytest -q -m 'not slow'
+python scripts/verify_joint_aggregate.py
+python scripts/verify_aggregate_collusion.py
+python scripts/verify_v070_evidence.py
+python scripts/analyze_balanced_study.py
+python -m dashboard.build_dashboard
+python scripts/run_local_stack.py --once
+```
+
+After each native or research milestone, verify original artifacts, save failures and negative results, update `CURRENT_STATE.md`, `NEXT_SPRINT.md`, `docs/decisions.md`, and commit separately. Do not treat v0.9 dashboard or idealized aggregate reconstruction as completing Sprint 4 formal defenses.
+
+---
+
 # NEXT SPRINT — post v0.8.0
 
 ## Completed in this development cycle

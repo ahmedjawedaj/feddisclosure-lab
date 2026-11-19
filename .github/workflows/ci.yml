@@ -12,15 +12,27 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "${{ matrix.python-version }}"}
-      - run: python -m pip install -e '.[test]'
-      - run: pytest -q
+      - run: python -m pip install -e '.[research,test]'
+      - run: pytest -q -m 'not slow'
+      - run: python scripts/analyze_balanced_study.py
+      - run: python -m dashboard.build_dashboard
+  slow-training:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m pip install -e '.[research,test]'
+      - run: pytest -q tests/training/test_runner_integration.py -k iid
+      - run: pytest -q tests/training/test_runner_integration.py -k label_skew
   integration:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: python -m pip install -e '.[test]'
+      - run: python -m pip install -e '.[research,test]'
       - run: python scripts/run_local_stack.py --once --output reports/results/ci.json
   compose:
     runs-on: ubuntu-latest
@@ -29,7 +41,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: python -m pip install -e '.[test]'
+      - run: python -m pip install -e '.[research,test]'
       - name: Native Compose isolation and analytics benchmark
         run: bash scripts/verify_compose.sh
       - uses: actions/upload-artifact@v4

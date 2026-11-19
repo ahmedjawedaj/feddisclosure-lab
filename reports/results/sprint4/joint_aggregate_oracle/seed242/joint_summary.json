@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "seed": 242,
+  "iterations": 160,
+  "threat_model": "aggregate_with_all_contributor_labels_oracle",
+  "observer_input_sha256": "53a2a56b8de5dac2068921d7730813996c492ff8fa131caa537c02a3b5606d6a",
+  "recovered_sha256": "1381f67fe5af2ced8979c2f7415a5c30a347ade76425506174eb6f4e6e802862",
+  "scoring_sha256": "b36eec3400ffab9bd802d23e3f1227ca82889dd94eca9125fd8e5ff4fac679f3",
+  "contract": {
+    "observer": "server_aggregate_model_delta_joint_oracle",
+    "assumptions": "All contributor labels known; all images hidden; pooled records not attributed to sites",
+    "observation_sha256": "53a2a56b8de5dac2068921d7730813996c492ff8fa131caa537c02a3b5606d6a",
+    "privileged_all_contributor_labels": true,
+    "target_images_visible": false,
+    "other_client_updates_visible_to_attack": false,
+    "pooled_initial_gradient_max_error": 3.5390257835388184e-08
+  },
+  "metrics": {
+    "pooled_label_matched_mse": 0.055843982845544815,
+    "target_oracle_label_matched_mse": 0.050174206495285034,
+    "reconstruction_count": 24,
+    "target_count": 8,
+    "warning": "Target-oracle metric gives an evaluator matching privilege; attacker cannot attribute recovered images to a specific site"
+  }
+}

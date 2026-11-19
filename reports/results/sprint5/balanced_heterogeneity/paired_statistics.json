@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "protocol": "IID vs Dirichlet alpha=0.1 (selected exploratory contrast, equal-work)",
+  "contrast_order": "alpha_0.1_minus_iid",
+  "source_sha256": "8dc5d6f6af6acf1b550db2355d7c4ba50fc647595fc8bcb64bb384e6cef36a4c",
+  "comparisons": {
+    "test_accuracy": {
+      "paired_difference_pp_by_seed": [
+        0.0,
+        0.5555555555555536,
+        6.666666666666665,
+        -0.5555555555555647,
+        5.000000000000004
+      ],
+      "mean_difference_pp": 2.3333333333333313,
+      "sample_sd_pp": 3.272594772227367,
+      "t_interval_95_pp": [
+        -1.7301297760512382,
+        6.396796442717901
+      ],
+      "exact_sign_flip_two_sided_p": 0.375,
+      "n_paired_seeds": 5
+    },
+    "worst_client_accuracy": {
+      "paired_difference_pp_by_seed": [
+        -39.58333333333333,
+        -24.999999999999993,
+        6.25,
+        4.1666666666666625,
+        -4.1666666666666625
+      ],
+      "mean_difference_pp": -11.666666666666663,
+      "sample_sd_pp": 19.90646530931875,
+      "t_interval_95_pp": [
+        -36.38380797273991,
+        13.050474639406586
+      ],
+      "exact_sign_flip_two_sided_p": 0.4375,
+      "n_paired_seeds": 5
+    }
+  },
+  "limitations": [
+    "Exploratory paired comparisons; only five seeds and weak four-round model",
+    "95% t intervals require exchangeable independent seeds and approximate normality of paired differences",
+    "Sign-flip test assumes differences are symmetric under the null; limited resolution at n=5",
+    "Two outcomes examined; no multiplicity correction or causal claim",
+    "No formal DP or SecAgg+ guarantees apply"
+  ]
+}

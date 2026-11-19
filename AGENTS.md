@@ -12,6 +12,10 @@ Read `CURRENT_STATE.md` and `NEXT_SPRINT.md` first. Reproduce `docs/v0.6-experim
 
 # FedDisclosure Lab agent instructions (Codex and Claude)
 
+## v0.9.0 research handoff
+
+Read `docs/v0.9-results.md` for the three-seed joint aggregate oracle, paired confidence intervals, and offline evidence explorer. Use `scripts/verify_joint_aggregate.py` and `python -m dashboard.build_dashboard` for new verification. The attack oracle receives site-grouped labels of ALL contributors; do not claim anonymous site identity or SecAgg+. Native privacy libraries remain unexecuted.
+
 ## Mandatory first read
 
 Read, in order: `PROJECT_CONTEXT.md`, `CURRENT_STATE.md`, `NEXT_SPRINT.md`, `docs/threat-models.md`, `docs/methodology.md`, `docs/decisions.md`, `docs/research-questions.md`, `docs/project-spec.md`, `docs/execution-loops.md`.

@@ -1,3 +1,33 @@
+# CURRENT STATE — 2026-11-19, v0.9.0
+
+## Verified research deliverables in this cycle
+
+- New **joint all-label-oracle aggregate reconstruction**: 3 executed seeds (241–243), 160 attack iterations each, 3 equally weighted one-step SGD institutional updates; 24 pooled public-digit examples per seed. Results were scored by a separate evaluator using label-constrained image matching. Pooled MSE per seed: 0.0592816, 0.0558440, 0.0568235. Target-oracle MSE: 0.0478832, 0.0501742, 0.0330903. Saved observations/recoveries are integrity-verified with SHA-256 in `reports/results/sprint4/joint_aggregate_oracle/`.
+- **Additional oracle privilege:** All 24 class labels are supplied in client-grouped order. This reveals contributor label grouping; claims of anonymous per-record site assignment are inappropriate. Historical three-seed artifacts retain their original report text; this correction is documented here and in the v0.9 report. The attacker does NOT receive pixels or individual updates. This is NOT Flower SecAgg+.
+- Exploratory **paired uncertainty report** over existing 5-seed equal-work training. IID vs Dirichlet α=0.1 mean difference: global +2.33 pp (95% t CI −1.73, +6.40), worst client −11.67 pp (95% t CI −36.38, +13.05), exact sign-flip p = 0.375 / 0.4375. No statistically reliable effect claim.
+- **Interactive offline dashboard** generated and tested: `dashboard/dist/index.html` and snapshot JSON; curated scalar metrics only, no raw/evaluator images. Optional Streamlit UI source exists but native Streamlit isn't installed, so only the dependency-free static exporter is executed.
+- **Fast suite: 88 passed, 2 skipped, 3 slow deselected.** Optional Flower/OpenDP skips are native-dependency blockers. See `reports/results/v090_verification/fast_tests.log`.
+
+## Native gates NOT VERIFIED
+
+- Docker CLI/Engine absent. No Compose deployment or OS-level per-client filesystem isolation.
+- Flower absent and network DNS blocked. No native three-node Flower parity result.
+- OpenDP/Opacus absent and package installs blocked. Application-level DP ledger tests are NOT formal OpenDP execution or ε/δ evidence. SecAgg+ remains unexecuted.
+- GitHub workflows are source only, not run; no remote push or run IDs are claimed.
+
+## Methodology limitations
+
+- Target-oracle matching is an **evaluator-only optimistic metric**; it cannot identify which recovered example belongs to target site from an anonymous aggregate.
+- Joint label oracle has substantially more attacker information than the v0.8 target-only proxy, so its MSE is not a like-for-like estimator comparison.
+- Five-seed training confidence intervals are exploratory and underpowered; the independent processes are not container-isolated.
+- The combined slow integration test was interrupted in this runtime; do not count a successful combined slow test. Historical v0.8 slow tests remain verified in the previous release.
+
+## Next
+
+Read `NEXT_SPRINT.md`. Primary blockers: native Docker/Flower/OpenDP/Opacus and SecAgg+ gates, protected-vs-unprotected matched DP comparison, validated stronger attacker observation models, full MNIST, multi-seed longer training, and publication-style report.
+
+---
+
 # CURRENT STATE — 2026-11-19 — v0.8.0
 
 **Research milestone 1 (EXECUTED):** Five-seed, three-site idealized model-update aggregation/collusion study with 15 attacker/evaluator reconstructions. Same 8 target public digit images and known target labels across individual, aggregate-only target probe and all-but-one collusion roles, 160 Adam iterations per attack. Average target image MSE **0.01664135 individual**, **0.10847777 aggregate-only**, **0.01664135 collusion**. The collusion role algebraically isolates the target update with tensor max-error <2e-6; aggregate-only is a deliberately misspecified target-only attack, not a best possible attack. No native SecAgg+ or real cryptographic protection was used. See `docs/v0.8-research-protocol.md`, `docs/v0.8-results.md` and `scripts/verify_aggregate_collusion.py`. Source images, observations, scores and summary shipped in archive but private research tensors NOT committed.

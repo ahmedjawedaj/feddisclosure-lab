@@ -16,3 +16,11 @@ Compare attacker observer privileges, not "privacy scores." An arithmetic mean i
 - **ADR-010: Honest Docker gate.** Compose inspection and full integration benchmark are required for a verified Docker claim; running subprocesses or parsing YAML does not clear the gate.
 
 - **ADR-015: Matched heterogeneity and honest DP runtime.** Enforce equal client volumes and per-round optimizer budgets for Dirichlet comparisons; label distributions are evaluator-only. A fake-tested transactional budget is not an Opacus/OpenDP measurement; formal claims require native OpenDP privacy-map and noise execution in a DP-only deployment.
+
+## 2026-11-19 — v0.9 research execution and evidence explorer
+
+- Added a high-privilege joint aggregate-gradient reconstruction with all 24 labels grouped by institution. Retain the grouping as an explicit additional attacker capability. This is neither Flower SecAgg+ nor normal aggregate-only privacy.
+- Kept original scored artifacts immutable. Historical saved contract descriptions need a v0.9 correction: the labels' order exposes site grouping, even though raw images are never in the attacker files.
+- Added post hoc paired exploratory confidence intervals and sign-flip p-values for an existing five-seed equal-work study. Both intervals include zero; no confirmatory significance claim.
+- Added dependency-free offline evidence explorer with whitelisted scalar JSON; do not embed raw data or model updates. Streamlit remains an unexecuted optional interface.
+- Native Docker, Flower, OpenDP, Opacus, SecAgg+ continue to block the full project gate; adding source and workflows does not clear them.
