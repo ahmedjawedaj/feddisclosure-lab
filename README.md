@@ -6,7 +6,7 @@
 
 **Delivered:** Offline HTML research explorer (`dashboard/dist/index.html`) and optional Streamlit UI (`dashboard/app.py`), both reading only allowlisted scalar research summaries. No raw datasets, attacker observations, recovery outputs, or private images are embedded. The static explorer works without any package installation.
 
-**Native blocker remains:** Docker, Flower, OpenDP, Opacus and SecAgg+ have NOT been successfully executed here. No GitHub Actions run has been observed. See `docs/v0.9-results.md`, `CURRENT_STATE.md` and `NEXT_SPRINT.md`. Reproduce with:
+**Native blocker remains:** Docker, Flower, OpenDP, Opacus and SecAgg+ have NOT been successfully executed here. No GitHub Actions run has been observed. See `docs/v0.9-results.md`, `docs/faculty-briefing.md`, `docs/thesis-directions.md`, `CURRENT_STATE.md` and `NEXT_SPRINT.md`. Reproduce with:
 
 ```bash
 python scripts/verify_joint_aggregate.py

@@ -81,3 +81,5 @@ Added disjoint changing-minibatch client-model-delta observer with known-label c
 - Added post hoc paired exploratory confidence intervals and sign-flip p-values for an existing five-seed equal-work study. Both intervals include zero; no confirmatory significance claim.
 - Added dependency-free offline evidence explorer with whitelisted scalar JSON; do not embed raw data or model updates. Streamlit remains an unexecuted optional interface.
 - Native Docker, Flower, OpenDP, Opacus, SecAgg+ continue to block the full project gate; adding source and workflows does not clear them.
+
+- Faculty briefing and a shortlist of three hypothesis-driven thesis directions are prepared for feedback. They are not novelty claims.
