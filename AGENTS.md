@@ -63,6 +63,10 @@ Build a defensible, reproducible educational and applied-research benchmark of p
 
 For threat-model or disclosure work use `.agents/skills/threat-model-review/SKILL.md` (Codex) or `.claude/skills/threat-model-review/SKILL.md` (Claude). For running or changing benchmarks read `experiment-reproduction/SKILL.md`. For claims involving defenses read `privacy-claims/SKILL.md`.
 
+## Native Flower Docker handoff (v0.12)
+
+Read `docs/v0.12-docker-flower-certification.md` and `.agents/skills/native-flower-docker/SKILL.md` before touching deployment. The v0.12 Compose topology and staging are tested statically, but native Docker execution is **not** verified here. Explicitly select `fdl-docker` rather than local simulation; never claim success from a missing Docker/Flower environment.
+
 ## Current verified evidence
 
 - Three independent HTTP site processes, one HTTP gateway, and private per-process SQLite files were run via `scripts/run_local_stack.py --once`.

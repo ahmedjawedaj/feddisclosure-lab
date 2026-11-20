@@ -25,7 +25,8 @@ def sha256(path: Path) -> str:
 
 
 def certify(flower_dir: Path, reference_json: Path, reference_checkpoint: Path,
-            manifest: Path, *, atol: float = 1e-5, rtol: float = 1e-5) -> dict:
+            manifest: Path, *, atol: float = 1e-5, rtol: float = 1e-5,
+            require_deployment: bool = False) -> dict:
     if not (math.isfinite(atol) and atol > 0 and math.isfinite(rtol) and rtol >= 0):
         raise ValueError("Tolerances must be nonnegative and finite (atol positive)")
     record = json.loads((flower_dir / "flower_run.json").read_text())
@@ -46,6 +47,20 @@ def certify(flower_dir: Path, reference_json: Path, reference_checkpoint: Path,
         mismatches["proximal_mu"] = {"flower": fc.get("proximal_mu", 0),
                                     "reference": rc.get("proximal_mu", 0)}
     require(not mismatches, f"Not matched training configurations: {mismatches}")
+    if require_deployment:
+        require(record.get("runtime_mode") == "deployment"
+                and record.get("native_flower_verified") is True
+                and record.get("docker_isolation_verified") is True
+                and record.get("client_attestation_verified") is True,
+                "Native Docker Deployment Runtime certification evidence missing")
+        site_receipts = json.loads((flower_dir.parent / "client_attestations.json").read_text())
+        topology = json.loads((flower_dir.parent / "docker_topology.json").read_text())
+        require(site_receipts.get("client_attestations_verified") is True
+                and site_receipts.get("rounds") == fc["rounds"]
+                and len(site_receipts.get("sites", {})) == fc["clients"]
+                and topology.get("native_verified") is True
+                and len(set(topology.get("container_ids", {}).values())) == 8,
+                "Missing multi-container participation or isolation evidence")
     require(reference["manifest_sha256"] == sha256(manifest), "Reference data provenance mismatch")
     require(reference["final_checkpoint"]["sha256"] == sha256(reference_checkpoint), "Reference checkpoint tampered")
     require(summary["clients_requested"] == fc["clients"] and summary["rounds"] == fc["rounds"], "Flower participants or rounds mismatch")
@@ -67,7 +82,7 @@ def certify(flower_dir: Path, reference_json: Path, reference_checkpoint: Path,
     result = {
         "verified_numerical_parity": all_match,
         "scope": "native Flower checkpoint versus same-config independent-worker reference",
-        "config_match": True, "manifest_sha256": sha256(manifest),
+        "config_match": True, "require_deployment": require_deployment, "manifest_sha256": sha256(manifest),
         "reference_sha256": sha256(reference_checkpoint),
         "flower_sha256": sha256(flower_checkpoint),
         "atol": atol, "rtol": rtol,
@@ -88,9 +103,11 @@ def main():
     p.add_argument("--output", required=True)
     p.add_argument("--atol", type=float, default=1e-5)
     p.add_argument("--rtol", type=float, default=1e-5)
+    p.add_argument("--require-deployment", action="store_true")
     a = p.parse_args()
     report = certify(Path(a.flower_dir), Path(a.reference_json),
-                     Path(a.reference_checkpoint), Path(a.manifest), atol=a.atol, rtol=a.rtol)
+                     Path(a.reference_checkpoint), Path(a.manifest), atol=a.atol, rtol=a.rtol,
+                     require_deployment=a.require_deployment)
     path = Path(a.output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2) + "\n")

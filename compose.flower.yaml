@@ -1,0 +1,147 @@
+# Native Flower 1.27 Deployment Runtime, not the local simulation backend.
+# Three different read-only host dataset mounts; only /attestation is writable.
+# Research sandbox only: insecure internal transport; never expose on the Internet.
+name: feddisclosure-flower
+x-site-exec: &site-exec
+  build:
+    context: .
+    dockerfile: docker/flower/SuperExec.Dockerfile
+  image: feddisclosure-flower-exec:0.12.0
+  entrypoint: ["flower-superexec"]
+  networks: [flower-lab]
+  restart: "no"
+  environment:
+    FDL_SITE_DATA_DIR: /site
+    FDL_CLIENT_ATTEST_DIR: /attestation
+    OMP_NUM_THREADS: "1"
+    MKL_NUM_THREADS: "1"
+  # Python needs writable workspace for received Flower applications. Each
+  # executor has its OWN ephemeral filesystem and no shared writable mount.
+  security_opt: ["no-new-privileges:true"]
+  tmpfs: [/tmp]
+
+x-supernode: &supernode
+  image: flwr/supernode:1.27.0
+  networks: [flower-lab]
+  restart: "no"
+  depends_on: [superlink]
+  security_opt: ["no-new-privileges:true"]
+
+services:
+  superlink:
+    image: flwr/superlink:1.27.0
+    command: ["--insecure", "--isolation", "process"]
+    networks: [flower-lab]
+    restart: "no"
+    # NO host-exposed ports: CLI executes inside the isolated Docker network.
+    security_opt: ["no-new-privileges:true"]
+
+  serverexec:
+    build:
+      context: .
+      dockerfile: docker/flower/SuperExec.Dockerfile
+    image: feddisclosure-flower-exec:0.12.0
+    entrypoint: ["flower-superexec"]
+    command: ["--insecure", "--plugin-type", "serverapp", "--appio-api-address", "superlink:9091"]
+    environment:
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    volumes:
+      - type: bind
+        source: ${FDL_RUN_DIR:?Run scripts/prepare_flower_deployment.py first}/server
+        target: /artifacts
+    networks: [flower-lab]
+    depends_on: [superlink]
+    security_opt: ["no-new-privileges:true"]
+    restart: "no"
+
+  supernode-0:
+    <<: *supernode
+    command: ["--insecure", "--superlink", "superlink:9092", "--clientappio-api-address", "0.0.0.0:9094", "--node-config", "partition-id=0 num-partitions=3", "--isolation", "process"]
+  supernode-1:
+    <<: *supernode
+    command: ["--insecure", "--superlink", "superlink:9092", "--clientappio-api-address", "0.0.0.0:9094", "--node-config", "partition-id=1 num-partitions=3", "--isolation", "process"]
+  supernode-2:
+    <<: *supernode
+    command: ["--insecure", "--superlink", "superlink:9092", "--clientappio-api-address", "0.0.0.0:9094", "--node-config", "partition-id=2 num-partitions=3", "--isolation", "process"]
+
+  clientexec-0:
+    <<: *site-exec
+    command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode-0:9094"]
+    environment:
+      FDL_SITE_DATA_DIR: /site
+      FDL_SITE_ID: "0"
+      FDL_SITE_SHA256: ${FDL_SITE_0_TRAIN_SHA256:?prepare deployment first}
+      FDL_SITE_VAL_SHA256: ${FDL_SITE_0_VAL_SHA256:?prepare deployment first}
+      FDL_CLIENT_ATTEST_DIR: /attestation
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    volumes:
+      - type: bind
+        source: ${FDL_SITE_0_PATH:?prepare deployment first}
+        target: /site
+        read_only: true
+      - type: bind
+        source: ${FDL_RUN_DIR:?prepare deployment first}/clients/site-0
+        target: /attestation
+    depends_on: [supernode-0]
+  clientexec-1:
+    <<: *site-exec
+    command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode-1:9094"]
+    environment:
+      FDL_SITE_DATA_DIR: /site
+      FDL_SITE_ID: "1"
+      FDL_SITE_SHA256: ${FDL_SITE_1_TRAIN_SHA256:?prepare deployment first}
+      FDL_SITE_VAL_SHA256: ${FDL_SITE_1_VAL_SHA256:?prepare deployment first}
+      FDL_CLIENT_ATTEST_DIR: /attestation
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    volumes:
+      - type: bind
+        source: ${FDL_SITE_1_PATH:?prepare deployment first}
+        target: /site
+        read_only: true
+      - type: bind
+        source: ${FDL_RUN_DIR:?prepare deployment first}/clients/site-1
+        target: /attestation
+    depends_on: [supernode-1]
+  clientexec-2:
+    <<: *site-exec
+    command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode-2:9094"]
+    environment:
+      FDL_SITE_DATA_DIR: /site
+      FDL_SITE_ID: "2"
+      FDL_SITE_SHA256: ${FDL_SITE_2_TRAIN_SHA256:?prepare deployment first}
+      FDL_SITE_VAL_SHA256: ${FDL_SITE_2_VAL_SHA256:?prepare deployment first}
+      FDL_CLIENT_ATTEST_DIR: /attestation
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    volumes:
+      - type: bind
+        source: ${FDL_SITE_2_PATH:?prepare deployment first}
+        target: /site
+        read_only: true
+      - type: bind
+        source: ${FDL_RUN_DIR:?prepare deployment first}/clients/site-2
+        target: /attestation
+    depends_on: [supernode-2]
+
+  # Invoked by 'docker compose run --rm flwr-cli run . fdl-docker ...'.
+  # Deliberately has NO /site mount or privileged training data access.
+  flwr-cli:
+    image: feddisclosure-flower-exec:0.12.0
+    build:
+      context: .
+      dockerfile: docker/flower/SuperExec.Dockerfile
+    entrypoint: ["flwr"]
+    working_dir: /app
+    profiles: [tools]
+    networks: [flower-lab]
+    environment:
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    security_opt: ["no-new-privileges:true"]
+
+networks:
+  flower-lab:
+    driver: bridge

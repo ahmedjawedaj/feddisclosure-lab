@@ -1,3 +1,26 @@
+# CURRENT STATE — v0.12.0 native Flower Docker implementation (2026-11-20)
+
+## Implemented this cycle (verified static/application only)
+
+- Added `compose.flower.yaml`: pinned Flower 1.27.0 SuperLink, three real SuperNodes, one separate ServerApp executor, three ClientApp executors and optional nonprivileged CLI container. It explicitly uses the **Deployment Runtime** profile `fdl-docker`, not Flower local simulation.
+- Added a reproducible CPU SuperExec Dockerfile without any raw client rows, model observations or evaluator truth in the image build context.
+- Added `scripts/prepare_flower_deployment.py`: generates 3 disjoint public-digit client partitions with per-site SHA256 digests, read-only mount paths and independent attestation folders; checks manifest/record integrity and refuses mismatched source data.
+- Added `scripts/verify_flower_topology.py`: static Compose isolation contract and optional actual Docker `inspect` verification. Static pass is **not** container certification.
+- Added per-site ClientApp identity checks (`FDL_SITE_ID` must agree with `node-config partition-id`), digest checks and privacy-safe training/evaluation receipts. Added `scripts/verify_flower_attestations.py` to require actual receipts from all 3 clients and every training round.
+- Added `scripts/run_flower_docker.py`, `scripts/verify_flower_docker.sh`, strict deployment-only parity guard, and GitHub Actions native 3-client workflow. Local staging and static tests execute successfully.
+- Local fast tests **122 passed / 2 skipped**, two separate slow training integration tests passed. Fresh staged-Docker public-digit PyTorch reference: 2 rounds, accuracy 0.2083333333, final checkpoint SHA256 `5ae8fe93cc5f5dd73b32016f60016c1ba445aba5cbb31005d9ff96397e391fff`. The live HTTP analytics regression also passed. Detailed evidence: `docs/v0.12-results.md`.
+- **CRITICAL: native Docker/Flower remains UNVERIFIED.** This runtime has no Docker CLI/daemon or installed Flower; a native invocation returned exit code 2 with `Docker CLI missing`. No model was trained inside a Docker container in this cycle.
+- Details: `docs/v0.12-docker-flower-certification.md` and `reports/results/native_flower/v012/` (local evidence bundle only).
+
+## Next acceptance gates
+
+1. Run `.github/workflows/flower-docker-native.yml` in an authorized dedicated repository, or run `python scripts/run_flower_docker.py` on a Docker-capable Python 3.12 Ubuntu host.
+2. Fix any actual Docker/SuperExec/Flower runtime incompatibilities and rerun, collecting logs, container identities, mounts, participation receipts, real server checkpoint and rounds.
+3. Run identical independent-worker PyTorch reference and `scripts/verify_flower_parity.py --require-deployment`; accept only if all tensors match and both native evidence files exist.
+4. Then run a non-IID repeat, client dropout/participation threshold tests and full MNIST; keep formal privacy defenses as separate gates.
+
+---
+
 # v0.11.0 — Verified retry safety, native certification preparation (2026-11-20)
 
 - **Measured:** Three-site fault-injection HTTP benchmark, persistent idempotent DP query retry and conflict rejection. `reports/results/sprint4/retry_benchmark.json` uses a deterministic TEST mechanism. It offers NO differential-privacy guarantee.

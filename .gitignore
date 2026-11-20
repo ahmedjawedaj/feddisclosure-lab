@@ -54,3 +54,7 @@ reports/results/sprint1/docker_*.txt
 # image ground truth and derived training information, and MUST not enter Git.
 /reports/results/sprint4/aggregate_collusion/
 /reports/results/sprint4/opacus_native/
+
+# Deployment host paths and generated per-run attestation. No secrets or raw data.
+/.env.flower.generated
+/reports/results/native_flower/

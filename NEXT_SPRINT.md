@@ -1,3 +1,21 @@
+# NEXT SPRINT — Native Docker/Flower certification execution (v0.12.0)
+
+**P0. All items below are open until run on an actual Docker host.**
+
+- [ ] Run `python scripts/run_flower_docker.py --prepare-only` on a clean Ubuntu/Python 3.12 runner. Verify three private public-digit partitions and matching digest manifest.
+- [ ] Run `python scripts/run_flower_docker.py` with Docker Engine/Compose. Investigate and fix real errors. Capture `flower_cli_stdout.log`, `docker_services.log`, `docker_topology.json` and `client_attestations.json`.
+- [ ] Inspect eight actual service containers and three distinct read-only `/site` mounts. No raw client dataset may be mounted into the SuperLink/ServerApp/CLI.
+- [ ] Confirm three active ClientApps complete both rounds with matching per-site receipts and observed aggregated model checkpoint.
+- [ ] Run `scripts/run_torch_reference.py` on EXACT same public partition root and `scripts/verify_flower_parity.py --require-deployment` with a matching config; fix any numerical mismatches without loosening tolerances prematurely.
+- [ ] Run the workflow in `.github/workflows/flower-docker-native.yml`, retain actual Actions run ID and downloadable CI artifact. Existing repository has no dedicated remote; avoid claiming hosted checks ran.
+- [ ] Repeat non-IID and intentionally stop one client to test minimum-three participation failure. Later run MNIST, formal DP and SecAgg+ independently.
+
+**Verified this turn:** Python syntax/contract tests, source YAML topology, public-data staging, negative Docker CLI preflight and existing analytics regression. **Never confuse these with native deployment success.**
+
+See `docs/v0.12-docker-flower-certification.md` for exact commands, instrumentation and known limitations.
+
+---
+
 # NEXT SPRINT — v0.11.0 native execution and thesis-quality gate
 
 **Priority 0: these remain genuinely unverified. Do not mark them complete from source code, a static workflow or a dummy measurement.**

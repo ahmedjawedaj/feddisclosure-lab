@@ -1,0 +1,70 @@
+name: Native Flower Docker certification (three isolated sites)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'compose.flower.yaml'
+      - 'docker/flower/**'
+      - 'scripts/run_flower_docker.py'
+      - 'scripts/prepare_flower_deployment.py'
+      - 'scripts/verify_flower_*.py'
+      - 'src/feddisclosure/training/flower_*.py'
+      - 'src/feddisclosure/training/deployment_contract.py'
+      - '.github/workflows/flower-docker-native.yml'
+
+jobs:
+  three-site-deployment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install public-digit and test dependencies (CPU only)
+        run: |
+          python -m pip install -e '.[test]'
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1'
+          python -m pip install 'scikit-learn>=1.4,<2' 'numpy>=1.26,<3'
+      - name: Static checks and Python contract tests
+        run: |
+          python scripts/verify_flower_topology.py
+          pytest -q tests/training/test_flower_docker_deployment.py tests/training/test_flower_parity_contract.py
+      - name: Confirm real Docker daemon and Compose v2
+        run: |
+          docker version
+          docker compose version
+          docker info
+      - name: Run real Flower SuperLink, three SuperNodes and independent ClientApps
+        run: |
+          python scripts/run_flower_docker.py \
+            --data-dir data/training/digits-docker-iid-v012 \
+            --run-dir reports/results/native_flower/v012 \
+            --timeout 1500
+      - name: Independently reproduce PyTorch baseline on EXACT same partitions
+        run: |
+          python scripts/run_torch_reference.py \
+            --config configs/training/fedavg_digits_iid.yaml \
+            --data-dir data/training/digits-docker-iid-v012 \
+            --output reports/results/native_flower/v012/torch_reference.json
+      - name: Strict deployment-only numerical parity
+        run: |
+          python scripts/verify_flower_parity.py \
+            --flower-dir reports/results/native_flower/v012/server \
+            --reference-json reports/results/native_flower/v012/torch_reference.json \
+            --reference-checkpoint reports/results/native_flower/v012/checkpoints/digits-iid-smoke-v1_final.pt \
+            --manifest data/training/digits-docker-iid-v012/manifest.json \
+            --output reports/results/native_flower/v012/flower_parity.json \
+            --require-deployment
+      - name: Retain successes AND failures for audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flower-docker-v012-native-evidence
+          path: |
+            reports/results/native_flower/v012/
+          if-no-files-found: warn

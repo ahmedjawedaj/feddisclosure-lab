@@ -1,3 +1,5 @@
+> **v0.12.0 engineering handoff (2026-11-20):** Native Flower Docker deployment files, 3-client partition staging, container isolation checker, per-client execution receipts and a strict numerical parity gate have been added. Static checks run. **Docker and Flower have NOT been executed natively in this environment.** Start with [the v0.12 deployment protocol](docs/v0.12-docker-flower-certification.md); never call the Docker/Flower acceptance complete without observed native evidence.
+
 # v0.11.0 — Verified retry safety, native certification preparation (2026-11-20)
 
 - **Measured:** Three-site fault-injection HTTP benchmark, persistent idempotent DP query retry and conflict rejection. `reports/results/sprint4/retry_benchmark.json` uses a deterministic TEST mechanism. It offers NO differential-privacy guarantee.

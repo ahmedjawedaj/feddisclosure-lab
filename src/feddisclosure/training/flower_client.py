@@ -12,6 +12,8 @@ from flwr.app import ArrayRecord, Context, Message, MetricRecord, RecordDict
 from flwr.clientapp import ClientApp
 from feddisclosure.training.datasets import load_site_partition
 from feddisclosure.training.task import DigitMLP, evaluate_local, train_local
+from feddisclosure.training.deployment_contract import (checked_private_files, require_site_identity,
+    record_client_event)
 
 app = ClientApp()
 
@@ -31,19 +33,24 @@ def _site_files(context: Context) -> tuple[Path, Path]:
     if not train_file.is_file() or not val_file.is_file():
         raise FileNotFoundError("SuperNode may access only its own mounted train and val partitions")
     if direct:
-        expected = (os.getenv("FDL_SITE_SHA256"), os.getenv("FDL_SITE_VAL_SHA256"))
-        if not all(expected) or "FDL_SITE_ID" not in os.environ:
-            raise RuntimeError("Deployment SuperNode requires site identity and per-file checksums")
-    else:
-        # The simulation runner stages a metadata-only manifest; no client data
-        # is imported through the app by the coordinator.
-        root = Path(str(context.run_config["data-root"]))
-        manifest = json.loads((root / "manifest.json").read_text())
-        if manifest.get("schema_version") != 2:
-            raise RuntimeError("Refusing old manifest with coordinator-visible private label histograms")
-        site = manifest["client_partitions"][index]
-        expected = (site["sha256"], site["val_sha256"])
-    for path, digest in zip((train_file, val_file), expected):
+        identity = os.getenv("FDL_SITE_ID", "")
+        require_site_identity(
+            deployment_site_id=identity,
+            node_partition=int(context.node_config["partition-id"]),
+            node_partitions=int(context.node_config["num-partitions"]),
+            expected_clients=int(context.run_config["clients"]),
+        )
+        return checked_private_files(
+            directory, os.getenv("FDL_SITE_SHA256", ""),
+            os.getenv("FDL_SITE_VAL_SHA256", ""),
+        )
+    # Simulation uses a shared host filesystem and is NOT Docker isolation.
+    root = Path(str(context.run_config["data-root"]))
+    manifest = json.loads((root / "manifest.json").read_text())
+    if manifest.get("schema_version") != 2:
+        raise RuntimeError("Refusing old manifest with private label histograms")
+    site = manifest["client_partitions"][index]
+    for path, digest in ((train_file, site["sha256"]), (val_file, site["val_sha256"])):
         if hashlib.sha256(path.read_bytes()).hexdigest() != digest:
             raise RuntimeError("SuperNode partition integrity verification failed")
     return train_file, val_file
@@ -67,6 +74,15 @@ def train(msg: Message, context: Context) -> Message:
                           batch_size=int(context.run_config["batch-size"]),
                           lr=float(msg.content["config"]["lr"]), seed=seed,
                           proximal_mu=float(msg.content["config"].get("proximal-mu", 0.0)))
+    if os.getenv("FDL_SITE_DATA_DIR"):
+        state_digest = hashlib.sha256(b"".join(
+            value.detach().cpu().numpy().tobytes()
+            for value in model.state_dict().values()
+        )).hexdigest()
+        record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="train",
+                            site_id=site_id, run_id=context.run_id,
+                            dataset_sha256=os.environ["FDL_SITE_SHA256"],
+                            samples=int(metrics["num-examples"]), weights_sha256=state_digest)
     reply = RecordDict({"arrays": ArrayRecord(model.state_dict()), "metrics": MetricRecord(metrics)})
     return Message(content=reply, reply_to=msg)
 
@@ -77,6 +93,11 @@ def evaluate(msg: Message, context: Context) -> Message:
     _, val_file = _site_files(context)
     x, y = load_site_partition(val_file)
     result = evaluate_local(model, x, y)
+    if os.getenv("FDL_SITE_DATA_DIR"):
+        record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="evaluate",
+                            site_id=int(os.environ["FDL_SITE_ID"]), run_id=context.run_id,
+                            dataset_sha256=os.environ["FDL_SITE_VAL_SHA256"],
+                            samples=int(result["num-examples"]))
     return Message(content=RecordDict({"metrics": MetricRecord({
         "eval_acc": result["accuracy"], "eval_loss": result["loss"], "num-examples": result["num-examples"]
     })}), reply_to=msg)

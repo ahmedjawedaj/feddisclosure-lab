@@ -1,0 +1,141 @@
+"""Native 3-SuperNode Flower certification runner (NOT Flower simulation).
+
+One Docker host is sufficient for independent container filesystems. This is
+an intentionally insecure local lab network, not a multi-host/TLS deployment.
+"""
+from __future__ import annotations
+import argparse
+from datetime import datetime, timezone
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import time
+import yaml
+
+from prepare_flower_deployment import prepare
+from verify_flower_topology import live_certify, static_certify, SERVICES
+from verify_flower_attestations import verify as verify_receipts
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def run_command(command, *, timeout=120, cwd=ROOT):
+    return subprocess.run(command, cwd=cwd, capture_output=True, text=True,
+                          timeout=timeout, check=False)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", type=Path, default=ROOT / "configs/training/fedavg_digits_iid.yaml")
+    parser.add_argument("--data-dir", type=Path, default=ROOT / "data/training/digits-docker-iid-v012")
+    parser.add_argument("--run-dir", type=Path, default=ROOT / "reports/results/native_flower/v012")
+    parser.add_argument("--env-file", type=Path, default=ROOT / ".env.flower.generated")
+    parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--keep-running", action="store_true")
+    parser.add_argument("--timeout", type=int, default=1200)
+    a = parser.parse_args()
+    run_dir = a.run_dir.resolve()
+    prep = prepare(a.config.resolve(), a.data_dir.resolve(), run_dir, a.env_file)
+    config = yaml.safe_load(a.config.read_text())
+    manifest = json.loads((a.data_dir / "manifest.json").read_text())
+    static = static_certify(ROOT / "compose.flower.yaml")
+    (run_dir / "static_topology.json").write_text(json.dumps(static, indent=2) + "\n")
+    if a.prepare_only:
+        print(json.dumps({"preparation_passed": True, "static_topology": True,
+                          "native_flower_verified": False, "run_dir": str(run_dir)}, indent=2))
+        return
+
+    command_prefix = ["docker", "compose", "--env-file", str(a.env_file.resolve()),
+                      "-f", str(ROOT / "compose.flower.yaml")]
+    evidence = {"engine": "Flower ServerApp/ClientApp", "runtime_mode": "deployment",
+                "created_utc": datetime.now(timezone.utc).isoformat(),
+                "config": {**config, "algorithm": config.get("algorithm", "fedavg")},
+                "docker_isolation_verified": False, "client_attestation_verified": False,
+                "final_model_exists": False, "summary_exists": False,
+                "exit_code": 2, "timed_out": False, "native_flower_verified": False,
+                "warning": "Insecure single-host research deployment. No formal privacy protection."}
+    folder = run_dir / "server"
+    record = folder / "flower_run.json"
+    if (folder / "final_model.pt").exists() or record.exists():
+        raise SystemExit("Refusing stale Flower output; choose a fresh run directory")
+    if shutil.which("docker") is None:
+        evidence["error"] = "Docker CLI missing; cannot run native Flower"
+        record.write_text(json.dumps(evidence, indent=2) + "\n")
+        raise SystemExit(2)
+    pre = run_command(["docker", "info"], timeout=20)
+    if pre.returncode:
+        evidence["error"] = "Docker daemon unavailable: " + pre.stderr[-800:]
+        record.write_text(json.dumps(evidence, indent=2) + "\n")
+        raise SystemExit(2)
+
+    started = False
+    try:
+        built = run_command(command_prefix + ["up", "--build", "-d"], timeout=900)
+        (run_dir / "compose_start_stdout.log").write_text(built.stdout)
+        (run_dir / "compose_start_stderr.log").write_text(built.stderr)
+        if built.returncode:
+            raise RuntimeError(f"Docker Compose startup failed: exit={built.returncode}")
+        started = True
+        for attempt in range(30):
+            try:
+                topology = live_certify(ROOT / "compose.flower.yaml", a.env_file, prep)
+                break
+            except (ValueError, OSError, subprocess.CalledProcessError):
+                time.sleep(2)
+        else:
+            raise RuntimeError("Eight native Flower services did not become running")
+        (run_dir / "docker_topology.json").write_text(json.dumps(topology, indent=2) + "\n")
+        evidence["docker_isolation_verified"] = topology["native_verified"]
+        cfg = {"num-server-rounds": config["rounds"], "local-epochs": config["local_epochs"],
+               "batch-size": config["batch_size"], "learning-rate": config["learning_rate"],
+               "proximal-mu": config.get("proximal_mu", 0.0), "clients": config["clients"],
+               "seed": config["seed"], "features": manifest["num_features"],
+               "classes": manifest["num_classes"], "data-root": "/never-mounted-client-data",
+               "artifact-dir": "/artifacts"}
+        run_config = " ".join(f"{k}={v}" for k, v in cfg.items())
+        flower_cmd = command_prefix + ["run", "--rm", "--no-deps", "flwr-cli",
+                                       "run", ".", "fdl-docker", "--stream", "--run-config", run_config]
+        evidence["flower_command"] = flower_cmd
+        begun = time.monotonic()
+        try:
+            complete = run_command(flower_cmd, timeout=a.timeout)
+            evidence["exit_code"] = complete.returncode
+            out, err = complete.stdout, complete.stderr
+        except subprocess.TimeoutExpired as exc:
+            evidence["timed_out"] = True
+            evidence["exit_code"] = 124
+            out = (exc.stdout or b"")
+            err = (exc.stderr or b"")
+            out = out.decode(errors="replace") if isinstance(out, bytes) else out
+            err = err.decode(errors="replace") if isinstance(err, bytes) else err
+        evidence["seconds"] = round(time.monotonic() - begun, 2)
+        (run_dir / "flower_cli_stdout.log").write_text(out)
+        (run_dir / "flower_cli_stderr.log").write_text(err)
+        evidence["final_model_exists"] = (folder / "final_model.pt").is_file()
+        evidence["summary_exists"] = (folder / "flower_summary.json").is_file()
+        if evidence["exit_code"] or not evidence["final_model_exists"] or not evidence["summary_exists"]:
+            raise RuntimeError("Native Flower execution incomplete. Inspect real Docker and CLI logs")
+        receipts = verify_receipts(run_dir, manifest, int(config["rounds"]))
+        (run_dir / "client_attestations.json").write_text(json.dumps(receipts, indent=2) + "\n")
+        evidence["client_attestation_verified"] = receipts["client_attestations_verified"]
+        evidence["participating_clients"] = list(receipts["sites"])
+        evidence["native_flower_verified"] = True
+    except Exception as exc:
+        evidence["error"] = str(exc)
+    finally:
+        if started:
+            logs = run_command(command_prefix + ["logs", "--no-color"], timeout=60)
+            (run_dir / "docker_services.log").write_text(logs.stdout + "\n" + logs.stderr)
+            if not a.keep_running:
+                down = run_command(command_prefix + ["down", "--remove-orphans"], timeout=90)
+                (run_dir / "compose_down.log").write_text(down.stdout + "\n" + down.stderr)
+        record.write_text(json.dumps(evidence, indent=2) + "\n")
+    print(json.dumps(evidence, indent=2))
+    if not evidence["native_flower_verified"]:
+        raise SystemExit(2)
+
+
+if __name__ == "__main__":
+    main()

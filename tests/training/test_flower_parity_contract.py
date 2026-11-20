@@ -51,3 +51,20 @@ def test_parity_checker_accepts_matching_fixtures_and_rejects_tampering(tmp_path
 def test_parity_rejects_bad_thresholds():
     with pytest.raises(ValueError):
         certify(Path("unused"), Path("unused"), Path("unused"), Path("unused"), atol=float("nan"))
+
+
+def test_parity_does_not_accept_simulation_as_container_certification(tmp_path):
+    flower = tmp_path / "flower"
+    flower.mkdir()
+    (flower / "flower_run.json").write_text(json.dumps({
+        "engine": "Flower ServerApp/ClientApp", "exit_code": 0,
+        "config": {"clients": 3, "rounds": 2}, "final_model_exists": True,
+        "summary_exists": True, "runtime_mode": "local-simulation"}))
+    (flower / "flower_summary.json").write_text(json.dumps({
+        "engine": "Flower ServerApp/ClientApp", "clients_requested": 3, "rounds": 2}))
+    reference = tmp_path / "ref.json"
+    reference.write_text(json.dumps({"engine": "torch_independent_process_reference_NOT_Flower",
+                                    "config": {"clients": 3, "rounds": 2}}))
+    with pytest.raises(ValueError, match="Deployment Runtime certification"):
+        certify(flower, reference, tmp_path / "ref.pt", tmp_path / "manifest.json",
+                require_deployment=True)

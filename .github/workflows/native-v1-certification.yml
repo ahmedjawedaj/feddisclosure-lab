@@ -11,7 +11,9 @@ on:
       - 'scripts/run_dp_analytics.py'
       - 'scripts/run_opacus_dp_sgd.py'
       - 'scripts/run_secagg_native.py'
-      - 'scripts/run_flower_experiment.py'
+      - 'scripts/run_flower_docker.py'
+      - 'compose.flower.yaml'
+      - 'docker/flower/**'
 jobs:
   end-to-end:
     runs-on: ubuntu-latest
@@ -35,19 +37,23 @@ jobs:
         run: >-
           python scripts/prepare_fl_data.py --output data/training/digits-iid
           --clients 3 --seed 20261118 --limit 600 --partition iid
-      - name: Run native Flower and independent PyTorch reference
+      - name: Run Flower Deployment Runtime in eight Docker containers
         run: |
-          python scripts/run_flower_experiment.py
+          python scripts/run_flower_docker.py \
+            --data-dir data/training/digits-docker-iid-v012 \
+            --run-dir reports/results/native_flower/v012 \
+            --timeout 1500
           python scripts/run_torch_reference.py \
             --config configs/training/fedavg_digits_iid.yaml \
-            --data-dir data/training/digits-iid \
-            --output reports/results/sprint2/flower/torch_parity_reference.json
+            --data-dir data/training/digits-docker-iid-v012 \
+            --output reports/results/native_flower/v012/torch_reference.json
           python scripts/verify_flower_parity.py \
-            --flower-dir reports/results/sprint2/flower \
-            --reference-json reports/results/sprint2/flower/torch_parity_reference.json \
-            --reference-checkpoint reports/results/sprint2/flower/checkpoints/digits-iid-smoke-v1_final.pt \
-            --manifest data/training/digits-iid/manifest.json \
-            --output reports/results/sprint2/flower/flower_parity.json
+            --flower-dir reports/results/native_flower/v012/server \
+            --reference-json reports/results/native_flower/v012/torch_reference.json \
+            --reference-checkpoint reports/results/native_flower/v012/checkpoints/digits-iid-smoke-v1_final.pt \
+            --manifest data/training/digits-docker-iid-v012/manifest.json \
+            --output reports/results/native_flower/v012/flower_parity.json \
+            --require-deployment
       - name: Run native OpenDP and Opacus mechanisms
         run: |
           python scripts/run_dp_analytics.py --output reports/results/sprint4/opendp_native_smoke.json
@@ -67,7 +73,7 @@ jobs:
             reports/results/sprint1/docker_*.json
             reports/results/sprint1/docker_*.log
             reports/results/sprint1/docker_*.txt
-            reports/results/sprint2/flower/
+            reports/results/native_flower/v012/
             reports/results/sprint4/opendp_native_smoke.json
             reports/results/sprint4/opacus_native/
             reports/results/sprint4/secagg_native/

@@ -1,0 +1,13 @@
+# Strict whitelist: raw public partitions are never even transmitted to Docker
+# build context, much less baked into the published/executable container image.
+**
+!pyproject.toml
+!README.md
+!src/
+!src/**
+!docker/
+!docker/flower/
+!docker/flower/SuperExec.Dockerfile
+!docker/flower/flwr-config.toml
+**/__pycache__/
+**/*.pyc

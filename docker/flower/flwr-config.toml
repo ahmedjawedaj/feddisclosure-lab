@@ -1,0 +1,4 @@
+# This selects an EXISTING SuperLink, never the local managed simulation.
+[superlink.fdl-docker]
+address = "superlink:9093"
+insecure = true

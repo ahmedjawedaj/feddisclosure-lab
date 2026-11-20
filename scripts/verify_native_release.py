@@ -38,8 +38,10 @@ def verify(root: Path) -> dict:
     artifact_paths = {
         "docker": "reports/results/sprint1/docker_isolation.json",
         "docker_history": "reports/results/sprint1/docker_principal_history.json",
-        "flower": "reports/results/sprint2/flower/flower_run.json",
-        "flower_parity": "reports/results/sprint2/flower/flower_parity.json",
+        "flower": "reports/results/native_flower/v012/server/flower_run.json",
+        "flower_parity": "reports/results/native_flower/v012/flower_parity.json",
+        "flower_topology": "reports/results/native_flower/v012/docker_topology.json",
+        "flower_attestations": "reports/results/native_flower/v012/client_attestations.json",
         "opendp": "reports/results/sprint4/opendp_native_smoke.json",
         "opacus": "reports/results/sprint4/opacus_native/summary.json",
         "secagg": "reports/results/sprint4/secagg_native/secagg_run.json",
@@ -58,13 +60,23 @@ def verify(root: Path) -> dict:
     f = results["flower"]
     p = results["flower_parity"]
     require(f.get("engine") == "Flower ServerApp/ClientApp"
+            and f.get("runtime_mode") == "deployment"
+            and f.get("native_flower_verified") is True
+            and f.get("docker_isolation_verified") is True
+            and f.get("client_attestation_verified") is True
             and f.get("exit_code") == 0 and not f.get("timed_out")
             and f.get("final_model_exists") and f.get("summary_exists")
+            and p.get("require_deployment") is True
             and p.get("verified_numerical_parity") is True,
-            "Native Flower run or checkpoint parity not established")
+            "Three-site Flower Deployment Runtime or checkpoint parity not established")
+    require(results["flower_topology"].get("native_verified") is True
+            and len(set(results["flower_topology"].get("container_ids", {}).values())) == 8
+            and results["flower_attestations"].get("client_attestations_verified") is True
+            and len(results["flower_attestations"].get("sites", {})) == 3,
+            "Multi-client Docker/participation evidence not verified")
     require(p.get("config_match") is True
             and p.get("flower_sha256") == hashlib.sha256(
-                (root / "reports/results/sprint2/flower/final_model.pt").read_bytes()).hexdigest(),
+                (root / "reports/results/native_flower/v012/server/final_model.pt").read_bytes()).hexdigest(),
             "Native Flower evidence/checkpoint digest inconsistent")
     od = results["opendp"]
     require(od.get("engine") == "native_opendp_three_site_http" and od.get("delta") == 0

@@ -83,3 +83,15 @@ Added disjoint changing-minibatch client-model-delta observer with known-label c
 - Native Docker, Flower, OpenDP, Opacus, SecAgg+ continue to block the full project gate; adding source and workflows does not clear them.
 
 - Faculty briefing and a shortlist of three hypothesis-driven thesis directions are prepared for feedback. They are not novelty claims.
+
+## 2026-11-20 — v0.12 native Flower deployment implementation, not execution
+
+The source and test contracts for eight Flower Docker services were added,
+with a strict code-only image context, site identity/digest enforcement,
+metadata-only ClientApp receipts, live Docker inspection path, and CI gating.
+Static layout and data partition preparation executed; a new PyTorch reference
+on the staged public data reproduced the expected two-round outcome. The
+actual native attempt exited 2 because Docker is unavailable. No Flower
+container run, SuperNode communication or Docker filesystem isolation has
+been established yet. See `docs/v0.12-results.md` and
+`docs/v0.12-docker-flower-certification.md`.
