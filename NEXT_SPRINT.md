@@ -5,7 +5,7 @@
 - [x] Demonstrated and fixed the experiment-ID reset bypass with durable `principal_history` mode and failure-safe policy locking. Three-client HTTP observations saved.
 - [x] Executed 90-case, four-condition, matched statistical disclosure control matrix with independent verifier, SHA-256 and research figure.
 - [x] Reused five IID + five non-IID separately trained models for 30 output-only attack evaluations with matched *query* cohorts; recorded weak negative results, saved hashes, uncertainty and limitations. Training cohorts are not identical.
-- [x] Added optional Compose overlay/CI, research protocols and offline dashboard query control view.
+- [x] Added optional Compose overlay/CI, research protocols and offline dashboard query control view and a 12-slide interim faculty briefing.
 
 ## P0 — still not closed
 

@@ -13,6 +13,8 @@ PYTHONPATH=src:. python scripts/run_history_scope_benchmark.py --output reports/
 bash scripts/verify_compose_history.sh
 ```
 
+**Faculty briefing:** `reports/faculty-briefing-v0.10.0.pptx` contains 12 interim slides and can be regenerated with `python scripts/build_faculty_briefing.py` after installing the optional `.[presentation]` dependencies.
+
 **Not verified:** Native Docker, Flower ServerApp/ClientApp, OpenDP, Opacus, Flower SecAgg+. Formal DP or production security guarantees are not claimed. Do not substitute generated figure/source code for native acceptance evidence.
 
 ---

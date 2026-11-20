@@ -21,6 +21,7 @@ research = ["torch>=2.3,<3", "torchvision>=0.18,<1", "scikit-learn>=1.4,<2", "sc
 ml = ["torch>=2.3,<3", "torchvision>=0.18,<1", "scikit-learn>=1.4,<2", "scipy>=1.11,<2", "scikit-image>=0.22,<1", "flwr[simulation]>=1.27,<1.28"]
 privacy = ["opendp>=0.12,<1", "opacus>=1.4,<2"]
 visual = ["streamlit>=1.39,<2", "pandas>=2.2,<3", "matplotlib>=3.8,<4"]
+presentation = ["python-pptx>=1.0,<2", "Pillow>=10,<13"]
 
 [project.scripts]
 fdl = "feddisclosure.cli:main"
