@@ -11,6 +11,7 @@ from feddisclosure.common.models import AggregateRelease, AggregateRequest, DPCo
 from feddisclosure.defenses.dp_release import BudgetExhausted, release_dp_at_site
 from feddisclosure.defenses.opendp_count import OpenDPCount
 from feddisclosure.data.synthetic import InstitutionSpec, initialize_database
+from feddisclosure.analytics.enforcement import enforce_release_mode
 
 
 @dataclass(frozen=True)
@@ -24,6 +25,7 @@ class ClientSettings:
     dp_enabled: bool = False
     dp_epsilon: float = 0.25
     dp_total_budget: float = 1.0
+    enforced_policy: str | None = None
 
     @classmethod
     def from_env(cls) -> "ClientSettings":
@@ -37,6 +39,7 @@ class ClientSettings:
             dp_enabled=os.getenv("FDL_DP_ENABLED", "0") == "1",
             dp_epsilon=float(os.getenv("FDL_DP_EPSILON", "0.25")),
             dp_total_budget=float(os.getenv("FDL_DP_TOTAL_BUDGET", "1.0")),
+            enforced_policy=os.getenv("FDL_RELEASE_POLICY") or None,
         )
 
 
@@ -44,6 +47,7 @@ def create_app(settings: ClientSettings, *, _test_mechanism=None) -> FastAPI:
     if not settings.internal_token:
         raise ValueError("internal token is required")
     initialize_database(settings.db_path, InstitutionSpec(settings.institution, settings.rows, settings.positive))
+    enforce_release_mode(settings.db_path, settings.enforced_policy, dp_enabled=settings.dp_enabled)
     if settings.dp_enabled:
         if not (math.isfinite(settings.dp_epsilon) and math.isfinite(settings.dp_total_budget)
                 and 0 < settings.dp_epsilon <= settings.dp_total_budget):
@@ -77,6 +81,8 @@ def create_app(settings: ClientSettings, *, _test_mechanism=None) -> FastAPI:
             raise HTTPException(401, "missing or invalid internal token")
         if settings.dp_enabled:
             raise HTTPException(403, "unprotected query route is disabled in DP-only mode")
+        if settings.enforced_policy and payload.policy != settings.enforced_policy:
+            raise HTTPException(403, "request policy differs from enforced site release policy")
         decision = evaluate_at_site(settings.db_path, payload, settings.min_cell)
         if not decision.approved:
             raise HTTPException(403, {"code": "release_blocked", "reason": decision.reason})

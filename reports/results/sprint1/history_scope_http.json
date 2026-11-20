@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-11-20T11:59:22.437367+00:00",
+  "experiment": "experiment_id_reset_vs_principal_history_three_site_http",
+  "observer": "authenticated_analytics_user_gateway_aggregate_answers_only",
+  "scenarios": {
+    "experiment_scoped_history": {
+      "policy_enforced_at_site_and_gateway": "history",
+      "events": [
+        {
+          "query_id": "all_records",
+          "experiment_id": "experiment_a",
+          "requested_policy": "history",
+          "http_status": 200,
+          "released_count": 110,
+          "elapsed_ms": 51.275
+        },
+        {
+          "query_id": "negative_records",
+          "experiment_id": "experiment_b",
+          "requested_policy": "history",
+          "http_status": 200,
+          "released_count": 107,
+          "elapsed_ms": 23.28
+        },
+        {
+          "query_id": "all_records",
+          "experiment_id": "experiment_c",
+          "requested_policy": "history",
+          "http_status": 200,
+          "released_count": 110,
+          "elapsed_ms": 19.739
+        },
+        {
+          "query_id": "negative_records",
+          "experiment_id": "experiment_d",
+          "requested_policy": "history",
+          "http_status": 200,
+          "released_count": 107,
+          "elapsed_ms": 21.466
+        }
+      ],
+      "attacker_inferred_restricted_count": 3,
+      "evaluator_only": {
+        "true_restricted_count": 3,
+        "correct_inference": true
+      },
+      "counts_released": 4,
+      "rejections": 0
+    },
+    "principal_wide_history": {
+      "policy_enforced_at_site_and_gateway": "principal_history",
+      "events": [
+        {
+          "query_id": "all_records",
+          "experiment_id": "experiment_a",
+          "requested_policy": "principal_history",
+          "http_status": 200,
+          "released_count": 110,
+          "elapsed_ms": 52.54
+        },
+        {
+          "query_id": "negative_records",
+          "experiment_id": "experiment_b",
+          "requested_policy": "principal_history",
+          "http_status": 409,
+          "released_count": null,
+          "elapsed_ms": 13.7
+        },
+        {
+          "query_id": "all_records",
+          "experiment_id": "experiment_c",
+          "requested_policy": "principal_history",
+          "http_status": 200,
+          "released_count": 110,
+          "elapsed_ms": 13.489
+        },
+        {
+          "query_id": "negative_records",
+          "experiment_id": "experiment_d",
+          "requested_policy": "naive",
+          "http_status": 403,
+          "released_count": null,
+          "elapsed_ms": 0.942
+        }
+      ],
+      "attacker_inferred_restricted_count": null,
+      "evaluator_only": {
+        "true_restricted_count": 3,
+        "correct_inference": false
+      },
+      "counts_released": 2,
+      "rejections": 2
+    }
+  },
+  "repeated_query_allowed": true,
+  "limitations": [
+    "One shared authenticated research principal; no production user-account separation",
+    "Two-query synthetic disclosure only, NOT a proof of statistical disclosure control",
+    "Other queries, side information, cross-policy releases, revoked tokens and repeated snapshots remain outside the tested guarantee",
+    "Per-site query history uses private membership IDs locally; never returned to the gateway",
+    "No differential privacy mechanism and no secure aggregation in this benchmark"
+  ]
+}

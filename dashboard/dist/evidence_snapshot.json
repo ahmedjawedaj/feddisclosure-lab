@@ -93,10 +93,58 @@
       "target_oracle_mse": 0.033090345561504364
     }
   ],
+  "analytics_history": [
+    {
+      "name": "history_reset_id",
+      "exact_inference_rate": 1.0,
+      "second_query_release_rate": 1.0,
+      "case_count": 90
+    },
+    {
+      "name": "history_same_id",
+      "exact_inference_rate": 0.15555555555555556,
+      "second_query_release_rate": 0.15555555555555556,
+      "case_count": 90
+    },
+    {
+      "name": "naive",
+      "exact_inference_rate": 1.0,
+      "second_query_release_rate": 1.0,
+      "case_count": 90
+    },
+    {
+      "name": "principal_history_reset_id",
+      "exact_inference_rate": 0.15555555555555556,
+      "second_query_release_rate": 0.15555555555555556,
+      "case_count": 90
+    }
+  ],
+  "membership_balanced": [
+    {
+      "method": "max_confidence",
+      "iid_mean_auc": 0.4935,
+      "skew_mean_auc": 0.4875555555555555,
+      "models_per_condition": 5
+    },
+    {
+      "method": "negative_entropy",
+      "iid_mean_auc": 0.5010555555555556,
+      "skew_mean_auc": 0.5043333333333333,
+      "models_per_condition": 5
+    },
+    {
+      "method": "top2_margin",
+      "iid_mean_auc": 0.4949444444444444,
+      "skew_mean_auc": 0.4894444444444444,
+      "models_per_condition": 5
+    }
+  ],
   "source_sha256": {
     "heterogeneity": "8dc5d6f6af6acf1b550db2355d7c4ba50fc647595fc8bcb64bb384e6cef36a4c",
     "membership": "51b0931ee4ca3156e31b1fe17ac23b10a27b33e305ecaefbf991f99b734fd261",
     "collusion": "b4a503076c30650c9503e2dc364a056f6def5cc7c1cda02bf9b4f7d133042c43",
+    "analytics_history": "241f6060d2ebdd2869ce31c3bdd39e4752c33d47174316de9fcf29ceb27ae604",
+    "membership_balanced": "485d3977183cf8652a1db73f2115bcfd6c9e02dd8dc8cf4ec6e3a961ad8c9739",
     "joint_241": "5c26ded71295d69c5e59e637875830642e6c35635832e33705114c845a12cdc5",
     "joint_242": "cda069cc665a80569780388b07c35fbe9383ce83fa8fdd6fc1ef6293de40218e",
     "joint_243": "ae4ea5e4f9b778541dd9731ef304184e2bda2c16d15442f0f3245885af3297d0"
@@ -106,6 +154,8 @@
     "All attack data are approved public digits; no institutional patient records.",
     "Joint aggregate observer knows all contributor labels; site attribution is not established.",
     "Observed reconstruction error is not a formal privacy guarantee.",
-    "Five training seeds and three membership models are exploratory, not a publication-grade power analysis."
+    "The principal-wide query history control prevents one ID-reset attack, not arbitrary adaptive inference.",
+    "Five training seeds and three historical membership models are exploratory, not a publication-grade power analysis.",
+    "Five-model IID/skew membership queries are paired, but training membership sets differ across conditions."
   ]
 }

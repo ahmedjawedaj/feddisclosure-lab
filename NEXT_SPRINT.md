@@ -1,3 +1,45 @@
+# NEXT SPRINT — After v0.10.0 (native release-certification blocker)
+
+## Verified milestones this cycle
+
+- [x] Demonstrated and fixed the experiment-ID reset bypass with durable `principal_history` mode and failure-safe policy locking. Three-client HTTP observations saved.
+- [x] Executed 90-case, four-condition, matched statistical disclosure control matrix with independent verifier, SHA-256 and research figure.
+- [x] Reused five IID + five non-IID separately trained models for 30 output-only attack evaluations with matched *query* cohorts; recorded weak negative results, saved hashes, uncertainty and limitations. Training cohorts are not identical.
+- [x] Added optional Compose overlay/CI, research protocols and offline dashboard query control view.
+
+## P0 — still not closed
+
+1. Execute `bash scripts/verify_compose.sh` **AND** `bash scripts/verify_compose_history.sh` under Docker Engine/Compose v2. Preserve native logs, volumes/isolation evidence, and actual result JSON. Overlay needs fresh named volumes.
+2. Execute Flower 1.27 ServerApp/ClientApp three-client training on native supported Python host and strict tensor parity versus PyTorch reference. Require actual three clients/rounds, not source inspection.
+3. Run native OpenDP count releases and Opacus DP-SGD with official privacy accountant. Compare matched defended/unprotected cases and compose costs appropriately. The fake measurement tests do NOT count. Record epsilon/delta/adjacency assumptions.
+4. Implement and execute upstream Flower SecAgg+ with threshold/collusion/dropout tests. Never imply an arithmetic mean is cryptographic security.
+5. Only after real runs close the above: launch CI on an authorized GitHub remote, store actual workflow URLs/run IDs, and perform complete clean-install reproducibility certification.
+
+## P1 — scientific depth
+
+- Full public MNIST (28×28) with license and source SHA-256, second independent dataset, five genuine training seeds, longer convergence studies and uncertainty. Existing runs use public sklearn 8×8 digits.
+- Explain and repair IID versus non-IID training-set mismatch if estimating causal membership-risk effects; the current paired-query MIA study is descriptive only.
+- Query-history defense under more complex overlapping allowlisted queries, adversarial budgets and legitimate-workload rejection measurements. Single-principal scope is not multi-tenant authorization.
+- OS-level attacker/evaluator process identities and storage isolation; currently role separation is logical.
+- Faculty-ready results audit and paper related-work/novelty review before claiming a submission-ready thesis.
+
+## Verify from full archive
+
+```bash
+PYTHONPATH=src:. pytest -q -m 'not slow'
+PYTHONPATH=src:. python scripts/run_history_scope_benchmark.py --output reports/results/sprint1/repeat_history_http.json
+python scripts/verify_history_matrix.py
+python scripts/verify_balanced_membership.py
+python scripts/verify_v070_evidence.py
+python scripts/verify_aggregate_collusion.py
+python scripts/verify_joint_aggregate.py
+python -m dashboard.build_dashboard
+# Native host only, unverified here:
+bash scripts/verify_compose_history.sh
+```
+
+---
+
 # NEXT SPRINT — After v0.9.0
 
 ## P0: close native-runtime and defense gates

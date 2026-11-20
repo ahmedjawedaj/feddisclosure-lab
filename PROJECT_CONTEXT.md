@@ -1,3 +1,7 @@
+## v0.10 milestone context
+
+Two tracks still define the scope: federated analytics and federated learning. The reproducible three-site analytics platform now includes an actual experimental proof of the original `history` policy's caller-selected experiment-ID reset flaw, a durable principal-wide control, and a matched 90-population disclosure-control benchmark. The model-output benchmark now comprises ten independently trained FedAvg models and thirty membership attack scores on exactly shared *query* records, with nonidentical training data membership explicitly recorded as a limitation. These are substantive executed research additions but do not substitute for native Docker/Flower/OpenDP/Opacus/SecAgg+ verification. See `docs/v0.10-results.md`.
+
 # v0.9.0 context refresh — 2026-11-19
 
 This is a **research-engineering portfolio**, NOT a finished privacy-certified product or a novel published thesis. Tracks A (analytics) and B (federated ML) remain the core; digital twin is optional. See `docs/v0.9-results.md` for current measured outcomes, `CURRENT_STATE.md` for exact verification and `NEXT_SPRINT.md` for open gates. The latest work adds three-seed joint arithmetic-aggregate reconstruction (very privileged all-contributor label oracle), paired uncertainty analysis over five existing training seeds, and a read-only offline experiment explorer. No native Docker, Flower, OpenDP, Opacus or SecAgg+ execution has been verified.

@@ -1,3 +1,9 @@
+## 2026-11-20 — v0.10: experiment-ID reset and paired-query membership study
+
+- Old `history` release decisions depended on an attacker-controlled experiment ID, so it remains in the code only as a deliberately vulnerable reference. New `principal_history` checks all site-wide prior releases, plus immutable enforced mode and fresh-volume upgrade checks. This is a restricted heuristic for *one research principal*, not a formal DP mechanism or complete protection against adaptive queries.
+- We observed different **training membership** cohorts across IID and severe non-IID FedAvg runs, even with equal sizes. We stopped an invalid matched-training-cohort claim, instead evaluated both models on exactly the same shared member records and nonmembers, and explicitly downgraded the interpretation to descriptive. Every observed weak attack is retained.
+- Native runtime proof is a hard acceptance gate. Static Compose overlay/CI definitions or a local subprocess stack cannot be counted as native Docker/Flower/OpenDP/Opacus/SecAgg+ execution.
+
 ## 2026-11-19 — Aggregate observation versus collusion (v0.8)
 
 Compare attacker observer privileges, not "privacy scores." An arithmetic mean is an *idealized visibility model*, not a secure-aggregation protocol. Grant target labels consistently, preserve weakness of aggregate-only target-proxy attack, and explicitly record all-but-one collusion. Add native Opacus DP-SGD only with a real accountant and no manual noise stand-ins; defer repeated FL accounting and formal claim until executed.

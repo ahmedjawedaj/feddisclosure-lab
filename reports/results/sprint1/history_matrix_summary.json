@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment": "matched_statistical_history_scope_matrix",
+  "condition_summary": {
+    "naive": {
+      "cases": 90,
+      "exact_count_inference_cases": 90,
+      "exact_inference_rate": 1.0,
+      "second_query_released_cases": 90,
+      "second_query_release_rate": 1.0,
+      "harmless_repeat_released_cases": 90
+    },
+    "history_same_id": {
+      "cases": 90,
+      "exact_count_inference_cases": 14,
+      "exact_inference_rate": 0.15555555555555556,
+      "second_query_released_cases": 14,
+      "second_query_release_rate": 0.15555555555555556,
+      "harmless_repeat_released_cases": 90
+    },
+    "history_reset_id": {
+      "cases": 90,
+      "exact_count_inference_cases": 90,
+      "exact_inference_rate": 1.0,
+      "second_query_released_cases": 90,
+      "second_query_release_rate": 1.0,
+      "harmless_repeat_released_cases": 90
+    },
+    "principal_history_reset_id": {
+      "cases": 90,
+      "exact_count_inference_cases": 14,
+      "exact_inference_rate": 0.15555555555555556,
+      "second_query_released_cases": 14,
+      "second_query_release_rate": 0.15555555555555556,
+      "harmless_repeat_released_cases": 90
+    }
+  },
+  "number_of_matched_populations": 90,
+  "queries_evaluated": 1080,
+  "full_evidence_cases_sha256": "b9421c2576b6fff011d254a33052e8187995bf1e46d9ae7be5ff41c229a33882",
+  "limitations": [
+    "Synthetic counts with generated low/mixed prevalence, not a population estimate",
+    "One fixed two-query attack only; adaptive SQL attacks outside the allowlist not tested",
+    "No user identity isolation beyond the single research principal",
+    "Query rejection is not equivalent to a false-positive rate for legitimate analysis",
+    "The principal-history rule is a heuristic, NOT differential privacy",
+    "This matrix executes SQLite policy logic directly, not the HTTP gateway or Docker"
+  ]
+}

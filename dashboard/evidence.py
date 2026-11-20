@@ -11,6 +11,8 @@ SOURCES = {
     'heterogeneity': 'reports/results/sprint5/balanced_heterogeneity/summary.json',
     'membership': 'reports/results/sprint3/membership_training_seeds/membership_training_seeds_summary.json',
     'collusion': 'reports/results/sprint4/aggregate_collusion/verification_summary.json',
+    'analytics_history': 'reports/results/sprint1/history_matrix_summary.json',
+    'membership_balanced': 'reports/results/sprint3/membership_balanced_comparison/summary.json',
 }
 
 
@@ -52,6 +54,22 @@ def make_snapshot(root: Path = ROOT) -> dict:
                   for k,v in data['membership']['aggregate'].items()]
     collusion = [{'name': k, 'mean_mse': _number(v), 'seeds': 5}
                  for k,v in data['collusion']['mean_mse'].items()]
+    control = data['analytics_history']
+    if control['number_of_matched_populations'] != 90 or control['queries_evaluated'] != 1080:
+        raise ValueError('History control matrix missing required cases')
+    history = [{'name': mode, 'exact_inference_rate': _number(v['exact_inference_rate']),
+                'second_query_release_rate': _number(v['second_query_release_rate']),
+                'case_count': v['cases']}
+               for mode, v in sorted(control['condition_summary'].items())]
+    paired = data['membership_balanced']
+    if paired['trained_models'] != 10 or len(paired['training_seeds']) != 5:
+        raise ValueError('New five-seed membership study incomplete')
+    membership_balanced = [
+        {'method': method, 'iid_mean_auc': _number(res['by_partition']['iid']['mean_roc_auc']),
+         'skew_mean_auc': _number(res['by_partition']['dirichlet_balanced_0.1']['mean_roc_auc']),
+         'models_per_condition': 5}
+        for method, res in paired['aggregate'].items()
+    ]
     joint = []
     for seed in range(241,246):
         rel = f'reports/results/sprint4/joint_aggregate_oracle/seed{seed}/joint_summary.json'
@@ -68,12 +86,15 @@ def make_snapshot(root: Path = ROOT) -> dict:
             'native_protocol_verified': {'docker': False, 'flower': False,
                                          'opendp': False, 'opacus': False, 'secagg_plus': False},
             'heterogeneity': partitions, 'membership': membership,
-            'collusion': collusion, 'joint_oracle': joint,
+            'collusion': collusion, 'joint_oracle': joint, 'analytics_history': history,
+            'membership_balanced': membership_balanced,
             'source_sha256': hashes,
             'limitations': [
                 'OpenDP, Opacus, Flower and SecAgg+ native execution is not verified.',
                 'All attack data are approved public digits; no institutional patient records.',
                 'Joint aggregate observer knows all contributor labels; site attribution is not established.',
                 'Observed reconstruction error is not a formal privacy guarantee.',
-                'Five training seeds and three membership models are exploratory, not a publication-grade power analysis.',
+                'The principal-wide query history control prevents one ID-reset attack, not arbitrary adaptive inference.',
+                'Five training seeds and three historical membership models are exploratory, not a publication-grade power analysis.',
+                'Five-model IID/skew membership queries are paired, but training membership sets differ across conditions.',
             ]}

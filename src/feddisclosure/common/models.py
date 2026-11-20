@@ -3,7 +3,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 QueryId = Literal["all_records", "negative_records"]
-Policy = Literal["naive", "history"]
+Policy = Literal["naive", "history", "principal_history"]
 
 
 class AggregateRequest(BaseModel):

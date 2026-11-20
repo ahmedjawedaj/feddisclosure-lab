@@ -1,0 +1,17 @@
+# Deployment overlay for a more robust experimental aggregate-query history.
+# IMPORTANT: use a distinct Compose project and FRESH SQLite volumes. This is
+# not differential privacy and does not guarantee protection against arbitrary
+# adaptive queries or auxiliary information.
+services:
+  institution-a:
+    environment:
+      FDL_RELEASE_POLICY: principal_history
+  institution-b:
+    environment:
+      FDL_RELEASE_POLICY: principal_history
+  institution-c:
+    environment:
+      FDL_RELEASE_POLICY: principal_history
+  gateway:
+    environment:
+      FDL_RELEASE_POLICY: principal_history

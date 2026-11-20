@@ -17,6 +17,7 @@ class GatewaySettings:
     research_key: str
     dp_enabled: bool = False
     dp_epsilon: float = 0.25
+    enforced_policy: str | None = None
 
     @classmethod
     def from_env(cls) -> "GatewaySettings":
@@ -26,6 +27,7 @@ class GatewaySettings:
             research_key=os.getenv("FDL_RESEARCH_KEY", "local-dev-research-key"),
             dp_enabled=os.getenv("FDL_DP_ENABLED", "0") == "1",
             dp_epsilon=float(os.getenv("FDL_DP_EPSILON", "0.25")),
+            enforced_policy=os.getenv("FDL_RELEASE_POLICY") or None,
         )
 
 
@@ -34,6 +36,10 @@ def create_app(settings: GatewaySettings) -> FastAPI:
         raise ValueError("Research gateway requires >=2 sites and both keys")
     if settings.dp_enabled and (not math.isfinite(settings.dp_epsilon) or settings.dp_epsilon <= 0):
         raise ValueError("Invalid DP epsilon")
+    if settings.enforced_policy not in (None, "naive", "history", "principal_history"):
+        raise ValueError("Invalid enforced policy")
+    if settings.dp_enabled and settings.enforced_policy is not None:
+        raise ValueError("Cannot enable both DP and non-DP query policy")
     api = FastAPI(title="FedDisclosure Research Gateway", docs_url=None, redoc_url=None)
 
     @api.get("/health")
@@ -46,6 +52,8 @@ def create_app(settings: GatewaySettings) -> FastAPI:
             raise HTTPException(401, "missing or invalid research key")
         if settings.dp_enabled:
             raise HTTPException(403, "unprotected query route is disabled in DP-only mode")
+        if settings.enforced_policy and payload.policy != settings.enforced_policy:
+            raise HTTPException(403, "request policy differs from enforced gateway release policy")
         async with httpx.AsyncClient(timeout=10.0) as http:
             async def request_site(url: str) -> httpx.Response:
                 return await http.post(

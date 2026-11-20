@@ -1,0 +1,723 @@
+{
+  "schema_version": 1,
+  "timestamp_utc": "2026-11-20T12:08:39.641866+00:00",
+  "experiment": "five_independent_model_seed_membership_iid_vs_strong_skew",
+  "trained_models": 10,
+  "training_seeds": [
+    241,
+    242,
+    243,
+    244,
+    245
+  ],
+  "per_class_limit": 6,
+  "conditions": [
+    "iid",
+    "dirichlet_balanced_0.1"
+  ],
+  "methods": [
+    "max_confidence",
+    "negative_entropy",
+    "top2_margin"
+  ],
+  "observer": "external_model_user_softmax_only_unknown_true_labels",
+  "runs": [
+    {
+      "training_seed": 241,
+      "partition": "iid",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "7c1340a9b58bdcd04699062acde3988bb32950587ee91935c1b2c602097952d0",
+      "manifest_sha256": "3e4dbc6f2752ab5c6406720fc85a7aff92d22292bd4a038dd9afc12f397911c8",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 461,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "a5dbcdcd5f3e4fb30bf2d0946a09bd1b1edabe50a80eb1420b830c740410c825",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "abfd301be0d42660700bb2a85ea1f70b6a222e84964c929c0bf32e2499cc1ba3",
+      "evaluator_truth_sha256": "4ee80b868c82a929a65fbaff6189081f2a9e7433412c7fd50cc9a1d786f9dbfd",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.4775,
+          "attack_advantage": 0.06666666666666665,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.06666666666666667,
+            "0.1": 0.11666666666666667
+          },
+          "scores_sha256": "c960b213015867e0b742a9f116c932c55b5969b04d4d58d018b633bb38f2d2c4"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.4836111111111111,
+          "attack_advantage": 0.09999999999999998,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.1,
+            "0.1": 0.1
+          },
+          "scores_sha256": "a22336c31b57ae46938a4653a1d816e2acce7400b4bec4cec70fdd3544c394e2"
+        },
+        "top2_margin": {
+          "roc_auc": 0.4608333333333333,
+          "attack_advantage": 0.01666666666666672,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.05,
+            "0.1": 0.08333333333333333
+          },
+          "scores_sha256": "5c8aaad3365b4e9961ab0e62777c03f37439b9a41af0cb7621912e5e7ff05eff"
+        }
+      }
+    },
+    {
+      "training_seed": 241,
+      "partition": "dirichlet_balanced_0.1",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "06186e5c4efba518823a6f76b199e02fc546773a941f14832510397ac4818684",
+      "manifest_sha256": "1a9a7c616b5b0e7c879e8a181936b342c212bb36649e9ef18c49595bbd828023",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 461,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "a5dbcdcd5f3e4fb30bf2d0946a09bd1b1edabe50a80eb1420b830c740410c825",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "4fc472e8f796582780b332ff4ed7e873bdf4b8bbbce5c5d1ad215e04e509b28c",
+      "evaluator_truth_sha256": "4ee80b868c82a929a65fbaff6189081f2a9e7433412c7fd50cc9a1d786f9dbfd",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.4747222222222222,
+          "attack_advantage": 0.050000000000000044,
+          "tpr_at_fpr": {
+            "0.01": 0.03333333333333333,
+            "0.05": 0.05,
+            "0.1": 0.08333333333333333
+          },
+          "scores_sha256": "23c28d54f39d5383d76c3a055b5031dde34d17c5b95924c41332281ce3334591"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.4622222222222222,
+          "attack_advantage": 0.03333333333333333,
+          "tpr_at_fpr": {
+            "0.01": 0.03333333333333333,
+            "0.05": 0.05,
+            "0.1": 0.06666666666666667
+          },
+          "scores_sha256": "2c6d3aef6d5b5641a7b790046cc3fce52982a75c860308afc189ed5f8bd9d984"
+        },
+        "top2_margin": {
+          "roc_auc": 0.48666666666666664,
+          "attack_advantage": 0.06666666666666665,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.08333333333333333,
+            "0.1": 0.13333333333333333
+          },
+          "scores_sha256": "8da70d98dccfc08c26e287c691d926c871d8d3a3e49c9476b1f233b61f8eeb45"
+        }
+      }
+    },
+    {
+      "training_seed": 242,
+      "partition": "iid",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "75fd90cd13934455ed13b6631f22e87760d13845d14139cd28c20f3b952b035a",
+      "manifest_sha256": "3deb71e09f95dd9de9d0564659f5fc5dbd2b3c16bafdf22feb2c70d5a845b3fe",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 455,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "4e005743d169e4d9e7e81de9ed86913c78957ad871b21f654b38351adbcacb57",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "7cd91abf0123e1c388e72b1e0e51f604ee5950757fa856566bc907831d8400ef",
+      "evaluator_truth_sha256": "928edba8c74d7a60386fc1867986824db2c34afa795f88a5216dde31defafb61",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.5136111111111111,
+          "attack_advantage": 0.08333333333333331,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.1,
+            "0.1": 0.13333333333333333
+          },
+          "scores_sha256": "655769deac0041d13d450f29a59db2adbe90aad8a33ba5e10ece52533ac606a5"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.5108333333333333,
+          "attack_advantage": 0.11666666666666664,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.1,
+            "0.1": 0.13333333333333333
+          },
+          "scores_sha256": "f866296cbf981112d67349464a19e25975b98282080a02412c635c8a458c5963"
+        },
+        "top2_margin": {
+          "roc_auc": 0.5197222222222222,
+          "attack_advantage": 0.11666666666666667,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.05,
+            "0.1": 0.2
+          },
+          "scores_sha256": "957131d08f8c20ea31debfcbfb084daa38f40747938f9d27ed0d6d173347e079"
+        }
+      }
+    },
+    {
+      "training_seed": 242,
+      "partition": "dirichlet_balanced_0.1",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "b123e63f9265562a35a6bdcf2485ddd02556fcd17587b45316001c70769e7809",
+      "manifest_sha256": "2b67d67fa89a8f10e2512b554427b5f4b0a88b1b8a2022b6d44a03862b83de3a",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 455,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "4e005743d169e4d9e7e81de9ed86913c78957ad871b21f654b38351adbcacb57",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "9f02bf406eca25fc3a4e05b5b76d448dc66c662ba5c49be14974a39a33d39fac",
+      "evaluator_truth_sha256": "928edba8c74d7a60386fc1867986824db2c34afa795f88a5216dde31defafb61",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.4572222222222222,
+          "attack_advantage": 0.06666666666666668,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.05,
+            "0.1": 0.13333333333333333
+          },
+          "scores_sha256": "73d8d6d22299288cda8c8b77ce91114c3cbc68c9ad5c0b21547a8b168a013f1c"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.5033333333333333,
+          "attack_advantage": 0.08333333333333326,
+          "tpr_at_fpr": {
+            "0.01": 0.016666666666666666,
+            "0.05": 0.08333333333333333,
+            "0.1": 0.08333333333333333
+          },
+          "scores_sha256": "77dbe9f72e8eb28d75f5d8ae023c32ff5c66e44205d9764a29d6a8f85066a16c"
+        },
+        "top2_margin": {
+          "roc_auc": 0.4605555555555556,
+          "attack_advantage": 0.06666666666666668,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.11666666666666667,
+            "0.1": 0.15
+          },
+          "scores_sha256": "01f839beabaf0a6e0eaa8bb350dba3a7e6f8368b4efec4e581341e09573688ac"
+        }
+      }
+    },
+    {
+      "training_seed": 243,
+      "partition": "iid",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "73961eea089761756809b924436e24421a652cd060f202e9e81e297de11c24c2",
+      "manifest_sha256": "519ed436c098403904a5e75d7838eaa56c5e3555e485ad88311d6c686a32cdc4",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 459,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "8258cf46c62bb02c91180888ac424e1710bbdb69aa7536f1b559d6cdc22374fa",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "1fb7d261cd615a4b6dc458d647f4d756b6903ce9ef90b789800e12a23709fbc1",
+      "evaluator_truth_sha256": "c411f08cd2bf0fe422098ef4957f3f296b379d754df0885ace0b7371f3fb56c0",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.5141666666666667,
+          "attack_advantage": 0.09999999999999998,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.1,
+            "0.1": 0.16666666666666666
+          },
+          "scores_sha256": "5aaf9be7d849626d78d55ed9fc176da2ab012c40db1ecf197426c23ea3347d19"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.5322222222222223,
+          "attack_advantage": 0.1333333333333333,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.05,
+            "0.1": 0.15
+          },
+          "scores_sha256": "42c4ab4f2b35a01c56e828600ee6f2cd9e7313f2b05f9fae83474f24a8a5d06c"
+        },
+        "top2_margin": {
+          "roc_auc": 0.4825,
+          "attack_advantage": 0.08333333333333337,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.1,
+            "0.1": 0.18333333333333332
+          },
+          "scores_sha256": "06a656631c56317bcda340298bca88b1d84a0a259c5a460b35e1716b8fd33b4b"
+        }
+      }
+    },
+    {
+      "training_seed": 243,
+      "partition": "dirichlet_balanced_0.1",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "c23a0085a1b218d82d1ba1b0c03d98a9a0e9d10b425a9b5ccd3d1ed4152125ca",
+      "manifest_sha256": "54a67bf72b896a5ab448e52f5f0c37a3de85532d35702ffe2b1f14440e831371",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 459,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "8258cf46c62bb02c91180888ac424e1710bbdb69aa7536f1b559d6cdc22374fa",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "8eece4c5f455b2c663b7d9afe7193e3ad62d9e880b5123d07059ba44cf1a4d77",
+      "evaluator_truth_sha256": "c411f08cd2bf0fe422098ef4957f3f296b379d754df0885ace0b7371f3fb56c0",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.5416666666666666,
+          "attack_advantage": 0.18333333333333335,
+          "tpr_at_fpr": {
+            "0.01": 0.05,
+            "0.05": 0.06666666666666667,
+            "0.1": 0.11666666666666667
+          },
+          "scores_sha256": "dd2203ecbcdde81a354e84d9e8903f6da45b25fd0e06e5cc9423fbf5a6f34c15"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.5575,
+          "attack_advantage": 0.2,
+          "tpr_at_fpr": {
+            "0.01": 0.05,
+            "0.05": 0.1,
+            "0.1": 0.1
+          },
+          "scores_sha256": "6c7d1ce43db2fca94ede46fa8010cac3eefff111d01dc7017266cda3e9791009"
+        },
+        "top2_margin": {
+          "roc_auc": 0.5463888888888888,
+          "attack_advantage": 0.14999999999999997,
+          "tpr_at_fpr": {
+            "0.01": 0.03333333333333333,
+            "0.05": 0.05,
+            "0.1": 0.15
+          },
+          "scores_sha256": "63c2968821e791c0d3278ca6df0e08e7171edb269da966969225c08d696e2682"
+        }
+      }
+    },
+    {
+      "training_seed": 244,
+      "partition": "iid",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "63849528bb554b01884ef0a2fe2b17a3843b158dd9ffd252cc34644c8a6836ce",
+      "manifest_sha256": "1ec0f4fe0333de6de5969a4c97dfefaa1a8898435d5b34bd467112d0b65cd670",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 458,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "90ea4042f20da15e8b37cfb71d5cb9918a9cf03ee77eb5dd0132b74919ee2bc3",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "4423e965a1afacc528d3334878054ec935a268e2266b771e1fb46a429135c291",
+      "evaluator_truth_sha256": "675a13e997da765574ae25a2167a2dfa1cf6e3abccdff7de414d1b45c6341d77",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.4955555555555556,
+          "attack_advantage": 0.050000000000000044,
+          "tpr_at_fpr": {
+            "0.01": 0.016666666666666666,
+            "0.05": 0.08333333333333333,
+            "0.1": 0.08333333333333333
+          },
+          "scores_sha256": "47f19ddb924c6b48fcf7e84d33a4639e434aa0d8f8c0767af3f5c6ba4477424f"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.49722222222222223,
+          "attack_advantage": 0.08333333333333337,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.05,
+            "0.1": 0.05
+          },
+          "scores_sha256": "3e852e969da9989589eee7f501cf44c01b2e53fa1fd90f2495d40917909b7af7"
+        },
+        "top2_margin": {
+          "roc_auc": 0.5191666666666667,
+          "attack_advantage": 0.13333333333333336,
+          "tpr_at_fpr": {
+            "0.01": 0.016666666666666666,
+            "0.05": 0.06666666666666667,
+            "0.1": 0.13333333333333333
+          },
+          "scores_sha256": "4487c655127850bfa727219f3a1dd5be7275093e4938d6ff3b4b14005016c6de"
+        }
+      }
+    },
+    {
+      "training_seed": 244,
+      "partition": "dirichlet_balanced_0.1",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "26e593b6b33366f70643982d5bab4b02b8ee58d4176d1d5e3d258aa8d876ec44",
+      "manifest_sha256": "c2e0b45e7ee388cd86d1333a84b2de5f5fe43a6316bdddd8270718a40ca41538",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 458,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "90ea4042f20da15e8b37cfb71d5cb9918a9cf03ee77eb5dd0132b74919ee2bc3",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "bd12962550ec4debdd24102c837956cdb94da67b800a2b50590eca2e90fac16c",
+      "evaluator_truth_sha256": "675a13e997da765574ae25a2167a2dfa1cf6e3abccdff7de414d1b45c6341d77",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.5152777777777777,
+          "attack_advantage": 0.1166666666666667,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.0,
+            "0.1": 0.03333333333333333
+          },
+          "scores_sha256": "c950b8118f12973357c038da69b0950ee07313504b9fecabba78fca0a8a76358"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.49611111111111117,
+          "attack_advantage": 0.08333333333333331,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.0,
+            "0.1": 0.016666666666666666
+          },
+          "scores_sha256": "5619c7130f366bf77afb2a2535c239f6fc2a5eeef9ab91be6b59c0c6486f1cf9"
+        },
+        "top2_margin": {
+          "roc_auc": 0.5269444444444444,
+          "attack_advantage": 0.1333333333333333,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.05,
+            "0.1": 0.1
+          },
+          "scores_sha256": "18b594de21a2b33341bb6226ba061bafdb8553eb60f9b9624aecdca34b69e573"
+        }
+      }
+    },
+    {
+      "training_seed": 245,
+      "partition": "iid",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "512979a70ef9fe6bd0c196efe2d7813d621dd3b0644f4ec78a22e8a8defa40f3",
+      "manifest_sha256": "61af54526e56d20eeb5a5fee9d3f5aaacfee7c39c6e65dd3f9b1a15ba82fa705",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 466,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "50ae82287b363e96b08f2ca4b4cd39a3cf5eabcbd46bbdec09f623d7508005a2",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "4c33090c47220de54bbbec2bff2b010edf6059643796122ba7cef586a67bd59a",
+      "evaluator_truth_sha256": "9423de0e27c58796646ce3e3af34cefa85d14c447ace427994a257c08ecd10dc",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.4666666666666667,
+          "attack_advantage": 0.04999999999999993,
+          "tpr_at_fpr": {
+            "0.01": 0.03333333333333333,
+            "0.05": 0.06666666666666667,
+            "0.1": 0.08333333333333333
+          },
+          "scores_sha256": "23b8ccd7e803fb353881409d73a6335bfe504628de0f7bff6d9aa3d0edee74d2"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.48138888888888887,
+          "attack_advantage": 0.050000000000000044,
+          "tpr_at_fpr": {
+            "0.01": 0.03333333333333333,
+            "0.05": 0.06666666666666667,
+            "0.1": 0.08333333333333333
+          },
+          "scores_sha256": "964b4b4794a8dc81432edc9bfabcc4448a60bbe4f2b9fa2e6cead83a1a0a3261"
+        },
+        "top2_margin": {
+          "roc_auc": 0.4925,
+          "attack_advantage": 0.08333333333333326,
+          "tpr_at_fpr": {
+            "0.01": 0.016666666666666666,
+            "0.05": 0.06666666666666667,
+            "0.1": 0.08333333333333333
+          },
+          "scores_sha256": "ddf8045ecf1ad708da60b48d3f5ac8a38e265fd7e543c99e06ce0991b3f0da77"
+        }
+      }
+    },
+    {
+      "training_seed": 245,
+      "partition": "dirichlet_balanced_0.1",
+      "training_engine": "independent_process_PyTorch_not_Flower",
+      "checkpoint_sha256": "dd5e74ae4129cd9f5e2c95772c1aa988e30bf61302dff37d84a2e4fc9f994ac6",
+      "manifest_sha256": "9ef4a9cd63862000d11afd68783fdc2fb1727006af8396a12e1ecc4862551500",
+      "cohort": {
+        "train_records_per_condition": [
+          576,
+          576
+        ],
+        "common_member_pool_size": 466,
+        "public_test_records": 180,
+        "full_training_cohorts_identical": false
+      },
+      "matched_query_cohort_sha256": "50ae82287b363e96b08f2ca4b4cd39a3cf5eabcbd46bbdec09f623d7508005a2",
+      "query_count": 120,
+      "member_count": 60,
+      "nonmember_count": 60,
+      "observation_sha256": "dfdaae697b6aaf458f7e2b2658ecf17efe2efc1864031334f435dcfcddb5f236",
+      "evaluator_truth_sha256": "9423de0e27c58796646ce3e3af34cefa85d14c447ace427994a257c08ecd10dc",
+      "methods": {
+        "max_confidence": {
+          "roc_auc": 0.4488888888888889,
+          "attack_advantage": 0.033333333333333326,
+          "tpr_at_fpr": {
+            "0.01": 0.016666666666666666,
+            "0.05": 0.016666666666666666,
+            "0.1": 0.05
+          },
+          "scores_sha256": "e15f21053940b0305b9e9ec338e86ea1316cdd52e6a7ac975573de7f335c2bf2"
+        },
+        "negative_entropy": {
+          "roc_auc": 0.5025,
+          "attack_advantage": 0.08333333333333337,
+          "tpr_at_fpr": {
+            "0.01": 0.016666666666666666,
+            "0.05": 0.05,
+            "0.1": 0.08333333333333333
+          },
+          "scores_sha256": "c8ee6f499b768a1b16d7e6d99ad6b850d1f050e65341e9d6e4e5cfb92bb5647a"
+        },
+        "top2_margin": {
+          "roc_auc": 0.42666666666666664,
+          "attack_advantage": 0.0,
+          "tpr_at_fpr": {
+            "0.01": 0.0,
+            "0.05": 0.03333333333333333,
+            "0.1": 0.03333333333333333
+          },
+          "scores_sha256": "5b5c3f8d90103165eea35eed14d5a2e1bd6f6c72a1e778086645581b1a7bfdfe"
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "max_confidence": {
+      "by_partition": {
+        "iid": {
+          "mean_roc_auc": 0.4935,
+          "sample_sd_auc": 0.02128274528611336,
+          "t95_interval_auc": [
+            0.46707398139529216,
+            0.5199260186047078
+          ],
+          "aucs": [
+            0.4775,
+            0.5136111111111111,
+            0.5141666666666667,
+            0.4955555555555556,
+            0.4666666666666667
+          ]
+        },
+        "dirichlet_balanced_0.1": {
+          "mean_roc_auc": 0.4875555555555555,
+          "sample_sd_auc": 0.039612026637386104,
+          "t95_interval_auc": [
+            0.43837072818402467,
+            0.5367403829270864
+          ],
+          "aucs": [
+            0.4747222222222222,
+            0.4572222222222222,
+            0.5416666666666666,
+            0.5152777777777777,
+            0.4488888888888889
+          ]
+        }
+      },
+      "skew_minus_iid_paired_difference": {
+        "mean": -0.005944444444444474,
+        "t95_interval": [
+          -0.047461380058852434,
+          0.035572491169963485
+        ],
+        "per_seed": [
+          -0.002777777777777768,
+          -0.05638888888888893,
+          0.02749999999999997,
+          0.01972222222222214,
+          -0.01777777777777778
+        ]
+      }
+    },
+    "negative_entropy": {
+      "by_partition": {
+        "iid": {
+          "mean_roc_auc": 0.5010555555555556,
+          "sample_sd_auc": 0.021052000579400102,
+          "t95_interval_auc": [
+            0.4749160443459497,
+            0.5271950667651615
+          ],
+          "aucs": [
+            0.4836111111111111,
+            0.5108333333333333,
+            0.5322222222222223,
+            0.49722222222222223,
+            0.48138888888888887
+          ]
+        },
+        "dirichlet_balanced_0.1": {
+          "mean_roc_auc": 0.5043333333333333,
+          "sample_sd_auc": 0.034176037558644456,
+          "t95_interval_auc": [
+            0.4618981778955048,
+            0.5467684887711618
+          ],
+          "aucs": [
+            0.4622222222222222,
+            0.5033333333333333,
+            0.5575,
+            0.49611111111111117,
+            0.5025
+          ]
+        }
+      },
+      "skew_minus_iid_paired_difference": {
+        "mean": 0.0032777777777777796,
+        "t95_interval": [
+          -0.0211320153210467,
+          0.027687570876602258
+        ],
+        "per_seed": [
+          -0.0213888888888889,
+          -0.007499999999999951,
+          0.025277777777777732,
+          -0.0011111111111110628,
+          0.02111111111111108
+        ]
+      }
+    },
+    "top2_margin": {
+      "by_partition": {
+        "iid": {
+          "mean_roc_auc": 0.4949444444444444,
+          "sample_sd_auc": 0.02512499616116917,
+          "t95_interval_auc": [
+            0.4637476412561129,
+            0.5261412476327759
+          ],
+          "aucs": [
+            0.4608333333333333,
+            0.5197222222222222,
+            0.4825,
+            0.5191666666666667,
+            0.4925
+          ]
+        },
+        "dirichlet_balanced_0.1": {
+          "mean_roc_auc": 0.4894444444444444,
+          "sample_sd_auc": 0.0485598936531469,
+          "t95_interval_auc": [
+            0.42914937273872844,
+            0.5497395161501604
+          ],
+          "aucs": [
+            0.48666666666666664,
+            0.4605555555555556,
+            0.5463888888888888,
+            0.5269444444444444,
+            0.42666666666666664
+          ]
+        }
+      },
+      "skew_minus_iid_paired_difference": {
+        "mean": -0.005500000000000005,
+        "t95_interval": [
+          -0.07489201551543162,
+          0.06389201551543161
+        ],
+        "per_seed": [
+          0.02583333333333332,
+          -0.05916666666666659,
+          0.06388888888888883,
+          0.007777777777777772,
+          -0.06583333333333335
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "Reused previously trained four-round public-digit PyTorch models, no Flower",
+    "Training record sets are NOT identical between IID and skew partitions; comparisons are descriptive rather than causal",
+    "Each seed does use the exact same subset of members drawn from training-set intersection and same held-out nonmembers in both arms",
+    "Queries are balanced, class-matched and sampled once per checkpoint; not a real network prediction API",
+    "The 95% t intervals across five seeds are exploratory, not power-qualified",
+    "FPR=0.01 may be below the empirical resolution of the small query cohort",
+    "AUC near 0.5 does not establish differential privacy",
+    "Some samples may appear in different training subsets across different training seeds",
+    "Attacker receives output probabilities, not labels or membership truth"
+  ]
+}

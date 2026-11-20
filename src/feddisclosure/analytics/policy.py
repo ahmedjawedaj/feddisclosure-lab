@@ -27,11 +27,21 @@ def evaluate_release(conn: sqlite3.Connection, request: AggregateRequest, min_ce
         decision = ReleaseDecision(False, None, "small_cell")
         _audit(conn, request, decision)
         return decision
-    if request.policy == "history":
-        for (prior_json,) in conn.execute(
-            "SELECT membership_json FROM release_history WHERE experiment_id=? AND policy=?",
-            (request.experiment_id, request.policy),
-        ):
+    if request.policy in ("history", "principal_history"):
+        # The original "history" policy is intentionally experiment-scoped and
+        # vulnerable to attacker-controlled experiment_id resets. The stronger
+        # principal_history policy covers ALL experiment IDs at this institution.
+        if request.policy == "principal_history":
+            history = conn.execute(
+                "SELECT membership_json FROM release_history WHERE policy=?",
+                (request.policy,),
+            )
+        else:
+            history = conn.execute(
+                "SELECT membership_json FROM release_history WHERE experiment_id=? AND policy=?",
+                (request.experiment_id, request.policy),
+            )
+        for (prior_json,) in history:
             prior = frozenset(json.loads(prior_json))
             difference = selected.symmetric_difference(prior)
             if 0 < len(difference) < min_cell:

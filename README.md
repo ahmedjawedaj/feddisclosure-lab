@@ -1,3 +1,22 @@
+## FedDisclosure Lab v0.10.0 research milestone
+
+**Research benchmark, not a production privacy product.** The new executed three-site HTTP benchmark demonstrates an experiment-ID reset bypass against the original query-history policy and tests a principal-wide persistent policy lock. A 90-population × four-policy matrix (1,080 executed site-policy queries) and a ten-model/five-seed output-only membership comparison (30 scored attacks) are saved with independent validators. The matched membership *query records* are identical across partitions, while underlying IID and non-IID training sets are not. The offline research explorer now has a query-history tab. Detailed methods and limitations: `docs/v0.10-results.md`.
+
+```bash
+PYTHONPATH=src:. pytest -q -m 'not slow'
+python scripts/verify_history_matrix.py
+python scripts/verify_balanced_membership.py
+python -m dashboard.build_dashboard
+# This verifies actual three-site HTTP behavior without Docker:
+PYTHONPATH=src:. python scripts/run_history_scope_benchmark.py --output reports/results/sprint1/repeat_history_http.json
+# Optional native Compose test (requires Docker; uses fresh volumes):
+bash scripts/verify_compose_history.sh
+```
+
+**Not verified:** Native Docker, Flower ServerApp/ClientApp, OpenDP, Opacus, Flower SecAgg+. Formal DP or production security guarantees are not claimed. Do not substitute generated figure/source code for native acceptance evidence.
+
+---
+
 # v0.9.0 — Stronger aggregate attack, paired uncertainty, research explorer
 
 **Executed:** Three new seeds (241, 242, 243) of an all-contributor-label-oracle *joint* aggregate-only inversion. Each experiment jointly reconstructs 24 public 8×8 digit images from the arithmetic average of three independently computed SGD updates. All contributor labels (in site-grouped order) are disclosed as **extra attacker privileges**. Evaluation is separate, and exact image values are never provided to the attack process. The mean pooled label-matched MSE across these three seeds is about 0.0573; target-oracle best matching is not a real attacker identification capability. No Flower SecAgg+ or formal privacy protocol is claimed.
