@@ -1,3 +1,11 @@
+## v0.13.0 cloud execution (partial infrastructure milestone)
+
+Three separate Linux-namespace-isolated PyTorch clients actually trained two
+FedAvg rounds with 20.83% global accuracy and numerical agreement against the
+original PyTorch reference. This is **not Docker-based Flower training**.
+See `docs/v0.13-cloud-execution.md` and the native blockers in
+`CURRENT_STATE.md`.
+
 > **v0.12.0 engineering handoff (2026-11-20):** Native Flower Docker deployment files, 3-client partition staging, container isolation checker, per-client execution receipts and a strict numerical parity gate have been added. Static checks run. **Docker and Flower have NOT been executed natively in this environment.** Start with [the v0.12 deployment protocol](docs/v0.12-docker-flower-certification.md); never call the Docker/Flower acceptance complete without observed native evidence.
 
 # v0.11.0 — Verified retry safety, native certification preparation (2026-11-20)

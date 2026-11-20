@@ -1,0 +1,55 @@
+{
+  "engine": "linux_namespace_isolated_torch_NOT_DOCKER_NOT_FLOWER",
+  "native_docker_verified": false,
+  "native_flower_verified": false,
+  "config": {
+    "id": "digits-iid-smoke-v1",
+    "seed": 20261118,
+    "dataset": "sklearn_digits",
+    "partition": "iid",
+    "clients": 3,
+    "rounds": 2,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.15,
+    "source_limit": 600,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ],
+    "algorithm": "fedavg",
+    "proximal_mu": 0.0
+  },
+  "manifest_sha256": "ac841316e37e9d948c3d2b47a95d51ee1b356062940586437bee3c06b0052920",
+  "client_count": 3,
+  "rounds": [
+    {
+      "round": 1,
+      "global_accuracy": 0.15,
+      "global_loss": 2.287809117635091,
+      "participants": 3,
+      "namespace_ids_distinct": true
+    },
+    {
+      "round": 2,
+      "global_accuracy": 0.20833333333333334,
+      "global_loss": 2.257227579752604,
+      "participants": 3,
+      "namespace_ids_distinct": true
+    }
+  ],
+  "model_parity": null,
+  "checkpoint_sha256": "50706acaf6479c5377c4b70d7bc9cf6bc3c5b072a5096dc96028570c45770601",
+  "execution_seconds": 13.285,
+  "all_site_mounts_isolated": true,
+  "all_three_clients_trained": true,
+  "limitations": [
+    "Not Docker",
+    "Not Flower",
+    "Not formal process attestation",
+    "Trusted host orchestrator can read host data",
+    "No DP or secure aggregation"
+  ]
+}

@@ -1,3 +1,12 @@
+## Immediate priority following v0.13.0
+
+- Do not count Linux namespace fallback as Docker or Flower completion.
+- Run `.github/workflows/flower-docker-native.yml` on a real Docker-enabled
+  runner after the source is published to a dedicated private repository.
+- Diagnose native SuperLink/SuperNode/SuperExec starts, per-round ClientApp
+  participation, and strict `--require-deployment` checkpoint parity.
+- Preserve every failure and do not weaken minimum-three-client guarantees.
+
 # NEXT SPRINT — Native Docker/Flower certification execution (v0.12.0)
 
 **P0. All items below are open until run on an actual Docker host.**

@@ -1,0 +1,26 @@
+{
+  "verified_namespace_reference_parity": true,
+  "native_docker_verified": false,
+  "native_flower_verified": false,
+  "three_isolated_clients": true,
+  "rounds": 2,
+  "receipts": 6,
+  "checkpoint_max_abs_difference": 1.4901161193847656e-08,
+  "per_layer_max_abs_difference": {
+    "network.0.bias": 1.4901161193847656e-08,
+    "network.0.weight": 1.4901161193847656e-08,
+    "network.2.bias": 1.4901161193847656e-08,
+    "network.2.weight": 1.4901161193847656e-08
+  },
+  "reference_checkpoint_sha256": "5ae8fe93cc5f5dd73b32016f60016c1ba445aba5cbb31005d9ff96397e391fff",
+  "isolated_checkpoint_sha256": "50706acaf6479c5377c4b70d7bc9cf6bc3c5b072a5096dc96028570c45770601",
+  "receipt_sha256": [
+    "5200b8bdb199c3779892a80bff521bf770e5f8a0b445fa768111c3ddd54ff57c",
+    "0f5645ddcd4f518cd20b0bf8adbe01236c8c21f82bc4a8fad580da6a93d6510f",
+    "34a77924e54bb7c8b4d7d97ad55c3b8d750c6efe3bcec0e8c01da8c62a811630",
+    "9255100d47ae851f054c90e9cfaec08352691bf4f34a8db04826294f492fd286",
+    "663ffbe43d7081c9cd3713594991171df005dce5b47af65dea33001df0113c36",
+    "96300622dd2ed5af2f908af927491478e84a00cd094c0027164725ea0621bcfb"
+  ],
+  "limits": "Trusted host, mount/PID/user namespaces, not Docker or Flower. No formal privacy guarantee."
+}

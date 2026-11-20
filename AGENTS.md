@@ -1,3 +1,10 @@
+## v0.13.0 cloud execution warning
+
+`scripts/run_linuxns_reference.py` uses real Linux user/mount/PID namespaces for
+a standalone PyTorch isolation experiment. **It is not Docker, Flower, or
+SecAgg+.** `docs/v0.13-cloud-execution.md` records actual evidence and the
+missing native gates. Never label namespace parity as native Flower parity.
+
 # v0.11.0 — Verified retry safety, native certification preparation (2026-11-20)
 
 - **Measured:** Three-site fault-injection HTTP benchmark, persistent idempotent DP query retry and conflict rejection. `reports/results/sprint4/retry_benchmark.json` uses a deterministic TEST mechanism. It offers NO differential-privacy guarantee.

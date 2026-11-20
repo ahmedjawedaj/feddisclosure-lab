@@ -1,3 +1,14 @@
+## 2026-11-20 v0.13.0 execution milestone (Linux namespaces; **NOT Docker/Flower**)
+
+On this cloud container, three OS-namespace-isolated PyTorch workers executed two
+FedAvg rounds on disjoint public digit partitions with each site's dataset
+read-only and other staged site paths masked. Round accuracy 15.00%, then
+20.83%; independent-worker PyTorch checkpoint parity max tensor diff 1.49e-8.
+Six namespace receipts and an evidence validator passed. See
+`docs/v0.13-cloud-execution.md`. Native Docker/Flower attempt exited 2 because
+Docker CLI is absent. No native Flower checkpoint was produced, and the native
+acceptance gate **remains open**.
+
 # CURRENT STATE — v0.12.0 native Flower Docker implementation (2026-11-20)
 
 ## Implemented this cycle (verified static/application only)
