@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "time_utc": "2026-11-20T16:42:14.936347+00:00",
+  "engine": "three_site_http_ASGI_fake_measurement_NOT_DP",
+  "legacy": {
+    "request_id_present": false,
+    "http_statuses": [
+      409,
+      200,
+      409
+    ],
+    "gateway_noisy_values": [
+      null,
+      120.75,
+      null
+    ],
+    "site_budgets": {
+      "institution-a": {
+        "spent_epsilon": 0.5,
+        "cached_releases": 0
+      },
+      "institution-b": {
+        "spent_epsilon": 0.5,
+        "cached_releases": 0
+      },
+      "institution-c": {
+        "spent_epsilon": 0.5,
+        "cached_releases": 0
+      }
+    }
+  },
+  "retry_safe": {
+    "request_id_present": true,
+    "http_statuses": [
+      409,
+      200,
+      200
+    ],
+    "gateway_noisy_values": [
+      null,
+      120.75,
+      120.75
+    ],
+    "site_budgets": {
+      "institution-a": {
+        "spent_epsilon": 0.25,
+        "cached_releases": 1
+      },
+      "institution-b": {
+        "spent_epsilon": 0.25,
+        "cached_releases": 1
+      },
+      "institution-c": {
+        "spent_epsilon": 0.25,
+        "cached_releases": 1
+      }
+    }
+  },
+  "elapsed_seconds": 0.1724,
+  "limitations": [
+    "The deterministic test measurement offers NO DP guarantee",
+    "No native OpenDP, Docker, or SecAgg+ execution is involved",
+    "Only deterministic one-site outage and three repeat requests are tested",
+    "A retry ID binds one previous noisy answer, not a new composition budget"
+  ]
+}

@@ -104,11 +104,12 @@ def create_app(settings: GatewaySettings) -> FastAPI:
             raise HTTPException(502, "invalid DP institution release") from exc
         if len({r.institution for r in releases}) != len(settings.urls):
             raise HTTPException(502, "duplicate institution")
-        if any(r.query_id != payload.query_id or abs(r.epsilon_this_release - settings.dp_epsilon) > 1e-12
+        if any(r.query_id != payload.query_id or r.request_id != payload.request_id
+               or abs(r.epsilon_this_release - settings.dp_epsilon) > 1e-12
                or r.delta != 0 for r in releases):
             raise HTTPException(502, "DP release metadata mismatch")
         return DPFederatedCountRelease(experiment_id=payload.experiment_id,
-            query_id=payload.query_id, noisy_count=sum(r.noisy_count for r in releases),
+            query_id=payload.query_id, request_id=payload.request_id, noisy_count=sum(r.noisy_count for r in releases),
             participating_sites=len(releases), epsilon_per_site_this_release=settings.dp_epsilon,
             delta_per_site=0.0)
 

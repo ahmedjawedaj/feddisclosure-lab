@@ -8,7 +8,7 @@ from pathlib import Path
 from fastapi import FastAPI, Header, HTTPException
 from feddisclosure.analytics.policy import evaluate_at_site
 from feddisclosure.common.models import AggregateRelease, AggregateRequest, DPCountRequest, DPSiteCountRelease
-from feddisclosure.defenses.dp_release import BudgetExhausted, release_dp_at_site
+from feddisclosure.defenses.dp_release import BudgetExhausted, ReleaseIdConflict, release_dp_at_site
 from feddisclosure.defenses.opendp_count import OpenDPCount
 from feddisclosure.data.synthetic import InstitutionSpec, initialize_database
 from feddisclosure.analytics.enforcement import enforce_release_mode
@@ -101,12 +101,14 @@ def create_app(settings: ClientSettings, *, _test_mechanism=None) -> FastAPI:
             release = release_dp_at_site(
                 settings.db_path, query_id=payload.query_id,
                 principal_scope="all_research_access", epsilon=settings.dp_epsilon,
-                total_budget=settings.dp_total_budget, mechanism=mechanism,
+                total_budget=settings.dp_total_budget, mechanism=mechanism, request_id=payload.request_id,
             )
         except BudgetExhausted as exc:
             raise HTTPException(409, "privacy budget exhausted") from exc
+        except ReleaseIdConflict as exc:
+            raise HTTPException(409, "request ID conflicts with previous private release") from exc
         return DPSiteCountRelease(institution=settings.institution,
-            query_id=payload.query_id, noisy_count=release.noisy_count,
+            query_id=payload.query_id, request_id=payload.request_id, noisy_count=release.noisy_count,
             epsilon_this_release=release.epsilon_spent_this_release, delta=release.delta)
 
     return api

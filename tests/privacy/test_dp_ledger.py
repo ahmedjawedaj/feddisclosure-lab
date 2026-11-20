@@ -111,3 +111,56 @@ def test_privacy_budget_cap_cannot_be_increased_on_restart(tmp_path):
     with pytest.raises(ValueError, match="immutable"):
         query(db, FakeMeasurement(), cap=0.75)
     assert used(db) == 250000
+
+
+def test_retry_key_returns_identical_noise_without_spending_again(tmp_path):
+    db = init(tmp_path)
+    m = FakeMeasurement()
+    key = "research_retry_key_001"
+    def release(query_id="all_records", request_id=key):
+        return release_dp_at_site(db, query_id=query_id, principal_scope="principal",
+                                  epsilon=.25, total_budget=.25, mechanism=m, request_id=request_id)
+    first = release()
+    assert not first.replayed
+    assert release().noisy_count == first.noisy_count
+    assert release().replayed
+    assert len(m.observed) == 1 and used(db) == 250000
+    from feddisclosure.defenses.dp_release import ReleaseIdConflict
+    with pytest.raises(ReleaseIdConflict):
+        release(query_id="negative_records")
+    with pytest.raises(BudgetExhausted):
+        release(request_id="new_request_key_002")
+    assert used(db) == 250000
+
+
+def test_retry_key_concurrent_and_restart_safe(tmp_path):
+    from concurrent.futures import ThreadPoolExecutor
+    db = init(tmp_path)
+    m = FakeMeasurement()
+    def attempt(_):
+        return release_dp_at_site(db, query_id="all_records", principal_scope="principal",
+                                  epsilon=.25, total_budget=.25, mechanism=m,
+                                  request_id="same_request_key_123").noisy_count
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        values = list(executor.map(attempt, range(20)))
+    assert values == [40.75] * 20
+    assert m.observed == [40] and used(db) == 250000
+    assert attempt(0) == 40.75  # Fresh connection replays previously sampled value.
+
+
+def test_retry_key_invalid_and_cached_epsilon_mismatch(tmp_path):
+    from feddisclosure.defenses.dp_release import ReleaseIdConflict
+    db = init(tmp_path)
+    for bad in ("short", "../wrong/path", "a" * 101):
+        with pytest.raises(ValueError):
+            release_dp_at_site(db, query_id="all_records", principal_scope="principal",
+                               epsilon=.25, total_budget=.5, mechanism=FakeMeasurement(),
+                               request_id=bad)
+    release_dp_at_site(db, query_id="all_records", principal_scope="principal",
+                       epsilon=.25, total_budget=.5, mechanism=FakeMeasurement(),
+                       request_id="conflict_key_123")
+    with pytest.raises(ReleaseIdConflict):
+        release_dp_at_site(db, query_id="all_records", principal_scope="principal",
+                           epsilon=.125, total_budget=.5, mechanism=FakeMeasurement(),
+                           request_id="conflict_key_123")
+    assert used(db) == 250000

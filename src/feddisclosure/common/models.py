@@ -30,11 +30,16 @@ class FederatedRelease(BaseModel):
 class DPCountRequest(BaseModel):
     experiment_id: str = Field(min_length=1, max_length=100, pattern=r"^[a-zA-Z0-9_-]+$")
     query_id: QueryId
+    # The explicit request ID is a retry key, NOT a fresh privacy budget.
+    # It is optional for backward compatibility. A new request ID costs epsilon.
+    request_id: str | None = Field(default=None, min_length=12, max_length=100,
+                                   pattern=r"^[a-zA-Z0-9_-]+$")
 
 
 class DPSiteCountRelease(BaseModel):
     institution: str
     query_id: QueryId
+    request_id: str | None = None
     noisy_count: float = Field(allow_inf_nan=False)
     epsilon_this_release: float = Field(gt=0)
     delta: float = Field(ge=0)
@@ -43,6 +48,7 @@ class DPSiteCountRelease(BaseModel):
 class DPFederatedCountRelease(BaseModel):
     experiment_id: str
     query_id: QueryId
+    request_id: str | None = None
     noisy_count: float = Field(allow_inf_nan=False)
     participating_sites: int = Field(ge=2)
     epsilon_per_site_this_release: float = Field(gt=0)

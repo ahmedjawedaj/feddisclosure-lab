@@ -102,3 +102,93 @@ def test_missing_real_dp_package_fails_startup_not_open(tmp_path):
     except ImportError:
         with pytest.raises(DPLibraryUnavailable):
             create_app(ClientSettings("site-a", str(tmp_path / "protected.sqlite"), 40, 1, 5, "secret", dp_enabled=True))
+
+
+def test_dp_http_request_id_replay_and_mismatch(tmp_path):
+    import sqlite3
+    app = site(tmp_path)
+    async def check():
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://site") as c:
+            headers = {"X-Internal-Token": "secret"}
+            payload = {"experiment_id": "any", "query_id": "all_records",
+                       "request_id": "reliable_request_123"}
+            first = await c.post("/v1/dp-count", json=payload, headers=headers)
+            second = await c.post("/v1/dp-count", json=payload, headers=headers)
+            assert first.status_code == second.status_code == 200
+            assert first.json() == second.json()
+            conflict = await c.post("/v1/dp-count", json={**payload, "query_id": "negative_records"}, headers=headers)
+            assert conflict.status_code == 409
+            assert "noisy_count" not in conflict.text
+    asyncio.run(check())
+    with sqlite3.connect(tmp_path / "site.db") as conn:
+        assert conn.execute("SELECT SUM(spent_micro) FROM dp_budget").fetchone()[0] == 250000
+        assert conn.execute("SELECT COUNT(*) FROM dp_release_cache").fetchone()[0] == 1
+
+
+def test_gateway_retry_after_partial_site_failure_does_not_double_spend(tmp_path, monkeypatch):
+    """Network failure consumes partial budget, but a shared retry ID reuses it.
+
+    This is a FAKE measurement. It tests transactional HTTP orchestration,
+    not a native OpenDP privacy guarantee.
+    """
+    import sqlite3
+    real_client = httpx.AsyncClient
+    sites = {
+        name: create_app(ClientSettings(name, str(tmp_path / f"{name}.db"), 40, 1, 5,
+                                        "secret", dp_enabled=True, dp_epsilon=.25,
+                                        dp_total_budget=.5), _test_mechanism=FakeMeasurement())
+        for name in ("site-a", "site-b", "site-c")
+    }
+    calls = {name: 0 for name in sites}
+    class RoutedTransport(httpx.AsyncBaseTransport):
+        async def handle_async_request(self, request):
+            site_name = request.url.host
+            calls[site_name] += 1
+            if site_name == "site-c" and calls[site_name] == 1:
+                return httpx.Response(503, json={"detail": "temporary site outage"})
+            inner = httpx.ASGITransport(app=sites[site_name])
+            return await inner.handle_async_request(request)
+    monkeypatch.setattr(gateway_module.httpx, "AsyncClient", lambda **kwargs:
+                        real_client(transport=RoutedTransport(), **kwargs))
+    gateway = make_gateway(GatewaySettings(tuple(f"http://{n}" for n in sites),
+                                           "secret", "research", dp_enabled=True, dp_epsilon=.25))
+    async def exercise():
+        async with real_client(transport=httpx.ASGITransport(app=gateway), base_url="http://gateway") as c:
+            req = {"experiment_id": "science", "query_id": "all_records",
+                   "request_id": "stable_retry_identifier_123"}
+            h = {"X-Research-Key": "research"}
+            first = await c.post("/v1/federated-dp-count", json=req, headers=h)
+            assert first.status_code == 409 and "noisy_count" not in first.text
+            again = await c.post("/v1/federated-dp-count", json=req, headers=h)
+            assert again.status_code == 200
+            identical = await c.post("/v1/federated-dp-count", json=req, headers=h)
+            assert identical.json() == again.json()
+            mismatch = await c.post("/v1/federated-dp-count",
+                                    json={**req, "query_id": "negative_records"}, headers=h)
+            assert mismatch.status_code == 409
+    asyncio.run(exercise())
+    for name in sites:
+        with sqlite3.connect(tmp_path / f"{name}.db") as conn:
+            assert conn.execute("SELECT SUM(spent_micro) FROM dp_budget").fetchone()[0] == 250000
+            assert conn.execute("SELECT COUNT(*) FROM dp_release_cache").fetchone()[0] == 1
+
+
+def test_gateway_rejects_mismatched_site_request_id(monkeypatch):
+    real_client = httpx.AsyncClient
+    def respond(request):
+        request_id = "stale_other_request_123" if request.url.host == "site-b" else "expected_request_123"
+        return httpx.Response(200, json={"institution": request.url.host,
+             "query_id": "all_records", "request_id": request_id,
+             "noisy_count": 7.25, "epsilon_this_release": .25, "delta": 0})
+    monkeypatch.setattr(gateway_module.httpx, "AsyncClient", lambda **kwargs:
+                        real_client(transport=httpx.MockTransport(respond), **kwargs))
+    gateway = make_gateway(GatewaySettings(("http://site-a", "http://site-b", "http://site-c"),
+                                           "secret", "research", dp_enabled=True, dp_epsilon=.25))
+    async def query():
+        async with real_client(transport=httpx.ASGITransport(app=gateway), base_url="http://gateway") as c:
+            result = await c.post("/v1/federated-dp-count", json={
+                "experiment_id": "test", "query_id": "all_records",
+                "request_id": "expected_request_123"}, headers={"X-Research-Key": "research"})
+            assert result.status_code == 502
+            assert "noisy_count" not in result.text
+    asyncio.run(query())
