@@ -20,6 +20,10 @@ jobs:
         with: {python-version: '3.12'}
       - name: Install ML dependencies
         run: python -m pip install -e '.[ml,test]'
+      - name: Generate deterministic approved public-digit partitions
+        run: >-
+          python scripts/prepare_fl_data.py --output data/training/digits-iid
+          --clients 3 --seed 20261118 --limit 600 --partition iid
       - name: Execute actual Flower ServerApp and 3 ClientApps
         run: python scripts/run_flower_experiment.py
       - name: Execute matched independent-worker reference

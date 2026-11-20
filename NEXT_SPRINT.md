@@ -1,3 +1,34 @@
+# NEXT SPRINT — v0.11.0 native execution and thesis-quality gate
+
+**Priority 0: these remain genuinely unverified. Do not mark them complete from source code, a static workflow or a dummy measurement.**
+
+1. Create or authorize a dedicated `feddisclosure-lab` GitHub repository, set it as remote, and push a reviewable branch with the tracked source and CI workflows. No remote exists in this local release, so GitHub Actions have **not** run.
+2. On a Python 3.12 Ubuntu runner with package-index access and Docker daemon, execute `python scripts/native_preflight.py --strict`, then `.github/workflows/native-v1-certification.yml`. This runs native Docker isolation/history, Flower FedAvg and tensor parity, OpenDP count releases and budget exhaustion, Opacus RDP-accounted DP-SGD, and upstream Flower SecAgg+ smoke. Collect actual workflow URLs and full logs.
+3. Fix any native API incompatibility found in Flower 1.27, OpenDP, Opacus or the SecAgg+ legacy adapter without weakening the acceptance checks. Save negative and failed evidence.
+4. Only after the native jobs pass, build matched protected-vs-unprotected attack/utility/communication evaluations, longer 28×28 MNIST learning, multiple seeds and uncertainty, a source-audited paper and a release report. OS-level adversary/evaluator isolation is still pending.
+5. Redo the release percentage against the original mandatory criteria. A working Dockerless research lab is NOT a 100%-verified federation.
+
+## Executed v0.11 milestones
+
+- Persistent request-ID cache in SQLite for exact repeat randomized answers, transactional with budget accounting; mismatched query IDs/epsilons rejected, cross-restart/concurrent behavior tested.
+- Three-site HTTP fault-injection benchmark with a deterministic NON-DP test mechanism: legacy exhausted .5 epsilon units per site over three attempts, retry-safe consumed .25 per site and replayed the same answer.
+- Separate upstream Flower SecAgg+ integration and native CI workflows prepared, Flower runner timeout/stale-artifact checks hardened, parity verifier made safe under `python -O`, release evidence checker fails closed.
+- Runtime preflight explicitly reports absent Docker, Flower, OpenDP and Opacus. Actual native certification BLOCKED.
+
+## Commands from archive
+
+```bash
+PYTHONPATH=src:. pytest -q -m 'not slow'
+PYTHONPATH=src:. python scripts/benchmark_retry_safety.py
+python scripts/native_preflight.py --strict # EXPECT EXIT 2 without native runtimes
+python scripts/verify_native_release.py # EXPECT EXIT 2 without real native evidence
+PYTHONPATH=src:. python scripts/run_local_stack.py --once
+```
+
+See `docs/v0.11-runtime-and-retry.md`, `CURRENT_STATE.md`, `AGENTS.md` and the native workflow for exact verification criteria.
+
+---
+
 # NEXT SPRINT — After v0.10.0 (native release-certification blocker)
 
 ## Verified milestones this cycle

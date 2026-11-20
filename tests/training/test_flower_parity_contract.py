@@ -39,12 +39,12 @@ def test_parity_checker_accepts_matching_fixtures_and_rejects_tampering(tmp_path
     assert not report["layers"]["layer"]["within_tolerance"]
     record["exit_code"] = 1
     run_path.write_text(json.dumps(record))
-    with pytest.raises(AssertionError, match="did not succeed"):
+    with pytest.raises(ValueError, match="did not succeed"):
         certify(*args)
     record["exit_code"] = 0
     record["config"] = {**config, "seed": 2}
     run_path.write_text(json.dumps(record))
-    with pytest.raises(AssertionError, match="Not matched training"):
+    with pytest.raises(ValueError, match="Not matched training"):
         certify(*args)
 
 

@@ -28,6 +28,9 @@ def main():
     data_dir = (ROOT / args.data_dir).resolve()
     output = (ROOT / args.output_dir).resolve()
     output.mkdir(parents=True, exist_ok=True)
+    for stale in ("final_model.pt", "flower_summary.json", "flower_run.json"):
+        if (output / stale).exists():
+            raise SystemExit(f"Refusing to reuse existing Flower evidence: {output / stale}")
     if not (data_dir / "manifest.json").exists():
         prepare_partitions(data_dir, dataset=config["dataset"], clients=config["clients"],
                            partition=config["partition"], seed=config["seed"], limit=config.get("source_limit"))
@@ -43,19 +46,31 @@ def main():
     run_config = " ".join(f"{k}={v}" for k, v in cfg.items())
     command = ["flwr", "run", ".", "--stream", "--run-config", run_config]
     start = time.perf_counter()
-    completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=1200)
+    timed_out = False
+    try:
+        completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=1200)
+        stdout, stderr, exit_code = completed.stdout, completed.stderr, completed.returncode
+    except subprocess.TimeoutExpired as exc:
+        timed_out = True
+        stdout = exc.stdout or b""
+        stderr = exc.stderr or b""
+        if isinstance(stdout, bytes):
+            stdout = stdout.decode("utf-8", errors="replace")
+        if isinstance(stderr, bytes):
+            stderr = stderr.decode("utf-8", errors="replace")
+        exit_code = 124
     elapsed = time.perf_counter() - start
     # Keep complete runtime evidence separate; do not claim success from an app that failed.
-    (output / "flower_stdout.log").write_text(completed.stdout)
-    (output / "flower_stderr.log").write_text(completed.stderr)
+    (output / "flower_stdout.log").write_text(stdout)
+    (output / "flower_stderr.log").write_text(stderr)
     evidence = {"engine": "Flower ServerApp/ClientApp", "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-                "command": command, "config": config, "exit_code": completed.returncode,
+                "command": command, "config": config, "exit_code": exit_code, "timed_out": timed_out,
                 "duration_seconds": round(elapsed, 4),
                 "final_model_exists": (output / "final_model.pt").is_file(),
                 "summary_exists": (output / "flower_summary.json").is_file()}
     (output / "flower_run.json").write_text(json.dumps(evidence, indent=2) + "\n")
     print(json.dumps(evidence, indent=2))
-    if completed.returncode or not evidence["final_model_exists"] or not evidence["summary_exists"]:
+    if exit_code or not evidence["final_model_exists"] or not evidence["summary_exists"]:
         raise SystemExit("Flower experiment failed. Inspect evidence logs. It is not a verified run.")
 
 

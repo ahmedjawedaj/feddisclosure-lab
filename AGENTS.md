@@ -1,3 +1,10 @@
+# v0.11.0 — Verified retry safety, native certification preparation (2026-11-20)
+
+- **Measured:** Three-site fault-injection HTTP benchmark, persistent idempotent DP query retry and conflict rejection. `reports/results/sprint4/retry_benchmark.json` uses a deterministic TEST mechanism. It offers NO differential-privacy guarantee.
+- **Implemented but NOT executed natively:** Upstream Flower SecAgg+ app, strict native CI gate, hardened Flower evidence runner and parity checker. Docker, Flower, OpenDP and Opacus are absent here.
+- **Verified:** 115 passing fast tests after the final changes, two independent-worker training integration passes, live analytics benchmark, historical evidence verification. See `docs/v0.11-runtime-and-retry.md` and the latest saved verification logs for final counts.
+- **Action required to run hosted native CI:** Configure a dedicated GitHub remote for this repository (none is present) and run `.github/workflows/native-v1-certification.yml` on GitHub's Ubuntu runner. Never claim 100% or formal DP/SecAgg+ before actual native results.
+
 ## v0.10.0 handoff priority (2026-11-20)
 
 Read `docs/v0.10-results.md`, `CURRENT_STATE.md` and `NEXT_SPRINT.md` first. The actual three-site HTTP test demonstrates the experiment-ID reset vulnerability (110 − 107 = 3), and validates persistent `principal_history` enforcement (second query 409, policy switching 403). A 90-case × 4-policy × 3-query SQLite study and 10-checkpoint/30-evaluation output-only MIA comparison have executed with independent verifiers. The matched MIA *query* cohorts are identical, but the underlying training data membership differs across IID and severe non-IID. Never claim causal privacy benefit, formal DP, SecAgg+, native Docker or Flower verification. Next native gates remain P0. New skills: `.agents/skills/principal-history-control/`, `.agents/skills/paired-membership-research/`, mirrored for Claude.

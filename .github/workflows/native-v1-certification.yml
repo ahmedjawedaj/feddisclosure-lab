@@ -1,0 +1,75 @@
+name: native-v1-acceptance-gate
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/native-v1-certification.yml'
+      - 'scripts/verify_native_release.py'
+      - 'src/feddisclosure/**'
+      - 'services/**'
+      - 'scripts/verify_compose*'
+      - 'scripts/run_dp_analytics.py'
+      - 'scripts/run_opacus_dp_sgd.py'
+      - 'scripts/run_secagg_native.py'
+      - 'scripts/run_flower_experiment.py'
+jobs:
+  end-to-end:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install complete native dependency set
+        run: python -m pip install -e '.[ml,privacy,research,test]'
+      - name: Verify native preconditions
+        run: python scripts/native_preflight.py --strict
+      - name: Run native Docker isolation and history controls
+        run: |
+          bash scripts/verify_compose.sh
+          bash scripts/verify_compose_history.sh
+      - name: Prepare deterministic public data
+        run: >-
+          python scripts/prepare_fl_data.py --output data/training/digits-iid
+          --clients 3 --seed 20261118 --limit 600 --partition iid
+      - name: Run native Flower and independent PyTorch reference
+        run: |
+          python scripts/run_flower_experiment.py
+          python scripts/run_torch_reference.py \
+            --config configs/training/fedavg_digits_iid.yaml \
+            --data-dir data/training/digits-iid \
+            --output reports/results/sprint2/flower/torch_parity_reference.json
+          python scripts/verify_flower_parity.py \
+            --flower-dir reports/results/sprint2/flower \
+            --reference-json reports/results/sprint2/flower/torch_parity_reference.json \
+            --reference-checkpoint reports/results/sprint2/flower/checkpoints/digits-iid-smoke-v1_final.pt \
+            --manifest data/training/digits-iid/manifest.json \
+            --output reports/results/sprint2/flower/flower_parity.json
+      - name: Run native OpenDP and Opacus mechanisms
+        run: |
+          python scripts/run_dp_analytics.py --output reports/results/sprint4/opendp_native_smoke.json
+          python scripts/run_opacus_dp_sgd.py \
+            --data-root data/training/digits-iid \
+            --output-dir reports/results/sprint4/opacus_native \
+            --epsilon 5 --delta 0.00001 --epochs 2 --seed 241
+      - name: Run upstream Flower SecAgg+ workflow
+        run: python scripts/run_secagg_native.py
+      - name: Validate all required native evidence
+        run: python scripts/verify_native_release.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v1-native-certification-evidence
+          path: |
+            reports/results/sprint1/docker_*.json
+            reports/results/sprint1/docker_*.log
+            reports/results/sprint1/docker_*.txt
+            reports/results/sprint2/flower/
+            reports/results/sprint4/opendp_native_smoke.json
+            reports/results/sprint4/opacus_native/
+            reports/results/sprint4/secagg_native/
+            reports/results/runtime_gates/v011_preflight.json
+            reports/results/native_release_certificate.json

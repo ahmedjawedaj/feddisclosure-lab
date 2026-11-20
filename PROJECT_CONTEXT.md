@@ -1,3 +1,10 @@
+# v0.11.0 — Verified retry safety, native certification preparation (2026-11-20)
+
+- **Measured:** Three-site fault-injection HTTP benchmark, persistent idempotent DP query retry and conflict rejection. `reports/results/sprint4/retry_benchmark.json` uses a deterministic TEST mechanism. It offers NO differential-privacy guarantee.
+- **Implemented but NOT executed natively:** Upstream Flower SecAgg+ app, strict native CI gate, hardened Flower evidence runner and parity checker. Docker, Flower, OpenDP and Opacus are absent here.
+- **Verified:** 115 passing fast tests after the final changes, two independent-worker training integration passes, live analytics benchmark, historical evidence verification. See `docs/v0.11-runtime-and-retry.md` and the latest saved verification logs for final counts.
+- **Action required to run hosted native CI:** Configure a dedicated GitHub remote for this repository (none is present) and run `.github/workflows/native-v1-certification.yml` on GitHub's Ubuntu runner. Never claim 100% or formal DP/SecAgg+ before actual native results.
+
 ## v0.10 milestone context
 
 Two tracks still define the scope: federated analytics and federated learning. The reproducible three-site analytics platform now includes an actual experimental proof of the original `history` policy's caller-selected experiment-ID reset flaw, a durable principal-wide control, and a matched 90-population disclosure-control benchmark. The model-output benchmark now comprises ten independently trained FedAvg models and thirty membership attack scores on exactly shared *query* records, with nonidentical training data membership explicitly recorded as a limitation. These are substantive executed research additions but do not substitute for native Docker/Flower/OpenDP/Opacus/SecAgg+ verification. See `docs/v0.10-results.md`.

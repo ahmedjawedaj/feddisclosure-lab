@@ -14,6 +14,12 @@ from pathlib import Path
 import torch
 
 
+def require(condition: bool, message: str) -> None:
+    # Never use assert in certification code: python -O silently drops asserts.
+    if not condition:
+        raise ValueError(message)
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -25,11 +31,11 @@ def certify(flower_dir: Path, reference_json: Path, reference_checkpoint: Path,
     record = json.loads((flower_dir / "flower_run.json").read_text())
     summary = json.loads((flower_dir / "flower_summary.json").read_text())
     reference = json.loads(reference_json.read_text())
-    assert record.get("engine") == "Flower ServerApp/ClientApp", "No native Flower run metadata"
-    assert record.get("exit_code") == 0, "Flower process did not succeed"
-    assert record.get("final_model_exists") and record.get("summary_exists"), "Incomplete Flower run"
-    assert summary.get("engine") == "Flower ServerApp/ClientApp", "Invalid Flower summary"
-    assert reference.get("engine") == "torch_independent_process_reference_NOT_Flower", "Invalid reference"
+    require(record.get("engine") == "Flower ServerApp/ClientApp", "No native Flower run metadata")
+    require(record.get("exit_code") == 0 and not record.get("timed_out", False), "Flower process did not succeed")
+    require(record.get("final_model_exists") and record.get("summary_exists"), "Incomplete Flower run")
+    require(summary.get("engine") == "Flower ServerApp/ClientApp", "Invalid Flower summary")
+    require(reference.get("engine") == "torch_independent_process_reference_NOT_Flower", "Invalid reference")
     fc, rc = record["config"], reference["config"]
     required = ("seed", "dataset", "partition", "clients", "rounds", "local_epochs",
                 "batch_size", "learning_rate", "source_limit")
@@ -39,21 +45,21 @@ def certify(flower_dir: Path, reference_json: Path, reference_checkpoint: Path,
             or rc.get("algorithm", "fedavg") not in ("fedavg", "fedprox")):
         mismatches["proximal_mu"] = {"flower": fc.get("proximal_mu", 0),
                                     "reference": rc.get("proximal_mu", 0)}
-    assert not mismatches, f"Not matched training configurations: {mismatches}"
-    assert reference["manifest_sha256"] == sha256(manifest), "Reference data provenance mismatch"
-    assert reference["final_checkpoint"]["sha256"] == sha256(reference_checkpoint), "Reference checkpoint tampered"
-    assert summary["clients_requested"] == fc["clients"] and summary["rounds"] == fc["rounds"]
-    assert len(reference["rounds"]) == fc["rounds"]
+    require(not mismatches, f"Not matched training configurations: {mismatches}")
+    require(reference["manifest_sha256"] == sha256(manifest), "Reference data provenance mismatch")
+    require(reference["final_checkpoint"]["sha256"] == sha256(reference_checkpoint), "Reference checkpoint tampered")
+    require(summary["clients_requested"] == fc["clients"] and summary["rounds"] == fc["rounds"], "Flower participants or rounds mismatch")
+    require(len(reference["rounds"]) == fc["rounds"], "Reference round count mismatch")
     flower_checkpoint = flower_dir / "final_model.pt"
     flower_weights = torch.load(flower_checkpoint, map_location="cpu", weights_only=True)
     reference_weights = torch.load(reference_checkpoint, map_location="cpu", weights_only=True)
-    assert set(flower_weights) == set(reference_weights), "Model parameter keys differ"
+    require(set(flower_weights) == set(reference_weights), "Model parameter keys differ")
     diffs = {}
     all_match = True
     for name in sorted(flower_weights):
         a, b = flower_weights[name].detach().cpu(), reference_weights[name].detach().cpu()
-        assert a.shape == b.shape and a.dtype == b.dtype, f"Model tensor mismatch: {name}"
-        assert torch.isfinite(a).all() and torch.isfinite(b).all(), f"Non-finite model tensor: {name}"
+        require(a.shape == b.shape and a.dtype == b.dtype, f"Model tensor mismatch: {name}")
+        require(bool(torch.isfinite(a).all() and torch.isfinite(b).all()), f"Non-finite model tensor: {name}")
         max_abs = float((a - b).abs().max())
         ok = bool(torch.allclose(a, b, atol=atol, rtol=rtol))
         diffs[name] = {"max_abs_diff": max_abs, "within_tolerance": ok}

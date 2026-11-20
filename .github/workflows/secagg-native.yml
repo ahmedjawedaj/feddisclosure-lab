@@ -1,0 +1,30 @@
+name: upstream-flower-secaggplus-smoke
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/feddisclosure/training/secagg_*.py'
+      - 'experiments/flower_secagg/**'
+      - 'scripts/run_secagg_native.py'
+      - '.github/workflows/secagg-native.yml'
+jobs:
+  native-secagg:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install Flower and reference dependencies
+        run: python -m pip install -e '.[ml,test]'
+      - name: Prepare three disjoint public-digit partitions
+        run: >-
+          python scripts/prepare_fl_data.py --output data/training/digits-iid
+          --clients 3 --seed 20261118 --limit 600 --partition iid
+      - name: Execute upstream SecAggPlusWorkflow and secaggplus_mod
+        run: python scripts/run_secagg_native.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: upstream-secaggplus-native-evidence
+          path: reports/results/sprint4/secagg_native/

@@ -1,3 +1,10 @@
+# v0.11.0 — Verified retry safety, native certification preparation (2026-11-20)
+
+- **Measured:** Three-site fault-injection HTTP benchmark, persistent idempotent DP query retry and conflict rejection. `reports/results/sprint4/retry_benchmark.json` uses a deterministic TEST mechanism. It offers NO differential-privacy guarantee.
+- **Implemented but NOT executed natively:** Upstream Flower SecAgg+ app, strict native CI gate, hardened Flower evidence runner and parity checker. Docker, Flower, OpenDP and Opacus are absent here.
+- **Verified:** 115 passing fast tests after the final changes, two independent-worker training integration passes, live analytics benchmark, historical evidence verification. See `docs/v0.11-runtime-and-retry.md` and the latest saved verification logs for final counts.
+- **Action required to run hosted native CI:** Configure a dedicated GitHub remote for this repository (none is present) and run `.github/workflows/native-v1-certification.yml` on GitHub's Ubuntu runner. Never claim 100% or formal DP/SecAgg+ before actual native results.
+
 ## FedDisclosure Lab v0.10.0 research milestone
 
 **Research benchmark, not a production privacy product.** The new executed three-site HTTP benchmark demonstrates an experiment-ID reset bypass against the original query-history policy and tests a principal-wide persistent policy lock. A 90-population × four-policy matrix (1,080 executed site-policy queries) and a ten-model/five-seed output-only membership comparison (30 scored attacks) are saved with independent validators. The matched membership *query records* are identical across partitions, while underlying IID and non-IID training sets are not. The offline research explorer now has a query-history tab. Detailed methods and limitations: `docs/v0.10-results.md`.

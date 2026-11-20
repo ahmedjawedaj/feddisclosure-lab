@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "feddisclosure-secagg-research"
+version = "0.1.0"
+requires-python = ">=3.11,<3.14"
+dependencies = ["feddisclosure-lab", "flwr[simulation]>=1.27,<1.28"]
+
+[tool.flwr.app]
+publisher = "feddisclosure"
+
+[tool.flwr.app.components]
+serverapp = "feddisclosure.training.secagg_server:app"
+clientapp = "feddisclosure.training.secagg_client:app"
+
+[tool.flwr.app.config]
+num-server-rounds = 1
+clients = 3
+num-shares = 3
+reconstruction-threshold = 2
+max-weight = 1000.0
+timeout = 120.0
+local-epochs = 1
+batch-size = 32
+learning-rate = 0.15
+seed = 20261118
+features = 64
+classes = 10
+data-root = "../../data/training/digits-iid"
+artifact-dir = "../../reports/results/sprint4/secagg_native"
+
+[tool.flwr.federations]
+default = "local-simulation"
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 3

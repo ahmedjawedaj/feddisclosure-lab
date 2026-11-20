@@ -30,3 +30,9 @@ Compare attacker observer privileges, not "privacy scores." An arithmetic mean i
 - Added post hoc paired exploratory confidence intervals and sign-flip p-values for an existing five-seed equal-work study. Both intervals include zero; no confirmatory significance claim.
 - Added dependency-free offline evidence explorer with whitelisted scalar JSON; do not embed raw data or model updates. Streamlit remains an unexecuted optional interface.
 - Native Docker, Flower, OpenDP, Opacus, SecAgg+ continue to block the full project gate; adding source and workflows does not clear them.
+
+## 2026-11-20 — v0.11: idempotent release retries and fail-closed native gate
+
+- An explicit `request_id` is only a replay key bound to a principal, query and epsilon. A replay returns the *previous* randomized answer without spending epsilon; a new key is a new release. Use a transactional cache, not a new random draw on network retry. Reject request-ID mismatch at the gateway. The current evaluation uses a fake nonprivate measurement only and cannot support epsilon-DP claims.
+- Maintain the pinned main Flower ServerApp/ClientApp parity benchmark. Add a separate Flower *legacy workflow* research app for upstream SecAgg+ rather than implementing cryptography. Its 3-client threshold and deployment assumptions must be tested on the native runtime; simulation is not an OS isolation proof.
+- Add a native CI workflow with a final multi-component evidence consistency gate. It must fail when any mandatory artifact is missing. A local preflight or GitHub workflow file is not itself executed evidence.
