@@ -3,11 +3,210 @@
   "project": "FedDisclosure Lab",
   "data_scope": "reviewed_scalar_evidence_only",
   "native_protocol_verified": {
-    "docker": false,
-    "flower": false,
-    "opendp": false,
-    "opacus": false,
-    "secagg_plus": false
+    "docker": true,
+    "flower": true,
+    "opendp": true,
+    "opacus": true,
+    "secagg_plus": true
+  },
+  "v014": {
+    "flags": {
+      "docker": true,
+      "flower": true,
+      "opendp": true,
+      "opacus": true,
+      "secagg_plus": true
+    },
+    "fault_scenarios": [
+      {
+        "name": "fault-after-round1",
+        "verdict": "PASS (gate refused: no checkpoint, not certified)"
+      },
+      {
+        "name": "fault-before-run",
+        "verdict": "PASS (gate refused: no checkpoint, not certified)"
+      },
+      {
+        "name": "fault-supernode-down-before-run",
+        "verdict": "PASS (gate refused: no checkpoint, not certified)"
+      },
+      {
+        "name": "run-iid-a",
+        "verdict": "FAIL"
+      },
+      {
+        "name": "run-iid-b",
+        "verdict": "FAIL"
+      },
+      {
+        "name": "run-iid-c",
+        "verdict": "FAIL"
+      },
+      {
+        "name": "run-iid-d",
+        "verdict": "PASS"
+      },
+      {
+        "name": "run-iid-repeat",
+        "verdict": "PASS"
+      },
+      {
+        "name": "run-noniid-labelskew",
+        "verdict": "PASS"
+      }
+    ],
+    "digits_dp": [
+      {
+        "partition": "iid",
+        "mode": "nonprivate",
+        "target_epsilon": null,
+        "achieved_epsilon": null,
+        "test_accuracy": 0.964066852367688,
+        "worst_client_accuracy": 0.940625,
+        "membership_auc": 0.5108297788997215,
+        "seeds": 10
+      },
+      {
+        "partition": "iid",
+        "mode": "opacus_dp",
+        "target_epsilon": 1.0,
+        "achieved_epsilon": 0.9957330392577518,
+        "test_accuracy": 0.5938718662952647,
+        "worst_client_accuracy": 0.5293640350877193,
+        "membership_auc": 0.5120220858480347,
+        "seeds": 10
+      },
+      {
+        "partition": "iid",
+        "mode": "opacus_dp",
+        "target_epsilon": 4.0,
+        "achieved_epsilon": 3.9912096703745292,
+        "test_accuracy": 0.9052924791086351,
+        "worst_client_accuracy": 0.8625,
+        "membership_auc": 0.5203533638966265,
+        "seeds": 10
+      },
+      {
+        "partition": "iid",
+        "mode": "opacus_dp",
+        "target_epsilon": 16.0,
+        "achieved_epsilon": 15.991950087622877,
+        "test_accuracy": 0.9289693593314763,
+        "worst_client_accuracy": 0.88125,
+        "membership_auc": 0.5221541560275457,
+        "seeds": 10
+      },
+      {
+        "partition": "label_skew",
+        "mode": "nonprivate",
+        "target_epsilon": null,
+        "achieved_epsilon": null,
+        "test_accuracy": 0.9027855153203342,
+        "worst_client_accuracy": 0.8989473684210527,
+        "membership_auc": 0.5052311832636954,
+        "seeds": 10
+      },
+      {
+        "partition": "label_skew",
+        "mode": "opacus_dp",
+        "target_epsilon": 1.0,
+        "achieved_epsilon": 0.9957330392577518,
+        "test_accuracy": 0.4242339832869081,
+        "worst_client_accuracy": 0.11150219298245614,
+        "membership_auc": 0.5192655137728257,
+        "seeds": 10
+      },
+      {
+        "partition": "label_skew",
+        "mode": "opacus_dp",
+        "target_epsilon": 4.0,
+        "achieved_epsilon": 3.9912096703745292,
+        "test_accuracy": 0.7651810584958217,
+        "worst_client_accuracy": 0.4610635964912281,
+        "membership_auc": 0.525120052808728,
+        "seeds": 10
+      },
+      {
+        "partition": "label_skew",
+        "mode": "opacus_dp",
+        "target_epsilon": 16.0,
+        "achieved_epsilon": 15.991950087622877,
+        "test_accuracy": 0.856824512534819,
+        "worst_client_accuracy": 0.6306578947368421,
+        "membership_auc": 0.5295928360027855,
+        "seeds": 10
+      }
+    ],
+    "mnist_dp": [
+      {
+        "partition": "iid",
+        "mode": "nonprivate",
+        "target_epsilon": null,
+        "achieved_epsilon": null,
+        "test_accuracy": 0.9543888888888888,
+        "worst_client_accuracy": 0.946875,
+        "membership_auc": 0.5001909444444445,
+        "seeds": 3
+      },
+      {
+        "partition": "iid",
+        "mode": "opacus_dp",
+        "target_epsilon": 2.0,
+        "achieved_epsilon": 1.9936241883138652,
+        "test_accuracy": 0.8924722222222222,
+        "worst_client_accuracy": 0.8841666666666667,
+        "membership_auc": 0.49900403703703705,
+        "seeds": 3
+      },
+      {
+        "partition": "iid",
+        "mode": "opacus_dp",
+        "target_epsilon": 8.0,
+        "achieved_epsilon": 7.996293964759627,
+        "test_accuracy": 0.8966111111111111,
+        "worst_client_accuracy": 0.8892708333333333,
+        "membership_auc": 0.4987833148148148,
+        "seeds": 3
+      },
+      {
+        "partition": "label_skew",
+        "mode": "nonprivate",
+        "target_epsilon": null,
+        "achieved_epsilon": null,
+        "test_accuracy": 0.8509722222222221,
+        "worst_client_accuracy": 0.8697916666666666,
+        "membership_auc": 0.4623682962962963,
+        "seeds": 3
+      },
+      {
+        "partition": "label_skew",
+        "mode": "opacus_dp",
+        "target_epsilon": 2.0,
+        "achieved_epsilon": 1.9936241883138652,
+        "test_accuracy": 0.7610277777777777,
+        "worst_client_accuracy": 0.6746875000000001,
+        "membership_auc": 0.4795502962962963,
+        "seeds": 3
+      },
+      {
+        "partition": "label_skew",
+        "mode": "opacus_dp",
+        "target_epsilon": 8.0,
+        "achieved_epsilon": 7.996293964759627,
+        "test_accuracy": 0.7810555555555556,
+        "worst_client_accuracy": 0.7270833333333333,
+        "membership_auc": 0.4763118148148148,
+        "seeds": 3
+      }
+    ],
+    "secagg": {
+      "plaintext_diff": 3.5560221128716485e-05,
+      "tolerance": 5.9604644775390625e-05,
+      "victim_error_server_only": 0.020794859164294133,
+      "victim_error_1_colluder": 0.018861835955332425,
+      "victim_error_n_minus_1": 7.604485493839519e-05
+    },
+    "opendp_ledger_passed": true
   },
   "heterogeneity": [
     {
@@ -147,10 +346,18 @@
     "membership_balanced": "485d3977183cf8652a1db73f2115bcfd6c9e02dd8dc8cf4ec6e3a961ad8c9739",
     "joint_241": "5c26ded71295d69c5e59e637875830642e6c35635832e33705114c845a12cdc5",
     "joint_242": "cda069cc665a80569780388b07c35fbe9383ce83fa8fdd6fc1ef6293de40218e",
-    "joint_243": "ae4ea5e4f9b778541dd9731ef304184e2bda2c16d15442f0f3245885af3297d0"
+    "joint_243": "ae4ea5e4f9b778541dd9731ef304184e2bda2c16d15442f0f3245885af3297d0",
+    "v014_scenarios": "da8a3baaf6c51532f9bff66efe04601d66bfc7634789727afa77efc27074c401",
+    "v014_mnist_parity": "ee0cac5568d85e0e2b467e30a10964ebb3551e62a813a4e46ff536eb1aeb084c",
+    "v014_secagg": "6fa3e0a41c313ecc0881e873a7d557c3702f567a66428684108ca64cca33d989",
+    "v014_opendp": "553cc19380832d8c03c73c5c6735d00fa5a81d368334f48496e12c4f4242ae2a",
+    "v014_digits_dp": "66c43d7567b65bee22b9da347f76dbf064c8502241a6101929fe7cc74685f45c",
+    "v014_mnist_dp": "78fe41cfba3e82d8f060058d8cc2ec4cbfd3c7bb9bd3ee7f238fa97134b8c273"
   },
   "limitations": [
-    "OpenDP, Opacus, Flower and SecAgg+ native execution is not verified.",
+    "Native flags mean the saved v0.14 evidence passed its own checks. They are not privacy certifications.",
+    "SecAgg+ gives no protection against a server that colludes with n-1 clients. n=3, t=2 halts on any dropout.",
+    "Opacus and OpenDP guarantees are formal for their stated mechanisms only. Measured membership AUC is near chance with or without DP.",
     "All attack data are approved public digits; no institutional patient records.",
     "Joint aggregate observer knows all contributor labels; site attribution is not established.",
     "Observed reconstruction error is not a formal privacy guarantee.",

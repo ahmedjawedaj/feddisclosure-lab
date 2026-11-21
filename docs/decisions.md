@@ -1,3 +1,12 @@
+## 2026-11-21 — v0.14: executed defenses and what we refused to relax
+
+- Native Docker + Flower is now certified only through live `docker inspect`, per-client receipts and strict parity with an independent PyTorch run. Early failed attempts stay in the evidence tree.
+- A silent failure was found twice (plaintext control and mid-protocol SecAgg+ dropout produced a "successful" exit with a wrong or partial model). The server now refuses to write a final model unless every configured round aggregated. The gate was not weakened to make runs pass.
+- SecAgg+ tolerance was first set a priori at 2e-5 and was wrong. The bound was re-derived from the upstream quantisation code (n x step x max_weight / total_samples), confirmed by a second run with a smaller max weight, and both the mistake and the derivation are recorded.
+- The n=3, threshold 2 dropout halt is explained by code reading only. It is reported as unverified until an n of 4 or more run exists.
+- DP did not lower the measured membership AUC and the attack is near chance with and without DP. Reported as a negative result about attack power, not as evidence for or against DP.
+- Formal epsilon and delta are reported as achieved values from the accountant. Attack numbers are never used to claim or deny a guarantee.
+
 ## 2026-11-20 — v0.10: experiment-ID reset and paired-query membership study
 
 - Old `history` release decisions depended on an attacker-controlled experiment ID, so it remains in the code only as a deliberately vulnerable reference. New `principal_history` checks all site-wide prior releases, plus immutable enforced mode and fresh-volume upgrade checks. This is a restricted heuristic for *one research principal*, not a formal DP mechanism or complete protection against adaptive queries.

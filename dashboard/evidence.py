@@ -28,6 +28,60 @@ def _number(x):
     return float(x)
 
 
+def _v014(root: Path, hashes: dict):
+    """Native execution, SecAgg+, OpenDP and DP-FedAvg scalars. Returns None if not present.
+
+    A protocol flag is True only when the saved evidence itself says it passed.
+    """
+    paths = {
+        'scenarios': 'reports/results/native_flower/v014/scenario_summary.json',
+        'mnist_parity': 'reports/results/native_flower/v014/run-mnist-full-iid/flower_parity.json',
+        'secagg': 'reports/results/secagg/v014/secagg_verification.json',
+        'opendp': 'reports/results/privacy/v014/opendp/opendp_study.json',
+        'digits_dp': 'reports/results/privacy/v014/digits_full_dpfedavg/summary.json',
+        'mnist_dp': 'reports/results/privacy/v014/mnist_full_dpfedavg/summary.json',
+    }
+    if not all((root / rel).exists() for rel in paths.values()):
+        return None
+    d = {}
+    for key, rel in paths.items():
+        d[key], hashes['v014_' + key] = _load(root, rel)
+    secagg = d['secagg']['scenarios']
+    secagg_ok = (secagg['secagg-on-t2-n3']['runner_native_flower_verified'] is True
+                 and secagg['plaintext-control']['runner_native_flower_verified'] is True
+                 and d['secagg']['equivalence_2_rounds']['within_tolerance'] is True)
+    flags = {
+        'docker': bool(d['mnist_parity']['require_deployment']),
+        'flower': d['mnist_parity']['verified_numerical_parity'] is True,
+        'opendp': d['opendp']['ledger_with_real_mechanism']['all_passed'] is True,
+        'opacus': any(g['mode'] == 'opacus_dp' for g in d['digits_dp']['groups']),
+        'secagg_plus': secagg_ok,
+    }
+    def dp_rows(summary):
+        rows = []
+        for g in summary['groups']:
+            rows.append({
+                'partition': g['partition'], 'mode': g['mode'], 'target_epsilon': g['target_epsilon'],
+                'achieved_epsilon': (_number(g['achieved_epsilon_max_client']['mean'])
+                                     if 'achieved_epsilon_max_client' in g else None),
+                'test_accuracy': _number(g['test_accuracy']['mean']),
+                'worst_client_accuracy': _number(g['worst_client_val_accuracy']['mean']),
+                'membership_auc': _number(g['membership_auc']['mean']),
+                'seeds': g['test_accuracy']['n']})
+        return rows
+    sc = d['secagg']['collusion_single_round']
+    return {'flags': flags,
+            'fault_scenarios': [{'name': x['scenario'], 'verdict': x['verdict']}
+                                for x in d['scenarios']['scenarios']],
+            'digits_dp': dp_rows(d['digits_dp']), 'mnist_dp': dp_rows(d['mnist_dp']),
+            'secagg': {'plaintext_diff': _number(d['secagg']['equivalence_2_rounds']['secagg_vs_plaintext_control_max_abs_diff']),
+                       'tolerance': _number(d['secagg']['equivalence_2_rounds']['tolerance']),
+                       'victim_error_server_only': _number(sc['baseline_error_if_victim_assumed_equal_to_aggregate']),
+                       'victim_error_1_colluder': _number(sc['error_with_server_plus_1_colluder']),
+                       'victim_error_n_minus_1': _number(sc['error_with_server_plus_2_colluders_n_minus_1'])},
+            'opendp_ledger_passed': d['opendp']['ledger_with_real_mechanism']['all_passed']}
+
+
 def make_snapshot(root: Path = ROOT) -> dict:
     """Strictly whitelist public aggregate results, never raw/evaluator files."""
     root = Path(root)
@@ -81,16 +135,20 @@ def make_snapshot(root: Path = ROOT) -> dict:
                           'pooled_mse': _number(summary['metrics']['pooled_label_matched_mse']),
                           'target_oracle_mse': _number(summary['metrics']['target_oracle_label_matched_mse'])})
             hashes[f'joint_{seed}'] = sha
+    v014 = _v014(root, hashes)
+    flags = v014['flags'] if v014 else {'docker': False, 'flower': False,
+                                        'opendp': False, 'opacus': False, 'secagg_plus': False}
     return {'schema_version': 1, 'project': 'FedDisclosure Lab',
             'data_scope': 'reviewed_scalar_evidence_only',
-            'native_protocol_verified': {'docker': False, 'flower': False,
-                                         'opendp': False, 'opacus': False, 'secagg_plus': False},
+            'native_protocol_verified': flags, 'v014': v014,
             'heterogeneity': partitions, 'membership': membership,
             'collusion': collusion, 'joint_oracle': joint, 'analytics_history': history,
             'membership_balanced': membership_balanced,
             'source_sha256': hashes,
             'limitations': [
-                'OpenDP, Opacus, Flower and SecAgg+ native execution is not verified.',
+                'Native flags mean the saved v0.14 evidence passed its own checks. They are not privacy certifications.',
+                'SecAgg+ gives no protection against a server that colludes with n-1 clients. n=3, t=2 halts on any dropout.',
+                'Opacus and OpenDP guarantees are formal for their stated mechanisms only. Measured membership AUC is near chance with or without DP.',
                 'All attack data are approved public digits; no institutional patient records.',
                 'Joint aggregate observer knows all contributor labels; site attribution is not established.',
                 'Observed reconstruction error is not a formal privacy guarantee.',

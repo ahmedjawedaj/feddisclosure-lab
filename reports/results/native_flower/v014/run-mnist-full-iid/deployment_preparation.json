@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "preparation_only": true,
+  "client_count": 3,
+  "manifest_sha256": "ebbbc4787d81106f604e54a05f455c1fb4ad94b1eebde363f8d1345a887789a6",
+  "config": {
+    "id": "mnist-full-iid-native-v014",
+    "seed": 20261118,
+    "dataset": "mnist",
+    "partition": "iid",
+    "clients": 3,
+    "rounds": 10,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.1,
+    "source_limit": null,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ]
+  },
+  "sites": [
+    {
+      "site_id": 0,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-v014/institution-00",
+      "train_sha256": "114184baefdafc0d4bef7f3c2b8d28e71617e89bb579d8f9a2565fe432bb1660",
+      "val_sha256": "6c6d8764452bb253ce35d3384e74c14403c444726eb7ec817461a35b2915fdfa",
+      "train_records": 12800,
+      "val_records": 3200
+    },
+    {
+      "site_id": 1,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-v014/institution-01",
+      "train_sha256": "12e0654cbe5f33a5d44ab9380f743f202f5c76acb78ee6c7366e12215c6f1cd1",
+      "val_sha256": "a3b9feef150461b0474666c8c51cbc6582386a88d3b0fd83d95963888b0556a5",
+      "train_records": 12800,
+      "val_records": 3200
+    },
+    {
+      "site_id": 2,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-v014/institution-02",
+      "train_sha256": "4527f3ca2150639cdea1cf1dfdebdf47739c52024b48619d0269b13582e3d8a0",
+      "val_sha256": "608b32e64a28e81009f1e77a022d96a3343a07b7ed1e17a1756a45f05f40a605",
+      "train_records": 12800,
+      "val_records": 3200
+    }
+  ],
+  "run_dir": "/home/claude/work/feddisclosure-lab/reports/results/native_flower/v014/run-mnist-full-iid",
+  "env_file": "/home/claude/runs/run-mnist-full-iid.env",
+  "evaluator_not_mounted": true,
+  "native_execution_verified": false
+}

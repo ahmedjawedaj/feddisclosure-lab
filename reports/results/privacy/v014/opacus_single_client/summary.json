@@ -1,0 +1,61 @@
+{
+  "timestamp_utc": "2026-11-21T17:12:04.539182+00:00",
+  "experiment": "single_silo_local_dp_sgd_native_opacus_vs_sgd",
+  "backend": "NATIVE Opacus only",
+  "seed": 0,
+  "n_train": 128,
+  "baseline": {
+    "train_loss": 2.2442965269088746,
+    "num-examples": 128
+  },
+  "dp_accounting": {
+    "mechanism": "native_opacus_poisson_dp_sgd",
+    "unit_of_privacy": "one training record",
+    "adjacency": "add_remove_one_record",
+    "accountant": "Opacus RDP",
+    "epsilon_accounted": 7.999948244064974,
+    "delta": 1e-05,
+    "target_epsilon": 8.0,
+    "noise_multiplier": 1.0791015625,
+    "max_grad_norm": 1.0,
+    "poisson_sampling": true,
+    "sample_rate": 0.25,
+    "records": 128,
+    "epochs": 5,
+    "steps": 20,
+    "avg_training_loss": 2.2810644149780273,
+    "learning_rate": 0.15,
+    "seed": 0,
+    "initial_weights_sha256": "d647f170efe6a81ea71b7616f37b09f53417a6c9b952c782e09f1b648323ae5e",
+    "limitations": [
+      "ONE local training invocation only; repeated FL rounds require cumulative accounting",
+      "Model selection, preprocessing, privacy of validation data and public model initialization are separate assumptions",
+      "Opacus secure_mode=False is a reproducible research setting, NOT cryptographically secure randomness",
+      "Poisson minibatch sampling changes realized optimizer steps and batch sizes versus a standard SGD control",
+      "This component alone is not a federated DP guarantee nor secure aggregation"
+    ]
+  },
+  "evaluations": {
+    "baseline": {
+      "checkpoint_sha256": "370b8b3ce2775231bcaecdaa1fa8d344524ca13c91234fb427dbd0e5ed90cd08",
+      "public_test": {
+        "accuracy": 0.225,
+        "loss": 2.190845425923665,
+        "num-examples": 120
+      }
+    },
+    "opacus_dp": {
+      "checkpoint_sha256": "7e9af10a0eb2c7e8b52ef0716bb13cb7e18454f9dbd49d50172b72b4b296767c",
+      "public_test": {
+        "accuracy": 0.16666666666666666,
+        "loss": 2.255133056640625,
+        "num-examples": 120
+      }
+    }
+  },
+  "limitations": [
+    "This benchmark has not composed privacy costs across FL rounds or multiple institutions",
+    "No claim about Flower SecAgg+ or a deployed DP system",
+    "DP Poisson sampling and standard baseline SGD differ in realized minibatches"
+  ]
+}

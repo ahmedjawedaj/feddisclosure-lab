@@ -1,0 +1,56 @@
+{
+  "client_attestations_verified": true,
+  "run_id": "6242062664365704506",
+  "rounds": 10,
+  "sites": {
+    "0": {
+      "train_receipts": 10,
+      "evaluation_receipts": 10,
+      "trained_weight_sha256": [
+        "eaf6d5443e875bc729e3f78b48d31bac026edf258207817145bd1f149261eb03",
+        "4a6f01ca959d63ccf415dc3703582fcf42f8e163d739844e0ee0ee9221324702",
+        "0b7cba02281c4869594a077491714647e32b2d8554e18659736fff579f6d2180",
+        "9568745855e33e5793e7051840362bcc1374cc329c814bc2a0676cc093898850",
+        "89946db5b6161ea5f3615949135b0f1b7848939de6ae8f71ba43bbc863e0e229",
+        "503662736a135c67f4644100ace9e37846c97b5c11a9cc1699c40a55dd719707",
+        "e6c62c087efabe361e1f6bdafb53567bf81363d3bcac39445528990889f8c76a",
+        "4232970aa26c85ced2574f2a0104765f00f553368772a7cedbf398803a88d333",
+        "3b0a33be7f12028781d7857d2517632120c3b8cbb4fc7f3fb3503bd4c88f5f36",
+        "efa91c073757456e3a5f302e4a49ff549d6a9cb14fc18c9cf12b7f613acdd3d5"
+      ]
+    },
+    "1": {
+      "train_receipts": 10,
+      "evaluation_receipts": 10,
+      "trained_weight_sha256": [
+        "fa54ad311ed483d922ca4d472a60af64273d45aaf89ec33b6ae93c8450a4d652",
+        "85ec814a7a7a1df4e45e6b6ce98a029718222bb830c64f4f92615b11149d2d8c",
+        "44e48253476310df31a18df067a28e39d757a339d901f3d55249f486bda89681",
+        "513827eda50b4efb19f7a832ca2a979b0eb4ef650309ff2478d2951fb057caf8",
+        "30207c6212d58c9c306f0f6a9a51a2f930edc0424461e463ca9bf5e9e5a02b45",
+        "d962133853406f4b3323f7372c75937637bacba70cb42b6ecbbb9c0a8e221148",
+        "afb516cd9a094db814d2291f1858ef110541f87640403050c21cee62771bc3ad",
+        "17ea30c8d9afc7adaec679229648d1db02d0d887278f627e3f442360c618285e",
+        "fbbe0f4f109314d80db9f9343b95c60b5f21f1ce745fa90c931618bdab8b7f60",
+        "9ad6ee1b034f16c4c87ec9a21ad6b97dd43631aa902b58cdec7573990dcdc74c"
+      ]
+    },
+    "2": {
+      "train_receipts": 10,
+      "evaluation_receipts": 10,
+      "trained_weight_sha256": [
+        "084be311d533ba8d6afb00b6403fad879fa73e407deebda20847c57da4f852b9",
+        "b20fe4c871dcc3e6c85df7f3676e4131b036fb4984775faf6ea3da07c2b85aca",
+        "f05b19229f83290a186ebc6a1cc34a80bd1870621e2da58ec263338cd8df5655",
+        "d75c3b8d53eebb183c8a47abbc1a06af7c04d0a125987e79b101b4110ac69b8e",
+        "d9db0b515f359a03c0f580521abd55902f23b2112ac8572362192445f4c4aade",
+        "5f42ccc067128c79da94972773bbb9d64c41cd77fb1de3d2de7cb6f7fd96424f",
+        "22ee653c378b4012e31901883d47181bf69d752df712c9b80cbe7359b8aa7ad6",
+        "b027b29fda3778c0f338d6915ccc64651f8144cbedc11901b2f3515f4abc83c1",
+        "00469890ac66177d20d246c2ddabfadac3985467e3a9e07ecd34c26500ce9513",
+        "395fe79cac62f543750300b91fb7db23077158e5b111be4476a331165b9c8f1a"
+      ]
+    }
+  },
+  "limitation": "Receipts attest client processes; independent Docker inspect is required for filesystem isolation"
+}

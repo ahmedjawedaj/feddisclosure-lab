@@ -1,0 +1,24 @@
+iid 0 nonprivate 0.9533
+iid 0 eps=2.0 0.8914 achieved 1.994
+iid 0 eps=8.0 0.8959 achieved 7.996
+iid 1 nonprivate 0.9558
+iid 1 eps=2.0 0.8922 achieved 1.994
+iid 1 eps=8.0 0.8954 achieved 7.996
+iid 2 nonprivate 0.954
+iid 2 eps=2.0 0.8938 achieved 1.994
+iid 2 eps=8.0 0.8985 achieved 7.996
+label_skew 0 nonprivate 0.8502
+label_skew 0 eps=2.0 0.7578 achieved 1.994
+label_skew 0 eps=8.0 0.7746 achieved 7.996
+label_skew 1 nonprivate 0.8538
+label_skew 1 eps=2.0 0.7838 achieved 1.994
+label_skew 1 eps=8.0 0.8008 achieved 7.996
+label_skew 2 nonprivate 0.8488
+label_skew 2 eps=2.0 0.7415 achieved 1.994
+label_skew 2 eps=8.0 0.7678 achieved 7.996
+iid nonprivate None acc 0.9544 worst 0.9469 mia 0.5002
+iid opacus_dp 2.0 acc 0.8925 worst 0.8842 mia 0.499
+iid opacus_dp 8.0 acc 0.8966 worst 0.8893 mia 0.4988
+label_skew nonprivate None acc 0.851 worst 0.8698 mia 0.4624
+label_skew opacus_dp 2.0 acc 0.761 worst 0.6747 mia 0.4796
+label_skew opacus_dp 8.0 acc 0.7811 worst 0.7271 mia 0.4763

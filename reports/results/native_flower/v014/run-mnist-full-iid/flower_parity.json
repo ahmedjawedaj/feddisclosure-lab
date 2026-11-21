@@ -1,0 +1,34 @@
+{
+  "verified_numerical_parity": true,
+  "scope": "native Flower checkpoint versus same-config independent-worker reference",
+  "config_match": true,
+  "require_deployment": true,
+  "manifest_sha256": "ebbbc4787d81106f604e54a05f455c1fb4ad94b1eebde363f8d1345a887789a6",
+  "reference_sha256": "6edab23db81e8ee3c95ba17dc9fa8346acd953e663aa2d5f553af9de7a359e97",
+  "flower_sha256": "b583eb1c95cc5911ca135b777c1f22811a4cf04506f8a4b5b8a0f91348055ae1",
+  "atol": 1e-05,
+  "rtol": 1e-05,
+  "layers": {
+    "network.0.bias": {
+      "max_abs_diff": 2.980232238769531e-07,
+      "within_tolerance": true
+    },
+    "network.0.weight": {
+      "max_abs_diff": 7.82310962677002e-07,
+      "within_tolerance": true
+    },
+    "network.2.bias": {
+      "max_abs_diff": 3.5762786865234375e-07,
+      "within_tolerance": true
+    },
+    "network.2.weight": {
+      "max_abs_diff": 5.364418029785156e-07,
+      "within_tolerance": true
+    }
+  },
+  "limitations": [
+    "This checks weight equality only and does not establish Docker/container isolation",
+    "A Flower process exit code and recorded logs are necessary but not sufficient for threat-model validation",
+    "Do not claim parity if this report says verified_numerical_parity=false"
+  ]
+}

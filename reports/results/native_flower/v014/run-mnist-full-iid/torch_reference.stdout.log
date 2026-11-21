@@ -1,0 +1,10 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "rounds": 10,
+  "last_round": {
+    "accuracy": 0.953,
+    "loss": 0.15947552565733591,
+    "num-examples": 12000
+  },
+  "output": "reports/results/native_flower/v014/run-mnist-full-iid/torch_reference.json"
+}

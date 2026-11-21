@@ -1,3 +1,7 @@
+## v0.14 execution milestone
+
+Real Docker + Flower 1.27 Deployment Runtime training (including full 60,000 image MNIST), upstream Flower SecAgg+, OpenDP releases with a persistent budget ledger and Opacus DP-FedAvg have all been executed with saved evidence. Start with `docs/v0.14-privacy-secagg-results.md` and reproduce with `docs/v0.14-reproduce.md`. Negative results are kept: SecAgg+ gives nothing against n-1 colluders, n=3 with threshold 2 halts on dropout, DP did not lower a near-chance membership AUC, and DP costs the worst client a lot under label skew. Hosted CI has not run. No privacy certification is claimed.
+
 ## v0.13.0 cloud execution (partial infrastructure milestone)
 
 Three separate Linux-namespace-isolated PyTorch clients actually trained two

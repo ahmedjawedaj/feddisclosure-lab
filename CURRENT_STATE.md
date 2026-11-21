@@ -1,3 +1,16 @@
+## 2026-11-21 v0.14 Phase 2 and 3 executed (see `docs/v0.14-privacy-secagg-results.md`)
+
+Executed with real packages: Flower SecAgg+ (upstream workflow and mod) inside the Docker
+topology with a matched plaintext control, OpenDP 0.16 Laplace releases with a persistent
+budget ledger, and Opacus DP-FedAvg with achieved epsilon and delta over 10 seeds (Digits)
+plus a 3 seed MNIST study. A full 60,000 image MNIST run completed natively on Docker +
+Flower (10 rounds, parity True, 3 x 10 receipts, accuracy 0.9568).
+Known negatives preserved: SecAgg+ gives nothing against n-1 colluders, n=3 t=2 halts on
+dropout, DP did not lower measured membership AUC (attack is near chance), DP hurts the
+worst client badly under label skew.
+Still open: hosted CI (no authorised remote), fail-fast fault handling, SecAgg+ n>=4 dropout
+experiment, native non-IID MNIST run, stronger attacks, MNIST licence text unverified.
+
 ## 2026-11-21 v0.14 native Docker + Flower EXECUTED (Phase 1 PASS at smoke scale)
 
 Real Docker Engine 29.10 / Compose containers ran Flower 1.27.0 Deployment Runtime:

@@ -23,7 +23,13 @@ def test_secagg_project_uses_official_modules_and_threshold():
     ast.parse(server)
     assert "from flwr.client.mod import secaggplus_mod" in client
     assert "from flwr.server.workflow import DefaultWorkflow, SecAggPlusWorkflow" in server
-    assert "mods=[secaggplus_mod]" in client
+    # The mod is wrapped only to allow a matched plaintext control (use-secagg=false).
+    # The wrapper must delegate to the upstream mod and default to secure aggregation on.
+    assert "mods=[conditional_secaggplus_mod]" in client
+    assert "return secaggplus_mod(msg, ctxt, call_next)" in client
+    assert 'ctxt.run_config.get("use-secagg", True)' in client
+    assert params["use-secagg"] is True
+    assert "SecAggPlusWorkflow(" in server
     assert "fraction_evaluate=0.0" in server
     assert "num_shares=shares, reconstruction_threshold=threshold" in server
 

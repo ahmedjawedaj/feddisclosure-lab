@@ -1,8 +1,11 @@
 ## After v0.14 Phase 1
 
 - [x] Native Docker/Flower run, parity, repeat, non-IID and fault scenarios (smoke scale).
-- [ ] Phase 2: native OpenDP releases + ledger, Opacus DP-SGD, upstream Flower SecAgg+.
-- [ ] Phase 3: full MNIST, longer training, multi-seed, matched protected/unprotected study.
+- [x] Phase 2: OpenDP releases + ledger, Opacus DP-SGD, upstream Flower SecAgg+ (executed, see docs/v0.14-privacy-secagg-results.md).
+- [x] Phase 3 (partial): full MNIST native Docker run, multi-seed DP studies with CIs.
+- [ ] SecAgg+ with n>=4 to test the dropout-tolerance explanation (currently code-reading only).
+- [ ] Native Docker non-IID MNIST run and multi-seed native runs.
+- [ ] Stronger disclosure attacks (update inversion, shadow-model MIA) against protected vs unprotected models.
 - [ ] Round-level fail-fast for missing clients (currently a timeout).
 - [ ] Hosted CI on an authorized private repository.
 
