@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "datetime_utc": "2026-11-21T16:24:20.609398+00:00",
+  "engine": "native OpenDP make_laplace",
+  "opendp_version": "0.16.0",
+  "adjacency": "add/remove one record; count sensitivity 1",
+  "delta": 0,
+  "privacy_accounting": "pure epsilon, sequential composition via persistent SQLite ledger",
+  "utility": [
+    {
+      "epsilon": 0.05,
+      "true_count": 3,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.04999999995,
+      "mae": 20.032620488461955,
+      "mae_ci95": [
+        19.754368584140426,
+        20.310872392783484
+      ],
+      "theoretical_laplace_mae": 20.00000002,
+      "rmse": 28.361744820780064,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 6.677540162820652
+    },
+    {
+      "epsilon": 0.05,
+      "true_count": 40,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.04999999995,
+      "mae": 20.059145760084633,
+      "mae_ci95": [
+        19.77875067463127,
+        20.339540845537996
+      ],
+      "theoretical_laplace_mae": 20.00000002,
+      "rmse": 28.490090544036672,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.5014786440021158
+    },
+    {
+      "epsilon": 0.1,
+      "true_count": 3,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.0999999999,
+      "mae": 10.054745743063844,
+      "mae_ci95": [
+        9.915012296754739,
+        10.194479189372949
+      ],
+      "theoretical_laplace_mae": 10.00000001,
+      "rmse": 14.23904968581313,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 3.3515819143546146
+    },
+    {
+      "epsilon": 0.1,
+      "true_count": 40,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.0999999999,
+      "mae": 10.043053029361968,
+      "mae_ci95": [
+        9.904057773229603,
+        10.182048285494332
+      ],
+      "theoretical_laplace_mae": 10.00000001,
+      "rmse": 14.193109065550331,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.2510763257340492
+    },
+    {
+      "epsilon": 0.25,
+      "true_count": 3,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.24999999975,
+      "mae": 4.021358598199453,
+      "mae_ci95": [
+        3.9657166226090665,
+        4.07700057378984
+      ],
+      "theoretical_laplace_mae": 4.000000004,
+      "rmse": 5.682408145555002,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 1.3404528660664843
+    },
+    {
+      "epsilon": 0.25,
+      "true_count": 40,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.24999999975,
+      "mae": 4.016758360267509,
+      "mae_ci95": [
+        3.961408573515861,
+        4.072108147019158
+      ],
+      "theoretical_laplace_mae": 4.000000004,
+      "rmse": 5.664269264030623,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.10041895900668774
+    },
+    {
+      "epsilon": 0.5,
+      "true_count": 3,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.4999999995,
+      "mae": 1.9868224940278132,
+      "mae_ci95": [
+        1.9594054825775125,
+        2.014239505478114
+      ],
+      "theoretical_laplace_mae": 2.000000002,
+      "rmse": 2.8037293409024575,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.6622741646759377
+    },
+    {
+      "epsilon": 0.5,
+      "true_count": 40,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.4999999995,
+      "mae": 2.001146075179171,
+      "mae_ci95": [
+        1.9733697275681097,
+        2.0289224227902327
+      ],
+      "theoretical_laplace_mae": 2.000000002,
+      "rmse": 2.832185358255044,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.05002865187947928
+    },
+    {
+      "epsilon": 1.0,
+      "true_count": 3,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.999999999,
+      "mae": 0.9937318949760491,
+      "mae_ci95": [
+        0.9798938679065351,
+        1.007569922045563
+      ],
+      "theoretical_laplace_mae": 1.000000001,
+      "rmse": 1.4087003275768284,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.33124396499201636
+    },
+    {
+      "epsilon": 1.0,
+      "true_count": 40,
+      "trials": 20000,
+      "privacy_map_epsilon": 0.999999999,
+      "mae": 0.9934316588930368,
+      "mae_ci95": [
+        0.9797526049718946,
+        1.0071107128141787
+      ],
+      "theoretical_laplace_mae": 1.000000001,
+      "rmse": 1.4003805731342747,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.024835791472325917
+    },
+    {
+      "epsilon": 2.0,
+      "true_count": 3,
+      "trials": 20000,
+      "privacy_map_epsilon": 1.999999998,
+      "mae": 0.50055861160573,
+      "mae_ci95": [
+        0.4936602233379043,
+        0.5074569998735557
+      ],
+      "theoretical_laplace_mae": 0.5000000005,
+      "rmse": 0.7059097781545443,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.16685287053524334
+    },
+    {
+      "epsilon": 2.0,
+      "true_count": 40,
+      "trials": 20000,
+      "privacy_map_epsilon": 1.999999998,
+      "mae": 0.49414538691217674,
+      "mae_ci95": [
+        0.4872579623314956,
+        0.5010328114928579
+      ],
+      "theoretical_laplace_mae": 0.5000000005,
+      "rmse": 0.7008155803222315,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.012353634672804419
+    },
+    {
+      "epsilon": 4.0,
+      "true_count": 3,
+      "trials": 20000,
+      "privacy_map_epsilon": 3.999999996,
+      "mae": 0.2523637883241207,
+      "mae_ci95": [
+        0.24884166073976777,
+        0.25588591590847365
+      ],
+      "theoretical_laplace_mae": 0.25000000025,
+      "rmse": 0.35815072218569705,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.0841212627747069
+    },
+    {
+      "epsilon": 4.0,
+      "true_count": 40,
+      "trials": 20000,
+      "privacy_map_epsilon": 3.999999996,
+      "mae": 0.2519010076814441,
+      "mae_ci95": [
+        0.24843725943894568,
+        0.2553647559239425
+      ],
+      "theoretical_laplace_mae": 0.25000000025,
+      "rmse": 0.3548455179011908,
+      "unprotected_abs_error": 0.0,
+      "relative_mae": 0.006297525192036102
+    }
+  ],
+  "distinguishing_test": [
+    {
+      "epsilon": 0.05,
+      "trials_per_world": 20000,
+      "empirical_advantage": 0.023050000000000015,
+      "dp_total_variation_bound": 0.02499479296842072,
+      "advantage_within_bound_plus_3se": true,
+      "note": "single threshold test; DP bounds ALL tests, empirical advantage is a lower bound"
+    },
+    {
+      "epsilon": 0.1,
+      "trials_per_world": 20000,
+      "empirical_advantage": 0.04475000000000001,
+      "dp_total_variation_bound": 0.04995837495788001,
+      "advantage_within_bound_plus_3se": true,
+      "note": "single threshold test; DP bounds ALL tests, empirical advantage is a lower bound"
+    },
+    {
+      "epsilon": 0.25,
+      "trials_per_world": 20000,
+      "empirical_advantage": 0.11674999999999996,
+      "dp_total_variation_bound": 0.12435300177159618,
+      "advantage_within_bound_plus_3se": true,
+      "note": "single threshold test; DP bounds ALL tests, empirical advantage is a lower bound"
+    },
+    {
+      "epsilon": 0.5,
+      "trials_per_world": 20000,
+      "empirical_advantage": 0.21835000000000004,
+      "dp_total_variation_bound": 0.24491866240370913,
+      "advantage_within_bound_plus_3se": true,
+      "note": "single threshold test; DP bounds ALL tests, empirical advantage is a lower bound"
+    },
+    {
+      "epsilon": 1.0,
+      "trials_per_world": 20000,
+      "empirical_advantage": 0.3857,
+      "dp_total_variation_bound": 0.46211715726000974,
+      "advantage_within_bound_plus_3se": true,
+      "note": "single threshold test; DP bounds ALL tests, empirical advantage is a lower bound"
+    },
+    {
+      "epsilon": 2.0,
+      "trials_per_world": 20000,
+      "empirical_advantage": 0.6324,
+      "dp_total_variation_bound": 0.7615941559557649,
+      "advantage_within_bound_plus_3se": true,
+      "note": "single threshold test; DP bounds ALL tests, empirical advantage is a lower bound"
+    },
+    {
+      "epsilon": 4.0,
+      "trials_per_world": 20000,
+      "empirical_advantage": 0.8654000000000001,
+      "dp_total_variation_bound": 0.9640275800758169,
+      "advantage_within_bound_plus_3se": true,
+      "note": "single threshold test; DP bounds ALL tests, empirical advantage is a lower bound"
+    }
+  ],
+  "ledger_with_real_mechanism": {
+    "four_releases_ok": true,
+    "spent_after_four_micro": 1000000,
+    "fifth_release_refused": true,
+    "retry_returns_identical_value": true,
+    "retry_spent_nothing_extra": true,
+    "id_reuse_other_query_rejected": true,
+    "cap_increase_refused": true,
+    "restart_cannot_reset_budget": true,
+    "all_passed": true
+  },
+  "limitations": [
+    "Guarantee covers one allowlisted count per release only",
+    "Empirical attack numbers are not privacy guarantees",
+    "Principal scope is a single shared principal"
+  ]
+}

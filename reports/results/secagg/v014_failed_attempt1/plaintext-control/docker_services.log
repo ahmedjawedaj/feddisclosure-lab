@@ -1,0 +1,40 @@
+clientexec-0-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-0-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.32 seconds
+clientexec-0-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.70 seconds
+clientexec-0-1  | [92mINFO [0m:      Connection successful after 1.04 seconds and 3 tries.
+clientexec-2-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.74 seconds
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 1.05 seconds
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.65 seconds
+supernode-0-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-0-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-1-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-1-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-1-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-1-1   | [92mINFO [0m:      SuperNode ID: 693179909165397312
+supernode-0-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-0-1   | [92mINFO [0m:      SuperNode ID: 14072470267429952938
+supernode-2-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-2-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-2-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-2-1   | [92mINFO [0m:      SuperNode ID: 7271444586433239079
+clientexec-1-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.03 seconds
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 1.73 seconds
+superlink-1     | [92mINFO [0m:      Starting Flower SuperLink
+superlink-1     | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP server with unencrypted communication (TLS disabled). Proceed only if you understand the risks.
+superlink-1     | [93mWARNING [0m:   SuperNode authentication is disabled. The SuperLink will accept connections from any SuperNode.
+superlink-1     | [92mINFO [0m:      Flower Deployment Runtime: Starting Control API on 0.0.0.0:9093
+superlink-1     | [92mINFO [0m:      Flower Deployment Runtime: Starting ServerAppIo API on 0.0.0.0:9091
+superlink-1     | [92mINFO [0m:      Flower Deployment Runtime: Starting Fleet API (gRPC-rere) on 0.0.0.0:9092
+superlink-1     | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=7271444586433239079
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=7271444586433239079
+superlink-1     | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=693179909165397312
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=693179909165397312
+superlink-1     | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=14072470267429952938
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=14072470267429952938
+serverexec-1    | [92mINFO [0m:      Starting Flower SuperExec
+serverexec-1    | [93mWARNING [0m:   Connection attempt failed, retrying in 0.29 seconds
+serverexec-1    | [93mWARNING [0m:   Connection attempt failed, retrying in 0.99 seconds
+serverexec-1    | [92mINFO [0m:      Connection successful after 1.29 seconds and 3 tries.
+

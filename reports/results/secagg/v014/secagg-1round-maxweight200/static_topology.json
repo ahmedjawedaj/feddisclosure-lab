@@ -1,0 +1,16 @@
+{
+  "static_verified": true,
+  "native_verified": false,
+  "services": [
+    "superlink",
+    "serverexec",
+    "supernode-0",
+    "supernode-1",
+    "supernode-2",
+    "clientexec-0",
+    "clientexec-1",
+    "clientexec-2"
+  ],
+  "client_readonly_mounts": 3,
+  "claim": "Static source topology only; Docker not yet executed"
+}

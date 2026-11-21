@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 
-def verify(run_dir: Path, manifest: dict, rounds: int) -> dict:
+def verify(run_dir: Path, manifest: dict, rounds: int, *, require_evaluation: bool = True) -> dict:
     if len(manifest["client_partitions"]) != 3 or rounds < 1:
         raise ValueError("Expected three institutions and positive training rounds")
     events_by_site = {}
@@ -18,7 +18,7 @@ def verify(run_dir: Path, manifest: dict, rounds: int) -> dict:
         events = [json.loads(line) for line in file.read_text().splitlines() if line]
         train = [e for e in events if e.get("event_type") == "train"]
         evals = [e for e in events if e.get("event_type") == "evaluate"]
-        if len(train) != rounds or len(evals) < 1:
+        if len(train) != rounds or (require_evaluation and len(evals) < 1):
             raise ValueError(f"Institution {i} did not complete each expected training round")
         for e in events:
             if e.get("site_id") != i or not e.get("run_id"):

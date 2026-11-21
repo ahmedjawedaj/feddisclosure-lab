@@ -1,0 +1,62 @@
+{
+  "engine": "native_opendp_three_site_http",
+  "datetime_utc": "2026-11-21T16:23:53.339245+00:00",
+  "mechanism": "OpenDP make_laplace per-site scalar count",
+  "adjacency": "add_remove_one_record",
+  "local_count_sensitivity": 1,
+  "epsilon_per_site_per_release": 0.25,
+  "delta": 0,
+  "epsilon_budget_per_site": 1.0,
+  "released": [
+    {
+      "query_id": "all_records",
+      "status": 200,
+      "noisy_count": 107.92408940267835
+    },
+    {
+      "query_id": "negative_records",
+      "status": 200,
+      "noisy_count": 105.4018721436197
+    },
+    {
+      "query_id": "all_records",
+      "status": 200,
+      "noisy_count": 103.38071265195376
+    },
+    {
+      "query_id": "negative_records",
+      "status": 200,
+      "noisy_count": 86.74075222386833
+    },
+    {
+      "query_id": "all_records",
+      "status": 409,
+      "noisy_count": null
+    },
+    {
+      "query_id": "negative_records",
+      "status": 409,
+      "noisy_count": null
+    },
+    {
+      "query_id": "all_records",
+      "status": 409,
+      "noisy_count": null
+    },
+    {
+      "query_id": "negative_records",
+      "status": 409,
+      "noisy_count": null
+    }
+  ],
+  "true_restricted_subgroup": 3,
+  "noisy_difference_inference": 2.5222172590586496,
+  "difference_abs_error": 0.4777827409413504,
+  "wall_seconds": 0.49644829399994705,
+  "limitations": [
+    "Single deterministic synthetic population; not a privacy attack success rate",
+    "One site-level principal budget; no credential-scoped multitenancy",
+    "Gateway partial failures may consume some local budget; not two-phase atomic",
+    "Separate unprotected experiment routes must be disabled and no past releases exist"
+  ]
+}

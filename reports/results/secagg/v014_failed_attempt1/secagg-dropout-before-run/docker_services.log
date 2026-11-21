@@ -1,0 +1,51 @@
+clientexec-0-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-0-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.72 seconds
+clientexec-0-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 2.00 seconds
+clientexec-0-1  | [92mINFO [0m:      Connection successful after 2.73 seconds and 3 tries.
+clientexec-1-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.03 seconds
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 1.87 seconds
+clientexec-1-1  | [92mINFO [0m:      Connection successful after 1.92 seconds and 3 tries.
+supernode-1-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-1-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-1-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-1-1   | [92mINFO [0m:      SuperNode ID: 17955216846008207791
+supernode-2-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-2-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-2-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-2-1   | [92mINFO [0m:      SuperNode ID: 2990711554494133867
+clientexec-2-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.46 seconds
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 1.26 seconds
+clientexec-2-1  | [92mINFO [0m:      Connection successful after 1.73 seconds and 3 tries.
+serverexec-1    | [92mINFO [0m:      Starting Flower SuperExec
+serverexec-1    | [93mWARNING [0m:   Connection attempt failed, retrying in 0.30 seconds
+serverexec-1    | [93mWARNING [0m:   Connection attempt failed, retrying in 0.81 seconds
+serverexec-1    | [93mWARNING [0m:   Connection attempt failed, retrying in 2.39 seconds
+serverexec-1    | [92mINFO [0m:      Connection successful after 3.51 seconds and 4 tries.
+supernode-0-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-0-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-0-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-0-1   | [92mINFO [0m:      SuperNode ID: 2799521830750121391
+superlink-1     | [92mINFO [0m:      Starting Flower SuperLink
+superlink-1     | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP server with unencrypted communication (TLS disabled). Proceed only if you understand the risks.
+superlink-1     | [93mWARNING [0m:   SuperNode authentication is disabled. The SuperLink will accept connections from any SuperNode.
+superlink-1     | [92mINFO [0m:      Flower Deployment Runtime: Starting Control API on 0.0.0.0:9093
+superlink-1     | [92mINFO [0m:      Flower Deployment Runtime: Starting ServerAppIo API on 0.0.0.0:9091
+superlink-1     | [92mINFO [0m:      Flower Deployment Runtime: Starting Fleet API (gRPC-rere) on 0.0.0.0:9092
+superlink-1     | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=2990711554494133867
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=2990711554494133867
+superlink-1     | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=17955216846008207791
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17955216846008207791
+superlink-1     | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=2799521830750121391
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=2799521830750121391
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=2990711554494133867
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17955216846008207791
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=2799521830750121391
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=2990711554494133867
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17955216846008207791
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=2799521830750121391
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=2990711554494133867
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17955216846008207791
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=2799521830750121391
+

@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "quantization_step_per_update": 3.814697265625e-06,
+  "scenarios": {
+    "secagg-on-t2-n3": {
+      "runner_native_flower_verified": true,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": true,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 71.6,
+      "fault_injection": null,
+      "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+      "secure_aggregation_enabled": true,
+      "num_shares": 3,
+      "reconstruction_threshold": 2,
+      "secure_aggregation_completed_lines": 2,
+      "aggregate_fit_lines": [
+        "received 3 results and 0 failures",
+        "received 3 results and 0 failures"
+      ],
+      "final_model_exists": true
+    },
+    "plaintext-control": {
+      "runner_native_flower_verified": true,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": true,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 26.03,
+      "fault_injection": null,
+      "workflow_engine": "native_flower_plaintext_default_workflow_control",
+      "secure_aggregation_enabled": false,
+      "num_shares": 3,
+      "reconstruction_threshold": 2,
+      "secure_aggregation_completed_lines": 0,
+      "aggregate_fit_lines": [
+        "received 3 results and 0 failures",
+        "received 3 results and 0 failures"
+      ],
+      "final_model_exists": true
+    },
+    "secagg-1round-collusion": {
+      "runner_native_flower_verified": true,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": true,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 34.52,
+      "fault_injection": null,
+      "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+      "secure_aggregation_enabled": true,
+      "num_shares": 3,
+      "reconstruction_threshold": 2,
+      "secure_aggregation_completed_lines": 1,
+      "aggregate_fit_lines": [
+        "received 3 results and 0 failures"
+      ],
+      "final_model_exists": true
+    },
+    "secagg-1round-maxweight200": {
+      "runner_native_flower_verified": true,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": true,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 59.64,
+      "fault_injection": null,
+      "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+      "secure_aggregation_enabled": true,
+      "num_shares": 3,
+      "reconstruction_threshold": 2,
+      "secure_aggregation_completed_lines": 1,
+      "aggregate_fit_lines": [
+        "received 3 results and 0 failures"
+      ],
+      "final_model_exists": true
+    },
+    "secagg-dropout-before-run": {
+      "runner_native_flower_verified": false,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": false,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 174.87,
+      "fault_injection": {
+        "fault_injected": true,
+        "fault_client": 2,
+        "fault_when": "before-run",
+        "fault_target": "clientexec",
+        "fault_utc": "2026-11-21T16:46:32.523180+00:00"
+      },
+      "workflow_engine": null,
+      "secure_aggregation_enabled": null,
+      "num_shares": null,
+      "reconstruction_threshold": null,
+      "secure_aggregation_completed_lines": 0,
+      "aggregate_fit_lines": [],
+      "final_model_exists": false
+    },
+    "secagg-dropout-mid-protocol": {
+      "runner_native_flower_verified": false,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": false,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 169.6,
+      "fault_injection": {
+        "fault_injected": true,
+        "fault_client": 1,
+        "fault_when": "after-first-train",
+        "fault_target": "clientexec",
+        "fault_utc": "2026-11-21T16:49:56.275049+00:00"
+      },
+      "workflow_engine": null,
+      "secure_aggregation_enabled": null,
+      "num_shares": null,
+      "reconstruction_threshold": null,
+      "secure_aggregation_completed_lines": 1,
+      "aggregate_fit_lines": [
+        "received 2 results and 0 failures"
+      ],
+      "final_model_exists": false
+    }
+  },
+  "tolerance_derivation": {
+    "formula": "n_clients * quantization_step * max_weight / total_samples (per round, worst case)",
+    "n_clients": 3,
+    "total_samples": 384,
+    "max_weight": 1000.0,
+    "per_round_bound": 2.9802322387695312e-05,
+    "note": "The first a-priori tolerance (2e-5) ignored the max_weight/total_samples amplification and was too tight; it is superseded by this derivation from the upstream source."
+  },
+  "equivalence_2_rounds": {
+    "secagg_vs_plaintext_control_max_abs_diff": 3.5560221128716485e-05,
+    "secagg_vs_independent_pytorch_max_abs_diff": 3.5560221128716485e-05,
+    "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+    "tolerance": 5.9604644775390625e-05,
+    "within_tolerance": true
+  },
+  "single_round_error_vs_bound": {
+    "max_weight_1000": {
+      "observed_max_abs_diff": 2.5348284979465063e-05,
+      "analytic_bound": 2.9802322387695312e-05,
+      "within_bound": true
+    },
+    "max_weight_200": {
+      "observed_max_abs_diff": 5.481148696862004e-06,
+      "analytic_bound": 5.9604644775390625e-06,
+      "within_bound": true
+    }
+  },
+  "collusion_single_round": {
+    "victim": 2,
+    "aggregate_vs_independent_pytorch_max_abs_diff": 2.5348284979465063e-05,
+    "baseline_error_if_victim_assumed_equal_to_aggregate": 0.020794859164294133,
+    "error_with_server_plus_1_colluder": 0.018861835955332425,
+    "error_with_server_plus_2_colluders_n_minus_1": 7.604485493839519e-05,
+    "interpretation": "With n-1 colluders the victim update is recovered to quantization precision regardless of threshold: aggregate-only protection is inherently void under n-1 collusion. This is a limit of secure aggregation, not a Flower defect."
+  }
+}

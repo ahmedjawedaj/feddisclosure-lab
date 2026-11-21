@@ -13,6 +13,34 @@ def _hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+MNIST_SHA256 = {
+    "train-images-idx3-ubyte.gz": "440fcabf73cc546fa21475e81ea370265605f56be210a4024d2ca8f203523609",
+    "train-labels-idx1-ubyte.gz": "3552534a0a558bbed6aed32b30c495cca23d567ec52cac8be1a0730e8010255c",
+}
+MNIST_LOCAL_DIR = Path(__file__).resolve().parents[3] / "data" / "source" / "mnist"
+
+
+def _load_mnist_local(directory: Path):
+    """Verified offline MNIST train split (60,000 x 784). Refuses any checksum mismatch."""
+    import gzip
+    for name, expected in MNIST_SHA256.items():
+        path = directory / name
+        if not path.is_file() or _hash(path) != expected:
+            return None
+    with gzip.open(directory / "train-images-idx3-ubyte.gz") as f:
+        raw = f.read()
+    if int.from_bytes(raw[0:4], "big") != 2051:
+        raise ValueError("Bad MNIST image magic")
+    n, rows, cols = (int.from_bytes(raw[i:i + 4], "big") for i in (4, 8, 12))
+    images = np.frombuffer(raw, dtype=np.uint8, offset=16).reshape(n, rows * cols)
+    with gzip.open(directory / "train-labels-idx1-ubyte.gz") as f:
+        lab = f.read()
+    if int.from_bytes(lab[0:4], "big") != 2049 or int.from_bytes(lab[4:8], "big") != n:
+        raise ValueError("Bad MNIST label file")
+    labels = np.frombuffer(lab, dtype=np.uint8, offset=8).astype(np.int64)
+    return images.astype(np.float32) / 255.0, labels
+
+
 def _source(name: str, root: Path):
     if name == "sklearn_digits":
         from sklearn.datasets import load_digits
@@ -20,6 +48,9 @@ def _source(name: str, root: Path):
         return (np.asarray(x, dtype=np.float32) / 16.0,
                 np.asarray(y, dtype=np.int64), "sklearn.load_digits, 8x8 public digits")
     if name == "mnist":
+        local = _load_mnist_local(MNIST_LOCAL_DIR)
+        if local is not None:
+            return local[0], local[1], "MNIST train split (60,000), SHA-256-verified local copy"
         from torchvision.datasets import MNIST
         from torchvision.transforms.functional import pil_to_tensor
         dataset = MNIST(root=str(root / "source_cache"), train=True, download=True)

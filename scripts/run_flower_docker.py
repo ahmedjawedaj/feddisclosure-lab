@@ -73,6 +73,12 @@ def main():
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--keep-running", action="store_true")
     parser.add_argument("--timeout", type=int, default=1200)
+    parser.add_argument("--app-dir", type=Path, default=None,
+                        help="Alternative Flower app directory (code only) mounted read-only into the CLI")
+    parser.add_argument("--extra-run-config", default="",
+                        help="Additional Flower run-config tokens, e.g. 'use-secagg=true'")
+    parser.add_argument("--no-require-evaluation", action="store_true",
+                        help="Protocols without client evaluation (SecAgg+); recorded in the evidence")
     parser.add_argument("--fault-stop-client", type=int, choices=[0, 1, 2], default=None,
                         help="Fault injection: stop this institution's ClientApp container")
     parser.add_argument("--fault-target", choices=["clientexec", "supernode"], default="clientexec",
@@ -139,8 +145,20 @@ def main():
                "classes": manifest["num_classes"], "data-root": "/never-mounted-client-data",
                "artifact-dir": "/artifacts"}
         run_config = " ".join(f"{k}={_flower_literal(v)}" for k, v in cfg.items())
-        flower_cmd = command_prefix + ["run", "--rm", "--no-deps", "flwr-cli",
-                                       "run", ".", "fdl-docker", "--stream", "--run-config", run_config]
+        if a.extra_run_config:
+            run_config += " " + a.extra_run_config
+        if a.app_dir is not None:
+            # `flwr run` migrates pyproject.toml in place. Mount the code read-only and let the
+            # CLI container work on a private copy in its own /tmp.
+            evidence["app_dir"] = str(a.app_dir)
+            flower_cmd = command_prefix + [
+                "run", "--rm", "--no-deps", "-v", f"{a.app_dir.resolve()}:/alt-app:ro",
+                "--entrypoint", "sh", "flwr-cli", "-c",
+                'cp -r /alt-app /tmp/alt-app && exec flwr run /tmp/alt-app fdl-docker --stream --run-config "$0"',
+                run_config]
+        else:
+            flower_cmd = command_prefix + ["run", "--rm", "--no-deps", "flwr-cli",
+                                           "run", ".", "fdl-docker", "--stream", "--run-config", run_config]
         evidence["flower_command"] = flower_cmd
         begun = time.monotonic()
         code, out, err, timed, fault = run_flower_cli(
@@ -158,7 +176,9 @@ def main():
         evidence["summary_exists"] = (folder / "flower_summary.json").is_file()
         if evidence["exit_code"] or not evidence["final_model_exists"] or not evidence["summary_exists"]:
             raise RuntimeError("Native Flower execution incomplete. Inspect real Docker and CLI logs")
-        receipts = verify_receipts(run_dir, manifest, int(config["rounds"]))
+        receipts = verify_receipts(run_dir, manifest, int(config["rounds"]),
+                                   require_evaluation=not a.no_require_evaluation)
+        evidence["evaluation_receipts_required"] = not a.no_require_evaluation
         (run_dir / "client_attestations.json").write_text(json.dumps(receipts, indent=2) + "\n")
         evidence["client_attestation_verified"] = receipts["client_attestations_verified"]
         evidence["participating_clients"] = list(receipts["sites"])

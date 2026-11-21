@@ -1,0 +1,8 @@
+ Container feddisclosure-flower-flwr-cli-run-606868b2086a Creating 
+ Container feddisclosure-flower-flwr-cli-run-606868b2086a Created 
+[92mINFO [0m:      Starting logstream for run_id `14621803228138297118`
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ Connection to the SuperLink is unavailable. Please check your network        │
+│ connection and 'address' in the SuperLink connection configuration.          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

@@ -1,0 +1,11 @@
+{
+  "engine": "Flower legacy ServerApp (upstream SecAggPlusWorkflow)",
+  "rounds": 2,
+  "clients_requested": 3,
+  "secure_aggregation_enabled": true,
+  "num_shares": 3,
+  "reconstruction_threshold": 2,
+  "train_metrics_aggregated": {},
+  "validation_metrics_aggregated": {},
+  "caveat": "No client metrics are exported in SecAgg+ mode; aggregate parameters only."
+}

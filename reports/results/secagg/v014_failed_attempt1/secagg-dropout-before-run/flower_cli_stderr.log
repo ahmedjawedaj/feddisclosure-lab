@@ -1,0 +1,6 @@
+ Container feddisclosure-flower-flwr-cli-run-3400463642ca Creating 
+ Container feddisclosure-flower-flwr-cli-run-3400463642ca Created 
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ [Errno 30] Read-only file system: '/alt-app/pyproject.toml'                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
