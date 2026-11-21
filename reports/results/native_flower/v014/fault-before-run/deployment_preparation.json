@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "preparation_only": true,
+  "client_count": 3,
+  "manifest_sha256": "753daf60e54211820b33d7a873e011e757405734c63024356b9f3b2bea414de5",
+  "config": {
+    "id": "digits-iid-smoke-v1",
+    "seed": 20261118,
+    "dataset": "sklearn_digits",
+    "partition": "iid",
+    "clients": 3,
+    "rounds": 2,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.15,
+    "source_limit": 600,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ]
+  },
+  "sites": [
+    {
+      "site_id": 0,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-iid-v012/institution-00",
+      "train_sha256": "a96ff14ab69c287b898f8aa516da73e9855a3b41190c0dec49b879cc8e6f3388",
+      "val_sha256": "538dbae0d076f40443aee3145cbffe2f38118945a55b30d85e104124b61f8a25",
+      "train_records": 128,
+      "val_records": 32
+    },
+    {
+      "site_id": 1,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-iid-v012/institution-01",
+      "train_sha256": "2fcd1e6d3c0b2fc997be0842f67567f9e5e1fd69fa326a5e6ddf52208af4087e",
+      "val_sha256": "0a4d21a241718da7802d747c13dd219453f6c5b633a84ffe6b656422c85b1a9a",
+      "train_records": 128,
+      "val_records": 32
+    },
+    {
+      "site_id": 2,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-iid-v012/institution-02",
+      "train_sha256": "7d47a4c37593c3dc4b92dafa6cf89f6691b3c9073df1e1da34b81ddcd7aca514",
+      "val_sha256": "af06bac24ebb9db0bec302389ed7d3d15202560cd33bc0d391d6f956caf3607d",
+      "train_records": 128,
+      "val_records": 32
+    }
+  ],
+  "run_dir": "/home/claude/work/feddisclosure-lab/reports/results/native_flower/v014/fault-before-run",
+  "env_file": "/home/claude/runs/fault-before-run.env",
+  "evaluator_not_mounted": true,
+  "native_execution_verified": false
+}

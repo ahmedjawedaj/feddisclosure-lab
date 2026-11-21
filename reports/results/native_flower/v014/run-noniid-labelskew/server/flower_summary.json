@@ -1,0 +1,24 @@
+{
+  "engine": "Flower ServerApp/ClientApp",
+  "rounds": 2,
+  "clients_requested": 3,
+  "train_metrics_aggregated": {
+    "1": {
+      "train_loss": 2.107919226090113
+    },
+    "2": {
+      "train_loss": 1.9810477793216703
+    }
+  },
+  "validation_metrics_aggregated": {
+    "1": {
+      "eval_acc": 0.09375,
+      "eval_loss": 2.396756013234456
+    },
+    "2": {
+      "eval_acc": 0.09375,
+      "eval_loss": 2.5249939759572344
+    }
+  },
+  "caveat": "FedAvg reports weighted mean validation, not the worst individual institution. No raw samples exposed."
+}

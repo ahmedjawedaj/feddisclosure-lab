@@ -1,3 +1,11 @@
+## After v0.14 Phase 1
+
+- [x] Native Docker/Flower run, parity, repeat, non-IID and fault scenarios (smoke scale).
+- [ ] Phase 2: native OpenDP releases + ledger, Opacus DP-SGD, upstream Flower SecAgg+.
+- [ ] Phase 3: full MNIST, longer training, multi-seed, matched protected/unprotected study.
+- [ ] Round-level fail-fast for missing clients (currently a timeout).
+- [ ] Hosted CI on an authorized private repository.
+
 ## Immediate priority following v0.13.0
 
 - Do not count Linux namespace fallback as Docker or Flower completion.

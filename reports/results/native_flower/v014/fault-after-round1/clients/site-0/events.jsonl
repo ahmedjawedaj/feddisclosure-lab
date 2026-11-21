@@ -1,0 +1,2 @@
+{"dataset_sha256": "a96ff14ab69c287b898f8aa516da73e9855a3b41190c0dec49b879cc8e6f3388", "event_type": "train", "recorded_utc": "2026-11-21T16:14:26.552739+00:00", "run_id": "17617950093596859915", "samples": 128, "site_id": 0, "weights_sha256": "1f3f344b302211ec5a7cd6e80e213a3c9fdb2a7cb1a351c66ea8a5a6a013ac5d"}
+{"dataset_sha256": "538dbae0d076f40443aee3145cbffe2f38118945a55b30d85e104124b61f8a25", "event_type": "evaluate", "recorded_utc": "2026-11-21T16:14:34.980143+00:00", "run_id": "17617950093596859915", "samples": 32, "site_id": 0, "weights_sha256": null}

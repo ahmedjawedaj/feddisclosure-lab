@@ -30,6 +30,35 @@ def _flower_literal(value):
     return json.dumps(str(value))
 
 
+def run_flower_cli(command, timeout, command_prefix, run_dir, fault_client, fault_when, target="clientexec"):
+    """Run the Flower CLI, optionally stopping one ClientApp container (fault test)."""
+    events = {"fault_injected": False, "fault_client": fault_client, "fault_when": fault_when,
+              "fault_target": target}
+    out_path, err_path = run_dir / "_cli.out", run_dir / "_cli.err"
+    if fault_client is not None and fault_when == "before-run":
+        stop = run_command(command_prefix + ["stop", f"{target}-{fault_client}"], timeout=60)
+        events.update(fault_injected=stop.returncode == 0, fault_utc=datetime.now(timezone.utc).isoformat())
+    with out_path.open("w") as out, err_path.open("w") as err:
+        proc = subprocess.Popen(command, cwd=ROOT, stdout=out, stderr=err, text=True)
+        deadline = time.monotonic() + timeout
+        timed_out = False
+        while proc.poll() is None:
+            if time.monotonic() > deadline:
+                proc.kill()
+                timed_out = True
+                break
+            if fault_client is not None and fault_when == "after-first-train" and not events["fault_injected"]:
+                done = [f for f in (run_dir / "clients").glob("site-*/events.jsonl")
+                        if '"event_type": "train"' in f.read_text()]
+                if done:
+                    stop = run_command(command_prefix + ["stop", f"{target}-{fault_client}"], timeout=60)
+                    events.update(fault_injected=stop.returncode == 0,
+                                  fault_utc=datetime.now(timezone.utc).isoformat())
+            time.sleep(0.5)
+        proc.wait()
+    return (124 if timed_out else proc.returncode), out_path.read_text(), err_path.read_text(), timed_out, events
+
+
 def run_command(command, *, timeout=120, cwd=ROOT):
     return subprocess.run(command, cwd=cwd, capture_output=True, text=True,
                           timeout=timeout, check=False)
@@ -44,6 +73,12 @@ def main():
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--keep-running", action="store_true")
     parser.add_argument("--timeout", type=int, default=1200)
+    parser.add_argument("--fault-stop-client", type=int, choices=[0, 1, 2], default=None,
+                        help="Fault injection: stop this institution's ClientApp container")
+    parser.add_argument("--fault-target", choices=["clientexec", "supernode"], default="clientexec",
+                        help="Which service of the chosen institution to stop")
+    parser.add_argument("--fault-when", choices=["before-run", "after-first-train"],
+                        default="before-run")
     a = parser.parse_args()
     run_dir = a.run_dir.resolve()
     prep = prepare(a.config.resolve(), a.data_dir.resolve(), run_dir, a.env_file)
@@ -108,17 +143,14 @@ def main():
                                        "run", ".", "fdl-docker", "--stream", "--run-config", run_config]
         evidence["flower_command"] = flower_cmd
         begun = time.monotonic()
-        try:
-            complete = run_command(flower_cmd, timeout=a.timeout)
-            evidence["exit_code"] = complete.returncode
-            out, err = complete.stdout, complete.stderr
-        except subprocess.TimeoutExpired as exc:
-            evidence["timed_out"] = True
-            evidence["exit_code"] = 124
-            out = (exc.stdout or b"")
-            err = (exc.stderr or b"")
-            out = out.decode(errors="replace") if isinstance(out, bytes) else out
-            err = err.decode(errors="replace") if isinstance(err, bytes) else err
+        code, out, err, timed, fault = run_flower_cli(
+            flower_cmd, a.timeout, command_prefix, run_dir, a.fault_stop_client, a.fault_when,
+            a.fault_target)
+        evidence["exit_code"], evidence["timed_out"] = code, timed
+        if a.fault_stop_client is not None:
+            evidence["fault_injection"] = fault
+        for tmp in ("_cli.out", "_cli.err"):
+            (run_dir / tmp).unlink(missing_ok=True)
         evidence["seconds"] = round(time.monotonic() - begun, 2)
         (run_dir / "flower_cli_stdout.log").write_text(out)
         (run_dir / "flower_cli_stderr.log").write_text(err)

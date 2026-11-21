@@ -1,0 +1,10 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "rounds": 2,
+  "last_round": {
+    "accuracy": 0.2,
+    "loss": 2.2880948384602866,
+    "num-examples": 120
+  },
+  "output": "reports/results/native_flower/v014/run-noniid-labelskew/torch_reference.json"
+}

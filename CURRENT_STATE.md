@@ -1,3 +1,15 @@
+## 2026-11-21 v0.14 native Docker + Flower EXECUTED (Phase 1 PASS at smoke scale)
+
+Real Docker Engine 29.10 / Compose containers ran Flower 1.27.0 Deployment Runtime:
+SuperLink, ServerApp executor, three SuperNodes, three ClientApp executors, private
+network, one read-only partition mount per institution. Two FedAvg rounds with receipts
+from all three clients, native `final_model.pt`, strict `--require-deployment` parity
+with the independent PyTorch reference (max diff 2.98e-8), a byte-identical fresh repeat,
+a severe label-skew run, and three fault scenarios that the gate correctly refused.
+See `docs/v0.14-native-execution.md` and `reports/results/native_flower/v014/`.
+Still NOT executed at this point: OpenDP/Opacus/SecAgg+ privacy-defense experiments, full
+MNIST, multi-seed studies, hosted CI.
+
 ## 2026-11-20 v0.13.0 execution milestone (Linux namespaces; **NOT Docker/Flower**)
 
 On this cloud container, three OS-namespace-isolated PyTorch workers executed two

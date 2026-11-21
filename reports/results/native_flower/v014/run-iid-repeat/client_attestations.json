@@ -1,0 +1,32 @@
+{
+  "client_attestations_verified": true,
+  "run_id": "13039854706918476483",
+  "rounds": 2,
+  "sites": {
+    "0": {
+      "train_receipts": 2,
+      "evaluation_receipts": 2,
+      "trained_weight_sha256": [
+        "1f3f344b302211ec5a7cd6e80e213a3c9fdb2a7cb1a351c66ea8a5a6a013ac5d",
+        "0da87e8e6bb7b6b2a8b13b152c47023dcb2d98722ea8c1468c9cceb594d335e6"
+      ]
+    },
+    "1": {
+      "train_receipts": 2,
+      "evaluation_receipts": 2,
+      "trained_weight_sha256": [
+        "1c028d84d9f88d3c2731aec8f181b3064dee7466028d31cc4536deb7eda8a09a",
+        "9a65346cb30d6e1181394f63307453cece97042af1c0712c10b582a73f992dd0"
+      ]
+    },
+    "2": {
+      "train_receipts": 2,
+      "evaluation_receipts": 2,
+      "trained_weight_sha256": [
+        "f0a7aa1a147ae1bb163b113abf9e9fc51bda74853423b19681bedb563d1ce449",
+        "5095a946d2ffcb84463238fc6817b4d7e14bccdd278a88fe0be722882b5240a3"
+      ]
+    }
+  },
+  "limitation": "Receipts attest client processes; independent Docker inspect is required for filesystem isolation"
+}
