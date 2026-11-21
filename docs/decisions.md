@@ -1,3 +1,11 @@
+## 2026-11-22 — v0.14 completion: corrections and what stayed failed
+
+- The earlier "n=3 threshold 2 cannot tolerate a dropout" claim is withdrawn. Those runs stopped the client before round 2, so it had sent no key shares, which halts SecAgg+ at any n. A kill during round 2 is the real test. Five Docker scenarios matched the rule "tolerated if surviving share holders are at least the threshold". Upstream also requires threshold below the share count.
+- The two-round SecAgg+ tolerance of 2 times the one-round bound assumed round-1 error does not grow. It can. The original 4-client baseline (1.9e-4 against 7.9e-5) stays recorded as FAIL against that check. Three replicates were inside it. A noise study inside the one-round bound exceeded it in about 40% of trials. The one-round bound itself holds (3.2e-5 against 4.0e-5). No multi-round bound is claimed.
+- Two of three extra full-MNIST native runs (label skew, seed 3) failed the 1e-5 weight parity gate. The gate was not loosened. Cause: Flower aggregates in float32 in reply order and the reference uses float64, and 1 ULP is amplified by training. A bitwise replay with Flower float32 arithmetic reproduces all four MNIST runs exactly, so the Flower runs are internally exact. The parity FAIL status stays.
+- Fail-fast is now the default for lost participants (exit 125). SecAgg dropout experiments must pass `--no-fail-fast` because a lost client is the thing under test.
+- The compose file for 4 clients is generated from the 3-client file by `scripts/gen_compose_clients.py`. The 3-client output is identical to the committed file.
+
 ## 2026-11-21 — v0.14: executed defenses and what we refused to relax
 
 - Native Docker + Flower is now certified only through live `docker inspect`, per-client receipts and strict parity with an independent PyTorch run. Early failed attempts stay in the evidence tree.

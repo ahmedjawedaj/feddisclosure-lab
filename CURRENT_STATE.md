@@ -1,3 +1,17 @@
+## 2026-11-22 v0.14 completion run (cloud Docker, see `docs/v0.14-privacy-secagg-results.md`)
+
+Executed in the cloud container: 4-client SecAgg+ in Docker, a five-scenario mid-round dropout matrix,
+fail-fast fault handling, native full-MNIST label skew plus two extra IID seeds, and a LiRA shadow-model
+membership study (results section in the results doc).
+Corrections and kept negatives: the earlier n=3 "halts on dropout" claim is withdrawn (it was a client absent
+at round start). Dropout is tolerated when surviving share holders are at least the threshold, confirmed in
+4 tolerated and 1 halted scenario. The naive 2-round SecAgg+ tolerance FAILED for the original 4-client baseline
+(1.9e-4 against 7.9e-5) and is explained by non-smooth training amplifying round-1 quantisation error. Two of
+three extra MNIST native runs FAILED 1e-5 weight parity because of Flower float32 reply-order aggregation. Both
+stay FAIL and are reproduced bit for bit by a float32 replay.
+Still open: hosted CI (BLOCKED, needs an authorised repository), MNIST licence unresolved (no explicit licence from the originators, mirrors disagree), SecAgg-view
+disclosure comparison not run, no proven multi-round SecAgg+ error bound.
+
 ## 2026-11-21 v0.14 Phase 2 and 3 executed (see `docs/v0.14-privacy-secagg-results.md`)
 
 Executed with real packages: Flower SecAgg+ (upstream workflow and mod) inside the Docker

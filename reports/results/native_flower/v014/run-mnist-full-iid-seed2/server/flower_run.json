@@ -1,0 +1,65 @@
+{
+  "engine": "Flower ServerApp/ClientApp",
+  "runtime_mode": "deployment",
+  "created_utc": "2026-11-21T19:32:27.551876+00:00",
+  "config": {
+    "id": "mnist-full-iid-native-v014-seed20261119",
+    "seed": 20261119,
+    "dataset": "mnist",
+    "partition": "iid",
+    "clients": 3,
+    "rounds": 10,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.1,
+    "source_limit": null,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ],
+    "algorithm": "fedavg"
+  },
+  "docker_isolation_verified": true,
+  "client_attestation_verified": true,
+  "final_model_exists": true,
+  "summary_exists": true,
+  "exit_code": 0,
+  "timed_out": false,
+  "native_flower_verified": true,
+  "warning": "Insecure single-host research deployment. No formal privacy protection.",
+  "flower_command": [
+    "docker",
+    "compose",
+    "--env-file",
+    "/home/claude/runs/run-mnist-full-iid-seed2.env",
+    "-f",
+    "/home/claude/work/feddisclosure-lab/compose.flower.yaml",
+    "run",
+    "--rm",
+    "--no-deps",
+    "flwr-cli",
+    "run",
+    ".",
+    "fdl-docker",
+    "--stream",
+    "--run-config",
+    "num-server-rounds=10 local-epochs=1 batch-size=32 learning-rate=0.1 proximal-mu=0.0 clients=3 seed=20261119 features=784 classes=10 data-root=\"/never-mounted-client-data\" artifact-dir=\"/artifacts\""
+  ],
+  "cli_attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 0,
+      "superlink_unreachable": false
+    }
+  ],
+  "fail_fast": true,
+  "seconds": 270.47,
+  "evaluation_receipts_required": true,
+  "participating_clients": [
+    "0",
+    "1",
+    "2"
+  ]
+}

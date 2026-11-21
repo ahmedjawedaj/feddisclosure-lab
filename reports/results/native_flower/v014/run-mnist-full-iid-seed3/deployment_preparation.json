@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "preparation_only": true,
+  "client_count": 3,
+  "manifest_sha256": "bac6bc359ad3125c54aec3177127747d4e67f2930739a70db0473af35c3e75c7",
+  "config": {
+    "id": "mnist-full-iid-native-v014-seed20261120",
+    "seed": 20261120,
+    "dataset": "mnist",
+    "partition": "iid",
+    "clients": 3,
+    "rounds": 10,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.1,
+    "source_limit": null,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ]
+  },
+  "sites": [
+    {
+      "site_id": 0,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed3-v014/institution-00",
+      "train_sha256": "2ea7d1507b2f300266d26cb4e4f284c18867604418bb6c8da3122c7c039c5628",
+      "val_sha256": "4e875ce284badb1680c04ce816bdc35f6ae6c085c9a119a9ad40f37bf189eeeb",
+      "train_records": 12800,
+      "val_records": 3200
+    },
+    {
+      "site_id": 1,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed3-v014/institution-01",
+      "train_sha256": "7b3c4bce44422cdf8c2b5ac1af956c177d97a652c3b77029b2fee6d1d4a171c1",
+      "val_sha256": "ac757e1b23f9c2f0fc7d3401caf6c7028b0f948c5e07cbb94d14cfdb6e7d098c",
+      "train_records": 12800,
+      "val_records": 3200
+    },
+    {
+      "site_id": 2,
+      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed3-v014/institution-02",
+      "train_sha256": "43f87398255f4f85917079f29da1f99977d851b0f97c52ba66d4b342b4581b86",
+      "val_sha256": "087049282e63559d99e7d803b2183366fcffcdb584443d08f9be4d21e0c3c3a9",
+      "train_records": 12800,
+      "val_records": 3200
+    }
+  ],
+  "run_dir": "/home/claude/work/feddisclosure-lab/reports/results/native_flower/v014/run-mnist-full-iid-seed3",
+  "env_file": "/home/claude/runs/run-mnist-full-iid-seed3.env",
+  "evaluator_not_mounted": true,
+  "native_execution_verified": false
+}

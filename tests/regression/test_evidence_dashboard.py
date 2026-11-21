@@ -34,3 +34,18 @@ def test_scalar_snapshot_and_offline_html(tmp_path):
 def test_fail_closed_missing_summary(tmp_path):
     with pytest.raises(FileNotFoundError):
         make_snapshot(tmp_path)
+
+
+def test_completion_evidence_keeps_failures_visible():
+    v014 = make_snapshot()['v014']
+    if v014 is None or v014.get('completion') is None:
+        pytest.skip('completion evidence not present')
+    c = v014['completion']
+    assert len(c['dropout']) == 5 and all(x['prediction_matches'] for x in c['dropout'])
+    assert {x['outcome'] for x in c['dropout']} == {'TOLERATED', 'HALTED'}
+    parity = {x['name']: x['parity_1e-5'] for x in c['mnist_native']}
+    assert parity['run-mnist-full-iid'] is True
+    assert parity['run-mnist-full-labelskew'] is False and parity['run-mnist-full-iid-seed3'] is False
+    assert all(x['bitwise_flower_replay'] for x in c['mnist_native'])
+    assert c['n4_two_round']['runs_above_naive_tolerance'] == ['baseline']
+    assert all(x['exit_code'] == 125 for x in c['fail_fast'])

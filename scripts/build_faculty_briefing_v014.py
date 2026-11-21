@@ -94,19 +94,21 @@ s=slide('Native Docker and Flower execution','Verified by receipts, parity again
 card(s,'CONTAINERS','8','SuperLink, ServerApp, 3 SuperNodes, 3 ClientApps',.8,1.78)
 card(s,'FULL MNIST','60,000','10 rounds, 3 clients, parity within 1e-5',4.85,1.78)
 card(s,'GLOBAL ACCURACY','95.7%','Worst client 95.0%, 238 s',8.9,1.78)
-bullets(s,['Three fault scenarios were correctly refused by the gate',
-           'Fault handling waits for a timeout and is not fail-fast',
-           'Hosted CI has not run because no authorised remote exists'],x=.95,y=4.18,size=18,step=.65)
+bullets(s,['Label skew and seed 3 on full MNIST FAILED the 1e-5 parity gate, kept as FAIL',
+           'Cause: Flower float32 reply-order aggregation, replayed bit for bit',
+           'Lost clients now fail the run in seconds (exit 125), checked in 3 Docker scenarios',
+           'Hosted CI has not run because no authorised remote exists'],x=.95,y=4.18,size=17,step=.55)
 
 # 4
 sa=V['secagg']
-s=slide('Flower SecAgg+ works but has clear limits','Upstream SecAggPlusWorkflow in Docker, 3 clients, threshold 2, matched plaintext control.')
+s=slide('Flower SecAgg+ works but has clear limits','Upstream SecAggPlusWorkflow in Docker, 3 and 4 clients, matched plaintext control.')
 card(s,'VS PLAINTEXT','%.1e'%sa['plaintext_diff'],'Max weight difference, within derived bound',.8,1.72)
 card(s,'SERVER ONLY','%.1e'%sa['victim_error_server_only'],'Victim reconstruction error',4.85,1.72)
 card(s,'SERVER + N-1','%.1e'%sa['victim_error_n_minus_1'],'Victim update recovered',8.9,1.72)
 bullets(s,['Aggregate-only protection is void if the server colludes with n-1 clients',
-           'With 3 clients and threshold 2, one dropout halted the protocol and no model was written',
-           'The n of 4 or more explanation comes from code reading and is not yet tested'],x=.95,y=4.18,size=18,step=.7)
+           'Corrected: a client lost during a round is tolerated when survivors are at least the threshold, 4 tolerated and 1 halted as predicted',
+           'The earlier 3-client halt was a client absent at round start, not a mid-round dropout',
+           'The naive 2-round tolerance failed for one 4-client run, the 1-round bound holds'],x=.95,y=4.18,size=17,step=.62)
 
 # 5
 s=slide('OpenDP releases with a real budget ledger','Laplace counts, pure epsilon-DP, persistent accounting.')
@@ -122,8 +124,8 @@ card(s,'IID, NO DP','%.1f%%'%(100*d('iid','nonprivate')['test_accuracy']),'Test 
 card(s,'IID, EPS 4','%.1f%%'%(100*d('iid','opacus_dp',4.0)['test_accuracy']),'Achieved epsilon 3.99',4.85,1.72)
 card(s,'LABEL SKEW, EPS 1','%.1f%%'%(100*d('label_skew','opacus_dp',1.0)['test_accuracy']),'Worst client %.0f%%'%(100*d('label_skew','opacus_dp',1.0)['worst_client_accuracy']),8.9,1.72)
 bullets(s,['DP hurts the worst client far more than the average under label skew',
-           'Membership AUC was about 0.5 with and without DP, so the attack shows no benefit to measure',
-           'This is a negative result and says nothing about stronger attacks'],x=.95,y=4.18,size=18,step=.7)
+           'Loss-threshold membership AUC was about 0.5 with and without DP, so that attack shows no benefit to measure',
+           'A stronger attack is tested later in this deck'],x=.95,y=4.18,size=18,step=.7)
 
 # 7
 m=lambda part,mode,eps=None:row(V['mnist_dp'],part,mode,eps)
@@ -135,6 +137,19 @@ bullets(s,['DP simulation took about 9 times longer than non-private training on
            'Communication volume is identical across modes',
            'Epsilon 2 and 8 are hard to tell apart at 10 rounds and 1 local epoch'],x=.95,y=4.18,size=18,step=.7)
 
+# 7b
+cp=V['completion']['lira']
+def lr(reg,mode,eps=None):
+    return [r for r in cp[reg] if r['mode']==mode and (eps is None or r['target_epsilon']==eps)][0]
+s=slide('A stronger attack finds leakage the old one missed','LiRA shadow models, 24 shadows, 8 target federations. An audit, not a guarantee.')
+card(s,'NO DP, OVERFIT','%.3f'%lr('overfit','nonprivate')['lira_auc'],'LiRA AUC (loss threshold %.3f)'%lr('overfit','nonprivate')['loss_threshold_auc'],.8,1.72)
+card(s,'DP EPS 8, OVERFIT','%.3f'%lr('overfit','opacus_dp',8.0)['lira_auc'],'Held-out accuracy %.2f'%lr('overfit','opacus_dp',8.0)['heldout_accuracy'],4.85,1.72)
+card(s,'DP EPS 8, MODERATE','%.3f'%lr('moderate','opacus_dp',8.0)['lira_auc'],'Held-out accuracy %.2f, no DP %.2f'%(lr('moderate','opacus_dp',8.0)['heldout_accuracy'],lr('moderate','nonprivate')['heldout_accuracy']),8.9,1.72)
+bullets(s,['Without DP, LiRA beats the loss threshold in both regimes',
+           'DP brings LiRA to about chance, but costs a lot of accuracy',
+           'On DP models LiRA did not beat the simple loss threshold in the overfit regime',
+           'Low attack AUC is not proof of privacy, epsilon is reported separately'],x=.95,y=4.18,size=17,step=.62)
+
 # 8
 s=slide('What this does and does not show','Keeping guarantees separate from attack success.')
 bullets(s,['Epsilon and delta are properties of the mechanism, reported as achieved values',
@@ -145,14 +160,14 @@ bullets(s,['Epsilon and delta are properties of the mechanism, reported as achie
 # 9
 s=slide('Still open','Hard gates for the next sprint.')
 bullets(s,['Hosted CI on an authorised repository',
-           'Fail-fast handling when a client disappears',
-           'SecAgg+ with 4 or more clients to test dropout tolerance',
-           'Native non-IID MNIST and multi-seed native runs',
-           'Stronger attacks on protected and unprotected models, MNIST licence text check'],size=20,step=.9)
+           'A float32 replay parity gate to replace the 1e-5 float64 gate (not relaxed yet)',
+           'A defensible multi-round SecAgg+ error bound',
+           'Update inversion and SecAgg-view comparison on protected and unprotected models',
+           'MNIST licence is unresolved (no explicit licence from the originators)'],size=20,step=.9)
 
 # 10
 s=slide('Feedback requested','Which direction is thesis-worthy?')
-bullets(s,['Is dropout tolerance under SecAgg+ a useful research question for small cross-silo federations?',
+bullets(s,['Is the dropout rule for SecAgg+ (survivors at least the threshold) worth a focused study for small cross-silo federations?',
            'Is the worst-client cost of DP under label skew worth a focused study?',
            'Which stronger membership or inversion attack should be the standard evaluator?'],size=21,step=1.05)
 

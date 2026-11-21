@@ -1,0 +1,68 @@
+{
+  "engine": "Flower ServerApp/ClientApp",
+  "runtime_mode": "deployment",
+  "created_utc": "2026-11-21T19:06:25.099232+00:00",
+  "config": {
+    "id": "digits-iid-4clients-v014",
+    "seed": 20261118,
+    "dataset": "sklearn_digits",
+    "partition": "iid",
+    "clients": 4,
+    "rounds": 2,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.15,
+    "source_limit": 600,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ],
+    "algorithm": "fedavg"
+  },
+  "docker_isolation_verified": true,
+  "client_attestation_verified": false,
+  "final_model_exists": false,
+  "summary_exists": false,
+  "exit_code": 0,
+  "timed_out": false,
+  "native_flower_verified": false,
+  "warning": "Insecure single-host research deployment. No formal privacy protection.",
+  "app_dir": "experiments/flower_secagg",
+  "flower_command": [
+    "docker",
+    "compose",
+    "--env-file",
+    "/home/claude/runs/secagg4-n4-t2-dropout-mid.env",
+    "-f",
+    "/home/claude/work/feddisclosure-lab/compose.flower.n4.yaml",
+    "run",
+    "--rm",
+    "--no-deps",
+    "-v",
+    "/home/claude/work/feddisclosure-lab/experiments/flower_secagg:/alt-app:ro",
+    "--entrypoint",
+    "sh",
+    "flwr-cli",
+    "-c",
+    "cp -r /alt-app /tmp/alt-app && exec flwr run /tmp/alt-app fdl-docker --stream --run-config \"$0\"",
+    "num-server-rounds=2 local-epochs=1 batch-size=32 learning-rate=0.15 proximal-mu=0.0 clients=4 seed=20261118 features=64 classes=10 data-root=\"/never-mounted-client-data\" artifact-dir=\"/artifacts\" use-secagg=true num-shares=4 reconstruction-threshold=2 timeout=30.0"
+  ],
+  "cli_attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 0,
+      "superlink_unreachable": false
+    }
+  ],
+  "fault_injection": {
+    "fault_injected": true,
+    "fault_client": 3,
+    "fault_when": "after-first-train",
+    "fault_target": "clientexec",
+    "fault_utc": "2026-11-21T19:07:01.225498+00:00"
+  },
+  "seconds": 165.58,
+  "error": "Native Flower execution incomplete. Inspect real Docker and CLI logs"
+}

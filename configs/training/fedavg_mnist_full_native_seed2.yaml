@@ -1,0 +1,12 @@
+id: mnist-full-iid-native-v014-seed20261119
+seed: 20261119
+dataset: mnist
+partition: iid
+clients: 3
+rounds: 10
+local_epochs: 1
+batch_size: 32
+learning_rate: 0.1
+source_limit: null
+observer: honest_but_curious_coordinator
+allowed_observations: [per_client_model_updates, sample_counts, aggregate_validation_metrics]

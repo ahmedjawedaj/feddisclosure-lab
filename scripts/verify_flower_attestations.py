@@ -6,8 +6,8 @@ from pathlib import Path
 
 
 def verify(run_dir: Path, manifest: dict, rounds: int, *, require_evaluation: bool = True) -> dict:
-    if len(manifest["client_partitions"]) != 3 or rounds < 1:
-        raise ValueError("Expected three institutions and positive training rounds")
+    if len(manifest["client_partitions"]) < 3 or rounds < 1:
+        raise ValueError("Expected at least three institutions and positive training rounds")
     events_by_site = {}
     run_ids = set()
     for site in manifest["client_partitions"]:

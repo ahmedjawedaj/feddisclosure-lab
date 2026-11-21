@@ -1,0 +1,204 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          2,
+          0,
+          1
+        ]
+      ],
+      "order_used": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "round": 2,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          2,
+          0,
+          1
+        ]
+      ],
+      "order_used": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "round": 3,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          2,
+          1,
+          0
+        ]
+      ],
+      "order_used": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "round": 4,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          2,
+          0,
+          1
+        ]
+      ],
+      "order_used": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "round": 5,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          2,
+          1,
+          0
+        ]
+      ],
+      "order_used": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "round": 6,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          1,
+          0,
+          2
+        ]
+      ],
+      "order_used": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "round": 7,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          2,
+          1,
+          0
+        ]
+      ],
+      "order_used": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "round": 8,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          2,
+          0,
+          1
+        ]
+      ],
+      "order_used": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "round": 9,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          2,
+          1,
+          0
+        ]
+      ],
+      "order_used": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "round": 10,
+      "client_hashes_match_receipts": true,
+      "final_model_bitwise_identical_for_order": [
+        1,
+        2,
+        0
+      ]
+    }
+  ],
+  "all_client_hashes_match": true,
+  "bitwise_reproduction_of_flower_run": true
+}

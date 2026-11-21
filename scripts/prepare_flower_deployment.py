@@ -1,4 +1,4 @@
-"""Stage public digits for 3 isolated Flower Docker clients without copying rows.
+"""Stage public digits for 3 or 4 isolated Flower Docker clients without copying rows.
 
 This privileged *host* step may inspect every public partition. It must not be
 run inside the coordinator, ServerApp, gateway, or ClientApp container.
@@ -23,8 +23,9 @@ def digest(path: Path) -> str:
 
 def prepare(config_path: Path, data_dir: Path, run_dir: Path, env_path: Path) -> dict:
     config = yaml.safe_load(config_path.read_text())
-    if int(config["clients"]) != 3:
-        raise ValueError("v0.12 Docker deployment requires exactly three clients")
+    n_clients = int(config["clients"])
+    if n_clients not in (3, 4):
+        raise ValueError("Docker deployment supports three or four clients (compose.flower.yaml, compose.flower.n4.yaml)")
     data_dir, run_dir, env_path = data_dir.resolve(), run_dir.resolve(), env_path.resolve()
     if data_dir == run_dir or data_dir in run_dir.parents or run_dir in data_dir.parents:
         raise ValueError("Client data and run artifacts must have disjoint roots")
@@ -40,8 +41,8 @@ def prepare(config_path: Path, data_dir: Path, run_dir: Path, env_path: Path) ->
                                      ("dataset", "source")):
         if manifest.get(manifest_key) != config.get(config_key):
             raise ValueError(f"Partition manifest mismatch: {config_key}")
-    if manifest.get("schema_version") != 2 or len(manifest["client_partitions"]) != 3:
-        raise ValueError("Expected v2 metadata-only manifest and three partitions")
+    if manifest.get("schema_version") != 2 or len(manifest["client_partitions"]) != n_clients:
+        raise ValueError("Expected v2 metadata-only manifest and one partition per client")
     seen = set()
     variables = {"FDL_RUN_DIR": str(run_dir)}
     checked_sites = []
@@ -71,13 +72,13 @@ def prepare(config_path: Path, data_dir: Path, run_dir: Path, env_path: Path) ->
         raise ValueError("Evaluator-only cohort was altered")
     run_dir.mkdir(parents=True, exist_ok=True)
     (run_dir / "server").mkdir(exist_ok=True)
-    for i in range(3):
+    for i in range(n_clients):
         (run_dir / "clients" / f"site-{i}").mkdir(parents=True, exist_ok=True)
     # Flower's SuperExec image runs as uid/gid 49999 ("app"). The writable output
     # mounts (server artifacts and per-site receipts, NEVER the data mounts) must be
     # writable by that user. Prefer an exact chown; fall back to 0777 on hosts that
     # cannot chown (single-host research sandbox only).
-    writable = [run_dir / "server"] + [run_dir / "clients" / f"site-{i}" for i in range(3)]
+    writable = [run_dir / "server"] + [run_dir / "clients" / f"site-{i}" for i in range(n_clients)]
     for folder in writable:
         try:
             os.chown(folder, CONTAINER_UID, CONTAINER_UID)
@@ -90,7 +91,7 @@ def prepare(config_path: Path, data_dir: Path, run_dir: Path, env_path: Path) ->
     env_path.parent.mkdir(parents=True, exist_ok=True)
     env_path.write_text(contents)
     os.chmod(env_path, 0o600)
-    report = {"schema_version": 1, "preparation_only": True, "client_count": 3,
+    report = {"schema_version": 1, "preparation_only": True, "client_count": n_clients,
               "manifest_sha256": digest(manifest_path), "config": config,
               "sites": checked_sites, "run_dir": str(run_dir), "env_file": str(env_path),
               "evaluator_not_mounted": True,

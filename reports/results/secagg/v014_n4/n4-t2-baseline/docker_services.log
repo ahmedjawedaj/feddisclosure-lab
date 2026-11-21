@@ -1,0 +1,569 @@
+superlink-1  | [92mINFO [0m:      Starting Flower SuperLink
+superlink-1  | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP server with unencrypted communication (TLS disabled). Proceed only if you understand the risks.
+superlink-1  | [93mWARNING [0m:   SuperNode authentication is disabled. The SuperLink will accept connections from any SuperNode.
+superlink-1  | [92mINFO [0m:      Flower Deployment Runtime: Starting Control API on 0.0.0.0:9093
+superlink-1  | [92mINFO [0m:      Flower Deployment Runtime: Starting ServerAppIo API on 0.0.0.0:9091
+superlink-1  | [92mINFO [0m:      Flower Deployment Runtime: Starting Fleet API (gRPC-rere) on 0.0.0.0:9092
+superlink-1  | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      ControlServicer.StartRun
+superlink-1  | [92mINFO [0m:      Created run 12139091623274883670
+superlink-1  | [92mINFO [0m:      ControlServicer.StreamLogs
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      Starting run 12139091623274883670
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=12139091623274883670
+superlink-1  | [92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=6535d78dacf2987501f10dcb656e3f5a7c104ffbe6ffc17331880828351e0b26
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=12139091623274883670
+superlink-1  | [92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=6535d78dacf2987501f10dcb656e3f5a7c104ffbe6ffc17331880828351e0b26
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=12139091623274883670
+superlink-1  | [92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=6535d78dacf2987501f10dcb656e3f5a7c104ffbe6ffc17331880828351e0b26
+superlink-1  | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=12139091623274883670
+superlink-1  | [92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=6535d78dacf2987501f10dcb656e3f5a7c104ffbe6ffc17331880828351e0b26
+superlink-1  | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1  | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+supernode-0-1  | [92mINFO [0m:      Starting Flower SuperNode
+supernode-0-1  | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-0-1  | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-0-1  | [92mINFO [0m:      SuperNode ID: 6880201486928153616
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-0-1  | [92mINFO [0m:      Receiving: train message (ID: 473a9fd09265796214c4f3f9f0e655424eb40939fa0771a7b61feba67fb17d7a)
+supernode-0-1  | [92mINFO [0m:      Received successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-0-1  | [92mINFO [0m:      Sending: train message (ID: 82cb05b05d4f4209dd4f3db1b9c8b9fa0aab2c7ca553e6d1c7af2de6c452f4a9)
+supernode-0-1  | [92mINFO [0m:      Sent successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-0-1  | [92mINFO [0m:      Receiving: train message (ID: 1c47e4a6371102dcef2fe875c11beeea313717821ebf129bbd8d6a77215d3520)
+supernode-0-1  | [92mINFO [0m:      Received successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-0-1  | [92mINFO [0m:      Sending: train message (ID: 47502ff9f63abc7cd2eb34ec4bdbc68509b054a4aa9791159a8f104043c2025d)
+supernode-0-1  | [92mINFO [0m:      Sent successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-0-1  | [92mINFO [0m:      Receiving: train message (ID: 725a3c5bd3abc2bd267364c323f4a5103317bd9a3060c2e4b41c2ced01f57576)
+supernode-0-1  | [92mINFO [0m:      Received successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-0-1  | [92mINFO [0m:      Sending: train message (ID: 0a8c19ce35e4c027031445fc06ecec11c4ee6f83d66ecd15865683958a6147ab)
+supernode-0-1  | [92mINFO [0m:      Sent successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-0-1  | [92mINFO [0m:      Receiving: train message (ID: bf1376941d6e8026e0b4462d5ae54cf52cf27d5fcfec6417d451141a19f6af84)
+supernode-0-1  | [92mINFO [0m:      Received successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-0-1  | [92mINFO [0m:      Sending: train message (ID: d1ddcc609f8e2ad80f268cc3eb963587f27eb69cb99310114271c8c12518d670)
+supernode-0-1  | [92mINFO [0m:      Sent successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-0-1  | [92mINFO [0m:      Receiving: train message (ID: adae16de210b95ca1ba4b08e36c4d525f575f672f6b2d05fcf809553d25d946c)
+supernode-0-1  | [92mINFO [0m:      Received successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-0-1  | [92mINFO [0m:      Sending: train message (ID: 7b709accd4248494d21c7703c58ccea9e18277c8a956e4318ecdfd335011bd1a)
+supernode-0-1  | [92mINFO [0m:      Sent successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-0-1  | [92mINFO [0m:      Receiving: train message (ID: 95f29e5f7ea9bb569ba1e47a229b90d5d6b2259e7d80dcafc15c8c47a59177c2)
+supernode-0-1  | [92mINFO [0m:      Received successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-0-1  | [92mINFO [0m:      Sending: train message (ID: 05f898eb42b3c081edc7ea97be6c549283e071178877f3c5af4347e62157e0fe)
+supernode-0-1  | [92mINFO [0m:      Sent successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-0-1  | [92mINFO [0m:      Receiving: train message (ID: a99d4a33faa183e1a1a950cd994ac6e052ec3b1dfe3e78a421ac48b4be0e456c)
+supernode-0-1  | [92mINFO [0m:      Received successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-0-1  | [92mINFO [0m:      Sending: train message (ID: e6f903c81827b33b41118a15cb436190d30324f21742c7f90e7c92a1b3a5417a)
+supernode-0-1  | [92mINFO [0m:      Sent successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-0-1  | [92mINFO [0m:      Receiving: train message (ID: 86c47bea3a37349942c4b50a036fa5f51ffd0d4d0f29bdf10f2161c9c783e8cd)
+supernode-0-1  | [92mINFO [0m:      Received successfully
+supernode-0-1  | [92mINFO [0m:      
+supernode-0-1  | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-0-1  | [92mINFO [0m:      Sending: train message (ID: b1d6688c881fe4777d56fd2a3bc349e431424707e9862ffcccdbbe67fc71d86a)
+supernode-0-1  | [92mINFO [0m:      Sent successfully
+serverexec-1   | [92mINFO [0m:      Starting Flower SuperExec
+serverexec-1   | [93mWARNING [0m:   Connection attempt failed, retrying in 0.15 seconds
+serverexec-1   | [93mWARNING [0m:   Connection attempt failed, retrying in 1.82 seconds
+serverexec-1   | [92mINFO [0m:      Connection successful after 2.02 seconds and 3 tries.
+clientexec-1-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.59 seconds
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 1.72 seconds
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 2.32 seconds
+clientexec-1-1  | [92mINFO [0m:      Connection successful after 4.66 seconds and 4 tries.
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 91ce...fe58
+clientexec-1-1  | 🎊 Successfully installed feddisclosure-secagg-research to /opt/fdl-flwr-home/.flwr/apps/feddisclosure.feddisclosure-secagg-research.0.1.0.6535d78d.
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 91ce...fe58
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 9a08...1133
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 9a08...1133
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 8a47...41d8
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 8a47...41d8
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 2cf0...024d
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 2cf0...024d
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 0253...15df
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 0253...15df
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 8584...9bf0
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 8584...9bf0
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 1e24...6b86
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 1e24...6b86
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token aaf6...133a
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token aaf6...133a
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.17 seconds
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.62 seconds
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 3.34 seconds
+clientexec-2-1  | [92mINFO [0m:      Connection successful after 4.19 seconds and 4 tries.
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token d1ff...8090
+clientexec-2-1  | 🎊 Successfully installed feddisclosure-secagg-research to /opt/fdl-flwr-home/.flwr/apps/feddisclosure.feddisclosure-secagg-research.0.1.0.6535d78d.
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token d1ff...8090
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 525d...036b
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 525d...036b
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 0fd0...a8bc
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 0fd0...a8bc
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 5244...d6c5
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 5244...d6c5
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 53c6...8705
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 53c6...8705
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 6764...3a32
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 6764...3a32
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 2ab4...7c13
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 2ab4...7c13
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 6785...2cff
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 6785...2cff
+clientexec-2-1  | [92mINFO [0m:      
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+clientexec-3-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-3-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.70 seconds
+clientexec-3-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.25 seconds
+clientexec-3-1  | [92mINFO [0m:      Connection successful after 0.97 seconds and 3 tries.
+clientexec-3-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token cf2e...4789
+clientexec-3-1  | 🎊 Successfully installed feddisclosure-secagg-research to /opt/fdl-flwr-home/.flwr/apps/feddisclosure.feddisclosure-secagg-research.0.1.0.6535d78d.
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token cf2e...4789
+clientexec-3-1  | [92mINFO [0m:      
+clientexec-3-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token baba...be00
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token baba...be00
+clientexec-3-1  | [92mINFO [0m:      
+clientexec-3-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 4daa...a1d1
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 4daa...a1d1
+clientexec-3-1  | [92mINFO [0m:      
+clientexec-3-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      ControlServicer.StreamLogs
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17647282442516292815
+supernode-1-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-1-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-1-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-1-1   | [92mINFO [0m:      SuperNode ID: 9203912059036347362
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: fed878963d6d0828f6aeb4d0543be7b8b70408c75739d3d73ed23d0f35bc7667)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: df7c7b0b5496b9395d494951dd538c7bef32d7af4f4ea3320efdf453e178efe6)
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: 38f2290be0b775e33835943c21cfcbc1dd8c84fb6519f231364a553d53d91040)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: 55ec17e84efc6b86b3bd1386d26f0ae95e9a4440de7b2a34647934ead7f0888f)
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: a12c3277e0cc624ff28c230e5847d8a6defb51b2c1fd8ee68b41535835a9d3b0)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+supernode-1-1   | [92mINFO [0m:      
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=6880201486928153616
+clientexec-0-1  | [92mINFO [0m:      Starting Flower SuperExec
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=5210909407363139743
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token e4ed...81e0
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: e5846ee2d54ccb4f3be94c3952cf13c10c4001119e070f8f885c27d8cc035d04)
+clientexec-0-1  | 🎊 Successfully installed feddisclosure-secagg-research to /opt/fdl-flwr-home/.flwr/apps/feddisclosure.feddisclosure-secagg-research.0.1.0.6535d78d.
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-3-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: 532a48317ef5930ab6ce48d0c79dda88b15e24fc9d8e9b71b40b7bb04e6f144d)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-1-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-3-1   | [92mINFO [0m:      SuperNode ID: 5210909407363139743
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: 01e4f155b8a2fd432d2191101df1cd7b71e018816ff27fb91081938aca9733ba)
+supernode-3-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-1-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      Receiving: train message (ID: ff8b84a79e2ae6452cf8b3832e55015456a56f7d4e442c0a02f5302f80f216bf)
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: f80b260f996d2109a4164b1bc94ac2f71de29019bcba3dc02b63271e822ffb4b)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [92mINFO [0m:      Received successfully
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token e4ed...81e0
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: f7974c8201719a52d75c0982af4ac77615321091550cafb9be9ed48d6f5949ef)
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: 0f6acf56130d8136579a5b32bffc5b2ac47981168f4d139af49a84812a3d9a3f)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: a07631302781403292e0bc44a2c0131a72914f038af4bc6a68a18553ae54b734)
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 80ff...b831
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token b2b0...364f
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token b2b0...364f
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 80ff...b831
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: 2f7352938f411eb498edb5ccd7aac3a04ffba7a58404ebc2a8ab77e16af316f3)
+clientexec-3-1  | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Sending: train message (ID: a4de3d4c81c266e2a5f469f3c2418c41e198316051dc6124ce684fd6d571379e)
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: c1c4d77ab119e8de7fb5aac55bb2b6b1f0f60b957b104164dcc6793d25774a28)
+supernode-3-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-3-1   | [92mINFO [0m:      
+clientexec-3-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-3-1   | [92mINFO [0m:      Receiving: train message (ID: f8ef38d39e86a58c9022c284b090e6dfbdc560139f88d9f32a5677506f12c5e3)
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 92e9...a140
+supernode-3-1   | [92mINFO [0m:      Received successfully
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 92e9...a140
+supernode-3-1   | [92mINFO [0m:      
+clientexec-3-1  | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+clientexec-3-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+superlink-1     | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9203912059036347362
+supernode-3-1   | [92mINFO [0m:      Sending: train message (ID: 84361811d573728455e67107ddeead16c2a9b5a65b1ee4c78e3e8c12ed94e35b)
+supernode-3-1   | [92mINFO [0m:      Sent successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-3-1   | [92mINFO [0m:      Receiving: train message (ID: 4cf62156c194b7f2ef52b4da9aa85bcc422911b1ea731a04ae47a50d098ecb84)
+supernode-3-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-3-1   | [92mINFO [0m:      Sending: train message (ID: 21313e9500c7e100def797e3b188194e0011437eda0ba74cead297a94701f185)
+supernode-3-1   | [92mINFO [0m:      Sent successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-3-1   | [92mINFO [0m:      Receiving: train message (ID: 06039006e7bf81e4a7ffc96bb34aa46abd6d952edbc4ceceb276ce589a9a1eca)
+supernode-3-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-3-1   | [92mINFO [0m:      Sending: train message (ID: c976c8192713088c40896f99b87aad69d3043962851cc4fa747263f47f673c65)
+supernode-3-1   | [92mINFO [0m:      Sent successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Receiving: train message (ID: 30622a326184f2331aad53d46dcd368ab19e33b45f1615acb37aa42b52ce90fc)
+supernode-3-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Sending: train message (ID: 10d89ed4913ee3a4c8d42e80c330a7cfd80edd5fa719c71d90c4ff1dd668a8ea)
+supernode-3-1   | [92mINFO [0m:      Sent successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Receiving: train message (ID: 52f249f40b699e82da346428c2a6549c2ec2ef45b0dd1aea665b371abd1e27af)
+supernode-3-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Sending: train message (ID: 57396c951fc2e92db5c3f9dd17bbb0fe2aeea21bb620dc96259db93ff18ab221)
+supernode-3-1   | [92mINFO [0m:      Sent successfully
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 4b35...e63b
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 4b35...e63b
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token ffdb...2c0a
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token ffdb...2c0a
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token fa01...5cb9
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token fa01...5cb9
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 0479...5d40
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 0479...5d40
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 24c8...2097
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 24c8...2097
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token ad54...7773
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token ad54...7773
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token ef48...19e1
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Receiving: train message (ID: d70dae782d1f0d9a33058854e60d353e38493f098d65b3bc0ccd2637a823d98f)
+supernode-3-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Sending: train message (ID: 40db6caafed380a726f99022fe42b7f040af8e93b99dee0f592e2c5780666116)
+supernode-3-1   | [92mINFO [0m:      Sent successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Receiving: train message (ID: b16a171fbb4d2e7f017f636926d0f614d6099d9fec3d9d564ae20087a98bab3c)
+supernode-3-1   | [92mINFO [0m:      Received successfully
+supernode-3-1   | [92mINFO [0m:      
+supernode-3-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-3-1   | [92mINFO [0m:      Sending: train message (ID: c4f723ded11cd223462af25fcc534600c91820df09dd9fe7b7310a9571a59c03)
+supernode-3-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: e9cb0abdecc9b5b0285ad7c61225b7d91569a53715df825c882349ccd790762f)
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token ef48...19e1
+clientexec-3-1  | [92mINFO [0m:      
+clientexec-3-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 9c42...bb0c
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 9c42...bb0c
+clientexec-3-1  | [92mINFO [0m:      
+clientexec-3-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 83f3...4547
+clientexec-3-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 83f3...4547
+clientexec-3-1  | [92mINFO [0m:      
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=17647282442516292815
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: ce749053a16e615e371ecb093b410c096c8dbba2fc7af346933de2d237248743)
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-2-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-2-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-2-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-2-1   | [92mINFO [0m:      SuperNode ID: 17647282442516292815
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-2-1   | [92mINFO [0m:      Receiving: train message (ID: 2903cb10dd0b70e28347b01326ef80be79b6ffc0886822667285d6b2c9203a80)
+supernode-2-1   | [92mINFO [0m:      Received successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-2-1   | [92mINFO [0m:      Sending: train message (ID: 5a688625e0d07abc09ad9a5b78ae30fe4bf5a4b3dc6e7269e11b1b71ab261b71)
+supernode-2-1   | [92mINFO [0m:      Sent successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-2-1   | [92mINFO [0m:      Receiving: train message (ID: 255028d0d7403591239764945b98e365b4baa3e06e4c7e7d0151ea055f8c9a83)
+supernode-2-1   | [92mINFO [0m:      Received successfully
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=6880201486928153616
+superlink-1     | [92mINFO [0m:      All logs for run ID `12139091623274883670` returned
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=5210909407363139743
+superlink-1     | [92mINFO [0m:      [Fleet.PullMessages] node_id=9203912059036347362
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-2-1   | [92mINFO [0m:      Sending: train message (ID: 75531c8d1546e8c7302c4d01680ecece7cacf3cff789fa0e5add1474073e33d9)
+supernode-2-1   | [92mINFO [0m:      Sent successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-2-1   | [92mINFO [0m:      Receiving: train message (ID: c7489da089eb8517df28e0de61d2bb577246bfe4f42e975fab1ff692e1298813)
+supernode-2-1   | [92mINFO [0m:      Received successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-2-1   | [92mINFO [0m:      Sending: train message (ID: e8433e5603c67475872b91bc24b0bb0e32bab67b059c89e29af17497074736f0)
+supernode-2-1   | [92mINFO [0m:      Sent successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-2-1   | [92mINFO [0m:      Receiving: train message (ID: 08cb855166b35e2ea196ebfe42a25d2a60bdf44d1b565b0238f78ce69fd69743)
+supernode-2-1   | [92mINFO [0m:      Received successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 1]
+supernode-2-1   | [92mINFO [0m:      Sending: train message (ID: 6a827b707f488fa47f53313b698aa913c194f02e566f34fa06d15bff2eeda2da)
+supernode-2-1   | [92mINFO [0m:      Sent successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-2-1   | [92mINFO [0m:      Receiving: train message (ID: 3a0ccbde54259dfd76c954b33dc8165036e0e01e60ab9a6228cdcea880a7c153)
+supernode-2-1   | [92mINFO [0m:      Received successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-2-1   | [92mINFO [0m:      Sending: train message (ID: 5dd13f2d75d1addd77dcceacfdeebe652d4d5b8bfaeda2fc7b8efb1f621c4582)
+supernode-2-1   | [92mINFO [0m:      Sent successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-2-1   | [92mINFO [0m:      Receiving: train message (ID: 3a01486cdfa10ec835a8e7f8672614d507cf8ad4eda650c7597e9cb7bc424d12)
+supernode-2-1   | [92mINFO [0m:      Received successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-2-1   | [92mINFO [0m:      Sending: train message (ID: 1963a0904ca94bbc524ff1bd4e2cb1b48247ce404614aeb01f10a5dba0e38bd3)
+supernode-2-1   | [92mINFO [0m:      Sent successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-2-1   | [92mINFO [0m:      Receiving: train message (ID: 5aa0860721211bfbac511aa583a9b9d8077e8fd042f8af98904dcf98be5a8fa6)
+supernode-2-1   | [92mINFO [0m:      Received successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-2-1   | [92mINFO [0m:      Sending: train message (ID: 0ec044b0ba1d790200155e37ca0fe2f4acb0ee275e174fc531455c8153078657)
+supernode-2-1   | [92mINFO [0m:      Sent successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-2-1   | [92mINFO [0m:      Receiving: train message (ID: 6d411df938d0657609070488064957312a629c25220f92d3e641d11505a91597)
+supernode-2-1   | [92mINFO [0m:      Received successfully
+supernode-2-1   | [92mINFO [0m:      
+supernode-2-1   | [92mINFO [0m:      [RUN 12139091623274883670, ROUND 2]
+supernode-2-1   | [92mINFO [0m:      Sending: train message (ID: 343ee6966e7d16b76d855afcbb512553663255ad9b100501359928f23a0b36a0)
+supernode-2-1   | [92mINFO [0m:      Sent successfully
+

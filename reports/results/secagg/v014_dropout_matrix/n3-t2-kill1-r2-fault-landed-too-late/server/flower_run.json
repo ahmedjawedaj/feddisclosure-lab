@@ -1,0 +1,76 @@
+{
+  "engine": "Flower ServerApp/ClientApp",
+  "runtime_mode": "deployment",
+  "created_utc": "2026-11-21T19:23:30.053688+00:00",
+  "config": {
+    "id": "digits-iid-smoke-v1",
+    "seed": 20261118,
+    "dataset": "sklearn_digits",
+    "partition": "iid",
+    "clients": 3,
+    "rounds": 2,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.15,
+    "source_limit": 600,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ],
+    "algorithm": "fedavg"
+  },
+  "docker_isolation_verified": true,
+  "client_attestation_verified": true,
+  "final_model_exists": true,
+  "summary_exists": true,
+  "exit_code": 0,
+  "timed_out": false,
+  "native_flower_verified": true,
+  "warning": "Insecure single-host research deployment. No formal privacy protection.",
+  "app_dir": "experiments/flower_secagg",
+  "flower_command": [
+    "docker",
+    "compose",
+    "--env-file",
+    "/home/claude/runs/secagg-dm-n3-t2-kill1-r2.env",
+    "-f",
+    "/home/claude/work/feddisclosure-lab/compose.flower.yaml",
+    "run",
+    "--rm",
+    "--no-deps",
+    "-v",
+    "/home/claude/work/feddisclosure-lab/experiments/flower_secagg:/alt-app:ro",
+    "--entrypoint",
+    "sh",
+    "flwr-cli",
+    "-c",
+    "cp -r /alt-app /tmp/alt-app && exec flwr run /tmp/alt-app fdl-docker --stream --run-config \"$0\"",
+    "num-server-rounds=2 local-epochs=1 batch-size=32 learning-rate=0.15 proximal-mu=0.0 clients=3 seed=20261118 features=64 classes=10 data-root=\"/never-mounted-client-data\" artifact-dir=\"/artifacts\" use-secagg=true num-shares=3 reconstruction-threshold=2 timeout=30.0"
+  ],
+  "cli_attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 0,
+      "superlink_unreachable": false
+    }
+  ],
+  "fault_injection": {
+    "fault_injected": true,
+    "fault_client": 2,
+    "fault_when": "during-round-2",
+    "fault_target": "clientexec",
+    "participant_lost": null,
+    "fault_verb": "kill",
+    "fault_utc": "2026-11-21T19:24:36.379964+00:00"
+  },
+  "fail_fast": false,
+  "seconds": 96.84,
+  "evaluation_receipts_required": false,
+  "participating_clients": [
+    "0",
+    "1",
+    "2"
+  ]
+}

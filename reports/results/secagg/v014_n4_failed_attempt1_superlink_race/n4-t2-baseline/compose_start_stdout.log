@@ -1,0 +1,273 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 3.08kB done
+#1 DONE 0.0s
+
+#2 [clientexec-0 internal] load build definition from SuperExec.Dockerfile
+#2 DONE 0.0s
+
+#2 [clientexec-3 internal] load build definition from SuperExec.Dockerfile
+#2 transferring dockerfile: 1.66kB done
+#2 DONE 0.0s
+
+#3 [clientexec-2 internal] load metadata for docker.io/flwr/superexec:1.27.0
+#3 DONE 0.0s
+
+#4 [clientexec-3 internal] load .dockerignore
+#4 transferring context: 363B done
+#4 DONE 0.0s
+
+#5 [clientexec-3 stage-0 1/9] FROM docker.io/flwr/superexec:1.27.0@sha256:15b43740a29e781580f915082903480cd023c0c03364ab77c05ee264fc96e05b
+#5 resolve docker.io/flwr/superexec:1.27.0@sha256:15b43740a29e781580f915082903480cd023c0c03364ab77c05ee264fc96e05b 0.0s done
+#5 DONE 0.0s
+
+#6 [clientexec-0 internal] load build context
+#6 transferring context: 26.50kB done
+#6 DONE 0.0s
+
+#7 [clientexec-2 stage-0 2/9] RUN mkdir -p /app /opt/fdl-flwr-home/.flwr && chown -R app:app /app /opt/fdl-flwr-home
+#7 CACHED
+
+#8 [clientexec-2 stage-0 3/9] WORKDIR /app
+#8 CACHED
+
+#9 [clientexec-1 stage-0 4/9] COPY --chown=app:app --chmod=a+rX pyproject.toml README.md ./
+#9 DONE 0.3s
+
+#10 [clientexec-2 stage-0 5/9] RUN --mount=type=secret,id=fdl_build_ca,mode=0444     if [ -s /run/secrets/fdl_build_ca ]; then export PIP_CERT=/run/secrets/fdl_build_ca; fi     && python -m pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1'
+#10 8.808 Looking in indexes: https://download.pytorch.org/whl/cpu
+#10 9.203 Collecting torch==2.5.1
+#10 9.422   Downloading https://download-r2.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp313-cp313-linux_x86_64.whl (174.7 MB)
+#10 10.67      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 174.7/174.7 MB 144.7 MB/s  0:00:01
+#10 10.94 Collecting filelock (from torch==2.5.1)
+#10 11.02   Downloading filelock-4.2.4-py3-none-any.whl.metadata (2.0 kB)
+#10 11.02 Requirement already satisfied: typing-extensions>=4.8.0 in /python/venv/lib/python3.13/site-packages (from torch==2.5.1) (4.15.0)
+#10 11.06 Collecting networkx (from torch==2.5.1)
+#10 11.08   Downloading networkx-3.7-py3-none-any.whl.metadata (6.7 kB)
+#10 11.10 Collecting jinja2 (from torch==2.5.1)
+#10 11.13   Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#10 11.16 Collecting fsspec (from torch==2.5.1)
+#10 11.18   Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+#10 11.20 Requirement already satisfied: setuptools in /python/venv/lib/python3.13/site-packages (from torch==2.5.1) (82.0.0)
+#10 11.23 Collecting sympy==1.13.1 (from torch==2.5.1)
+#10 11.26   Downloading sympy-1.13.1-py3-none-any.whl.metadata (12 kB)
+#10 11.29 Collecting mpmath<1.4,>=1.1.0 (from sympy==1.13.1->torch==2.5.1)
+#10 11.31   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+#10 11.61 Requirement already satisfied: MarkupSafe>=2.0 in /python/venv/lib/python3.13/site-packages (from jinja2->torch==2.5.1) (3.0.3)
+#10 11.97 Downloading sympy-1.13.1-py3-none-any.whl (6.2 MB)
+#10 12.18    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.2/6.2 MB 31.3 MB/s  0:00:00
+#10 12.20 Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+#10 12.21    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 33.3 MB/s  0:00:00
+#10 12.24 Downloading filelock-4.2.4-py3-none-any.whl (162 kB)
+#10 12.26 Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+#10 12.28 Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl (134 kB)
+#10 12.30 Downloading networkx-3.7-py3-none-any.whl (2.1 MB)
+#10 12.37    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 33.1 MB/s  0:00:00
+#10 13.09 Installing collected packages: mpmath, sympy, networkx, jinja2, fsspec, filelock, torch
+#10 31.80 
+#10 31.81 Successfully installed filelock-4.2.4 fsspec-2026.9.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.7 sympy-1.13.1 torch-2.5.1+cpu
+#10 DONE 32.6s
+
+#11 [serverexec stage-0 6/9] COPY --chown=app:app --chmod=a+rX src/ ./src/
+#11 DONE 0.1s
+
+#12 [clientexec-0 stage-0 7/9] RUN --mount=type=secret,id=fdl_build_ca,mode=0444     if [ -s /run/secrets/fdl_build_ca ]; then export PIP_CERT=/run/secrets/fdl_build_ca; fi     && python -m pip install --no-cache-dir -e . 'scikit-learn>=1.4,<2'
+#12 0.500 Obtaining file:///app
+#12 0.503   Installing build dependencies: started
+#12 2.595   Installing build dependencies: finished with status 'done'
+#12 2.598   Checking if build backend supports build_editable: started
+#12 2.924   Checking if build backend supports build_editable: finished with status 'done'
+#12 2.925   Getting requirements to build editable: started
+#12 3.406   Getting requirements to build editable: finished with status 'done'
+#12 3.407   Preparing editable metadata (pyproject.toml): started
+#12 3.908   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#12 4.064 Collecting scikit-learn<2,>=1.4
+#12 4.181   Downloading scikit_learn-1.9.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.3 kB)
+#12 4.257 Collecting fastapi<1,>=0.110 (from feddisclosure-lab==0.13.0)
+#12 4.322   Downloading fastapi-0.165.0-py3-none-any.whl.metadata (27 kB)
+#12 4.360 Collecting uvicorn<1,>=0.29 (from feddisclosure-lab==0.13.0)
+#12 4.428   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#12 4.455 Collecting httpx<1,>=0.27 (from feddisclosure-lab==0.13.0)
+#12 4.522   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#12 4.630 Collecting pydantic<3,>=2.6 (from feddisclosure-lab==0.13.0)
+#12 4.695   Downloading pydantic-2.14.4-py3-none-any.whl.metadata (143 kB)
+#12 4.708 Requirement already satisfied: PyYAML<7,>=6 in /python/venv/lib/python3.13/site-packages (from feddisclosure-lab==0.13.0) (6.0.3)
+#12 4.710 Requirement already satisfied: numpy>=1.24.1 in /python/venv/lib/python3.13/site-packages (from scikit-learn<2,>=1.4) (2.4.3)
+#12 4.882 Collecting scipy>=1.10.0 (from scikit-learn<2,>=1.4)
+#12 4.951   Downloading scipy-1.18.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+#12 5.002 Collecting joblib>=1.4.0 (from scikit-learn<2,>=1.4)
+#12 5.068   Downloading joblib-1.6.0-py3-none-any.whl.metadata (6.5 kB)
+#12 5.114 Collecting narwhals>=2.0.1 (from scikit-learn<2,>=1.4)
+#12 5.181   Downloading narwhals-2.29.0-py3-none-any.whl.metadata (15 kB)
+#12 5.213 Collecting threadpoolctl>=3.5.0 (from scikit-learn<2,>=1.4)
+#12 5.281   Downloading threadpoolctl-3.8.0-py3-none-any.whl.metadata (29 kB)
+#12 5.317 Collecting starlette>=1.6.0 (from fastapi<1,>=0.110->feddisclosure-lab==0.13.0)
+#12 5.384   Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+#12 5.412 Collecting anyio>=4.1.0 (from fastapi<1,>=0.110->feddisclosure-lab==0.13.0)
+#12 5.479   Downloading anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+#12 5.486 Requirement already satisfied: typing-extensions>=4.8.0 in /python/venv/lib/python3.13/site-packages (from fastapi<1,>=0.110->feddisclosure-lab==0.13.0) (4.15.0)
+#12 5.508 Collecting typing-inspection>=0.4.2 (from fastapi<1,>=0.110->feddisclosure-lab==0.13.0)
+#12 5.574   Downloading typing_inspection-0.4.5-py3-none-any.whl.metadata (2.6 kB)
+#12 5.595 Collecting annotated-doc>=0.0.2 (from fastapi<1,>=0.110->feddisclosure-lab==0.13.0)
+#12 5.662   Downloading annotated_doc-0.0.7-py3-none-any.whl.metadata (6.4 kB)
+#12 5.699 Collecting opentelemetry-api>=1.44.0 (from fastapi<1,>=0.110->feddisclosure-lab==0.13.0)
+#12 5.765   Downloading opentelemetry_api-1.45.2-py3-none-any.whl.metadata (1.4 kB)
+#12 5.769 Requirement already satisfied: certifi in /python/venv/lib/python3.13/site-packages (from httpx<1,>=0.27->feddisclosure-lab==0.13.0) (2026.2.25)
+#12 5.798 Collecting httpcore==1.* (from httpx<1,>=0.27->feddisclosure-lab==0.13.0)
+#12 5.865   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#12 5.871 Requirement already satisfied: idna in /python/venv/lib/python3.13/site-packages (from httpx<1,>=0.27->feddisclosure-lab==0.13.0) (3.11)
+#12 5.894 Collecting h11>=0.16 (from httpcore==1.*->httpx<1,>=0.27->feddisclosure-lab==0.13.0)
+#12 5.960   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#12 5.984 Collecting annotated-types>=0.6.0 (from pydantic<3,>=2.6->feddisclosure-lab==0.13.0)
+#12 6.051   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#12 6.695 Collecting pydantic-core==2.50.5 (from pydantic<3,>=2.6->feddisclosure-lab==0.13.0)
+#12 6.762   Downloading pydantic_core-2.50.5-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.6 kB)
+#12 6.789 Collecting typing-extensions>=4.8.0 (from fastapi<1,>=0.110->feddisclosure-lab==0.13.0)
+#12 6.856   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#12 6.861 Requirement already satisfied: click>=7.0 in /python/venv/lib/python3.13/site-packages (from uvicorn<1,>=0.29->feddisclosure-lab==0.13.0) (8.3.1)
+#12 6.888 Collecting cloudpickle>=3.0 (from joblib>=1.4.0->scikit-learn<2,>=1.4)
+#12 6.954   Downloading cloudpickle-3.1.3-py3-none-any.whl.metadata (7.1 kB)
+#12 7.035 Downloading scikit_learn-1.9.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (9.1 MB)
+#12 7.458    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.1/9.1 MB 21.5 MB/s  0:00:00
+#12 7.525 Downloading fastapi-0.165.0-py3-none-any.whl (159 kB)
+#12 7.594 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#12 7.661 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#12 7.728 Downloading pydantic-2.14.4-py3-none-any.whl (494 kB)
+#12 7.811 Downloading pydantic_core-2.50.5-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.3 MB)
+#12 7.910    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.3/2.3 MB 23.0 MB/s  0:00:00
+#12 7.978 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#12 8.045 Downloading annotated_doc-0.0.7-py3-none-any.whl (5.3 kB)
+#12 8.111 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#12 8.178 Downloading anyio-4.16.0-py3-none-any.whl (134 kB)
+#12 8.249 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#12 8.314 Downloading joblib-1.6.0-py3-none-any.whl (306 kB)
+#12 8.390 Downloading cloudpickle-3.1.3-py3-none-any.whl (22 kB)
+#12 8.457 Downloading narwhals-2.29.0-py3-none-any.whl (501 kB)
+#12 8.542 Downloading opentelemetry_api-1.45.2-py3-none-any.whl (60 kB)
+#12 8.608 Downloading scipy-1.18.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+#12 10.14    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 23.1 MB/s  0:00:01
+#12 10.21 Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+#12 10.27 Downloading threadpoolctl-3.8.0-py3-none-any.whl (32 kB)
+#12 10.34 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#12 10.41 Downloading typing_inspection-0.4.5-py3-none-any.whl (14 kB)
+#12 10.50 Building wheels for collected packages: feddisclosure-lab
+#12 10.50   Building editable for feddisclosure-lab (pyproject.toml): started
+#12 11.21   Building editable for feddisclosure-lab (pyproject.toml): finished with status 'done'
+#12 11.21   Created wheel for feddisclosure-lab: filename=feddisclosure_lab-0.13.0-0.editable-py3-none-any.whl size=1968 sha256=abf7da7bd8d42b453a6bcd07e245845855675e623f247339da5d29531cbebb43
+#12 11.21   Stored in directory: /tmp/pip-ephem-wheel-cache-8r4nxa92/wheels/19/62/e5/caf0138816cbbc0c92b8fb19626cf9ac282f22194a65231821
+#12 11.21 Successfully built feddisclosure-lab
+#12 11.30 Installing collected packages: typing-extensions, threadpoolctl, scipy, narwhals, h11, cloudpickle, annotated-types, annotated-doc, uvicorn, typing-inspection, pydantic-core, opentelemetry-api, joblib, httpcore, anyio, starlette, scikit-learn, pydantic, httpx, fastapi, feddisclosure-lab
+#12 11.30   Attempting uninstall: typing-extensions
+#12 11.30     Found existing installation: typing_extensions 4.15.0
+#12 11.30     Uninstalling typing_extensions-4.15.0:
+#12 11.73       Successfully uninstalled typing_extensions-4.15.0
+#12 21.49 
+#12 21.50 Successfully installed annotated-doc-0.0.7 annotated-types-0.8.0 anyio-4.16.0 cloudpickle-3.1.3 fastapi-0.165.0 feddisclosure-lab-0.13.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 joblib-1.6.0 narwhals-2.29.0 opentelemetry-api-1.45.2 pydantic-2.14.4 pydantic-core-2.50.5 scikit-learn-1.9.1 scipy-1.18.1 starlette-1.10.0 threadpoolctl-3.8.0 typing-extensions-4.16.0 typing-inspection-0.4.5 uvicorn-0.54.0
+#12 21.67 
+#12 21.67 [notice] A new release of pip is available: 26.0.1 -> 26.3
+#12 21.67 [notice] To update, run: pip install --upgrade pip
+#12 DONE 22.4s
+
+#13 [clientexec-2 stage-0 8/9] COPY --chown=app:app --chmod=a+rX docker/flower/flwr-config.toml /opt/fdl-flwr-home/.flwr/config.toml
+#13 DONE 0.1s
+
+#14 [clientexec-1 stage-0 9/9] RUN chmod -R a+rwX /opt/fdl-flwr-home
+#14 DONE 0.2s
+
+#15 [serverexec] exporting to image
+#15 exporting layers
+#15 ...
+
+#16 [clientexec-2] exporting to image
+#16 ...
+
+#17 [clientexec-3] exporting to image
+#17 ...
+
+#18 [clientexec-0] exporting to image
+#18 ...
+
+#19 [clientexec-1] exporting to image
+#19 ...
+
+#17 [clientexec-3] exporting to image
+#17 exporting layers 25.7s done
+#17 exporting manifest sha256:800342923b07e329b8771a373f34d4d43c2adf50ab3765a6ac02df21873da1aa
+#17 exporting manifest sha256:800342923b07e329b8771a373f34d4d43c2adf50ab3765a6ac02df21873da1aa 0.0s done
+#17 exporting config sha256:4785c62de02d3a7d1836aa2485e13e2aa5bc7a08f2db7ce7c1068c0ad2fdd2d3 0.0s done
+#17 exporting attestation manifest sha256:b2360ec130eb9b0f55cc8153793be0a02d7bb65b1512ed66d96aca988f9223f3 0.0s done
+#17 exporting manifest list sha256:93ad334449239eba3ddc20999d98c401cdae80e9a6d282b92382d50c79e601a5
+#17 exporting manifest list sha256:93ad334449239eba3ddc20999d98c401cdae80e9a6d282b92382d50c79e601a5 0.0s done
+#17 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#17 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0
+#17 ...
+
+#19 [clientexec-1] exporting to image
+#19 exporting layers 25.7s done
+#19 exporting manifest sha256:f47d1c7c480721a5c5075f42e5e935f2196a50c538ef7c7304c63b6ea1cf99b1 0.0s done
+#19 exporting config sha256:e8373203ffedce5e3de9f6b82352e8d3faab3b1861082ba26ecb76e046bff1cf 0.0s done
+#19 exporting attestation manifest sha256:f40df6073c53c9601c23637f9d05ab810cac337a03ec33e410c56cc9d32e94c4 0.0s done
+#19 exporting manifest list sha256:6e1c4f725e5cf60c05a23f566b5589c5cd09622aa9f1b7ff3fd6283554f38e65 0.0s done
+#19 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#19 ...
+
+#16 [clientexec-2] exporting to image
+#16 exporting layers 25.7s done
+#16 exporting manifest sha256:b9cdfe71557430f0e0f5c57f156fd89816f6b233d4d3a5eed86eebdf3de0dc61 0.0s done
+#16 exporting config sha256:842cad5acc09248974328e9e4a03334de3e71be2c63f4f09a254b805c48d70a0 0.0s done
+#16 exporting attestation manifest sha256:747e4c3e088f30dc7886b3a684523c9e80db9b1fff515db91a7aa7abb161b6b2 0.0s done
+#16 exporting manifest list sha256:033eae8a27f272c15c89fb13524383bf845d7532f7d9f28f7b75d5a5294e153a 0.0s done
+#16 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#16 ...
+
+#18 [clientexec-0] exporting to image
+#18 exporting layers 25.7s done
+#18 exporting manifest sha256:c05c0a87c42ed23bf333dfc113126bcda9be0f26e6696ffb250237bb1892c20f 0.0s done
+#18 exporting config sha256:f47e1a7b8c9c947dd89ab4ac9ebbc43c01118acaca5204d49c4fdf7e72f76840 0.0s done
+#18 exporting attestation manifest sha256:194fbeda9d3f14badb7fd592190a33bdf45bfd084ab94d4122777f822a04549b 0.0s done
+#18 exporting manifest list sha256:09aa230a7046683abf33fcd3c237b4ce02060c4d1cf91a86b690025ce38806d2 0.0s done
+#18 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#18 ...
+
+#15 [serverexec] exporting to image
+#15 exporting layers 25.7s done
+#15 exporting manifest sha256:1c12a2e540aabe4777e37b8e951000b8cef9a750b6ea2b67102040d6961041db 0.0s done
+#15 exporting config sha256:83a4c105ca33b60ecbbc4bbc186339415dc530ef5b0dc913f8e464d22e933122 0.0s done
+#15 exporting attestation manifest sha256:6369f58ad18fca182cb4f2b0192607731215cbe71e78a7c8adee8207f1b21849 0.0s done
+#15 exporting manifest list sha256:5a45f620280d2a92dab6aaea826a0af1cda313afdb9f0916c4f859437c292d8b 0.0s done
+#15 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 0.0s done
+#15 ...
+
+#16 [clientexec-2] exporting to image
+#16 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 23.1s done
+#16 DONE 48.9s
+
+#15 [serverexec] exporting to image
+#15 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 23.1s done
+#15 DONE 48.9s
+
+#17 [clientexec-3] exporting to image
+#17 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 23.1s done
+#17 DONE 48.9s
+
+#18 [clientexec-0] exporting to image
+#18 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 23.1s done
+#18 DONE 48.9s
+
+#19 [clientexec-1] exporting to image
+#19 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 23.1s done
+#19 DONE 49.0s
+
+#20 [clientexec-2] resolving provenance for metadata file
+#20 DONE 0.1s
+
+#21 [clientexec-0] resolving provenance for metadata file
+#21 DONE 0.0s
+
+#22 [clientexec-3] resolving provenance for metadata file
+#22 DONE 0.1s
+
+#23 [serverexec] resolving provenance for metadata file
+#23 DONE 0.1s
+
+#24 [clientexec-1] resolving provenance for metadata file
+#24 DONE 0.0s

@@ -1,4 +1,4 @@
-"""Native 3-SuperNode Flower certification runner (NOT Flower simulation).
+"""Native 3 or 4 SuperNode Flower certification runner (NOT Flower simulation).
 
 One Docker host is sufficient for independent container filesystems. This is
 an intentionally insecure local lab network, not a multi-host/TLS deployment.
@@ -30,33 +30,79 @@ def _flower_literal(value):
     return json.dumps(str(value))
 
 
-def run_flower_cli(command, timeout, command_prefix, run_dir, fault_client, fault_when, target="clientexec"):
-    """Run the Flower CLI, optionally stopping one ClientApp container (fault test)."""
-    events = {"fault_injected": False, "fault_client": fault_client, "fault_when": fault_when,
-              "fault_target": target}
+def run_flower_cli(command, timeout, command_prefix, run_dir, fault_client, fault_when, target="clientexec",
+                   watch=None):
+    """Run the Flower CLI, optionally stopping one ClientApp container (fault test).
+
+    watch: {service: container_id} for fail-fast. If any watched container stops running while the
+    CLI is in progress the CLI is killed at once and the loss is recorded (return code 125).
+    """
+    victims = [] if fault_client is None else (list(fault_client) if isinstance(fault_client, (list, tuple))
+                                               else [fault_client])
+    events = {"fault_injected": False, "fault_client": victims[0] if len(victims) == 1 else (victims or None),
+              "fault_when": fault_when, "fault_target": target, "participant_lost": None}
+
+    # Resolve container IDs up front so an abrupt crash is one fast `docker kill` per victim.
+    victim_ids = {}
+    if victims and fault_when == "during-round-2":
+        for v in victims:
+            victim_ids[v] = run_command(command_prefix + ["ps", "-q", f"{target}-{v}"], timeout=30).stdout.strip()
+
+    def inject(verb):
+        if verb == "kill" and victim_ids and all(victim_ids.values()):
+            codes = [run_command(["docker", "kill", victim_ids[v]], timeout=30).returncode for v in victims]
+        else:
+            codes = [run_command(command_prefix + [verb, f"{target}-{v}"], timeout=60).returncode for v in victims]
+        events.update(fault_injected=all(c == 0 for c in codes), fault_verb=verb,
+                      fault_utc=datetime.now(timezone.utc).isoformat())
     out_path, err_path = run_dir / "_cli.out", run_dir / "_cli.err"
-    if fault_client is not None and fault_when == "before-run":
-        stop = run_command(command_prefix + ["stop", f"{target}-{fault_client}"], timeout=60)
-        events.update(fault_injected=stop.returncode == 0, fault_utc=datetime.now(timezone.utc).isoformat())
+    if victims and fault_when == "before-run":
+        inject("stop")
     with out_path.open("w") as out, err_path.open("w") as err:
         proc = subprocess.Popen(command, cwd=ROOT, stdout=out, stderr=err, text=True)
         deadline = time.monotonic() + timeout
-        timed_out = False
+        started_at = last_check = time.monotonic()
+        timed_out = lost_early = False
         while proc.poll() is None:
             if time.monotonic() > deadline:
                 proc.kill()
                 timed_out = True
                 break
-            if fault_client is not None and fault_when == "after-first-train" and not events["fault_injected"]:
+            if (victims and fault_when in ("after-first-train", "during-round-2")
+                    and not events["fault_injected"]):
+                needed = 1 if fault_when == "after-first-train" else 2
                 done = [f for f in (run_dir / "clients").glob("site-*/events.jsonl")
-                        if '"event_type": "train"' in f.read_text()]
+                        if f.read_text().count('"event_type": "train"') >= needed]
                 if done:
-                    stop = run_command(command_prefix + ["stop", f"{target}-{fault_client}"], timeout=60)
-                    events.update(fault_injected=stop.returncode == 0,
-                                  fault_utc=datetime.now(timezone.utc).isoformat())
-            time.sleep(0.5)
+                    # during-round-2 is an abrupt crash (SIGKILL) after every client already finished
+                    # the key-sharing stage of round 2, so the loss happens inside the protocol.
+                    inject("kill" if fault_when == "during-round-2" else "stop")
+            if watch and time.monotonic() - last_check >= 1.0:
+                last_check = time.monotonic()
+                lost = _stopped_services(watch)
+                if lost:
+                    events["participant_lost"] = {"services": lost,
+                                                  "utc": datetime.now(timezone.utc).isoformat(),
+                                                  "seconds_after_start": round(time.monotonic() - started_at, 2)}
+                    proc.kill()
+                    lost_early = True
+                    break
+            waiting_for_fault = bool(victims) and fault_when != "before-run" and not events["fault_injected"]
+            time.sleep(0.05 if waiting_for_fault else 0.5)
         proc.wait()
-    return (124 if timed_out else proc.returncode), out_path.read_text(), err_path.read_text(), timed_out, events
+    code = 125 if lost_early else (124 if timed_out else proc.returncode)
+    return code, out_path.read_text(), err_path.read_text(), timed_out, events
+
+
+def _stopped_services(watch):
+    """Services whose container is no longer running (docker inspect, one call for all)."""
+    names, ids = list(watch), list(watch.values())
+    out = subprocess.run(["docker", "inspect", "-f", "{{.State.Running}}", *ids],
+                         capture_output=True, text=True, check=False)
+    states = out.stdout.split()
+    if len(states) != len(ids):
+        return names  # a container vanished entirely
+    return [n for n, running in zip(names, states) if running != "true"]
 
 
 def run_command(command, *, timeout=120, cwd=ROOT):
@@ -77,20 +123,25 @@ def main():
                         help="Alternative Flower app directory (code only) mounted read-only into the CLI")
     parser.add_argument("--extra-run-config", default="",
                         help="Additional Flower run-config tokens, e.g. 'use-secagg=true'")
+    parser.add_argument("--no-fail-fast", action="store_true",
+                        help="Keep waiting when a participant container stops (needed only for protocols "
+                             "that are meant to tolerate dropouts, e.g. SecAgg+)")
     parser.add_argument("--no-require-evaluation", action="store_true",
                         help="Protocols without client evaluation (SecAgg+); recorded in the evidence")
-    parser.add_argument("--fault-stop-client", type=int, choices=[0, 1, 2], default=None,
+    parser.add_argument("--fault-stop-client", type=int, choices=[0, 1, 2, 3], action="append", default=None,
                         help="Fault injection: stop this institution's ClientApp container")
     parser.add_argument("--fault-target", choices=["clientexec", "supernode"], default="clientexec",
                         help="Which service of the chosen institution to stop")
-    parser.add_argument("--fault-when", choices=["before-run", "after-first-train"],
+    parser.add_argument("--fault-when", choices=["before-run", "after-first-train", "during-round-2"],
                         default="before-run")
     a = parser.parse_args()
     run_dir = a.run_dir.resolve()
     prep = prepare(a.config.resolve(), a.data_dir.resolve(), run_dir, a.env_file)
     config = yaml.safe_load(a.config.read_text())
     manifest = json.loads((a.data_dir / "manifest.json").read_text())
-    static = static_certify(ROOT / "compose.flower.yaml")
+    compose_file = ROOT / ("compose.flower.yaml" if int(config["clients"]) == 3
+                           else f"compose.flower.n{int(config['clients'])}.yaml")
+    static = static_certify(compose_file)
     (run_dir / "static_topology.json").write_text(json.dumps(static, indent=2) + "\n")
     if a.prepare_only:
         print(json.dumps({"preparation_passed": True, "static_topology": True,
@@ -98,7 +149,7 @@ def main():
         return
 
     command_prefix = ["docker", "compose", "--env-file", str(a.env_file.resolve()),
-                      "-f", str(ROOT / "compose.flower.yaml")]
+                      "-f", str(compose_file)]
     evidence = {"engine": "Flower ServerApp/ClientApp", "runtime_mode": "deployment",
                 "created_utc": datetime.now(timezone.utc).isoformat(),
                 "config": {**config, "algorithm": config.get("algorithm", "fedavg")},
@@ -130,12 +181,12 @@ def main():
         started = True
         for attempt in range(30):
             try:
-                topology = live_certify(ROOT / "compose.flower.yaml", a.env_file, prep)
+                topology = live_certify(compose_file, a.env_file, prep)
                 break
             except (ValueError, OSError, subprocess.CalledProcessError):
                 time.sleep(2)
         else:
-            raise RuntimeError("Eight native Flower services did not become running")
+            raise RuntimeError(f"{len(static['services'])} native Flower services did not become running")
         (run_dir / "docker_topology.json").write_text(json.dumps(topology, indent=2) + "\n")
         evidence["docker_isolation_verified"] = topology["native_verified"]
         cfg = {"num-server-rounds": config["rounds"], "local-epochs": config["local_epochs"],
@@ -161,12 +212,27 @@ def main():
                                            "run", ".", "fdl-docker", "--stream", "--run-config", run_config]
         evidence["flower_command"] = flower_cmd
         begun = time.monotonic()
-        code, out, err, timed, fault = run_flower_cli(
-            flower_cmd, a.timeout, command_prefix, run_dir, a.fault_stop_client, a.fault_when,
-            a.fault_target)
+        # Containers report "running" before the SuperLink accepts connections. Retry ONLY when the
+        # CLI could not reach the SuperLink at all (no run started, nothing trained). Every attempt
+        # is recorded. Any other failure, including a timeout, is final.
+        attempts = []
+        for attempt in range(1, 7):
+            code, out, err, timed, fault = run_flower_cli(
+                flower_cmd, a.timeout, command_prefix, run_dir, a.fault_stop_client, a.fault_when,
+                a.fault_target, watch=None if a.no_fail_fast else topology["container_ids"])
+            unreachable = ("Connection to the SuperLink is unavailable" in out + err
+                           and not list((run_dir / "clients").glob("site-*/events.jsonl")))
+            attempts.append({"attempt": attempt, "exit_code": code, "superlink_unreachable": unreachable})
+            if not unreachable or timed:
+                break
+            time.sleep(5)
+        evidence["cli_attempts"] = attempts
         evidence["exit_code"], evidence["timed_out"] = code, timed
-        if a.fault_stop_client is not None:
+        if a.fault_stop_client:
             evidence["fault_injection"] = fault
+        evidence["fail_fast"] = not a.no_fail_fast
+        if fault.get("participant_lost"):
+            evidence["participant_lost"] = fault["participant_lost"]
         for tmp in ("_cli.out", "_cli.err"):
             (run_dir / tmp).unlink(missing_ok=True)
         evidence["seconds"] = round(time.monotonic() - begun, 2)
@@ -174,6 +240,9 @@ def main():
         (run_dir / "flower_cli_stderr.log").write_text(err)
         evidence["final_model_exists"] = (folder / "final_model.pt").is_file()
         evidence["summary_exists"] = (folder / "flower_summary.json").is_file()
+        if fault.get("participant_lost"):
+            raise RuntimeError("Participant lost during the run (fail-fast): "
+                               + ", ".join(fault["participant_lost"]["services"]))
         if evidence["exit_code"] or not evidence["final_model_exists"] or not evidence["summary_exists"]:
             raise RuntimeError("Native Flower execution incomplete. Inspect real Docker and CLI logs")
         receipts = verify_receipts(run_dir, manifest, int(config["rounds"]),

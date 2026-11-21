@@ -79,7 +79,48 @@ def _v014(root: Path, hashes: dict):
                        'victim_error_server_only': _number(sc['baseline_error_if_victim_assumed_equal_to_aggregate']),
                        'victim_error_1_colluder': _number(sc['error_with_server_plus_1_colluder']),
                        'victim_error_n_minus_1': _number(sc['error_with_server_plus_2_colluders_n_minus_1'])},
-            'opendp_ledger_passed': d['opendp']['ledger_with_real_mechanism']['all_passed']}
+            'opendp_ledger_passed': d['opendp']['ledger_with_real_mechanism']['all_passed'],
+            'completion': _completion(root, hashes)}
+
+
+def _completion(root: Path, hashes: dict):
+    """v0.14 completion evidence (4-client SecAgg+, dropout matrix, MNIST matrix, fail-fast). None if absent."""
+    dm_rel = 'reports/results/secagg/v014_dropout_matrix/dropout_matrix_summary.json'
+    if not (root / dm_rel).exists():
+        return None
+    dm, hashes['v014_dropout_matrix'] = _load(root, dm_rel)
+    scen = []
+    for name, x in dm['scenarios'].items():
+        scen.append({'name': name, 'outcome': x['protocol_outcome'],
+                     'prediction_matches': x['prediction_matches_outcome'] is True,
+                     'within_quantisation_bound': (x.get('vs_independent_pytorch') or {}).get('within_tolerance')})
+    rep = dm.get('n4_two_round_replicates', {})
+    one = dm.get('n4_one_round_bound_check', {})
+    mnist = []
+    for run in ('run-mnist-full-iid', 'run-mnist-full-iid-seed2', 'run-mnist-full-iid-seed3', 'run-mnist-full-labelskew'):
+        par, hashes['v014_' + run + '_parity'] = _load(root, f'reports/results/native_flower/v014/{run}/flower_parity.json')
+        bw, hashes['v014_' + run + '_bitwise'] = _load(root, f'reports/results/native_flower/v014/{run}/bitwise_replay.json')
+        mnist.append({'name': run, 'parity_1e-5': par['verified_numerical_parity'] is True,
+                      'bitwise_flower_replay': bw['bitwise_reproduction_of_flower_run'] is True})
+    ff = []
+    for name in ('clientexec-before-run', 'clientexec-after-round1', 'supernode-after-round1'):
+        run, hashes['v014_ff_' + name] = _load(root, f'reports/results/native_flower/v014/fail_fast/{name}/server/flower_run.json')
+        ff.append({'name': name, 'exit_code': run['exit_code'], 'seconds': _number(run['seconds'])})
+    lira = {}
+    for key, rel in (('overfit', 'overfit_v2'), ('moderate', 'moderate')):
+        summ, hashes['v014_lira_' + key] = _load(root, f'reports/results/privacy/v014/lira/{rel}/summary.json')
+        lira[key] = [{'mode': m['mode'], 'target_epsilon': m['target_epsilon'],
+                      'achieved_epsilon': _number(m['achieved_epsilon_max']) if m['achieved_epsilon_max'] is not None else None,
+                      'heldout_accuracy': _number(m['heldout_accuracy'][0]), 'lira_auc': _number(m['lira_auc'][0]),
+                      'lira_tpr_at_fpr_0.01': _number(m['lira_tpr_at_fpr_0.01'][0]),
+                      'loss_threshold_auc': _number(m['loss_threshold_auc'][0])} for m in summ['modes']]
+    return {'dropout': scen, 'lira': lira,
+            'n4_one_round': {'max_abs_diff': _number(one.get('max_abs_diff')), 'bound': _number(one.get('bound')),
+                             'within_bound': one.get('within_bound') is True},
+            'n4_two_round': {'diffs': {k: _number(v) for k, v in rep.get('max_abs_diff_vs_independent_pytorch', {}).items()},
+                             'naive_tolerance': _number(rep.get('naive_two_round_tolerance_2x_bound')),
+                             'runs_above_naive_tolerance': rep.get('runs_above_naive_tolerance', [])},
+            'mnist_native': mnist, 'fail_fast': ff}
 
 
 def make_snapshot(root: Path = ROOT) -> dict:
@@ -147,7 +188,8 @@ def make_snapshot(root: Path = ROOT) -> dict:
             'source_sha256': hashes,
             'limitations': [
                 'Native flags mean the saved v0.14 evidence passed its own checks. They are not privacy certifications.',
-                'SecAgg+ gives no protection against a server that colludes with n-1 clients. n=3, t=2 halts on any dropout.',
+                'SecAgg+ gives no protection against a server that colludes with n-1 clients. A client that is absent at round start halts SecAgg+. A loss during a round is tolerated when surviving share holders are at least the threshold (5 Docker scenarios).',
+                'Two of four full-MNIST native runs fail the 1e-5 float64 parity gate (float32 reply-order aggregation). The 4-client original 2-round baseline fails the naive 2-round tolerance.',
                 'Opacus and OpenDP guarantees are formal for their stated mechanisms only. Measured membership AUC is near chance with or without DP.',
                 'All attack data are approved public digits; no institutional patient records.',
                 'Joint aggregate observer knows all contributor labels; site attribution is not established.',

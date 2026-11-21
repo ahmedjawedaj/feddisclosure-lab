@@ -1,0 +1,8 @@
+{
+  "perturbation_ulps_of_initial_weights": 1.0,
+  "rounds": 10,
+  "baseline_vs_saved_reference_max_abs_diff": 0.0,
+  "perturbed_vs_baseline_max_abs_diff": 0.002941697835922241,
+  "parity_tolerance_atol": 1e-05,
+  "interpretation": "perturbation of ~1 float32 ULP in the initial weights moves the final model by this much, so numerical parity at 1e-5 is not attainable for this setting"
+}

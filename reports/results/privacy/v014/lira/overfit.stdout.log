@@ -1,0 +1,5 @@
+/home/claude/venv/lib/python3.12/site-packages/opacus/privacy_engine.py:98: UserWarning: Secure RNG turned off. This is perfectly fine for experimentation as it allows for much faster training performance, but remember to turn it on and retrain one last time before production with ``secure_mode`` turned on.
+  warnings.warn(
+nonprivate None LiRA AUC 0.725  loss-threshold AUC 0.590  gap 0.079
+opacus_dp 8.0 LiRA AUC 0.510  loss-threshold AUC 0.567  gap 0.086
+opacus_dp 2.0 LiRA AUC 0.484  loss-threshold AUC 0.547  gap 0.054

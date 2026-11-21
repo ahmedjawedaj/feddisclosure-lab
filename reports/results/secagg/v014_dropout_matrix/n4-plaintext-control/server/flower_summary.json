@@ -1,0 +1,11 @@
+{
+  "engine": "Flower legacy ServerApp (plaintext default workflow control)",
+  "rounds": 2,
+  "clients_requested": 4,
+  "secure_aggregation_enabled": false,
+  "num_shares": 4,
+  "reconstruction_threshold": 2,
+  "train_metrics_aggregated": {},
+  "validation_metrics_aggregated": {},
+  "caveat": "No client metrics are exported in SecAgg+ mode; aggregate parameters only."
+}

@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "rule_under_test": "a mid-round loss is tolerated iff surviving share holders >= reconstruction threshold",
+  "upstream_constraint": "reconstruction_threshold must be less than num_shares (n4-t4 run refused by upstream)",
+  "earlier_claim_corrected": "The v0.14 'n=3, t=2 halts on dropout' runs stopped the client after round 1, so it was absent when round 2 began and had distributed no key shares. That halts SecAgg+ at any n or threshold. It was not a mid-protocol dropout.",
+  "scenarios": {
+    "n4-t2-kill1-r2": {
+      "runner_native_flower_verified": false,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": false,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 103.88,
+      "fault_injection": {
+        "fault_injected": true,
+        "fault_client": 3,
+        "fault_when": "during-round-2",
+        "fault_target": "clientexec",
+        "participant_lost": null,
+        "fault_verb": "kill",
+        "fault_utc": "2026-11-21T19:14:57.411679+00:00"
+      },
+      "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+      "secure_aggregation_enabled": true,
+      "num_shares": 4,
+      "reconstruction_threshold": 2,
+      "secure_aggregation_completed_lines": 2,
+      "aggregate_fit_lines": [
+        "received 4 results and 0 failures",
+        "received 3 results and 0 failures"
+      ],
+      "final_model_exists": true,
+      "n_clients": 4,
+      "victims_killed_in_round_2": [
+        3
+      ],
+      "results_per_round": [
+        4,
+        3
+      ],
+      "rounds_aggregated": 2,
+      "not_enough_shares_error": false,
+      "train_receipts_per_client": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 1
+      },
+      "model_written": true,
+      "protocol_outcome": "TOLERATED",
+      "prediction_surviving_holders_ge_threshold": true,
+      "prediction_matches_outcome": true,
+      "vs_independent_pytorch": {
+        "participation": [
+          [
+            0,
+            1,
+            2,
+            3
+          ],
+          [
+            0,
+            1,
+            2
+          ]
+        ],
+        "max_abs_diff": 3.776123373039342e-05,
+        "tolerance": 7.947285970052083e-05,
+        "within_tolerance": true
+      }
+    },
+    "n4-t3-kill1-r2": {
+      "runner_native_flower_verified": false,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": false,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 101.77,
+      "fault_injection": {
+        "fault_injected": true,
+        "fault_client": 3,
+        "fault_when": "during-round-2",
+        "fault_target": "clientexec",
+        "participant_lost": null,
+        "fault_verb": "kill",
+        "fault_utc": "2026-11-21T19:52:27.378113+00:00"
+      },
+      "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+      "secure_aggregation_enabled": true,
+      "num_shares": 4,
+      "reconstruction_threshold": 3,
+      "secure_aggregation_completed_lines": 2,
+      "aggregate_fit_lines": [
+        "received 4 results and 0 failures",
+        "received 3 results and 0 failures"
+      ],
+      "final_model_exists": true,
+      "n_clients": 4,
+      "victims_killed_in_round_2": [
+        3
+      ],
+      "results_per_round": [
+        4,
+        3
+      ],
+      "rounds_aggregated": 2,
+      "not_enough_shares_error": false,
+      "train_receipts_per_client": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 1
+      },
+      "model_written": true,
+      "protocol_outcome": "TOLERATED",
+      "prediction_surviving_holders_ge_threshold": true,
+      "prediction_matches_outcome": true,
+      "vs_independent_pytorch": {
+        "participation": [
+          [
+            0,
+            1,
+            2,
+            3
+          ],
+          [
+            0,
+            1,
+            2
+          ]
+        ],
+        "max_abs_diff": 4.248803946549362e-05,
+        "tolerance": 7.947285970052083e-05,
+        "within_tolerance": true
+      }
+    },
+    "n4-t2-kill2-r2": {
+      "runner_native_flower_verified": false,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": false,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 97.97,
+      "fault_injection": {
+        "fault_injected": true,
+        "fault_client": [
+          2,
+          3
+        ],
+        "fault_when": "during-round-2",
+        "fault_target": "clientexec",
+        "participant_lost": null,
+        "fault_verb": "kill",
+        "fault_utc": "2026-11-21T19:19:56.432481+00:00"
+      },
+      "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+      "secure_aggregation_enabled": true,
+      "num_shares": 4,
+      "reconstruction_threshold": 2,
+      "secure_aggregation_completed_lines": 2,
+      "aggregate_fit_lines": [
+        "received 4 results and 0 failures",
+        "received 2 results and 0 failures"
+      ],
+      "final_model_exists": true,
+      "n_clients": 4,
+      "victims_killed_in_round_2": [
+        2,
+        3
+      ],
+      "results_per_round": [
+        4,
+        2
+      ],
+      "rounds_aggregated": 2,
+      "not_enough_shares_error": false,
+      "train_receipts_per_client": {
+        "0": 2,
+        "1": 2,
+        "2": 1,
+        "3": 1
+      },
+      "model_written": true,
+      "protocol_outcome": "TOLERATED",
+      "prediction_surviving_holders_ge_threshold": true,
+      "prediction_matches_outcome": true,
+      "vs_independent_pytorch": {
+        "participation": [
+          [
+            0,
+            1,
+            2,
+            3
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "max_abs_diff": 4.604584535237641e-05,
+        "tolerance": 7.947285970052083e-05,
+        "within_tolerance": true
+      }
+    },
+    "n4-t3-kill2-r2": {
+      "runner_native_flower_verified": false,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": false,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 170.99,
+      "fault_injection": {
+        "fault_injected": true,
+        "fault_client": [
+          2,
+          3
+        ],
+        "fault_when": "during-round-2",
+        "fault_target": "clientexec",
+        "participant_lost": null,
+        "fault_verb": "kill",
+        "fault_utc": "2026-11-21T19:21:45.672536+00:00"
+      },
+      "workflow_engine": null,
+      "secure_aggregation_enabled": null,
+      "num_shares": null,
+      "reconstruction_threshold": 3,
+      "secure_aggregation_completed_lines": 1,
+      "aggregate_fit_lines": [
+        "received 4 results and 0 failures"
+      ],
+      "final_model_exists": false,
+      "n_clients": 4,
+      "victims_killed_in_round_2": [
+        2,
+        3
+      ],
+      "results_per_round": [
+        4
+      ],
+      "rounds_aggregated": 1,
+      "not_enough_shares_error": true,
+      "train_receipts_per_client": {
+        "0": 2,
+        "1": 2,
+        "2": 1,
+        "3": 2
+      },
+      "model_written": false,
+      "protocol_outcome": "HALTED",
+      "prediction_surviving_holders_ge_threshold": false,
+      "prediction_matches_outcome": true
+    },
+    "n3-t2-kill1-r2": {
+      "runner_native_flower_verified": false,
+      "docker_topology_native_verified": true,
+      "client_receipts_verified": false,
+      "flower_exit_code": 0,
+      "timed_out": false,
+      "seconds": 89.04,
+      "fault_injection": {
+        "fault_injected": true,
+        "fault_client": 2,
+        "fault_when": "during-round-2",
+        "fault_target": "clientexec",
+        "participant_lost": null,
+        "fault_verb": "kill",
+        "fault_utc": "2026-11-21T19:54:06.325257+00:00"
+      },
+      "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+      "secure_aggregation_enabled": true,
+      "num_shares": 3,
+      "reconstruction_threshold": 2,
+      "secure_aggregation_completed_lines": 2,
+      "aggregate_fit_lines": [
+        "received 3 results and 0 failures",
+        "received 2 results and 0 failures"
+      ],
+      "final_model_exists": true,
+      "n_clients": 3,
+      "victims_killed_in_round_2": [
+        2
+      ],
+      "results_per_round": [
+        3,
+        2
+      ],
+      "rounds_aggregated": 2,
+      "not_enough_shares_error": false,
+      "train_receipts_per_client": {
+        "0": 2,
+        "1": 2,
+        "2": 1
+      },
+      "model_written": true,
+      "protocol_outcome": "TOLERATED",
+      "prediction_surviving_holders_ge_threshold": true,
+      "prediction_matches_outcome": true,
+      "vs_independent_pytorch": {
+        "participation": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "max_abs_diff": 3.353791511004345e-05,
+        "tolerance": 5.9604644775390625e-05,
+        "within_tolerance": true
+      }
+    }
+  },
+  "n4_full_participation_equivalence": {
+    "secagg_vs_plaintext_control_max_abs_diff": 0.00018877285325542836,
+    "secagg_vs_independent_pytorch_max_abs_diff": 0.00018877285325542836,
+    "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+    "tolerance": 7.947285970052083e-05,
+    "within_tolerance": false,
+    "secagg_run_certified_native": true
+  },
+  "n4_one_round_bound_check": {
+    "max_abs_diff": 3.2218191441807376e-05,
+    "bound": 3.9736429850260414e-05,
+    "within_bound": true,
+    "note": "Single round, so the derived worst-case quantisation bound applies directly."
+  },
+  "n4_two_round_replicates": {
+    "max_abs_diff_vs_independent_pytorch": {
+      "baseline": 0.00018877285325542836,
+      "rep1": 4.076749604188523e-05,
+      "rep2": 3.7013546192621316e-05,
+      "rep3": 4.0656002685605236e-05
+    },
+    "naive_two_round_tolerance_2x_bound": 7.947285970052083e-05,
+    "runs_above_naive_tolerance": [
+      "baseline"
+    ],
+    "reading": "The naive 2 x one-round tolerance assumed round-1 error does not grow. It does (see error_propagation.json): training is non-smooth, so a bounded round-1 error can move the round-2 result by more. The strict naive check is therefore recorded as FAILED for the baseline run, not relaxed."
+  },
+  "error_propagation_study": {
+    "one_round_bound": 3.9736429850260414e-05,
+    "round1_secagg_vs_reference": 3.2218191441807376e-05,
+    "round1_error_after_one_exact_round2": 3.221631050109863e-05,
+    "growth_factor": 0.9999416186748986,
+    "two_round_secagg_vs_reference_observed": 0.00018877285325542836,
+    "naive_two_round_tolerance_2x_bound": 7.947285970052083e-05,
+    "conclusion_rule": "growth_factor > 1 means the training map expands quantisation error, so 2 x one-round bound is not a valid multi-round bound",
+    "relu_flip_study": {
+      "trials": 200,
+      "one_round_bound": 3.9736429850260414e-05,
+      "median": 3.608129918575287e-05,
+      "p95": 0.00020028818398714064,
+      "max": 0.00020766258239746094,
+      "fraction_above_2x_bound": 0.395,
+      "fraction_above_observed_baseline_1.89e-4": 0.28
+    }
+  }
+}

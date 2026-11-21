@@ -1,0 +1,15 @@
+{
+  "engine": "native_flower_upstream_SecAggPlusWorkflow",
+  "secure_aggregation_enabled": true,
+  "workflow_returned_normally": true,
+  "clients_requested": 4,
+  "num_shares": 4,
+  "reconstruction_threshold": 2,
+  "rounds_requested": 2,
+  "limitations": [
+    "Native execution requires Flower runtime and independent CI evidence",
+    "Successful workflow return alone does not validate cryptography or prove dropout resilience",
+    "With all-but-one collusion, aggregate-only confidentiality is not guaranteed",
+    "Simulation on one host is not separate-institution deployment"
+  ]
+}

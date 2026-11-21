@@ -206,7 +206,157 @@
       "victim_error_1_colluder": 0.018861835955332425,
       "victim_error_n_minus_1": 7.604485493839519e-05
     },
-    "opendp_ledger_passed": true
+    "opendp_ledger_passed": true,
+    "completion": {
+      "dropout": [
+        {
+          "name": "n4-t2-kill1-r2",
+          "outcome": "TOLERATED",
+          "prediction_matches": true,
+          "within_quantisation_bound": true
+        },
+        {
+          "name": "n4-t3-kill1-r2",
+          "outcome": "TOLERATED",
+          "prediction_matches": true,
+          "within_quantisation_bound": true
+        },
+        {
+          "name": "n4-t2-kill2-r2",
+          "outcome": "TOLERATED",
+          "prediction_matches": true,
+          "within_quantisation_bound": true
+        },
+        {
+          "name": "n4-t3-kill2-r2",
+          "outcome": "HALTED",
+          "prediction_matches": true,
+          "within_quantisation_bound": null
+        },
+        {
+          "name": "n3-t2-kill1-r2",
+          "outcome": "TOLERATED",
+          "prediction_matches": true,
+          "within_quantisation_bound": true
+        }
+      ],
+      "lira": {
+        "overfit": [
+          {
+            "mode": "nonprivate",
+            "target_epsilon": null,
+            "achieved_epsilon": null,
+            "heldout_accuracy": 0.9208333333333334,
+            "lira_auc": 0.7252854938271605,
+            "lira_tpr_at_fpr_0.01": 0.12152777777777779,
+            "loss_threshold_auc": 0.5902237654320988
+          },
+          {
+            "mode": "opacus_dp",
+            "target_epsilon": 8.0,
+            "achieved_epsilon": 7.407685550807447,
+            "heldout_accuracy": 0.5840277777777778,
+            "lira_auc": 0.5099961419753086,
+            "lira_tpr_at_fpr_0.01": 0.008333333333333333,
+            "loss_threshold_auc": 0.5671296296296295
+          },
+          {
+            "mode": "opacus_dp",
+            "target_epsilon": 2.0,
+            "achieved_epsilon": 1.8597973059844308,
+            "heldout_accuracy": 0.15208333333333335,
+            "lira_auc": 0.48386574074074074,
+            "lira_tpr_at_fpr_0.01": 0.008333333333333333,
+            "loss_threshold_auc": 0.5465007716049382
+          }
+        ],
+        "moderate": [
+          {
+            "mode": "nonprivate",
+            "target_epsilon": null,
+            "achieved_epsilon": null,
+            "heldout_accuracy": 0.9525,
+            "lira_auc": 0.5881836805555556,
+            "lira_tpr_at_fpr_0.01": 0.041249999999999995,
+            "loss_threshold_auc": 0.5251027777777778
+          },
+          {
+            "mode": "opacus_dp",
+            "target_epsilon": 8.0,
+            "achieved_epsilon": 7.004580955809041,
+            "heldout_accuracy": 0.871875,
+            "lira_auc": 0.5187302083333333,
+            "lira_tpr_at_fpr_0.01": 0.011875,
+            "loss_threshold_auc": 0.5243125
+          },
+          {
+            "mode": "opacus_dp",
+            "target_epsilon": 2.0,
+            "achieved_epsilon": 1.7589400591708086,
+            "heldout_accuracy": 0.5683333333333332,
+            "lira_auc": 0.5041416666666667,
+            "lira_tpr_at_fpr_0.01": 0.01125,
+            "loss_threshold_auc": 0.5184534722222223
+          }
+        ]
+      },
+      "n4_one_round": {
+        "max_abs_diff": 3.2218191441807376e-05,
+        "bound": 3.9736429850260414e-05,
+        "within_bound": true
+      },
+      "n4_two_round": {
+        "diffs": {
+          "baseline": 0.00018877285325542836,
+          "rep1": 4.076749604188523e-05,
+          "rep2": 3.7013546192621316e-05,
+          "rep3": 4.0656002685605236e-05
+        },
+        "naive_tolerance": 7.947285970052083e-05,
+        "runs_above_naive_tolerance": [
+          "baseline"
+        ]
+      },
+      "mnist_native": [
+        {
+          "name": "run-mnist-full-iid",
+          "parity_1e-5": true,
+          "bitwise_flower_replay": true
+        },
+        {
+          "name": "run-mnist-full-iid-seed2",
+          "parity_1e-5": true,
+          "bitwise_flower_replay": true
+        },
+        {
+          "name": "run-mnist-full-iid-seed3",
+          "parity_1e-5": false,
+          "bitwise_flower_replay": true
+        },
+        {
+          "name": "run-mnist-full-labelskew",
+          "parity_1e-5": false,
+          "bitwise_flower_replay": true
+        }
+      ],
+      "fail_fast": [
+        {
+          "name": "clientexec-before-run",
+          "exit_code": 125,
+          "seconds": 11.38
+        },
+        {
+          "name": "clientexec-after-round1",
+          "exit_code": 125,
+          "seconds": 28.31
+        },
+        {
+          "name": "supernode-after-round1",
+          "exit_code": 125,
+          "seconds": 29.69
+        }
+      ]
+    }
   },
   "heterogeneity": [
     {
@@ -352,11 +502,26 @@
     "v014_secagg": "6fa3e0a41c313ecc0881e873a7d557c3702f567a66428684108ca64cca33d989",
     "v014_opendp": "553cc19380832d8c03c73c5c6735d00fa5a81d368334f48496e12c4f4242ae2a",
     "v014_digits_dp": "66c43d7567b65bee22b9da347f76dbf064c8502241a6101929fe7cc74685f45c",
-    "v014_mnist_dp": "78fe41cfba3e82d8f060058d8cc2ec4cbfd3c7bb9bd3ee7f238fa97134b8c273"
+    "v014_mnist_dp": "78fe41cfba3e82d8f060058d8cc2ec4cbfd3c7bb9bd3ee7f238fa97134b8c273",
+    "v014_dropout_matrix": "e6bbf35f2882d5920c92ecb6afbbf26e6f2c0d4150fd951f434cd7f9b7fae3bd",
+    "v014_run-mnist-full-iid_parity": "ee0cac5568d85e0e2b467e30a10964ebb3551e62a813a4e46ff536eb1aeb084c",
+    "v014_run-mnist-full-iid_bitwise": "281927fa83478b4873010b508024889119bf89f739d38fba56f6cd71755a6bac",
+    "v014_run-mnist-full-iid-seed2_parity": "4987936655aa38d342a81b9773983b50a07e3253e449ab96dfe407b463a29df0",
+    "v014_run-mnist-full-iid-seed2_bitwise": "0cf708be7579655cff59f97e0d461f5e863d91a5ddbf767386cd40054c091a5e",
+    "v014_run-mnist-full-iid-seed3_parity": "83d87d2742372fbfd0ce747b5133645a03e19e5f99da3c03f55e77585872a4b3",
+    "v014_run-mnist-full-iid-seed3_bitwise": "d749069bb7a23b6fb1de11a12898a4622e3ddf9791d5c56d10221a86a9738876",
+    "v014_run-mnist-full-labelskew_parity": "b7ce8b5c5e3e30c55e7b30accd607bc25b75662ec106a80c9afc06a8862e6e15",
+    "v014_run-mnist-full-labelskew_bitwise": "96ccf6c1e212dc7b530e197aa4d147a330c639c05ae1baf708f17ff8ffb53205",
+    "v014_ff_clientexec-before-run": "d2a2174813174cff0faf4e5c6d215a8e00ccc3d8ff2ec6129c096eff071e8206",
+    "v014_ff_clientexec-after-round1": "a709d76c7062661d609714bab9e67f68f1d8545057a07d7fdfac5d6b7d54f37f",
+    "v014_ff_supernode-after-round1": "49eeeb8aff70e06ed840f05230a714d119b9273c52ae049050ba5cc384565da1",
+    "v014_lira_overfit": "001bdf3311c9bdfb56b936bf7af60483e84fa630fb861289a19e88a8ce705029",
+    "v014_lira_moderate": "c769038c0b81ea4532e5e411fb9be4f7be03176e9b9ffeb367c7892c0772ae7c"
   },
   "limitations": [
     "Native flags mean the saved v0.14 evidence passed its own checks. They are not privacy certifications.",
-    "SecAgg+ gives no protection against a server that colludes with n-1 clients. n=3, t=2 halts on any dropout.",
+    "SecAgg+ gives no protection against a server that colludes with n-1 clients. A client that is absent at round start halts SecAgg+. A loss during a round is tolerated when surviving share holders are at least the threshold (5 Docker scenarios).",
+    "Two of four full-MNIST native runs fail the 1e-5 float64 parity gate (float32 reply-order aggregation). The 4-client original 2-round baseline fails the naive 2-round tolerance.",
     "Opacus and OpenDP guarantees are formal for their stated mechanisms only. Measured membership AUC is near chance with or without DP.",
     "All attack data are approved public digits; no institutional patient records.",
     "Joint aggregate observer knows all contributor labels; site attribution is not established.",

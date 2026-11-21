@@ -1,0 +1,10 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "rounds": 10,
+  "last_round": {
+    "accuracy": 0.8635,
+    "loss": 0.4256812424659729,
+    "num-examples": 12000
+  },
+  "output": "reports/results/native_flower/v014/run-mnist-full-labelskew/torch_reference.json"
+}

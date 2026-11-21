@@ -1,0 +1,18 @@
+{
+  "one_round_bound": 3.9736429850260414e-05,
+  "round1_secagg_vs_reference": 3.2218191441807376e-05,
+  "round1_error_after_one_exact_round2": 3.221631050109863e-05,
+  "growth_factor": 0.9999416186748986,
+  "two_round_secagg_vs_reference_observed": 0.00018877285325542836,
+  "naive_two_round_tolerance_2x_bound": 7.947285970052083e-05,
+  "conclusion_rule": "growth_factor > 1 means the training map expands quantisation error, so 2 x one-round bound is not a valid multi-round bound",
+  "relu_flip_study": {
+    "trials": 200,
+    "one_round_bound": 3.9736429850260414e-05,
+    "median": 3.608129918575287e-05,
+    "p95": 0.00020028818398714064,
+    "max": 0.00020766258239746094,
+    "fraction_above_2x_bound": 0.395,
+    "fraction_above_observed_baseline_1.89e-4": 0.28
+  }
+}

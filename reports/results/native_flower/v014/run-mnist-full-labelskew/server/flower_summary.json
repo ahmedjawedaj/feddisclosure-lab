@@ -1,0 +1,80 @@
+{
+  "engine": "Flower ServerApp/ClientApp",
+  "rounds": 10,
+  "clients_requested": 3,
+  "train_metrics_aggregated": {
+    "1": {
+      "train_loss": 0.23440924588823686
+    },
+    "2": {
+      "train_loss": 0.155675863866151
+    },
+    "3": {
+      "train_loss": 0.1303288549471957
+    },
+    "4": {
+      "train_loss": 0.11422499958037709
+    },
+    "5": {
+      "train_loss": 0.10279622351168655
+    },
+    "6": {
+      "train_loss": 0.09395187138540981
+    },
+    "7": {
+      "train_loss": 0.08677155283900599
+    },
+    "8": {
+      "train_loss": 0.08083941231345913
+    },
+    "9": {
+      "train_loss": 0.07578714115622763
+    },
+    "10": {
+      "train_loss": 0.07142906531022163
+    }
+  },
+  "validation_metrics_aggregated": {
+    "1": {
+      "eval_acc": 0.4141666666666667,
+      "eval_loss": 1.40452166557312
+    },
+    "2": {
+      "eval_acc": 0.70875,
+      "eval_loss": 0.8565809562802315
+    },
+    "3": {
+      "eval_acc": 0.8139583333333332,
+      "eval_loss": 0.592934998969237
+    },
+    "4": {
+      "eval_acc": 0.8729166666666667,
+      "eval_loss": 0.4400640420615673
+    },
+    "5": {
+      "eval_acc": 0.8966666666666666,
+      "eval_loss": 0.3674971634646257
+    },
+    "6": {
+      "eval_acc": 0.9054166666666665,
+      "eval_loss": 0.32487927029530206
+    },
+    "7": {
+      "eval_acc": 0.9082291666666666,
+      "eval_loss": 0.30793900149563946
+    },
+    "8": {
+      "eval_acc": 0.9105208333333333,
+      "eval_loss": 0.29333345572153724
+    },
+    "9": {
+      "eval_acc": 0.9146874999999999,
+      "eval_loss": 0.28112964786589145
+    },
+    "10": {
+      "eval_acc": 0.9162499999999999,
+      "eval_loss": 0.2730786503603061
+    }
+  },
+  "caveat": "FedAvg reports weighted mean validation, not the worst individual institution. No raw samples exposed."
+}

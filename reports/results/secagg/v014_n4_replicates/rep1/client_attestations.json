@@ -1,0 +1,40 @@
+{
+  "client_attestations_verified": true,
+  "run_id": "131450708399106252",
+  "rounds": 2,
+  "sites": {
+    "0": {
+      "train_receipts": 2,
+      "evaluation_receipts": 0,
+      "trained_weight_sha256": [
+        "22a6998093476dec41ea2e4f62d72ee583e04c2b16559cbd1b5c7532b34cb474",
+        "6c8f11a50448f86c25f987a0ff8c46b56df9d8b167dac5c21bbd7c2635966161"
+      ]
+    },
+    "1": {
+      "train_receipts": 2,
+      "evaluation_receipts": 0,
+      "trained_weight_sha256": [
+        "5dd317d1ccab8739b0b76b63099665b342ec45c48967cd2d11e1f45df807065e",
+        "bcc3d2fa2ecfa60638fb91f8903ed05fef0a112f30af5503e652d46dc75e5b03"
+      ]
+    },
+    "2": {
+      "train_receipts": 2,
+      "evaluation_receipts": 0,
+      "trained_weight_sha256": [
+        "4834aa61acc24882024ba5fd197cf999d51fd3ef7a10aaf4e14d23cd944d39fe",
+        "85af305fed9307a91b533fcc73d5a815381b801597ccbafee092fe3e3b6bc77b"
+      ]
+    },
+    "3": {
+      "train_receipts": 2,
+      "evaluation_receipts": 0,
+      "trained_weight_sha256": [
+        "cae43e03398b3001e5203fbcdaff0112d9fab552e9f0759f8ea7c2ca6dcfaef1",
+        "6e02fe392837bf3b72a027c80f286758136dc0f82a303aef3dd60ee1c7262366"
+      ]
+    }
+  },
+  "limitation": "Receipts attest client processes; independent Docker inspect is required for filesystem isolation"
+}

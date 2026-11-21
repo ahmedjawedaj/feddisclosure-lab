@@ -1,0 +1,42 @@
+
+🌸 Heads up from Flower!
+
+We detected legacy usage of this command that relies on connection
+settings from your pyproject.toml.
+
+Flower will migrate any relevant settings to the new Flower config.
+
+Learn more: https://flower.ai/docs/framework/ref-flower-configuration.html
+
+✅ Migration completed successfully!
+
+Migrated SuperLink connections:
+  local-simulation (default)
+Flower App configuration warnings in '/tmp/alt-app/pyproject.toml':
+- Recommended property "description" missing in [project]
+- Recommended property "license" missing in [project]
+🎊 Successfully started run 12923752130738453976
+[92mINFO [0m:      Start `flwr-serverapp` process
+🎊 Successfully installed feddisclosure-secagg-research to /opt/fdl-flwr-home/.flwr/apps/feddisclosure.feddisclosure-secagg-research.0.1.0.6535d78d.
+[91mERROR [0m:     ServerApp raised an exception
+Traceback (most recent call last):
+  File "/python/venv/lib/python3.13/site-packages/flwr/server/serverapp/app.py", line 243, in run_serverapp
+    updated_context = run_(
+        grid=grid,
+    ...<2 lines>...
+        context=context,
+    )
+  File "/python/venv/lib/python3.13/site-packages/flwr/server/run_serverapp.py", line 61, in run
+    server_app(grid=grid, context=context)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/python/venv/lib/python3.13/site-packages/flwr/server/server_app.py", line 175, in __call__
+    self._main(grid, context)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/app/src/feddisclosure/training/secagg_server.py", line 43, in main
+    raise ValueError("SecAgg+ requires >=3 clients and 2 <= threshold <= num-shares=clients")
+ValueError: SecAgg+ requires >=3 clients and 2 <= threshold <= num-shares=clients
+[91mERROR [0m:     Exit Code: 201
+
+An unhandled exception occurred in the ServerApp.
+
+For more information, visit: <https://flower.ai/docs/framework/1.27/en/ref-exit-codes/201.html>
