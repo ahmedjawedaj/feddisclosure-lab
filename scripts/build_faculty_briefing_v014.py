@@ -95,7 +95,7 @@ card(s,'CONTAINERS','8','SuperLink, ServerApp, 3 SuperNodes, 3 ClientApps',.8,1.
 card(s,'FULL MNIST','60,000','10 rounds, 3 clients, parity within 1e-5',4.85,1.78)
 card(s,'GLOBAL ACCURACY','95.7%','Worst client 95.0%, 238 s',8.9,1.78)
 bullets(s,['Label skew and seed 3 on full MNIST FAILED the 1e-5 parity gate, kept as FAIL',
-           'Cause: Flower float32 reply-order aggregation, replayed bit for bit',
+           'Cause: Flower float32 reply-order aggregation. A new replay gate reproduces all 7 native runs bit for bit',
            'Lost clients now fail the run in seconds (exit 125), checked in 3 Docker scenarios',
            'Hosted CI has not run because no authorised remote exists'],x=.95,y=4.18,size=17,step=.55)
 
@@ -108,7 +108,7 @@ card(s,'SERVER + N-1','%.1e'%sa['victim_error_n_minus_1'],'Victim update recover
 bullets(s,['Aggregate-only protection is void if the server colludes with n-1 clients',
            'Corrected: a client lost during a round is tolerated when survivors are at least the threshold, 4 tolerated and 1 halted as predicted',
            'The earlier 3-client halt was a client absent at round start, not a mid-round dropout',
-           'The naive 2-round tolerance failed for one 4-client run, the 1-round bound holds'],x=.95,y=4.18,size=17,step=.62)
+           'The naive 2-round tolerance failed once, now replaced by a percentile rule from 300 simulated runs'],x=.95,y=4.18,size=17,step=.62)
 
 # 5
 s=slide('OpenDP releases with a real budget ledger','Laplace counts, pure epsilon-DP, persistent accounting.')
@@ -140,15 +140,26 @@ bullets(s,['DP simulation took about 9 times longer than non-private training on
 # 7b
 cp=V['completion']['lira']
 def lr(reg,mode,eps=None):
-    return [r for r in cp[reg] if r['mode']==mode and (eps is None or r['target_epsilon']==eps)][0]
-s=slide('A stronger attack finds leakage the old one missed','LiRA shadow models, 24 shadows, 8 target federations. An audit, not a guarantee.')
-card(s,'NO DP, OVERFIT','%.3f'%lr('overfit','nonprivate')['lira_auc'],'LiRA AUC (loss threshold %.3f)'%lr('overfit','nonprivate')['loss_threshold_auc'],.8,1.72)
-card(s,'DP EPS 8, OVERFIT','%.3f'%lr('overfit','opacus_dp',8.0)['lira_auc'],'Held-out accuracy %.2f'%lr('overfit','opacus_dp',8.0)['heldout_accuracy'],4.85,1.72)
-card(s,'DP EPS 8, MODERATE','%.3f'%lr('moderate','opacus_dp',8.0)['lira_auc'],'Held-out accuracy %.2f, no DP %.2f'%(lr('moderate','opacus_dp',8.0)['heldout_accuracy'],lr('moderate','nonprivate')['heldout_accuracy']),8.9,1.72)
-bullets(s,['Without DP, LiRA beats the loss threshold in both regimes',
-           'DP brings LiRA to about chance, but costs a lot of accuracy',
-           'On DP models LiRA did not beat the simple loss threshold in the overfit regime',
-           'Low attack AUC is not proof of privacy, epsilon is reported separately'],x=.95,y=4.18,size=17,step=.62)
+    return [r for r in cp[reg]['rows'] if r['mode']==mode and (eps is None or r['target_epsilon']==eps)][0]
+s=slide('A stronger attack finds leakage the old one missed','LiRA shadow models, 64 shadows, 16 targets, two public datasets. An audit, not a guarantee.')
+card(s,'NO DP, DIGITS','%.3f'%lr('overfit','nonprivate')['lira_auc'],'LiRA AUC (loss threshold %.3f)'%lr('overfit','nonprivate')['loss_threshold_auc'],.8,1.72)
+card(s,'NO DP, MNIST','%.3f'%lr('mnist_overfit','nonprivate')['lira_auc'],'LiRA AUC (loss threshold %.3f)'%lr('mnist_overfit','nonprivate')['loss_threshold_auc'],4.85,1.72)
+card(s,'DP EPS 6, MNIST','%.3f'%lr('mnist_overfit','opacus_dp',8.0)['lira_auc'],'Held-out accuracy %.2f, no DP %.2f'%(lr('mnist_overfit','opacus_dp',8.0)['heldout_accuracy'],lr('mnist_overfit','nonprivate')['heldout_accuracy']),8.9,1.72)
+bullets(s,['Without DP, LiRA beats the loss threshold on both datasets',
+           'DP at epsilon 2 brings LiRA to chance, but accuracy collapses',
+           'DP at epsilon 6 to 8 still leaves a detectable signal (AUC 0.54 to 0.58)',
+           'A smaller 24-shadow run understated this, so read any attack as a lower bound'],x=.95,y=4.18,size=17,step=.62)
+
+# 7c
+vw=V['completion']['view_comparison']['views']; fl=V['completion']['view_comparison']['floor_mean_image_mse']
+s=slide('What an observer can reconstruct','Update inversion, 4 clients, 10 seeds, labels known to the attacker. Lower error means more leakage.')
+card(s,'PLAINTEXT UPDATE','%.3f'%vw['plaintext_individual']['victim_mse'],'%.0f%% of images recognisable'%(100*vw['plaintext_individual']['recognisable_rate']),.8,1.72)
+card(s,'SECAGG+ AGGREGATE','%.3f'%vw['secagg_aggregate_maxw1000']['victim_mse'],'%.0f%% recognisable'%(100*vw['secagg_aggregate_maxw1000']['recognisable_rate']),4.85,1.72)
+card(s,'SECAGG+, N-1 COLLUDE','%.3f'%vw['secagg_collusion_n-1_maxw1000']['victim_mse'],'%.0f%% recognisable'%(100*vw['secagg_collusion_n-1_maxw1000']['recognisable_rate']),8.9,1.72)
+bullets(s,['SecAgg+ helps but still leaves over half the victim images recognisable in this favourable setup',
+           'With n-1 colluders the leakage returns to the plaintext level',
+           'DP noise (sigma 0.2 or more) pushed reconstruction past the no-information floor %.3f'%fl,
+           'Observation-model study with real quantiser arithmetic, not captured Docker traffic'],x=.95,y=4.18,size=17,step=.62)
 
 # 8
 s=slide('What this does and does not show','Keeping guarantees separate from attack success.')
@@ -160,10 +171,10 @@ bullets(s,['Epsilon and delta are properties of the mechanism, reported as achie
 # 9
 s=slide('Still open','Hard gates for the next sprint.')
 bullets(s,['Hosted CI on an authorised repository',
-           'A float32 replay parity gate to replace the 1e-5 float64 gate (not relaxed yet)',
-           'A defensible multi-round SecAgg+ error bound',
-           'Update inversion and SecAgg-view comparison on protected and unprotected models',
-           'MNIST licence is unresolved (no explicit licence from the originators)'],size=20,step=.9)
+           'MNIST licence is unresolved (no explicit licence from the originators)',
+           'A DP-aware inversion attacker and inversion on real multi-step Docker traffic',
+           'A proven multi-round SecAgg+ error bound (only a percentile rule exists)',
+           'More than 3 or 4 clients in Docker and a second dataset for the SecAgg runs'],size=20,step=.9)
 
 # 10
 s=slide('Feedback requested','Which direction is thesis-worthy?')

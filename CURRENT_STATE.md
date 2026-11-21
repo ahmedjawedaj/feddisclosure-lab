@@ -1,16 +1,17 @@
-## 2026-11-22 v0.14 completion run (cloud Docker, see `docs/v0.14-privacy-secagg-results.md`)
+## 2026-11-22 v0.14 remaining items executed (see `docs/v0.14-privacy-secagg-results.md` sections 1, 2, 6, 7)
 
-Executed in the cloud container: 4-client SecAgg+ in Docker, a five-scenario mid-round dropout matrix,
-fail-fast fault handling, native full-MNIST label skew plus two extra IID seeds, and a LiRA shadow-model
-membership study (results section in the results doc).
-Corrections and kept negatives: the earlier n=3 "halts on dropout" claim is withdrawn (it was a client absent
-at round start). Dropout is tolerated when surviving share holders are at least the threshold, confirmed in
-4 tolerated and 1 halted scenario. The naive 2-round SecAgg+ tolerance FAILED for the original 4-client baseline
-(1.9e-4 against 7.9e-5) and is explained by non-smooth training amplifying round-1 quantisation error. Two of
-three extra MNIST native runs FAILED 1e-5 weight parity because of Flower float32 reply-order aggregation. Both
-stay FAIL and are reproduced bit for bit by a float32 replay.
-Still open: hosted CI (BLOCKED, needs an authorised repository), MNIST licence unresolved (no explicit licence from the originators, mirrors disagree), SecAgg-view
-disclosure comparison not run, no proven multi-round SecAgg+ error bound.
+Executed in the cloud container since the completion run: protected versus unprotected update-inversion
+comparison (plaintext, SecAgg+ aggregate with upstream quantiser arithmetic, n-1 collusion, DP views, 10 seeds),
+a Monte Carlo acceptance rule for multi-round SecAgg+ error (300 runs), a float32 replay parity gate (7 of 7 native
+runs pass, the float64 1e-5 gate still passes 5 of 7), LiRA at 64 shadows and 16 targets on Digits and on MNIST,
+the MNIST file provenance check, and a static workflow check.
+Results that matter: aggregate-only SecAgg+ still leaves 55 to 59% of victim images recognisable in the favourable
+single-step attack, n-1 collusion returns plaintext-level leakage, DP noise stopped this attack. LiRA at epsilon
+6 to 8 still shows a detectable signal (AUC 0.54 to 0.58), and the earlier 24-shadow run understated it.
+Kept as FAIL: float64 parity on label skew and seed 3, the naive 2-round tolerance on the original 4-client run.
+Still open: hosted CI (BLOCKED, the GitHub token in this environment is invalid and no authorised repository
+exists), MNIST licence unresolved (no explicit licence from the originators), no proven multi-round SecAgg+ bound,
+no DP-aware inversion attacker, no inversion on captured Docker traffic, Docker topology tested at 3 and 4 clients only.
 
 ## 2026-11-21 v0.14 Phase 2 and 3 executed (see `docs/v0.14-privacy-secagg-results.md`)
 

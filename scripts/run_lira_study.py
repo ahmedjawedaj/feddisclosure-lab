@@ -22,13 +22,15 @@ from feddisclosure.training.task import evaluate_local
 
 ROOT = Path(__file__).resolve().parents[1]
 REGIMES = {
-    "overfit": dict(pool=360, rounds=40, local_epochs=10, batch_size=32, lr=0.15),
-    "moderate": dict(pool=1200, rounds=20, local_epochs=5, batch_size=32, lr=0.15),
+    "overfit": dict(pool=360, rounds=40, local_epochs=10, batch_size=32, lr=0.15, dataset="sklearn_digits"),
+    "moderate": dict(pool=1200, rounds=20, local_epochs=5, batch_size=32, lr=0.15, dataset="sklearn_digits"),
+    # Second public dataset: 28x28 MNIST subset. Small pool and many local epochs so the non-private model overfits.
+    "mnist_overfit": dict(pool=600, rounds=10, local_epochs=8, batch_size=32, lr=0.1, dataset="mnist"),
 }
 
 
-def _pool(n, seed):
-    x, y, _ = _source("sklearn_digits", ROOT / "data/training/_lira_cache")
+def _pool(n, seed, dataset="sklearn_digits"):
+    x, y, _ = _source(dataset, ROOT / "data/training/_lira_cache")
     idx = np.random.default_rng(seed).permutation(len(y))[:n]
     return x[idx], y[idx]
 
@@ -36,7 +38,7 @@ def _pool(n, seed):
 def _one(args):
     regime, mode, eps, model_id, seed = args
     cfg = REGIMES[regime]
-    x, y = _pool(cfg["pool"], seed)
+    x, y = _pool(cfg["pool"], seed, cfg["dataset"])
     rng = np.random.default_rng(10_000 * seed + 7919 * model_id + (0 if mode == "nonprivate" else 1))
     member = np.zeros(len(y), dtype=bool)
     member[rng.permutation(len(y))[: len(y) // 2]] = True
@@ -44,7 +46,7 @@ def _one(args):
     sites = [(x[p], y[p]) for p in np.array_split(rng.permutation(idx), 3)]
     start = time.perf_counter()
     model, eps_list = train_federation(
-        sites, features=64, classes=10, mode=mode, rounds=cfg["rounds"], local_epochs=cfg["local_epochs"],
+        sites, features=x.shape[1], classes=10, mode=mode, rounds=cfg["rounds"], local_epochs=cfg["local_epochs"],
         batch_size=cfg["batch_size"], lr=cfg["lr"], seed=seed * 1000 + model_id, target_epsilon=eps)
     phi = logit_confidence(model, x, y)
     return {"regime": regime, "mode": mode, "target_epsilon": eps, "model_id": model_id,

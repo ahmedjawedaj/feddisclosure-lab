@@ -1,0 +1,36 @@
+{
+  "rounds": [
+    {
+      "round": 1,
+      "client_hashes_match_receipts": true,
+      "reply_orders_consistent_with_next_round_receipt": [
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          2,
+          1,
+          0
+        ]
+      ],
+      "order_used": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "round": 2,
+      "client_hashes_match_receipts": true,
+      "final_model_bitwise_identical_for_order": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "all_client_hashes_match": true,
+  "bitwise_reproduction_of_flower_run": true
+}

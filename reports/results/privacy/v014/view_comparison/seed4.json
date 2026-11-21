@@ -1,0 +1,94 @@
+{
+ "seed": 4,
+ "floor": {
+  "mean_image_mse": 0.07330327481031418,
+  "random_digits_mse": 0.07799530029296875
+ },
+ "views": {
+  "plaintext_individual": {
+   "victim_mse": 5.354695176151836e-07,
+   "victim_rate_mse_below_0_05": 1.0,
+   "seconds": 0.4
+  },
+  "secagg_aggregate_maxw1000": {
+   "victim_mse": 0.04839860857464373,
+   "victim_rate_mse_below_0_05": 0.5,
+   "seconds": 0.3
+  },
+  "secagg_collusion_n-1_maxw1000": {
+   "victim_mse": 0.0068814458209089935,
+   "victim_rate_mse_below_0_05": 1.0,
+   "seconds": 0.3
+  },
+  "secagg_aggregate_maxw16": {
+   "victim_mse": 0.05414804187603295,
+   "victim_rate_mse_below_0_05": 0.625,
+   "seconds": 0.4
+  },
+  "secagg_collusion_n-1_maxw16": {
+   "victim_mse": 1.2786521565999465e-06,
+   "victim_rate_mse_below_0_05": 1.0,
+   "seconds": 0.5
+  },
+  "dp0.05_individual": {
+   "victim_mse": 0.09599305223673582,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.4
+  },
+  "dp0.05_secagg_aggregate_maxw16": {
+   "victim_mse": 0.13564464915543795,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.3
+  },
+  "dp0.05_secagg_collusion_maxw16": {
+   "victim_mse": 0.09598108753561974,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.4
+  },
+  "dp0.2_individual": {
+   "victim_mse": 0.1913091540336609,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.4
+  },
+  "dp0.2_secagg_aggregate_maxw16": {
+   "victim_mse": 0.20403609983623028,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.4
+  },
+  "dp0.2_secagg_collusion_maxw16": {
+   "victim_mse": 0.19099554419517517,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.3
+  },
+  "dp0.5_individual": {
+   "victim_mse": 0.29557726718485355,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.4
+  },
+  "dp0.5_secagg_aggregate_maxw16": {
+   "victim_mse": 0.27623274736106396,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.5
+  },
+  "dp0.5_secagg_collusion_maxw16": {
+   "victim_mse": 0.2921320218592882,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.3
+  },
+  "dp1_individual": {
+   "victim_mse": 0.3321971707046032,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.3
+  },
+  "dp1_secagg_aggregate_maxw16": {
+   "victim_mse": 0.30329217575490475,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.3
+  },
+  "dp1_secagg_collusion_maxw16": {
+   "victim_mse": 0.3289067856967449,
+   "victim_rate_mse_below_0_05": 0.0,
+   "seconds": 0.3
+  }
+ }
+}

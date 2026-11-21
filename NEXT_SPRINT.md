@@ -7,9 +7,13 @@
 - [x] Native Docker non-IID MNIST run and two extra seeds (executed, 2 of 3 failed the 1e-5 parity gate, explained by float32 replay).
 - [x] Stronger attack: LiRA shadow-model membership inference on non-private vs Opacus DP models (see results doc).
 - [x] Fail-fast for lost participants (exit 125, validated in 3 Docker scenarios).
-- [ ] Replace the 1e-5 float64 parity gate with a float32 Flower-arithmetic replay gate (new gate, do not relax the old one silently).
-- [ ] Update-inversion and SecAgg-view disclosure comparison against protected vs unprotected models.
-- [ ] A defensible multi-round SecAgg+ error bound or an explicit statistical acceptance rule.
+- [x] Float32 Flower-arithmetic replay gate added beside the float64 gate (7 of 7 native runs pass it).
+- [x] Update-inversion and SecAgg-view comparison against protected vs unprotected observers (10 seeds).
+- [x] Statistical acceptance rule for multi-round SecAgg+ error (Monte Carlo, 300 runs). A proven bound is still open.
+- [x] LiRA at 64 shadows and 16 targets on Digits and MNIST.
+- [ ] DP-aware inversion attacker, and inversion on captured multi-step Docker traffic.
+- [ ] Docker topologies beyond 4 clients and a second dataset for the SecAgg experiments.
+- [ ] Hosted CI (needs an authorised repository). MNIST licence stays unresolved.
 - [ ] Hosted CI on an authorized private repository.
 
 ## Immediate priority following v0.13.0

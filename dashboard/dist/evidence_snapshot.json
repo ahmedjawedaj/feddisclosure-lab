@@ -241,64 +241,200 @@
         }
       ],
       "lira": {
-        "overfit": [
-          {
-            "mode": "nonprivate",
-            "target_epsilon": null,
-            "achieved_epsilon": null,
-            "heldout_accuracy": 0.9208333333333334,
-            "lira_auc": 0.7252854938271605,
-            "lira_tpr_at_fpr_0.01": 0.12152777777777779,
-            "loss_threshold_auc": 0.5902237654320988
+        "overfit": {
+          "shadows": 64,
+          "targets": 16,
+          "rows": [
+            {
+              "mode": "nonprivate",
+              "target_epsilon": null,
+              "achieved_epsilon": null,
+              "heldout_accuracy": 0.921875,
+              "lira_auc": 0.7415856481481481,
+              "lira_auc_ci_low": 0.7298728273933942,
+              "lira_tpr_at_fpr_0.01": 0.13090277777777776,
+              "loss_threshold_auc": 0.5837596450617284
+            },
+            {
+              "mode": "opacus_dp",
+              "target_epsilon": 8.0,
+              "achieved_epsilon": 7.407685550807447,
+              "heldout_accuracy": 0.5854166666666667,
+              "lira_auc": 0.5432291666666667,
+              "lira_auc_ci_low": 0.5291110015262407,
+              "lira_tpr_at_fpr_0.01": 0.022916666666666665,
+              "loss_threshold_auc": 0.5644695216049382
+            },
+            {
+              "mode": "opacus_dp",
+              "target_epsilon": 2.0,
+              "achieved_epsilon": 1.8597973059844308,
+              "heldout_accuracy": 0.1954861111111111,
+              "lira_auc": 0.5181172839506173,
+              "lira_auc_ci_low": 0.5000821503702483,
+              "lira_tpr_at_fpr_0.01": 0.01215277777777778,
+              "loss_threshold_auc": 0.5250655864197531
+            }
+          ]
+        },
+        "moderate": {
+          "shadows": 64,
+          "targets": 16,
+          "rows": [
+            {
+              "mode": "nonprivate",
+              "target_epsilon": null,
+              "achieved_epsilon": null,
+              "heldout_accuracy": 0.9438541666666667,
+              "lira_auc": 0.6054881944444445,
+              "lira_auc_ci_low": 0.595836624247745,
+              "lira_tpr_at_fpr_0.01": 0.050729166666666665,
+              "loss_threshold_auc": 0.5190899305555556
+            },
+            {
+              "mode": "opacus_dp",
+              "target_epsilon": 8.0,
+              "achieved_epsilon": 7.004580955809041,
+              "heldout_accuracy": 0.8660416666666666,
+              "lira_auc": 0.5372559027777778,
+              "lira_auc_ci_low": 0.528160127454576,
+              "lira_tpr_at_fpr_0.01": 0.017395833333333333,
+              "loss_threshold_auc": 0.5276454861111111
+            },
+            {
+              "mode": "opacus_dp",
+              "target_epsilon": 2.0,
+              "achieved_epsilon": 1.7589400591708086,
+              "heldout_accuracy": 0.5816666666666667,
+              "lira_auc": 0.5081300347222222,
+              "lira_auc_ci_low": 0.49913570121134704,
+              "lira_tpr_at_fpr_0.01": 0.011041666666666667,
+              "loss_threshold_auc": 0.5209420138888888
+            }
+          ]
+        },
+        "mnist_overfit": {
+          "shadows": 64,
+          "targets": 16,
+          "rows": [
+            {
+              "mode": "nonprivate",
+              "target_epsilon": null,
+              "achieved_epsilon": null,
+              "heldout_accuracy": 0.8385416666666667,
+              "lira_auc": 0.8233381944444444,
+              "lira_auc_ci_low": 0.8171273461061511,
+              "lira_tpr_at_fpr_0.01": 0.2325,
+              "loss_threshold_auc": 0.6421944444444444
+            },
+            {
+              "mode": "opacus_dp",
+              "target_epsilon": 8.0,
+              "achieved_epsilon": 6.008490060397648,
+              "heldout_accuracy": 0.5547916666666666,
+              "lira_auc": 0.5748659722222222,
+              "lira_auc_ci_low": 0.5640869846104839,
+              "lira_tpr_at_fpr_0.01": 0.0225,
+              "loss_threshold_auc": 0.5562868055555554
+            },
+            {
+              "mode": "opacus_dp",
+              "target_epsilon": 2.0,
+              "achieved_epsilon": 1.5222097873663565,
+              "heldout_accuracy": 0.20895833333333336,
+              "lira_auc": 0.5035736111111111,
+              "lira_auc_ci_low": 0.491767757838493,
+              "lira_tpr_at_fpr_0.01": 0.014583333333333334,
+              "loss_threshold_auc": 0.5236763888888889
+            }
+          ]
+        }
+      },
+      "view_comparison": {
+        "views": {
+          "plaintext_individual": {
+            "victim_mse": 0.01320345361477493,
+            "recognisable_rate": 0.9375
           },
-          {
-            "mode": "opacus_dp",
-            "target_epsilon": 8.0,
-            "achieved_epsilon": 7.407685550807447,
-            "heldout_accuracy": 0.5840277777777778,
-            "lira_auc": 0.5099961419753086,
-            "lira_tpr_at_fpr_0.01": 0.008333333333333333,
-            "loss_threshold_auc": 0.5671296296296295
+          "secagg_aggregate_maxw1000": {
+            "victim_mse": 0.05709325823700055,
+            "recognisable_rate": 0.55
           },
-          {
-            "mode": "opacus_dp",
-            "target_epsilon": 2.0,
-            "achieved_epsilon": 1.8597973059844308,
-            "heldout_accuracy": 0.15208333333333335,
-            "lira_auc": 0.48386574074074074,
-            "lira_tpr_at_fpr_0.01": 0.008333333333333333,
-            "loss_threshold_auc": 0.5465007716049382
+          "secagg_collusion_n-1_maxw1000": {
+            "victim_mse": 0.023051246869727038,
+            "recognisable_rate": 0.9125
+          },
+          "secagg_aggregate_maxw16": {
+            "victim_mse": 0.05864877204876393,
+            "recognisable_rate": 0.5875
+          },
+          "secagg_collusion_n-1_maxw16": {
+            "victim_mse": 0.015435908249077812,
+            "recognisable_rate": 0.9125
+          },
+          "dp0.05_individual": {
+            "victim_mse": 0.10104784867726266,
+            "recognisable_rate": 0.1625
+          },
+          "dp0.05_secagg_aggregate_maxw16": {
+            "victim_mse": 0.14722668174654246,
+            "recognisable_rate": 0.0125
+          },
+          "dp0.05_secagg_collusion_maxw16": {
+            "victim_mse": 0.10244896071963012,
+            "recognisable_rate": 0.1375
+          },
+          "dp0.2_individual": {
+            "victim_mse": 0.17857453981414437,
+            "recognisable_rate": 0.0
+          },
+          "dp0.2_secagg_aggregate_maxw16": {
+            "victim_mse": 0.2274541577324271,
+            "recognisable_rate": 0.0
+          },
+          "dp0.2_secagg_collusion_maxw16": {
+            "victim_mse": 0.17748640617355704,
+            "recognisable_rate": 0.0
+          },
+          "dp0.5_individual": {
+            "victim_mse": 0.26829838566482067,
+            "recognisable_rate": 0.0
+          },
+          "dp0.5_secagg_aggregate_maxw16": {
+            "victim_mse": 0.2861537076532841,
+            "recognisable_rate": 0.0
+          },
+          "dp0.5_secagg_collusion_maxw16": {
+            "victim_mse": 0.26955151837319136,
+            "recognisable_rate": 0.0
+          },
+          "dp1_individual": {
+            "victim_mse": 0.3165443614125252,
+            "recognisable_rate": 0.0
+          },
+          "dp1_secagg_aggregate_maxw16": {
+            "victim_mse": 0.3120051516219974,
+            "recognisable_rate": 0.0
+          },
+          "dp1_secagg_collusion_maxw16": {
+            "victim_mse": 0.3186656903475523,
+            "recognisable_rate": 0.0
           }
-        ],
-        "moderate": [
-          {
-            "mode": "nonprivate",
-            "target_epsilon": null,
-            "achieved_epsilon": null,
-            "heldout_accuracy": 0.9525,
-            "lira_auc": 0.5881836805555556,
-            "lira_tpr_at_fpr_0.01": 0.041249999999999995,
-            "loss_threshold_auc": 0.5251027777777778
-          },
-          {
-            "mode": "opacus_dp",
-            "target_epsilon": 8.0,
-            "achieved_epsilon": 7.004580955809041,
-            "heldout_accuracy": 0.871875,
-            "lira_auc": 0.5187302083333333,
-            "lira_tpr_at_fpr_0.01": 0.011875,
-            "loss_threshold_auc": 0.5243125
-          },
-          {
-            "mode": "opacus_dp",
-            "target_epsilon": 2.0,
-            "achieved_epsilon": 1.7589400591708086,
-            "heldout_accuracy": 0.5683333333333332,
-            "lira_auc": 0.5041416666666667,
-            "lira_tpr_at_fpr_0.01": 0.01125,
-            "loss_threshold_auc": 0.5184534722222223
-          }
-        ]
+        },
+        "floor_mean_image_mse": 0.07272997498512268,
+        "seeds": 10
+      },
+      "multiround_rule": {
+        "q99": 0.00020863860845565796,
+        "median": 4.2498111724853516e-05,
+        "fraction_above_naive_2x": 0.38666666666666666,
+        "trials": 300,
+        "docker_runs_accepted": true
+      },
+      "replay_gate": {
+        "passes": 7,
+        "float64_passes": 5,
+        "runs": 7
       },
       "n4_one_round": {
         "max_abs_diff": 3.2218191441807376e-05,
@@ -515,8 +651,12 @@
     "v014_ff_clientexec-before-run": "d2a2174813174cff0faf4e5c6d215a8e00ccc3d8ff2ec6129c096eff071e8206",
     "v014_ff_clientexec-after-round1": "a709d76c7062661d609714bab9e67f68f1d8545057a07d7fdfac5d6b7d54f37f",
     "v014_ff_supernode-after-round1": "49eeeb8aff70e06ed840f05230a714d119b9273c52ae049050ba5cc384565da1",
-    "v014_lira_overfit": "001bdf3311c9bdfb56b936bf7af60483e84fa630fb861289a19e88a8ce705029",
-    "v014_lira_moderate": "c769038c0b81ea4532e5e411fb9be4f7be03176e9b9ffeb367c7892c0772ae7c"
+    "v014_lira_overfit": "27403b168cae3fc969535eaf59f491ecff16aa927499c22be63c91ae955831ee",
+    "v014_lira_moderate": "4ab7f9eb80ba638f8eb556abef5dcca82144466c98d4790c541940416d78ba8b",
+    "v014_lira_mnist_overfit": "2c6980b7fad561e24c6ec99b57efe96ed379ba76358b2e0dde7e78de9c6af5fd",
+    "v014_view_comparison": "0b73266a47aed0f24d2a9d3848dbe3cc8ad4e23e114062ebf8b01475d5bf8d00",
+    "v014_mc_rule": "bed58228fcd2bf9ec665524410d7a9a86a7f6e6d90717e64827719ceb247b013",
+    "v014_replay_gate": "ed7759dae7751c942ad9567b50bcae1ce80a6b5db5b9b740064af21ead1c607f"
   },
   "limitations": [
     "Native flags mean the saved v0.14 evidence passed its own checks. They are not privacy certifications.",

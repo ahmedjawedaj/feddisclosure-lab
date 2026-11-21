@@ -107,14 +107,27 @@ def _completion(root: Path, hashes: dict):
         run, hashes['v014_ff_' + name] = _load(root, f'reports/results/native_flower/v014/fail_fast/{name}/server/flower_run.json')
         ff.append({'name': name, 'exit_code': run['exit_code'], 'seconds': _number(run['seconds'])})
     lira = {}
-    for key, rel in (('overfit', 'overfit_v2'), ('moderate', 'moderate')):
+    for key, rel in (('overfit', 'large_overfit'), ('moderate', 'large_moderate'), ('mnist_overfit', 'large_mnist_overfit')):
         summ, hashes['v014_lira_' + key] = _load(root, f'reports/results/privacy/v014/lira/{rel}/summary.json')
-        lira[key] = [{'mode': m['mode'], 'target_epsilon': m['target_epsilon'],
-                      'achieved_epsilon': _number(m['achieved_epsilon_max']) if m['achieved_epsilon_max'] is not None else None,
-                      'heldout_accuracy': _number(m['heldout_accuracy'][0]), 'lira_auc': _number(m['lira_auc'][0]),
-                      'lira_tpr_at_fpr_0.01': _number(m['lira_tpr_at_fpr_0.01'][0]),
-                      'loss_threshold_auc': _number(m['loss_threshold_auc'][0])} for m in summ['modes']]
+        lira[key] = {'shadows': summ['shadows'], 'targets': summ['targets'], 'rows': [
+            {'mode': m['mode'], 'target_epsilon': m['target_epsilon'],
+             'achieved_epsilon': _number(m['achieved_epsilon_max']) if m['achieved_epsilon_max'] is not None else None,
+             'heldout_accuracy': _number(m['heldout_accuracy'][0]), 'lira_auc': _number(m['lira_auc'][0]),
+             'lira_auc_ci_low': _number(m['lira_auc'][1]),
+             'lira_tpr_at_fpr_0.01': _number(m['lira_tpr_at_fpr_0.01'][0]),
+             'loss_threshold_auc': _number(m['loss_threshold_auc'][0])} for m in summ['modes']]}
+    vc, hashes['v014_view_comparison'] = _load(root, 'reports/results/privacy/v014/view_comparison/summary.json')
+    views = {k: {'victim_mse': _number(v['victim_mse'][0]), 'recognisable_rate': _number(v['rate_mse_below_0_05'][0])}
+             for k, v in vc['views'].items()}
+    mc, hashes['v014_mc_rule'] = _load(root, 'reports/results/secagg/v014_dropout_matrix/multiround_acceptance_rule.json')
+    mcc = mc['cases']['n4_2_rounds']
+    gate, hashes['v014_replay_gate'] = _load(root, 'reports/results/native_flower/v014/replay_gate_summary.json')
     return {'dropout': scen, 'lira': lira,
+            'view_comparison': {'views': views, 'floor_mean_image_mse': _number(vc['floor']['mean_image_mse'][0]), 'seeds': vc['seeds']},
+            'multiround_rule': {'q99': _number(mcc['mc_quantiles']['0.99']), 'median': _number(mcc['mc_quantiles']['0.5']),
+                                'fraction_above_naive_2x': _number(mcc['fraction_above_naive_2x_bound']), 'trials': mc['trials'],
+                                'docker_runs_accepted': all(r['accepted'] for r in mcc['docker_runs'].values())},
+            'replay_gate': {'passes': gate['replay_gate_passes'], 'float64_passes': gate['float64_gate_passes'], 'runs': gate['runs_total']},
             'n4_one_round': {'max_abs_diff': _number(one.get('max_abs_diff')), 'bound': _number(one.get('bound')),
                              'within_bound': one.get('within_bound') is True},
             'n4_two_round': {'diffs': {k: _number(v) for k, v in rep.get('max_abs_diff_vs_independent_pytorch', {}).items()},

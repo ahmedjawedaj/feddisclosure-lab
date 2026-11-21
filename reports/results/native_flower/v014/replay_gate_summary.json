@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "runs": {
+    "run-iid-d": {
+      "replay_gate_pass": true,
+      "checks": {
+        "runner_native_verified": true,
+        "topology_native_verified": true,
+        "client_attestation_verified": true,
+        "client_hashes_all_rounds_reproduced": true,
+        "final_model_bitwise_reproduced": true
+      },
+      "float64_parity_1e-5_pass": true,
+      "float64_parity_max_layer_abs_diff": 2.9802322387695312e-08
+    },
+    "run-iid-repeat": {
+      "replay_gate_pass": true,
+      "checks": {
+        "runner_native_verified": true,
+        "topology_native_verified": true,
+        "client_attestation_verified": true,
+        "client_hashes_all_rounds_reproduced": true,
+        "final_model_bitwise_reproduced": true
+      },
+      "float64_parity_1e-5_pass": true,
+      "float64_parity_max_layer_abs_diff": 2.9802322387695312e-08
+    },
+    "run-noniid-labelskew": {
+      "replay_gate_pass": true,
+      "checks": {
+        "runner_native_verified": true,
+        "topology_native_verified": true,
+        "client_attestation_verified": true,
+        "client_hashes_all_rounds_reproduced": true,
+        "final_model_bitwise_reproduced": true
+      },
+      "float64_parity_1e-5_pass": true,
+      "float64_parity_max_layer_abs_diff": 2.9802322387695312e-08
+    },
+    "run-mnist-full-iid": {
+      "replay_gate_pass": true,
+      "checks": {
+        "runner_native_verified": true,
+        "topology_native_verified": true,
+        "client_attestation_verified": true,
+        "client_hashes_all_rounds_reproduced": true,
+        "final_model_bitwise_reproduced": true
+      },
+      "float64_parity_1e-5_pass": true,
+      "float64_parity_max_layer_abs_diff": 7.82310962677002e-07
+    },
+    "run-mnist-full-iid-seed2": {
+      "replay_gate_pass": true,
+      "checks": {
+        "runner_native_verified": true,
+        "topology_native_verified": true,
+        "client_attestation_verified": true,
+        "client_hashes_all_rounds_reproduced": true,
+        "final_model_bitwise_reproduced": true
+      },
+      "float64_parity_1e-5_pass": true,
+      "float64_parity_max_layer_abs_diff": 5.364418029785156e-07
+    },
+    "run-mnist-full-iid-seed3": {
+      "replay_gate_pass": true,
+      "checks": {
+        "runner_native_verified": true,
+        "topology_native_verified": true,
+        "client_attestation_verified": true,
+        "client_hashes_all_rounds_reproduced": true,
+        "final_model_bitwise_reproduced": true
+      },
+      "float64_parity_1e-5_pass": false,
+      "float64_parity_max_layer_abs_diff": 0.012978928163647652
+    },
+    "run-mnist-full-labelskew": {
+      "replay_gate_pass": true,
+      "checks": {
+        "runner_native_verified": true,
+        "topology_native_verified": true,
+        "client_attestation_verified": true,
+        "client_hashes_all_rounds_reproduced": true,
+        "final_model_bitwise_reproduced": true
+      },
+      "float64_parity_1e-5_pass": false,
+      "float64_parity_max_layer_abs_diff": 0.006923466920852661
+    }
+  },
+  "replay_gate_passes": 7,
+  "runs_total": 7,
+  "float64_gate_passes": 5,
+  "note": "The float64 gate is unchanged and still fails where it failed. The replay gate is an additional, different claim."
+}

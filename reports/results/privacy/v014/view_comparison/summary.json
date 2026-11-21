@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "clients": 4,
+  "records_per_client": 8,
+  "seeds": 10,
+  "lr": 0.15,
+  "attack_iterations": 300,
+  "labels_known_to_attacker": true,
+  "dp": {
+    "mechanism": "Opacus DP-SGD single step, per-sample clip 1.0",
+    "single_step_epsilon_delta_1e-5_no_subsampling": {
+      "0.05": 294.86126007165325,
+      "0.2": 35.081754019056255,
+      "0.5": 10.725509696418232,
+      "1.0": 4.728507067217623
+    }
+  },
+  "secagg": "upstream Flower SecAgg+ quantiser arithmetic, clipping_range 8, quantization_range 2**22",
+  "floor": {
+    "mean_image_mse": [
+      0.07272997498512268,
+      0.06977025006581478,
+      0.07568969990443059
+    ],
+    "random_digits_mse": [
+      0.09323196411132813,
+      0.08350228059375137,
+      0.10296164762890489
+    ]
+  },
+  "views": {
+    "plaintext_individual": {
+      "victim_mse": [
+        0.01320345361477493,
+        0.005874112783642079,
+        0.02053279444590778
+      ],
+      "rate_mse_below_0_05": [
+        0.9375,
+        0.8742707851024394,
+        1.0007292148975606
+      ],
+      "paired_mse_minus_plaintext": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "secagg_aggregate_maxw1000": {
+      "victim_mse": [
+        0.05709325823700055,
+        0.04891311893983805,
+        0.06527339753416304
+      ],
+      "rate_mse_below_0_05": [
+        0.55,
+        0.4450403497154291,
+        0.654959650284571
+      ],
+      "paired_mse_minus_plaintext": [
+        0.04388980462222562,
+        0.038585752256812184,
+        0.04919385698763906
+      ]
+    },
+    "secagg_collusion_n-1_maxw1000": {
+      "victim_mse": [
+        0.023051246869727038,
+        0.014632986907115855,
+        0.03146950683233822
+      ],
+      "rate_mse_below_0_05": [
+        0.9125,
+        0.8088177967050822,
+        1.0161822032949177
+      ],
+      "paired_mse_minus_plaintext": [
+        0.009847793254952109,
+        0.004901852926740836,
+        0.014793733583163382
+      ]
+    },
+    "secagg_aggregate_maxw16": {
+      "victim_mse": [
+        0.05864877204876393,
+        0.04338621536947411,
+        0.07391132872805375
+      ],
+      "rate_mse_below_0_05": [
+        0.5875,
+        0.44117448755968647,
+        0.7338255124403136
+      ],
+      "paired_mse_minus_plaintext": [
+        0.045445318433989,
+        0.03210011631321933,
+        0.058790520554758675
+      ]
+    },
+    "secagg_collusion_n-1_maxw16": {
+      "victim_mse": [
+        0.015435908249077812,
+        0.006011136836800881,
+        0.024860679661354745
+      ],
+      "rate_mse_below_0_05": [
+        0.9125,
+        0.8088177967050822,
+        1.0161822032949177
+      ],
+      "paired_mse_minus_plaintext": [
+        0.002232454634302883,
+        -0.0033459408219377387,
+        0.007810850090543504
+      ]
+    },
+    "dp0.05_individual": {
+      "victim_mse": [
+        0.10104784867726266,
+        0.09311364375762511,
+        0.1089820535969002
+      ],
+      "rate_mse_below_0_05": [
+        0.1625,
+        0.07766910639506733,
+        0.24733089360493268
+      ],
+      "paired_mse_minus_plaintext": [
+        0.08784439506248773,
+        0.07909855667633241,
+        0.09659023344864305
+      ]
+    },
+    "dp0.05_secagg_aggregate_maxw16": {
+      "victim_mse": [
+        0.14722668174654246,
+        0.13267386389143973,
+        0.1617794996016452
+      ],
+      "rate_mse_below_0_05": [
+        0.0125,
+        -0.01577696453497756,
+        0.04077696453497756
+      ],
+      "paired_mse_minus_plaintext": [
+        0.13402322813176754,
+        0.11781847547740279,
+        0.15022798078613228
+      ]
+    },
+    "dp0.05_secagg_collusion_maxw16": {
+      "victim_mse": [
+        0.10244896071963012,
+        0.09491191132945515,
+        0.1099860101098051
+      ],
+      "rate_mse_below_0_05": [
+        0.1375,
+        0.07152041608505237,
+        0.20347958391494764
+      ],
+      "paired_mse_minus_plaintext": [
+        0.0892455071048552,
+        0.08062286609528385,
+        0.09786814811442654
+      ]
+    },
+    "dp0.2_individual": {
+      "victim_mse": [
+        0.17857453981414437,
+        0.17238995324558634,
+        0.1847591263827024
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.16537108619936944,
+        0.15626426517620218,
+        0.1744779072225367
+      ]
+    },
+    "dp0.2_secagg_aggregate_maxw16": {
+      "victim_mse": [
+        0.2274541577324271,
+        0.210721945873248,
+        0.24418636959160622
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.21425070411765218,
+        0.1987128492500855,
+        0.22978855898521885
+      ]
+    },
+    "dp0.2_secagg_collusion_maxw16": {
+      "victim_mse": [
+        0.17748640617355704,
+        0.17036752842001432,
+        0.18460528392709977
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.1642829525587821,
+        0.15465767879571027,
+        0.17390822632185396
+      ]
+    },
+    "dp0.5_individual": {
+      "victim_mse": [
+        0.26829838566482067,
+        0.2586411319520901,
+        0.27795563937755124
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.25509493205004574,
+        0.24226944973528675,
+        0.26792041436480474
+      ]
+    },
+    "dp0.5_secagg_aggregate_maxw16": {
+      "victim_mse": [
+        0.2861537076532841,
+        0.2667134344407593,
+        0.30559398086580886
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.27295025403850914,
+        0.254746819464631,
+        0.2911536886123873
+      ]
+    },
+    "dp0.5_secagg_collusion_maxw16": {
+      "victim_mse": [
+        0.26955151837319136,
+        0.2605400756779644,
+        0.2785629610684183
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.2563480647584164,
+        0.2433844500653299,
+        0.26931167945150297
+      ]
+    },
+    "dp1_individual": {
+      "victim_mse": [
+        0.3165443614125252,
+        0.30988562051440666,
+        0.3232031023106437
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.30334090779775025,
+        0.29198551860635424,
+        0.31469629698914625
+      ]
+    },
+    "dp1_secagg_aggregate_maxw16": {
+      "victim_mse": [
+        0.3120051516219974,
+        0.29724662809572816,
+        0.3267636751482666
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.29880169800722245,
+        0.2845478167517812,
+        0.3130555792626637
+      ]
+    },
+    "dp1_secagg_collusion_maxw16": {
+      "victim_mse": [
+        0.3186656903475523,
+        0.3115121642205928,
+        0.32581921647451184
+      ],
+      "rate_mse_below_0_05": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "paired_mse_minus_plaintext": [
+        0.3054622367327774,
+        0.2947796017782904,
+        0.3161448716872644
+      ]
+    }
+  },
+  "limitations": [
+    "Observation-model study with real quantiser arithmetic, not an attack on captured Docker traffic",
+    "One local SGD step on 8 distinct records per client, known labels, known lr and initial model",
+    "DP noise is Opacus single-step DP-SGD, the attacker matches naively without modelling clipping or noise",
+    "A failed reconstruction is evidence about this attack only, not a privacy guarantee"
+  ]
+}

@@ -1,3 +1,13 @@
+## 2026-11-22 — v0.14 remaining items
+
+- The replay gate is a new, additional gate. The float64 1e-5 gate was not touched and still reports FAIL for label skew and seed 3.
+- The multi-round SecAgg+ check is now a percentile rule from a 300-run Monte Carlo with the upstream quantiser. It is not a bound and is labelled that way. The simulation was validated at one round against the derived worst-case bound.
+- LiRA conclusions come from the 64-shadow, 16-target runs. The 24-shadow runs are kept but understated leakage at epsilon 6 to 8, so they are marked as superseded for conclusions.
+- The update-inversion comparison is an observation-model study with real quantiser arithmetic. It is not presented as an attack on captured Docker traffic.
+- DP-protected results use a naive attacker. A DP-aware attacker is open work, so "DP stopped this attack" is not "DP stops inversion".
+- Hosted CI stays BLOCKED. A static workflow check passes for all 10 workflows and is explicitly not a hosted run.
+- MNIST licence stays unresolved. The local files match the published SHA-256 and sizes of the original gz files, which settles provenance but not licence.
+
 ## 2026-11-22 — v0.14 completion: corrections and what stayed failed
 
 - The earlier "n=3 threshold 2 cannot tolerate a dropout" claim is withdrawn. Those runs stopped the client before round 2, so it had sent no key shares, which halts SecAgg+ at any n. A kill during round 2 is the real test. Five Docker scenarios matched the rule "tolerated if surviving share holders are at least the threshold". Upstream also requires threshold below the share count.

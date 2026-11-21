@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "rule": "accept when observed max abs diff <= empirical 99th percentile of the Monte Carlo distribution",
+  "trials": 300,
+  "max_weight": 1000.0,
+  "cases": {
+    "n4_2_rounds": {
+      "total_samples": 384,
+      "mc_quantiles": {
+        "0.5": 4.2498111724853516e-05,
+        "0.9": 0.0001980699598789215,
+        "0.95": 0.0001987069845199585,
+        "0.99": 0.00020863860845565796
+      },
+      "mc_max": 0.00021857768297195435,
+      "mc_min": 3.44887375831604e-05,
+      "fraction_above_naive_2x_bound": 0.38666666666666666,
+      "one_round_mc_max": 3.660470247268677e-05,
+      "one_round_worst_case_bound": 3.9736429850260414e-05,
+      "docker_runs": {
+        "baseline": {
+          "observed": 0.00018877285325542836,
+          "empirical_percentile": 0.7166666666666667,
+          "accepted": true
+        },
+        "rep1": {
+          "observed": 4.076749604188523e-05,
+          "empirical_percentile": 0.38333333333333336,
+          "accepted": true
+        },
+        "rep2": {
+          "observed": 3.7013546192621316e-05,
+          "empirical_percentile": 0.08666666666666667,
+          "accepted": true
+        },
+        "rep3": {
+          "observed": 4.0656002685605236e-05,
+          "empirical_percentile": 0.37666666666666665,
+          "accepted": true
+        }
+      }
+    }
+  },
+  "reading": "The one-round Monte Carlo maximum stays inside the derived worst-case bound, which validates the simulation. Two-round differences are heavy tailed, so only a percentile rule is offered."
+}
