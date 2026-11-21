@@ -1,0 +1,6 @@
+{
+  "preparation_passed": true,
+  "static_topology": true,
+  "native_flower_verified": false,
+  "run_dir": "/home/claude/runs/prep-check"
+}

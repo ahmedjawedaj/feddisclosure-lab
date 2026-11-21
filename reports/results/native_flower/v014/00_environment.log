@@ -1,0 +1,117 @@
+$ git status --short | wc -l
+12
+exit=0
+$ git log -1 --oneline
+6fa04ca v0.13: run namespace-isolated PyTorch clients and verify parity; preserve Docker blocker
+exit=0
+$ python3 --version
+Python 3.13.18
+exit=0
+$ docker version
+Client: Docker Engine - Community
+ Version:           29.10.0
+ API version:       1.57
+ Go version:        go1.27.4
+ Git commit:        fdd4b8e
+ Built:             Mon Nov 16 11:00:49 2026
+ OS/Arch:           linux/amd64
+ Context:           default
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          29.10.0
+  API version:      1.57 (minimum version 1.40)
+  Go version:       go1.27.4
+  Git commit:       06db173
+  Built:            Mon Nov 16 11:01:38 2026
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          v2.4.2
+  GitCommit:        b7a25261e029d68978bbf290df0a62fc819b3c51
+ runc:
+  Version:          1.5.3
+  GitCommit:        v1.5.3-0-g46365c62
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+exit=0
+$ docker compose version
+Docker Compose version v5.7.1
+exit=0
+$ docker info
+Client: Docker Engine - Community
+ Version:    29.10.0
+ Context:    default
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.39.0
+    Path:     /usr/libexec/docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v5.7.1
+    Path:     /usr/libexec/docker/cli-plugins/docker-compose
+
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 1
+ Server Version: 29.10.0
+ Storage Driver: overlayfs
+  driver-type: io.containerd.snapshotter.v1
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 1
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: b7a25261e029d68978bbf290df0a62fc819b3c51
+ runc version: v1.5.3-0-g46365c62
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+ Kernel Version: 6.18.44-fc-v726
+ Operating System: Ubuntu 24.04.5 LTS
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 2
+ Total Memory: 7.836GiB
+ Name: vm
+ ID: e62ad4da-3394-41bb-bfb7-0fa66bfb703f
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ HTTPS Proxy: http://127.0.0.1:43325
+ No Proxy: localhost,127.0.0.1,::1,127.0.0.0/8,0.0.0.0/8,::,169.254.0.0/16,api.anthropic.com,api-staging.anthropic.com,api-pr-preview.anthropic.com,mcp-proxy.anthropic.com,mcp-proxy-staging.anthropic.com,registry.npmjs.org,jsr.io,npm.jsr.io,pypi.org,files.pythonhosted.org,index.crates.io,proxy.golang.org,host.docker.internal,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10,.svc.cluster.local,*.svc.cluster.local
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+  ::1/128
+ Live Restore Enabled: false
+ Firewall Backend: iptables
+  EnableUserlandProxy: true
+  UserlandProxyPath: /usr/bin/docker-proxy
+
+WARNING: Support for cgroup v1 is deprecated and planned to be removed by no later than May 2029 (https://github.com/moby/moby/issues/51111)
+exit=0
+$ uname -a
+Linux vm 6.18.44-fc-v726 #1 SMP PREEMPT_DYNAMIC @0 x86_64 x86_64 x86_64 GNU/Linux
+exit=0
+$ nproc
+2
+exit=0
+$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       505Mi       7.0Gi        12Mi       528Mi       7.3Gi
+Swap:             0B          0B          0B
+exit=0

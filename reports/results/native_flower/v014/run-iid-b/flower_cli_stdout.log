@@ -1,0 +1,16 @@
+
+🌸 Heads up from Flower!
+
+We detected legacy usage of this command that relies on connection
+settings from your pyproject.toml.
+
+Flower will migrate any relevant settings to the new Flower config.
+
+Learn more: https://flower.ai/docs/framework/ref-flower-configuration.html
+
+✅ Migration completed successfully!
+
+Migrated SuperLink connections:
+  local-simulation (default)
+Flower App configuration warnings in '/app/pyproject.toml':
+- Recommended property "license" missing in [project]

@@ -1,0 +1,516 @@
+supernode-2-1  | [92mINFO [0m:      Starting Flower SuperNode
+supernode-2-1  | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-2-1  | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-2-1  | [92mINFO [0m:      SuperNode ID: 15918952453404265117
+supernode-2-1  | [92mINFO [0m:      
+supernode-2-1  | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-2-1  | [92mINFO [0m:      Receiving: train message (ID: 92a8923164eba424a24ddc4501fff373fc3e97fdca3f4ac53815d87cf195fc87)
+supernode-2-1  | [92mINFO [0m:      Received successfully
+supernode-2-1  | [92mINFO [0m:      
+supernode-2-1  | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-2-1  | [92mINFO [0m:      Sending: train message (ID: 9f191480bfa51ee9637f99dea65faad430c7d94d25d7ea4a20122569629d508d)
+supernode-2-1  | [92mINFO [0m:      Sent successfully
+supernode-2-1  | [92mINFO [0m:      
+supernode-2-1  | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-2-1  | [92mINFO [0m:      Receiving: evaluate message (ID: eefb52df3c37775748d21fe67ac6072a9f90de7e393d7ff06d92d49ecceacf38)
+supernode-2-1  | [92mINFO [0m:      Received successfully
+supernode-2-1  | [92mINFO [0m:      
+supernode-2-1  | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-2-1  | [92mINFO [0m:      Sending: evaluate message (ID: 392850e573d71727958af5ad32bf6519e50e7b333dc295ceca20e91185dd3214)
+supernode-2-1  | [92mINFO [0m:      Sent successfully
+supernode-2-1  | [92mINFO [0m:      
+supernode-2-1  | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-2-1  | [92mINFO [0m:      Receiving: train message (ID: cd55bf698983eda3c1b5bdf53c882934f026439933329452ee576df69d490257)
+supernode-2-1  | [92mINFO [0m:      Received successfully
+supernode-2-1  | [92mINFO [0m:      
+supernode-2-1  | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-2-1  | [92mINFO [0m:      Sending: train message (ID: 60cebeda7b721dec1484ec2a192089384871a7873982fb53287269735ce9429a)
+supernode-2-1  | [92mINFO [0m:      Sent successfully
+supernode-2-1  | [92mINFO [0m:      
+supernode-2-1  | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-2-1  | [92mINFO [0m:      Receiving: evaluate message (ID: 00b715e5f6b1896506e3e2af55b9253a6f93bb26f7f2725dc1ccb33879f61c3c)
+supernode-2-1  | [92mINFO [0m:      Received successfully
+supernode-2-1  | [92mINFO [0m:      
+supernode-2-1  | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-2-1  | [92mINFO [0m:      Sending: evaluate message (ID: 9a51474b06687521443b0290ecf706fd09922b72cb6c71db35b0cbad9b6c0c04)
+supernode-2-1  | [92mINFO [0m:      Sent successfully
+serverexec-1   | [92mINFO [0m:      Starting Flower SuperExec
+serverexec-1   | [93mWARNING [0m:   Connection attempt failed, retrying in 0.11 seconds
+serverexec-1   | [93mWARNING [0m:   Connection attempt failed, retrying in 1.69 seconds
+serverexec-1   | [92mINFO [0m:      Connection successful after 1.82 seconds and 3 tries.
+superlink-1    | [92mINFO [0m:      Starting Flower SuperLink
+superlink-1    | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP server with unencrypted communication (TLS disabled). Proceed only if you understand the risks.
+superlink-1    | [93mWARNING [0m:   SuperNode authentication is disabled. The SuperLink will accept connections from any SuperNode.
+superlink-1    | [92mINFO [0m:      Flower Deployment Runtime: Starting Control API on 0.0.0.0:9093
+superlink-1    | [92mINFO [0m:      Flower Deployment Runtime: Starting ServerAppIo API on 0.0.0.0:9091
+superlink-1    | [92mINFO [0m:      Flower Deployment Runtime: Starting Fleet API (gRPC-rere) on 0.0.0.0:9092
+superlink-1    | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      ControlServicer.StartRun
+superlink-1    | [92mINFO [0m:      Created run 14253410363772429577
+superlink-1    | [92mINFO [0m:      ControlServicer.StreamLogs
+superlink-1    | [92mINFO [0m:      Starting run 14253410363772429577
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=14253410363772429577
+superlink-1    | [92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=955c9f124abb8e9b17bdb30c7e2a0c739896e0b40453afe21dbc2b694ce73bb9
+superlink-1    | [92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=14253410363772429577
+superlink-1    | [92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=955c9f124abb8e9b17bdb30c7e2a0c739896e0b40453afe21dbc2b694ce73bb9
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=14253410363772429577
+superlink-1    | [92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=955c9f124abb8e9b17bdb30c7e2a0c739896e0b40453afe21dbc2b694ce73bb9
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      ControlServicer.StreamLogs
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=1996926529248153407
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15918952453404265117
+superlink-1    | [92mINFO [0m:      All logs for run ID `14253410363772429577` returned
+superlink-1    | [92mINFO [0m:      [Fleet.PullMessages] node_id=15285120738281911073
+clientexec-1-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.63 seconds
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.21 seconds
+clientexec-1-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 3.86 seconds
+clientexec-1-1  | [92mINFO [0m:      Connection successful after 4.72 seconds and 4 tries.
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 4d50...d53e
+clientexec-1-1  | 🎊 Successfully installed feddisclosure-lab to /opt/fdl-flwr-home/.flwr/apps/feddisclosure.feddisclosure-lab.0.13.0.955c9f12.
+clientexec-1-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-1-1  | Traceback (most recent call last):
+clientexec-1-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-1-1  |     reply_message = client_app(message=message, context=context)
+clientexec-1-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-1-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-1-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 82, in train
+clientexec-1-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="train",
+clientexec-1-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         site_id=site_id, run_id=context.run_id,
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         dataset_sha256=os.environ["FDL_SITE_SHA256"],
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         samples=int(metrics["num-examples"]), weights_sha256=state_digest)
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-1-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-1-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 4d50...d53e
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 04f8...d9f0
+clientexec-1-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-1-1  | Traceback (most recent call last):
+clientexec-1-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-1-1  |     reply_message = client_app(message=message, context=context)
+clientexec-1-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-1-1  |     return self._registered_funcs[full_name](message, context)
+supernode-1-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-1-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-1-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-1-1   | [92mINFO [0m:      SuperNode ID: 15285120738281911073
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: 22d234fd13bef33f92ffe448f747fc6c3110a8035ce2e6ac5bda54be6921dc82)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: 761c25ca6d2ffbb63c1b2e46ab624fa04f676e06670cf9ef860c0dd53531f523)
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-1-1   | [92mINFO [0m:      Receiving: evaluate message (ID: 7361a8445dbabee963276470c50f6fe8cdb47560422f55aa28faa0340d2b99ea)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-1-1   | [92mINFO [0m:      Sending: evaluate message (ID: d2b421ec12e883b2814d996db0909264ccf9835a244ea256f47d9550a219be94)
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-1-1   | [92mINFO [0m:      Receiving: train message (ID: a29196d875fba7e738e6067ad60354d8dd69c02b817474686d3713a74cccf92c)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-1-1   | [92mINFO [0m:      Sending: train message (ID: 093ab37a6d5ec2e5d4eb5c29a88c0dd0bee8b2c8694eaaecc171b47996162df4)
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-1-1   | [92mINFO [0m:      Receiving: evaluate message (ID: 78e3914f929df85f2d8537321171d6abf6928d621b8d5640c4e8e55af1f5dc56)
+supernode-1-1   | [92mINFO [0m:      Received successfully
+supernode-1-1   | [92mINFO [0m:      
+supernode-1-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-1-1   | [92mINFO [0m:      Sending: evaluate message (ID: f1098d11e543f65327dff1f0d30b51d06b27bbaf8ad562a12c949ec7d533e355)
+clientexec-2-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.50 seconds
+clientexec-2-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 1.56 seconds
+clientexec-2-1  | [92mINFO [0m:      Connection successful after 2.06 seconds and 3 tries.
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token e8e9...398d
+clientexec-2-1  | 🎊 Successfully installed feddisclosure-lab to /opt/fdl-flwr-home/.flwr/apps/feddisclosure.feddisclosure-lab.0.13.0.955c9f12.
+clientexec-2-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-2-1  | Traceback (most recent call last):
+supernode-1-1   | [92mINFO [0m:      Sent successfully
+clientexec-2-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-0-1  | [92mINFO [0m:      Starting Flower SuperExec
+clientexec-2-1  |     reply_message = client_app(message=message, context=context)
+clientexec-2-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-0-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 0.04 seconds
+clientexec-0-1  | [93mWARNING [0m:   Connection attempt failed, retrying in 1.62 seconds
+clientexec-0-1  | [92mINFO [0m:      Connection successful after 1.67 seconds and 3 tries.
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 9dbb...f07d
+clientexec-0-1  | 🎊 Successfully installed feddisclosure-lab to /opt/fdl-flwr-home/.flwr/apps/feddisclosure.feddisclosure-lab.0.13.0.955c9f12.
+clientexec-0-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-0-1  | Traceback (most recent call last):
+clientexec-0-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+supernode-0-1   | [92mINFO [0m:      Starting Flower SuperNode
+supernode-0-1   | [93mWARNING [0m:   Option `--insecure` was set. Starting insecure HTTP channel to superlink:9092.
+supernode-0-1   | [92mINFO [0m:      Flower Deployment Runtime: Starting ClientAppIo API on 0.0.0.0:9094
+supernode-0-1   | [92mINFO [0m:      SuperNode ID: 1996926529248153407
+supernode-0-1   | [92mINFO [0m:      
+supernode-0-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-0-1   | [92mINFO [0m:      Receiving: train message (ID: ab7d234214424ac247b521d67360d4852b11e510409ff8826411dd594cc421aa)
+supernode-0-1   | [92mINFO [0m:      Received successfully
+supernode-0-1   | [92mINFO [0m:      
+supernode-0-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-0-1   | [92mINFO [0m:      Sending: train message (ID: 6aff42b360554878806efb609ab7c4c7775ee4abedbe95c34ef055d3a0fee027)
+supernode-0-1   | [92mINFO [0m:      Sent successfully
+supernode-0-1   | [92mINFO [0m:      
+supernode-0-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-0-1   | [92mINFO [0m:      Receiving: evaluate message (ID: af0073ff3d44c6e21e73ba0894d342997f8b1d6b5787adab46bcc73776f9cae2)
+supernode-0-1   | [92mINFO [0m:      Received successfully
+supernode-0-1   | [92mINFO [0m:      
+supernode-0-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-0-1   | [92mINFO [0m:      Sending: evaluate message (ID: 20cafc227a9def21543b8d2eeab5d116578f991608228a08000a0d5880c9e87f)
+supernode-0-1   | [92mINFO [0m:      Sent successfully
+supernode-0-1   | [92mINFO [0m:      
+supernode-0-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-0-1   | [92mINFO [0m:      Receiving: train message (ID: bd478c9722596fbf472693979d565ae3ad5b828ddc4c3c4fa5352d5350e43aed)
+supernode-0-1   | [92mINFO [0m:      Received successfully
+supernode-0-1   | [92mINFO [0m:      
+supernode-0-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-0-1   | [92mINFO [0m:      Sending: train message (ID: 08b476e3b91920176f8b5075d70de7ef847f03d0a31bc0f3cd4348ef40207ec5)
+supernode-0-1   | [92mINFO [0m:      Sent successfully
+supernode-0-1   | [92mINFO [0m:      
+supernode-0-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-0-1   | [92mINFO [0m:      Receiving: evaluate message (ID: 1898e322f175f027c07c78019edb37c53d42349ccefd75f2f5c9831c0099ad6c)
+supernode-0-1   | [92mINFO [0m:      Received successfully
+supernode-0-1   | [92mINFO [0m:      
+supernode-0-1   | [92mINFO [0m:      [RUN 14253410363772429577]
+supernode-0-1   | [92mINFO [0m:      Sending: evaluate message (ID: 7fcbee59b40ccb012bc61c1ff86d22dd32a6501215d0c4e9c0c9075895ecc8e5)
+supernode-0-1   | [92mINFO [0m:      Sent successfully
+clientexec-1-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 97, in evaluate
+clientexec-1-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="evaluate",
+clientexec-1-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         site_id=int(os.environ["FDL_SITE_ID"]), run_id=context.run_id,
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         dataset_sha256=os.environ["FDL_SITE_VAL_SHA256"],
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         samples=int(result["num-examples"]))
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-1-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-1-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 04f8...d9f0
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token afe9...7613
+clientexec-1-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-1-1  | Traceback (most recent call last):
+clientexec-1-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-1-1  |     reply_message = client_app(message=message, context=context)
+clientexec-1-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-1-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-1-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 82, in train
+clientexec-1-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="train",
+clientexec-1-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         site_id=site_id, run_id=context.run_id,
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         dataset_sha256=os.environ["FDL_SITE_SHA256"],
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         samples=int(metrics["num-examples"]), weights_sha256=state_digest)
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-1-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-1-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token afe9...7613
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-1-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token f8cc...b374
+clientexec-1-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-1-1  | Traceback (most recent call last):
+clientexec-1-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-1-1  |     reply_message = client_app(message=message, context=context)
+clientexec-1-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-1-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-1-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 97, in evaluate
+clientexec-1-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="evaluate",
+clientexec-1-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         site_id=int(os.environ["FDL_SITE_ID"]), run_id=context.run_id,
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         dataset_sha256=os.environ["FDL_SITE_VAL_SHA256"],
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |                         samples=int(result["num-examples"]))
+clientexec-1-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-1-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-1-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-1-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-1-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token f8cc...b374
+clientexec-1-1  | [92mINFO [0m:      
+clientexec-0-1  |     reply_message = client_app(message=message, context=context)
+clientexec-0-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-0-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-0-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 82, in train
+clientexec-0-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="train",
+clientexec-0-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         site_id=site_id, run_id=context.run_id,
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         dataset_sha256=os.environ["FDL_SITE_SHA256"],
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         samples=int(metrics["num-examples"]), weights_sha256=state_digest)
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-0-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-0-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 9dbb...f07d
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token e71c...c898
+clientexec-0-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-0-1  | Traceback (most recent call last):
+clientexec-0-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-0-1  |     reply_message = client_app(message=message, context=context)
+clientexec-0-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-0-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-0-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 97, in evaluate
+clientexec-0-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="evaluate",
+clientexec-0-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         site_id=int(os.environ["FDL_SITE_ID"]), run_id=context.run_id,
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         dataset_sha256=os.environ["FDL_SITE_VAL_SHA256"],
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         samples=int(result["num-examples"]))
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-0-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-0-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token e71c...c898
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 253e...c0cb
+clientexec-0-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-0-1  | Traceback (most recent call last):
+clientexec-0-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-0-1  |     reply_message = client_app(message=message, context=context)
+clientexec-0-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-0-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-0-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 82, in train
+clientexec-0-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="train",
+clientexec-0-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         site_id=site_id, run_id=context.run_id,
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         dataset_sha256=os.environ["FDL_SITE_SHA256"],
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         samples=int(metrics["num-examples"]), weights_sha256=state_digest)
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-0-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-0-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 253e...c0cb
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-0-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 4445...3f8f
+clientexec-0-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-0-1  | Traceback (most recent call last):
+clientexec-0-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-0-1  |     reply_message = client_app(message=message, context=context)
+clientexec-0-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-0-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-0-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 97, in evaluate
+clientexec-0-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="evaluate",
+clientexec-0-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         site_id=int(os.environ["FDL_SITE_ID"]), run_id=context.run_id,
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         dataset_sha256=os.environ["FDL_SITE_VAL_SHA256"],
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |                         samples=int(result["num-examples"]))
+clientexec-0-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-0-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-0-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-0-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-0-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 4445...3f8f
+clientexec-0-1  | [92mINFO [0m:      
+clientexec-2-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-2-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 82, in train
+clientexec-2-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="train",
+clientexec-2-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         site_id=site_id, run_id=context.run_id,
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         dataset_sha256=os.environ["FDL_SITE_SHA256"],
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         samples=int(metrics["num-examples"]), weights_sha256=state_digest)
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-2-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-2-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token e8e9...398d
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token 939d...9cde
+clientexec-2-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-2-1  | Traceback (most recent call last):
+clientexec-2-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-2-1  |     reply_message = client_app(message=message, context=context)
+clientexec-2-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-2-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-2-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 97, in evaluate
+clientexec-2-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="evaluate",
+clientexec-2-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         site_id=int(os.environ["FDL_SITE_ID"]), run_id=context.run_id,
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         dataset_sha256=os.environ["FDL_SITE_VAL_SHA256"],
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         samples=int(result["num-examples"]))
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-2-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-2-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token 939d...9cde
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token f54d...5610
+clientexec-2-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-2-1  | Traceback (most recent call last):
+clientexec-2-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-2-1  |     reply_message = client_app(message=message, context=context)
+clientexec-2-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-2-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-2-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 82, in train
+clientexec-2-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="train",
+clientexec-2-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         site_id=site_id, run_id=context.run_id,
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         dataset_sha256=os.environ["FDL_SITE_SHA256"],
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         samples=int(metrics["num-examples"]), weights_sha256=state_digest)
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-2-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-2-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token f54d...5610
+clientexec-2-1  | [92mINFO [0m:      
+clientexec-2-1  | [92mINFO [0m:      Start `flwr-clientapp` process
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Pull `AppInputs` for token dc49...8c07
+clientexec-2-1  | [91mERROR [0m:     ClientApp raised an exception
+clientexec-2-1  | Traceback (most recent call last):
+clientexec-2-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/supernode/runtime/run_clientapp.py", line 134, in run_clientapp
+clientexec-2-1  |     reply_message = client_app(message=message, context=context)
+clientexec-2-1  |   File "/python/venv/lib/python3.13/site-packages/flwr/clientapp/client_app.py", line 161, in __call__
+clientexec-2-1  |     return self._registered_funcs[full_name](message, context)
+clientexec-2-1  |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |   File "/app/src/feddisclosure/training/flower_client.py", line 97, in evaluate
+clientexec-2-1  |     record_client_event(os.environ["FDL_CLIENT_ATTEST_DIR"], event_type="evaluate",
+clientexec-2-1  |     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         site_id=int(os.environ["FDL_SITE_ID"]), run_id=context.run_id,
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         dataset_sha256=os.environ["FDL_SITE_VAL_SHA256"],
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |                         samples=int(result["num-examples"]))
+clientexec-2-1  |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+clientexec-2-1  |   File "/app/src/feddisclosure/training/deployment_contract.py", line 54, in record_client_event
+clientexec-2-1  |     fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+clientexec-2-1  | PermissionError: [Errno 13] Permission denied: '/attestation/events.jsonl'
+clientexec-2-1  | [92mINFO [0m:      [flwr-clientapp] Push `AppOutputs` for token dc49...8c07
+clientexec-2-1  | [92mINFO [0m:      
+

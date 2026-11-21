@@ -57,4 +57,7 @@ reports/results/sprint1/docker_*.txt
 
 # Deployment host paths and generated per-run attestation. No secrets or raw data.
 /.env.flower.generated
-/reports/results/native_flower/
+# Native Flower evidence (logs, hashes, receipts, JSON) is committed; weights and arrays are not.
+/reports/results/native_flower/**/*.pt
+/reports/results/native_flower/**/*.npz
+/reports/results/native_flower/**/*.env

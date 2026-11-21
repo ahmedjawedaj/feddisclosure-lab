@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "runtime": "linux_user_mount_pid_namespace_NOT_DOCKER_NOT_FLOWER",
+  "site_id": 0,
+  "pid_namespace": "pid:[4026532192]",
+  "mount_namespace": "mnt:[4026532191]",
+  "user_namespace": "user:[4026532190]",
+  "host_proc_hidden": true,
+  "own_site_readable": true,
+  "all_source_partitions_masked": true,
+  "own_mount_read_only": true,
+  "own_train_sha256": "4def0958e1cb500fa33f4ed901a1e16dc6474aa4b53065199df091bcfcd04322",
+  "recorded_utc": "2026-11-20T18:27:34.231760+00:00"
+}

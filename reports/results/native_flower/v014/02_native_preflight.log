@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-21T15:50:59.016793+00:00",
+  "python": "3.12.3",
+  "os": "Linux",
+  "runtime": {
+    "flower": {
+      "installed": false,
+      "version": null,
+      "cli_available": false
+    },
+    "opendp": {
+      "installed": false,
+      "version": null
+    },
+    "opacus": {
+      "installed": false,
+      "version": null
+    },
+    "docker": {
+      "installed": true,
+      "compose_usable": true,
+      "daemon_usable": true
+    }
+  },
+  "local_gates": {
+    "python_supported": true,
+    "docker_compose_ready": true,
+    "flower_runtime_ready": false,
+    "opendp_runtime_ready": false,
+    "opacus_runtime_ready": false
+  },
+  "all_local_prerequisites": false,
+  "disclaimer": "Package installation and Docker readiness are prerequisites, not proof of an executed experiment"
+}

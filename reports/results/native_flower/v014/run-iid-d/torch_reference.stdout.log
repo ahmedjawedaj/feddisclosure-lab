@@ -1,0 +1,14 @@
+{
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "rounds": 2,
+  "last_round": {
+    "accuracy": 0.20833333333333334,
+    "loss": 2.2572275161743165,
+    "num-examples": 120
+  },
+  "output": "reports/results/native_flower/v014/run-iid-d/torch_reference.json"
+}
+
+real	0m17.208s
+user	0m25.824s
+sys	0m1.550s

@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "engine": "torch_independent_process_reference_NOT_Flower",
+  "experiment_id": "digits-iid-smoke-v1",
+  "algorithm": "fedavg",
+  "config": {
+    "id": "digits-iid-smoke-v1",
+    "seed": 20261118,
+    "dataset": "sklearn_digits",
+    "partition": "iid",
+    "clients": 3,
+    "rounds": 2,
+    "local_epochs": 1,
+    "batch_size": 32,
+    "learning_rate": 0.15,
+    "source_limit": 600,
+    "observer": "honest_but_curious_coordinator",
+    "allowed_observations": [
+      "per_client_model_updates",
+      "sample_counts",
+      "aggregate_validation_metrics"
+    ],
+    "algorithm": "fedavg",
+    "proximal_mu": 0.0
+  },
+  "versions": {
+    "torch": "2.10.0+cpu",
+    "python": "3.13.5"
+  },
+  "manifest_sha256": "ac841316e37e9d948c3d2b47a95d51ee1b356062940586437bee3c06b0052920",
+  "final_checkpoint": {
+    "path": "/mnt/data/fdl-v013-namespace-evidence/checkpoints/digits-iid-smoke-v1_final.pt",
+    "sha256": "5ae8fe93cc5f5dd73b32016f60016c1ba445aba5cbb31005d9ff96397e391fff"
+  },
+  "model_bytes": 9640,
+  "rounds": [
+    {
+      "round": 1,
+      "public_test": {
+        "accuracy": 0.15,
+        "loss": 2.287809117635091,
+        "num-examples": 120
+      },
+      "worst_client_local_update_validation_accuracy": 0.125,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 2.3028510212898254,
+          "num-examples": 128,
+          "worker_pid": 2947,
+          "local_update_validation": {
+            "accuracy": 0.21875,
+            "loss": 2.269077777862549,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.74396,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 2.3028605580329895,
+          "num-examples": 128,
+          "worker_pid": 2949,
+          "local_update_validation": {
+            "accuracy": 0.125,
+            "loss": 2.308082342147827,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.76961,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 2.306964874267578,
+          "num-examples": 128,
+          "worker_pid": 2950,
+          "local_update_validation": {
+            "accuracy": 0.3125,
+            "loss": 2.2483367919921875,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.72007,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    },
+    {
+      "round": 2,
+      "public_test": {
+        "accuracy": 0.20833333333333334,
+        "loss": 2.2572274525960285,
+        "num-examples": 120
+      },
+      "worst_client_local_update_validation_accuracy": 0.15625,
+      "client_metrics": [
+        {
+          "client_id": 0,
+          "train_loss": 2.270573914051056,
+          "num-examples": 128,
+          "worker_pid": 2955,
+          "local_update_validation": {
+            "accuracy": 0.28125,
+            "loss": 2.241773843765259,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.65794,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 1,
+          "train_loss": 2.2712126970291138,
+          "num-examples": 128,
+          "worker_pid": 2956,
+          "local_update_validation": {
+            "accuracy": 0.15625,
+            "loss": 2.278954267501831,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.70897,
+          "communication_upload_bytes": 9640
+        },
+        {
+          "client_id": 2,
+          "train_loss": 2.2715970873832703,
+          "num-examples": 128,
+          "worker_pid": 2957,
+          "local_update_validation": {
+            "accuracy": 0.34375,
+            "loss": 2.218989849090576,
+            "num-examples": 32
+          },
+          "elapsed_seconds": 0.63812,
+          "communication_upload_bytes": 9640
+        }
+      ],
+      "communication_model_bytes": 57840
+    }
+  ],
+  "final_global_per_client_validation": [
+    {
+      "client_id": 0,
+      "worker_pid": 2961,
+      "evaluation": {
+        "accuracy": 0.1875,
+        "loss": 2.249652862548828,
+        "num-examples": 32
+      }
+    },
+    {
+      "client_id": 1,
+      "worker_pid": 2963,
+      "evaluation": {
+        "accuracy": 0.1875,
+        "loss": 2.266514539718628,
+        "num-examples": 32
+      }
+    },
+    {
+      "client_id": 2,
+      "worker_pid": 2964,
+      "evaluation": {
+        "accuracy": 0.28125,
+        "loss": 2.217072010040283,
+        "num-examples": 32
+      }
+    }
+  ],
+  "final_global_worst_client_validation_accuracy": 0.1875,
+  "total_elapsed_seconds": 13.4669,
+  "observer": "honest_but_curious_coordinator",
+  "actual_observations": [
+    "per_client_model_parameters",
+    "sample_counts",
+    "scalar_metrics"
+  ],
+  "limitations": [
+    "Not a Flower execution: uses independent local PyTorch worker processes, no Docker isolation.",
+    "Client datasets are public digit partitions, with no real institution records.",
+    "Public evaluator test is global held-out accuracy. Final worst-client metric evaluates aggregated model on each site's held-out local validation.",
+    "Communication uses raw tensor byte counts and excludes protocol, headers and transport overhead.",
+    "Coordinator sees individual model updates; there is no DP or secure aggregation.",
+    "Evaluator runs in a separate process with public ground truth. Process separation alone does not enforce filesystem permissions."
+  ]
+}

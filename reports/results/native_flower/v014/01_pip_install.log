@@ -1,0 +1,10 @@
+$ python -m pip install -e ".[test,research]"
+ + tifffile==2026.11.16
+ - torch==2.5.1+cpu
+ + torch==2.15.0
+ + torchvision==0.29.2
+ + triton==3.9.0
+ + typing-inspection==0.4.5
+ + tzdata==2026.6
+ + uvicorn==0.54.0
+exit=0

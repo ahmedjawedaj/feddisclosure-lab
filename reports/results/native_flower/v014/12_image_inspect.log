@@ -1,0 +1,8 @@
+uid=49999(app) gid=49999(app) groups=49999(app)
+2.5.1+cpu 1.27.0 2.4.3 1.9.1
+/python/venv/bin/flower-superexec
+/python/venv/bin/flwr
+# This selects an EXISTING SuperLink, never the local managed simulation.
+[superlink.fdl-docker]
+address = "superlink:9093"
+insecure = true

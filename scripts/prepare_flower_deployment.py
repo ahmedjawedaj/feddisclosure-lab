@@ -14,6 +14,7 @@ import yaml
 from feddisclosure.training.datasets import prepare_partitions
 
 ROOT = Path(__file__).resolve().parents[1]
+CONTAINER_UID = 49999  # flwr/superexec "app" user
 
 
 def digest(path: Path) -> str:
@@ -72,6 +73,17 @@ def prepare(config_path: Path, data_dir: Path, run_dir: Path, env_path: Path) ->
     (run_dir / "server").mkdir(exist_ok=True)
     for i in range(3):
         (run_dir / "clients" / f"site-{i}").mkdir(parents=True, exist_ok=True)
+    # Flower's SuperExec image runs as uid/gid 49999 ("app"). The writable output
+    # mounts (server artifacts and per-site receipts, NEVER the data mounts) must be
+    # writable by that user. Prefer an exact chown; fall back to 0777 on hosts that
+    # cannot chown (single-host research sandbox only).
+    writable = [run_dir / "server"] + [run_dir / "clients" / f"site-{i}" for i in range(3)]
+    for folder in writable:
+        try:
+            os.chown(folder, CONTAINER_UID, CONTAINER_UID)
+            os.chmod(folder, 0o750)
+        except PermissionError:
+            os.chmod(folder, 0o777)
     contents = "\n".join(f'{k}={json.dumps(v)}' for k, v in variables.items()) + "\n"
     if env_path.exists() and env_path.read_text() != contents:
         raise FileExistsError("Existing Compose environment points to different data; use a new run path")

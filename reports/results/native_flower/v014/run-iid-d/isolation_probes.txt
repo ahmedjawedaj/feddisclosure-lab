@@ -1,0 +1,28 @@
+== clientexec-0
+train.npz
+val.npz
+touch: cannot touch '/site/x': Read-only file system
+ls: cannot access '/data': No such file or directory
+/home:
+1
+== clientexec-1
+train.npz
+val.npz
+touch: cannot touch '/site/x': Read-only file system
+ls: cannot access '/data': No such file or directory
+/home:
+1
+== clientexec-2
+train.npz
+val.npz
+touch: cannot touch '/site/x': Read-only file system
+ls: cannot access '/data': No such file or directory
+/home:
+1
+== serverexec sees /site?
+ls: cannot access '/site': No such file or directory
+final_model.pt
+flower_run.json
+flower_summary.json
+== supernode-0 sees /site?
+ls: /site: No such file or directory

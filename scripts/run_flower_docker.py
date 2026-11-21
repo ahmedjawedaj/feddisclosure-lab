@@ -21,6 +21,15 @@ from verify_flower_attestations import verify as verify_receipts
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _flower_literal(value):
+    """Flower 1.27 run-config grammar: bool/int/float bare, strings double-quoted."""
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return repr(value)
+    return json.dumps(str(value))
+
+
 def run_command(command, *, timeout=120, cwd=ROOT):
     return subprocess.run(command, cwd=cwd, capture_output=True, text=True,
                           timeout=timeout, check=False)
@@ -94,7 +103,7 @@ def main():
                "seed": config["seed"], "features": manifest["num_features"],
                "classes": manifest["num_classes"], "data-root": "/never-mounted-client-data",
                "artifact-dir": "/artifacts"}
-        run_config = " ".join(f"{k}={v}" for k, v in cfg.items())
+        run_config = " ".join(f"{k}={_flower_literal(v)}" for k, v in cfg.items())
         flower_cmd = command_prefix + ["run", "--rm", "--no-deps", "flwr-cli",
                                        "run", ".", "fdl-docker", "--stream", "--run-config", run_config]
         evidence["flower_command"] = flower_cmd

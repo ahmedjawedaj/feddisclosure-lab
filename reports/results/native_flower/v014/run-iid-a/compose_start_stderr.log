@@ -1,0 +1,303 @@
+ Image flwr/supernode:1.27.0 Pulling 
+ Image flwr/superlink:1.27.0 Pulling 
+ Image flwr/supernode:1.27.0 Pulling 
+ Image flwr/supernode:1.27.0 Pulling 
+ 4f4fb700ef54 Pulling fs layer 0B
+ 40d6ed173981 Pulling fs layer 0B
+ a144893fbbbc Pulling fs layer 0B
+ 49f390d439e4 Pulling fs layer 0B
+ 910037e892db Pulling fs layer 0B
+ ffdc47c45c7f Pulling fs layer 0B
+ d49a2dee86fb Pulling fs layer 0B
+ 77bc762d87c4 Pulling fs layer 0B
+ d49a2dee86fb Pulling fs layer 0B
+ 4f4fb700ef54 Pulling fs layer 0B
+ 49f390d439e4 Pulling fs layer 0B
+ 40d6ed173981 Pulling fs layer 0B
+ a144893fbbbc Pulling fs layer 0B
+ 910037e892db Pulling fs layer 0B
+ ffdc47c45c7f Pulling fs layer 0B
+ 77bc762d87c4 Pulling fs layer 0B
+ 4f4fb700ef54 Pulling fs layer 0B
+ d49a2dee86fb Pulling fs layer 0B
+ 40d6ed173981 Pulling fs layer 0B
+ 49f390d439e4 Pulling fs layer 0B
+ a144893fbbbc Pulling fs layer 0B
+ ffdc47c45c7f Pulling fs layer 0B
+ 910037e892db Pulling fs layer 0B
+ 77bc762d87c4 Pulling fs layer 0B
+ 44f86ec32891 Download complete 0B
+ 44f86ec32891 Download complete 0B
+ 4f4fb700ef54 Pulling fs layer 0B
+ d49a2dee86fb Pulling fs layer 0B
+ 40d6ed173981 Pulling fs layer 0B
+ 49f390d439e4 Pulling fs layer 0B
+ a144893fbbbc Pulling fs layer 0B
+ ffdc47c45c7f Pulling fs layer 0B
+ 910037e892db Pulling fs layer 0B
+ 77bc762d87c4 Pulling fs layer 0B
+ 44f86ec32891 Download complete 0B
+ ffdc47c45c7f Downloading 1.049MB
+ ffdc47c45c7f Downloading 1.049MB
+ ffdc47c45c7f Downloading 1.049MB
+ ffdc47c45c7f Downloading 1.049MB
+ 4f4fb700ef54 Download complete 0B
+ ffdc47c45c7f Download complete 0B
+ 4f4fb700ef54 Download complete 0B
+ 4f4fb700ef54 Download complete 0B
+ ffdc47c45c7f Download complete 0B
+ 4f4fb700ef54 Download complete 0B
+ ffdc47c45c7f Download complete 0B
+ ffdc47c45c7f Download complete 0B
+ 40d6ed173981 Download complete 0B
+ a144893fbbbc Download complete 0B
+ 623fd700a390 Download complete 0B
+ 623fd700a390 Download complete 0B
+ 40d6ed173981 Download complete 0B
+ a144893fbbbc Download complete 0B
+ 40d6ed173981 Download complete 0B
+ a144893fbbbc Download complete 0B
+ a144893fbbbc Download complete 0B
+ 623fd700a390 Download complete 0B
+ 40d6ed173981 Download complete 0B
+ 49f390d439e4 Downloading 1.049MB
+ 49f390d439e4 Downloading 1.049MB
+ 49f390d439e4 Downloading 1.049MB
+ 49f390d439e4 Downloading 1.049MB
+ 49f390d439e4 Downloading 11.53MB
+ 77bc762d87c4 Downloading 8.389MB
+ 49f390d439e4 Downloading 11.53MB
+ 77bc762d87c4 Downloading 8.389MB
+ 77bc762d87c4 Downloading 8.389MB
+ 49f390d439e4 Downloading 11.53MB
+ 77bc762d87c4 Downloading 8.389MB
+ 49f390d439e4 Downloading 11.53MB
+ 77bc762d87c4 Downloading 15.73MB
+ 49f390d439e4 Download complete 0B
+ 49f390d439e4 Download complete 0B
+ 77bc762d87c4 Downloading 15.73MB
+ 49f390d439e4 Download complete 0B
+ 77bc762d87c4 Downloading 15.73MB
+ 49f390d439e4 Download complete 0B
+ 77bc762d87c4 Downloading 15.73MB
+ 77bc762d87c4 Downloading 27.26MB
+ 910037e892db Download complete 0B
+ 910037e892db Download complete 0B
+ 910037e892db Download complete 0B
+ 910037e892db Download complete 0B
+ 77bc762d87c4 Downloading 27.26MB
+ d49a2dee86fb Download complete 0B
+ 77bc762d87c4 Downloading 27.26MB
+ d49a2dee86fb Download complete 0B
+ 77bc762d87c4 Downloading 27.26MB
+ d49a2dee86fb Download complete 0B
+ d49a2dee86fb Download complete 0B
+ d49a2dee86fb Extracting 1B
+ d49a2dee86fb Extracting 1B
+ d49a2dee86fb Extracting 1B
+ d49a2dee86fb Extracting 1B
+ 77bc762d87c4 Downloading 33.55MB
+ 77bc762d87c4 Downloading 33.55MB
+ 77bc762d87c4 Downloading 33.55MB
+ 77bc762d87c4 Downloading 33.55MB
+ d49a2dee86fb Extracting 1B
+ d49a2dee86fb Extracting 1B
+ d49a2dee86fb Extracting 1B
+ d49a2dee86fb Extracting 1B
+ 77bc762d87c4 Downloading 34.6MB
+ 77bc762d87c4 Downloading 34.6MB
+ 77bc762d87c4 Downloading 34.6MB
+ 77bc762d87c4 Downloading 34.6MB
+ 40d6ed173981 Pull complete 0B
+ 40d6ed173981 Pull complete 0B
+ 40d6ed173981 Pull complete 0B
+ d49a2dee86fb Pull complete 0B
+ 40d6ed173981 Pull complete 0B
+ d49a2dee86fb Pull complete 0B
+ d49a2dee86fb Pull complete 0B
+ d49a2dee86fb Pull complete 0B
+ 77bc762d87c4 Downloading 47.19MB
+ 77bc762d87c4 Downloading 47.19MB
+ 77bc762d87c4 Downloading 47.19MB
+ 65b5e0505c6e Download complete 0B
+ 77bc762d87c4 Downloading 47.19MB
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 77bc762d87c4 Downloading 56.62MB
+ 77bc762d87c4 Downloading 56.62MB
+ 77bc762d87c4 Downloading 56.62MB
+ 77bc762d87c4 Downloading 56.62MB
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 77bc762d87c4 Downloading 61.81MB
+ 77bc762d87c4 Downloading 61.81MB
+ 77bc762d87c4 Downloading 61.81MB
+ 77bc762d87c4 Downloading 61.81MB
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 49f390d439e4 Extracting 1B
+ 77bc762d87c4 Download complete 0B
+ 77bc762d87c4 Download complete 0B
+ 77bc762d87c4 Download complete 0B
+ 77bc762d87c4 Download complete 0B
+ 39f1b3667a99 Download complete 0B
+ 49f390d439e4 Pull complete 0B
+ 49f390d439e4 Pull complete 0B
+ 49f390d439e4 Pull complete 0B
+ 49f390d439e4 Pull complete 0B
+ a144893fbbbc Pull complete 0B
+ a144893fbbbc Pull complete 0B
+ a144893fbbbc Pull complete 0B
+ a144893fbbbc Pull complete 0B
+ ffdc47c45c7f Extracting 1B
+ ffdc47c45c7f Extracting 1B
+ ffdc47c45c7f Extracting 1B
+ ffdc47c45c7f Extracting 1B
+ ffdc47c45c7f Extracting 1B
+ ffdc47c45c7f Extracting 1B
+ ffdc47c45c7f Extracting 1B
+ ffdc47c45c7f Extracting 1B
+ ffdc47c45c7f Pull complete 0B
+ ffdc47c45c7f Pull complete 0B
+ ffdc47c45c7f Pull complete 0B
+ 910037e892db Extracting 1B
+ 910037e892db Extracting 1B
+ ffdc47c45c7f Pull complete 0B
+ 910037e892db Extracting 1B
+ 910037e892db Pull complete 0B
+ 910037e892db Pull complete 0B
+ 910037e892db Pull complete 0B
+ 77bc762d87c4 Extracting 1B
+ 910037e892db Pull complete 0B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 1B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 2B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 3B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Extracting 4B
+ 77bc762d87c4 Pull complete 0B
+ 77bc762d87c4 Pull complete 0B
+ 77bc762d87c4 Pull complete 0B
+ 77bc762d87c4 Pull complete 0B
+ 4f4fb700ef54 Pull complete 0B
+ 4f4fb700ef54 Pull complete 0B
+ 4f4fb700ef54 Pull complete 0B
+ 4f4fb700ef54 Pull complete 0B
+ Image flwr/supernode:1.27.0 Pulled 
+ Image flwr/superlink:1.27.0 Pulled 
+ Image flwr/supernode:1.27.0 Pulled 
+ Image flwr/supernode:1.27.0 Pulled 
+ Image feddisclosure-flower-exec:0.12.0 Building 
+ Image feddisclosure-flower-exec:0.12.0 Building 
+ Image feddisclosure-flower-exec:0.12.0 Building 
+ Image feddisclosure-flower-exec:0.12.0 Building 
+SuperExec.Dockerfile:8
+
+--------------------
+
+   7 |     # CPU PyTorch. Install independently so pip does not pull CUDA wheels for the lab.
+
+   8 | >>> RUN python -m pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1' \
+
+   9 | >>>     && python -m pip install --no-cache-dir -e . 'scikit-learn>=1.4,<2'
+
+  10 |     COPY docker/flower/flwr-config.toml /opt/fdl-flwr-home/.flwr/config.toml
+
+--------------------
+
+target serverexec: failed to solve: process "/bin/sh -c python -m pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1'     && python -m pip install --no-cache-dir -e . 'scikit-learn>=1.4,<2'" did not complete successfully: exit code: 1
+

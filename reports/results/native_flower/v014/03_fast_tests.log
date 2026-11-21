@@ -1,0 +1,7 @@
+.....................s.................................................. [ 57%]
+.............ss.......................................                   [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/privacy/test_dp_ledger.py:85: OpenDP wheel not installed
+SKIPPED [1] tests/training/test_joint_evidence_verify.py:13: Full researcher evidence bundle not present in Git checkout
+SKIPPED [1] tests/training/test_joint_evidence_verify.py:22: Full researcher evidence bundle not present in Git checkout
+123 passed, 3 skipped, 4 deselected in 13.24s

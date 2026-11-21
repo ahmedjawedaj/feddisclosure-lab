@@ -6,6 +6,7 @@ x-site-exec: &site-exec
   build:
     context: .
     dockerfile: docker/flower/SuperExec.Dockerfile
+    secrets: [fdl_build_ca]
   image: feddisclosure-flower-exec:0.12.0
   entrypoint: ["flower-superexec"]
   networks: [flower-lab]
@@ -40,6 +41,7 @@ services:
     build:
       context: .
       dockerfile: docker/flower/SuperExec.Dockerfile
+      secrets: [fdl_build_ca]
     image: feddisclosure-flower-exec:0.12.0
     entrypoint: ["flower-superexec"]
     command: ["--insecure", "--plugin-type", "serverapp", "--appio-api-address", "superlink:9091"]
@@ -133,6 +135,7 @@ services:
     build:
       context: .
       dockerfile: docker/flower/SuperExec.Dockerfile
+      secrets: [fdl_build_ca]
     entrypoint: ["flwr"]
     working_dir: /app
     profiles: [tools]
@@ -141,6 +144,12 @@ services:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
     security_opt: ["no-new-privileges:true"]
+
+# Build-time only. Set FDL_BUILD_CA_BUNDLE to a PEM file when egress goes through a
+# TLS-inspecting proxy; the default is an empty placeholder (no extra CA).
+secrets:
+  fdl_build_ca:
+    file: ${FDL_BUILD_CA_BUNDLE:-./docker/flower/no-ca-bundle.pem}
 
 networks:
   flower-lab:
