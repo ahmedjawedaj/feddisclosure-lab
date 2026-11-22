@@ -1,0 +1,266 @@
+{
+ "schema_version": 1,
+ "runs": {
+  "c4-digits-iid-10round": {
+   "clients": 4,
+   "rounds": 10,
+   "native_run": false,
+   "primary_for_p2": false,
+   "orders": 24,
+   "upstream_final_pass_rate": 1.0,
+   "upstream_final_worst_diff": 8.940696716308594e-08,
+   "upstream_final_best_diff": 5.960464477539063e-08,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 2.9802322387695312e-08,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true
+  },
+  "c4-digits-iid-2round": {
+   "clients": 4,
+   "rounds": 2,
+   "native_run": false,
+   "primary_for_p2": true,
+   "orders": 24,
+   "upstream_final_pass_rate": 1.0,
+   "upstream_final_worst_diff": 2.9802322387695312e-08,
+   "upstream_final_best_diff": 1.4901161193847656e-08,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.4901161193847656e-08,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true
+  },
+  "c4-mnist-iid-10round": {
+   "clients": 4,
+   "rounds": 10,
+   "native_run": false,
+   "primary_for_p2": false,
+   "orders": 24,
+   "upstream_final_pass_rate": 0.8333333333333334,
+   "upstream_final_worst_diff": 0.0026389360427856445,
+   "upstream_final_best_diff": 2.980232238769531e-07,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.1920928955078125e-07,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true
+  },
+  "run-iid-d": {
+   "clients": 3,
+   "rounds": 2,
+   "native_run": true,
+   "primary_for_p2": false,
+   "orders": 6,
+   "upstream_final_pass_rate": 1.0,
+   "upstream_final_worst_diff": 2.9802322387695312e-08,
+   "upstream_final_best_diff": 2.9802322387695312e-08,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.4901161193847656e-08,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true,
+   "native_gate_saved_pass": true,
+   "native_gate_saved_max_abs_diff": 2.9802322387695312e-08,
+   "replay_with_observed_orders_equals_native_final_bitwise": true,
+   "float64_reference_replay_equals_saved_reference_checkpoint_bitwise": true,
+   "replay_observed_orders_gate_pass": true
+  },
+  "run-iid-repeat": {
+   "clients": 3,
+   "rounds": 2,
+   "native_run": true,
+   "primary_for_p2": false,
+   "orders": 6,
+   "upstream_final_pass_rate": 1.0,
+   "upstream_final_worst_diff": 2.9802322387695312e-08,
+   "upstream_final_best_diff": 2.9802322387695312e-08,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.4901161193847656e-08,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true,
+   "native_gate_saved_pass": true,
+   "native_gate_saved_max_abs_diff": 2.9802322387695312e-08,
+   "replay_with_observed_orders_equals_native_final_bitwise": true,
+   "float64_reference_replay_equals_saved_reference_checkpoint_bitwise": true,
+   "replay_observed_orders_gate_pass": true
+  },
+  "run-mnist-full-iid-seed2": {
+   "clients": 3,
+   "rounds": 10,
+   "native_run": true,
+   "primary_for_p2": false,
+   "orders": 6,
+   "upstream_final_pass_rate": 1.0,
+   "upstream_final_worst_diff": 7.152557373046875e-07,
+   "upstream_final_best_diff": 5.960464477539062e-07,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.1920928955078125e-07,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true,
+   "native_gate_saved_pass": true,
+   "native_gate_saved_max_abs_diff": 5.364418029785156e-07,
+   "replay_with_observed_orders_equals_native_final_bitwise": true,
+   "float64_reference_replay_equals_saved_reference_checkpoint_bitwise": true,
+   "replay_observed_orders_gate_pass": true
+  },
+  "run-mnist-full-iid-seed3": {
+   "clients": 3,
+   "rounds": 10,
+   "native_run": true,
+   "primary_for_p2": false,
+   "orders": 6,
+   "upstream_final_pass_rate": 0.0,
+   "upstream_final_worst_diff": 0.012983294203877449,
+   "upstream_final_best_diff": 0.012978913262486458,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.1920928955078125e-07,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true,
+   "native_gate_saved_pass": false,
+   "native_gate_saved_max_abs_diff": 0.012978928163647652,
+   "replay_with_observed_orders_equals_native_final_bitwise": true,
+   "float64_reference_replay_equals_saved_reference_checkpoint_bitwise": true,
+   "replay_observed_orders_gate_pass": false
+  },
+  "run-mnist-full-iid": {
+   "clients": 3,
+   "rounds": 10,
+   "native_run": true,
+   "primary_for_p2": false,
+   "orders": 6,
+   "upstream_final_pass_rate": 1.0,
+   "upstream_final_worst_diff": 1.125037670135498e-06,
+   "upstream_final_best_diff": 7.972121238708496e-07,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.1920928955078125e-07,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true,
+   "native_gate_saved_pass": true,
+   "native_gate_saved_max_abs_diff": 7.82310962677002e-07,
+   "replay_with_observed_orders_equals_native_final_bitwise": true,
+   "float64_reference_replay_equals_saved_reference_checkpoint_bitwise": true,
+   "replay_observed_orders_gate_pass": true
+  },
+  "run-mnist-full-labelskew": {
+   "clients": 3,
+   "rounds": 10,
+   "native_run": true,
+   "primary_for_p2": false,
+   "orders": 6,
+   "upstream_final_pass_rate": 0.0,
+   "upstream_final_worst_diff": 0.00692342221736908,
+   "upstream_final_best_diff": 0.002941705286502838,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.1920928955078125e-07,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true,
+   "native_gate_saved_pass": false,
+   "native_gate_saved_max_abs_diff": 0.006923466920852661,
+   "replay_with_observed_orders_equals_native_final_bitwise": true,
+   "float64_reference_replay_equals_saved_reference_checkpoint_bitwise": true,
+   "replay_observed_orders_gate_pass": false
+  },
+  "run-noniid-labelskew": {
+   "clients": 3,
+   "rounds": 2,
+   "native_run": true,
+   "primary_for_p2": false,
+   "orders": 6,
+   "upstream_final_pass_rate": 1.0,
+   "upstream_final_worst_diff": 2.9802322387695312e-08,
+   "upstream_final_best_diff": 2.9802322387695312e-08,
+   "upstream_one_round_min_pass_rate": 1.0,
+   "upstream_one_round_worst_diff": 1.4901161193847656e-08,
+   "deterministic_final_pass_rate": 1.0,
+   "deterministic_final_worst_diff": 0.0,
+   "deterministic_one_round_min_pass_rate": 1.0,
+   "deterministic_bitwise_equal_to_reference": true,
+   "native_gate_saved_pass": true,
+   "native_gate_saved_max_abs_diff": 2.9802322387695312e-08,
+   "replay_with_observed_orders_equals_native_final_bitwise": true,
+   "float64_reference_replay_equals_saved_reference_checkpoint_bitwise": true,
+   "replay_observed_orders_gate_pass": true
+  }
+ },
+ "P1": {
+  "rule": "7 of 7 native runs pass the unchanged 1e-5 gate with DeterministicFedAvg (replay)",
+  "native_runs_in_study": 7,
+  "passing": 7,
+  "per_run": {
+   "run-iid-d": true,
+   "run-iid-repeat": true,
+   "run-mnist-full-iid-seed2": true,
+   "run-mnist-full-iid-seed3": true,
+   "run-mnist-full-iid": true,
+   "run-mnist-full-labelskew": true,
+   "run-noniid-labelskew": true
+  },
+  "result": "PASS"
+ },
+ "P2": {
+  "rule": "upstream pass rate over reply orders strictly below 100 percent for 4 clients (judged on the shipped 4-client config)",
+  "primary": {
+   "c4-digits-iid-2round": false
+  },
+  "result": "FAIL",
+  "exploratory_4_client_runs_below_100_percent": {
+   "c4-digits-iid-10round": false,
+   "c4-mnist-iid-10round": true
+  }
+ },
+ "baseline_upstream_float64_gate_native": {
+  "run-iid-d": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 2.9802322387695312e-08
+  },
+  "run-iid-repeat": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 2.9802322387695312e-08
+  },
+  "run-mnist-full-iid-seed2": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 5.364418029785156e-07
+  },
+  "run-mnist-full-iid-seed3": {
+   "saved_pass": false,
+   "saved_max_abs_diff": 0.012978928163647652
+  },
+  "run-mnist-full-iid": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 7.82310962677002e-07
+  },
+  "run-mnist-full-labelskew": {
+   "saved_pass": false,
+   "saved_max_abs_diff": 0.006923466920852661
+  },
+  "run-noniid-labelskew": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 2.9802322387695312e-08
+  }
+ },
+ "P3": {
+  "rule": "P3: difference in mean victim MSE between reply orders is below the seed standard deviation",
+  "main_after_round_1": {
+   "order_effect_max_minus_min_of_seed_mean_mse": 3.2014213502407074e-09,
+   "seed_sd_mean_over_orders": 0.016000311452892657,
+   "p3_pass": true,
+   "distinct_starting_models": 12
+  },
+  "result": "PASS"
+ }
+}

@@ -1,0 +1,648 @@
+{
+  "schema_version": 1,
+  "preregistration": "docs/preregistration/v0.15.md",
+  "note": "Thresholds are copied verbatim from the pre-registration and were not changed. The primary attack is the inner-product attack (Hayes Algorithm 2). The nearest-candidate attack is reported as well and is included in D1.",
+  "D1": {
+    "id": "D1",
+    "prediction": "No cell breaks the bound",
+    "pass_rule": "For every cell, the Clopper-Pearson lower limit of attack success is at most the bound plus 0.01. A breach is a gate failure",
+    "observed": {
+      "cells_checked": 50,
+      "breaches": [],
+      "largest_cp_lower_minus_bound_plus_0.01": -0.012228717084540864
+    },
+    "pass": true
+  },
+  "D2": {
+    "id": "D2",
+    "prediction": "The attack is far above chance at sigma 0.2, u 10",
+    "pass_rule": "Wilson lower limit above 0.60",
+    "observed": {
+      "wilson_lower_by_candidate_mode": {
+        "same_u10": 0.6321115753976023,
+        "any_u10": 0.9257504237337675
+      },
+      "rates": {
+        "same_u10": 0.662,
+        "any_u10": 0.942
+      }
+    },
+    "operationalisation": "u 10 exists for same-label and any-label candidates. Both must pass.",
+    "pass": true
+  },
+  "D3": {
+    "id": "D3",
+    "prediction": "The attack is near the bound at high noise",
+    "pass_rule": "At sigma 4, u 10 the attack rate is within 0.05 of the bound",
+    "observed": {
+      "same_u10": {
+        "attack": 0.096,
+        "bound": 0.15114111998577007,
+        "gap": 0.055141119985770065
+      },
+      "any_u10": {
+        "attack": 0.129,
+        "bound": 0.15114111998577007,
+        "gap": 0.022141119985770064
+      }
+    },
+    "operationalisation": "Within 0.05 means absolute difference at most 0.05. Both candidate modes must pass.",
+    "pass": false
+  },
+  "D4": {
+    "id": "D4",
+    "prediction": "Success falls as sigma grows",
+    "pass_rule": "Attack rate at sigma 4 is below the rate at sigma 0.5 for every u, with non-overlapping Wilson intervals",
+    "observed": {
+      "same_u10": {
+        "rate_sigma4": 0.096,
+        "wilson_sigma4": [
+          0.07925690009839675,
+          0.11583512075793179
+        ],
+        "rate_sigma0.5": 0.305,
+        "wilson_sigma0.5": [
+          0.2772552724809733,
+          0.3342371633283932
+        ],
+        "lower_and_non_overlapping": true
+      },
+      "same_u100": {
+        "rate_sigma4": 0.012,
+        "wilson_sigma4": [
+          0.006877647806403522,
+          0.02085726847549828
+        ],
+        "rate_sigma0.5": 0.053,
+        "wilson_sigma0.5": [
+          0.04074650524859452,
+          0.06867461683749176
+        ],
+        "lower_and_non_overlapping": true
+      },
+      "any_u10": {
+        "rate_sigma4": 0.129,
+        "wilson_sigma4": [
+          0.10963544529450506,
+          0.1512040095017769
+        ],
+        "rate_sigma0.5": 0.616,
+        "wilson_sigma0.5": [
+          0.5854663334716732,
+          0.645645858559678
+        ],
+        "lower_and_non_overlapping": true
+      },
+      "any_u100": {
+        "rate_sigma4": 0.016,
+        "wilson_sigma4": [
+          0.009872242002277388,
+          0.02583206021173997
+        ],
+        "rate_sigma0.5": 0.169,
+        "wilson_sigma0.5": [
+          0.14704962548581355,
+          0.193483688631624
+        ],
+        "lower_and_non_overlapping": true
+      },
+      "any_u1000": {
+        "rate_sigma4": 0.001,
+        "wilson_sigma4": [
+          0.00017654637062607809,
+          0.0056425585979579355
+        ],
+        "rate_sigma0.5": 0.039,
+        "wilson_sigma0.5": [
+          0.028658960904180485,
+          0.052869310419501346
+        ],
+        "lower_and_non_overlapping": true
+      }
+    },
+    "operationalisation": "Every one of the five candidate sets (same-label u 10 and 100, any-label u 10, 100 and 1000) must pass.",
+    "pass": true
+  },
+  "D5": {
+    "id": "D5",
+    "prediction": "The exact optimal success for the real candidate set is at least the attack success and at most the bound",
+    "pass_rule": "Holds in every cell up to Monte Carlo error (Clopper-Pearson)",
+    "observed": {
+      "same_u10|sigma=0.2": {
+        "optimal": 0.680625,
+        "optimal_cp": [
+          0.6760304973669621,
+          0.6851932695994559
+        ],
+        "ip_attack": 0.662,
+        "dist_attack": 0.662,
+        "bound": 0.9998997749004908,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "same_u100|sigma=0.2": {
+        "optimal": 0.301225,
+        "optimal_cp": [
+          0.29673099672722575,
+          0.3057478740073035
+        ],
+        "ip_attack": 0.291,
+        "dist_attack": 0.291,
+        "bound": 0.9962484881251569,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u10|sigma=0.2": {
+        "optimal": 0.945975,
+        "optimal_cp": [
+          0.9437145024939031,
+          0.9481704786366879
+        ],
+        "ip_attack": 0.942,
+        "dist_attack": 0.942,
+        "bound": 0.9998997749004908,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u100|sigma=0.2": {
+        "optimal": 0.669575,
+        "optimal_cp": [
+          0.6649408133435062,
+          0.674184559247631
+        ],
+        "ip_attack": 0.636,
+        "dist_attack": 0.636,
+        "bound": 0.9962484881251569,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u1000|sigma=0.2": {
+        "optimal": 0.30085,
+        "optimal_cp": [
+          0.29635761785626474,
+          0.30537130738209556
+        ],
+        "ip_attack": 0.288,
+        "dist_attack": 0.288,
+        "bound": 0.9719184346935027,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "same_u10|sigma=0.5": {
+        "optimal": 0.294875,
+        "optimal_cp": [
+          0.29040893221197656,
+          0.2993708614888215
+        ],
+        "ip_attack": 0.305,
+        "dist_attack": 0.305,
+        "bound": 0.7637595841058832,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": false
+      },
+      "same_u100|sigma=0.5": {
+        "optimal": 0.058675,
+        "optimal_cp": [
+          0.056391491522416584,
+          0.061022831325750954
+        ],
+        "ip_attack": 0.053,
+        "dist_attack": 0.053,
+        "bound": 0.37208058543549444,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u10|sigma=0.5": {
+        "optimal": 0.612525,
+        "optimal_cp": [
+          0.6077302575972094,
+          0.6173034023920282
+        ],
+        "ip_attack": 0.616,
+        "dist_attack": 0.616,
+        "bound": 0.7637595841058832,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": false
+      },
+      "any_u100|sigma=0.5": {
+        "optimal": 0.196,
+        "optimal_cp": [
+          0.19211945123937443,
+          0.19992472791618274
+        ],
+        "ip_attack": 0.169,
+        "dist_attack": 0.169,
+        "bound": 0.37208058543549444,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u1000|sigma=0.5": {
+        "optimal": 0.038725,
+        "optimal_cp": [
+          0.03685528478668997,
+          0.04066204990871907
+        ],
+        "ip_attack": 0.039,
+        "dist_attack": 0.039,
+        "bound": 0.13780541289830034,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": false
+      },
+      "same_u10|sigma=1": {
+        "optimal": 0.185275,
+        "optimal_cp": [
+          0.18147801568887575,
+          0.18911772629789064
+        ],
+        "ip_attack": 0.174,
+        "dist_attack": 0.174,
+        "bound": 0.389143691645361,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "same_u100|sigma=1": {
+        "optimal": 0.027275,
+        "optimal_cp": [
+          0.02570065889296576,
+          0.028918457059895025
+        ],
+        "ip_attack": 0.025,
+        "dist_attack": 0.025,
+        "bound": 0.09236224807369403,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u10|sigma=1": {
+        "optimal": 0.325175,
+        "optimal_cp": [
+          0.3205846949682495,
+          0.32979069527232985
+        ],
+        "ip_attack": 0.336,
+        "dist_attack": 0.336,
+        "bound": 0.389143691645361,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": false
+      },
+      "any_u100|sigma=1": {
+        "optimal": 0.061675,
+        "optimal_cp": [
+          0.059336895753181344,
+          0.06407697937133286
+        ],
+        "ip_attack": 0.056,
+        "dist_attack": 0.056,
+        "bound": 0.09236224807369403,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u1000|sigma=1": {
+        "optimal": 0.008525,
+        "optimal_cp": [
+          0.0076473594567833805,
+          0.009475061067941628
+        ],
+        "ip_attack": 0.006,
+        "dist_attack": 0.006,
+        "bound": 0.01829846840565661,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "same_u10|sigma=2": {
+        "optimal": 0.13705,
+        "optimal_cp": [
+          0.13369377293802667,
+          0.14045900762643032
+        ],
+        "ip_attack": 0.137,
+        "dist_attack": 0.137,
+        "bound": 0.21723908042730522,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "same_u100|sigma=2": {
+        "optimal": 0.016825,
+        "optimal_cp": [
+          0.015587260516610925,
+          0.018133574944685385
+        ],
+        "ip_attack": 0.019,
+        "dist_attack": 0.019,
+        "bound": 0.03389893912284281,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": false
+      },
+      "any_u10|sigma=2": {
+        "optimal": 0.194625,
+        "optimal_cp": [
+          0.1907549067909111,
+          0.19853947268936006
+        ],
+        "ip_attack": 0.193,
+        "dist_attack": 0.193,
+        "bound": 0.21723908042730522,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u100|sigma=2": {
+        "optimal": 0.02645,
+        "optimal_cp": [
+          0.024899379626967966,
+          0.028069867565918265
+        ],
+        "ip_attack": 0.028,
+        "dist_attack": 0.028,
+        "bound": 0.03389893912284281,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": false
+      },
+      "any_u1000|sigma=2": {
+        "optimal": 0.00275,
+        "optimal_cp": [
+          0.0022606913064309245,
+          0.0033135577215170453
+        ],
+        "ip_attack": 0.004,
+        "dist_attack": 0.004,
+        "bound": 0.004795559209142178,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": false
+      },
+      "same_u10|sigma=4": {
+        "optimal": 0.11765,
+        "optimal_cp": [
+          0.11450789866589943,
+          0.12084772133845595
+        ],
+        "ip_attack": 0.096,
+        "dist_attack": 0.096,
+        "bound": 0.15114111998577007,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "same_u100|sigma=4": {
+        "optimal": 0.012875,
+        "optimal_cp": [
+          0.011793186499372667,
+          0.014028357128302077
+        ],
+        "ip_attack": 0.012,
+        "dist_attack": 0.012,
+        "bound": 0.018930894265546318,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u10|sigma=4": {
+        "optimal": 0.14275,
+        "optimal_cp": [
+          0.13933536964778476,
+          0.14621657772938312
+        ],
+        "ip_attack": 0.129,
+        "dist_attack": 0.129,
+        "bound": 0.15114111998577007,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u100|sigma=4": {
+        "optimal": 0.01625,
+        "optimal_cp": [
+          0.015033666687371173,
+          0.01753726877293196
+        ],
+        "ip_attack": 0.016,
+        "dist_attack": 0.016,
+        "bound": 0.018930894265546318,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      },
+      "any_u1000|sigma=4": {
+        "optimal": 0.0017,
+        "optimal_cp": [
+          0.0013203508931078584,
+          0.002154664487489027
+        ],
+        "ip_attack": 0.001,
+        "dist_attack": 0.001,
+        "bound": 0.0022540345720321576,
+        "optimal_cp_lower_le_bound": true,
+        "ip_cp_lower_le_optimal_cp_upper": true,
+        "dist_cp_lower_le_optimal_cp_upper": true,
+        "point_order_ip_le_optimal_le_bound": true
+      }
+    },
+    "operationalisation": "Up to Monte Carlo error means: the Clopper-Pearson lower limit of the exact optimum is at most the bound, and the Clopper-Pearson lower limit of each attack rate is at most the Clopper-Pearson upper limit of the exact optimum. The point-estimate order is reported next to it.",
+    "pass": true
+  },
+  "gap_note": {
+    "question": "Does the gap between the attack and the bound come from same-label gradient similarity?",
+    "answer": "Yes for same-label candidates at u 10 and 100, mostly no for any-label candidates at u 10. Same-label candidates have clipped gradients that point the same way as the victim's (mean cosine about 0.8, against about 0.01 for any-label candidates). Their exact optimum sits far below the orthogonal-candidate reference at low and medium noise (same-label u 10: 0.32 below at sigma 0.2, 0.38 at sigma 0.5), while for any-label u 10 it is within 0.07 of that reference at every sigma. At sigma 4 every gap is small. The same-label u 10 gap of 0.055 splits into 0.007 for the bound itself, 0.026 for candidate similarity and 0.022 for sampling noise in 1000 trials. For any-label u 100 and 1000 at low noise, a share of the gap comes from candidates of the victim's own class that sit close to the victim by chance (nearest other candidate 0.44 C at u 100 and 0.31 C at u 1000), and from the bound itself being loose for large u. All clipped gradients have norm C here (every per-sample gradient exceeds the clip), so the inner-product and nearest-candidate rules choose the same candidate in every trial.",
+    "mean_cosine_victim_vs_other_candidates": {
+      "same_u10": 0.7929669302236452,
+      "same_u100": 0.794492755108231,
+      "any_u10": 0.005239086860038228,
+      "any_u100": 0.011243590721774104,
+      "any_u1000": 0.012157502650177038
+    },
+    "per_cell": {
+      "same_u10|sigma=0.2": {
+        "bound_minus_orthogonal_reference": 0.0015576345024080895,
+        "orthogonal_reference_minus_exact_optimal": 0.31771714039808263,
+        "exact_optimal_minus_attack": 0.018625000000000003,
+        "bound_minus_attack": 0.3378997749004907
+      },
+      "same_u100|sigma=0.2": {
+        "bound_minus_orthogonal_reference": 0.008080696513703356,
+        "orthogonal_reference_minus_exact_optimal": 0.6869427916114534,
+        "exact_optimal_minus_attack": 0.01022500000000004,
+        "bound_minus_attack": 0.7052484881251568
+      },
+      "any_u10|sigma=0.2": {
+        "bound_minus_orthogonal_reference": 0.0015576345024080895,
+        "orthogonal_reference_minus_exact_optimal": 0.05236714039808266,
+        "exact_optimal_minus_attack": 0.003975000000000062,
+        "bound_minus_attack": 0.05789977490049081
+      },
+      "any_u100|sigma=0.2": {
+        "bound_minus_orthogonal_reference": 0.008080696513703356,
+        "orthogonal_reference_minus_exact_optimal": 0.3185927916114535,
+        "exact_optimal_minus_attack": 0.03357500000000002,
+        "bound_minus_attack": 0.36024848812515686
+      },
+      "any_u1000|sigma=0.2": {
+        "bound_minus_orthogonal_reference": 0.021212324515557324,
+        "orthogonal_reference_minus_exact_optimal": 0.6498561101779454,
+        "exact_optimal_minus_attack": 0.012850000000000028,
+        "bound_minus_attack": 0.6839184346935028
+      },
+      "same_u10|sigma=0.5": {
+        "bound_minus_orthogonal_reference": 0.0901141050989479,
+        "orthogonal_reference_minus_exact_optimal": 0.3787704790069353,
+        "exact_optimal_minus_attack": -0.010124999999999995,
+        "bound_minus_attack": 0.4587595841058832
+      },
+      "same_u100|sigma=0.5": {
+        "bound_minus_orthogonal_reference": 0.048861610624365504,
+        "orthogonal_reference_minus_exact_optimal": 0.26454397481112896,
+        "exact_optimal_minus_attack": 0.0056749999999999995,
+        "bound_minus_attack": 0.31908058543549445
+      },
+      "any_u10|sigma=0.5": {
+        "bound_minus_orthogonal_reference": 0.0901141050989479,
+        "orthogonal_reference_minus_exact_optimal": 0.06112047900693529,
+        "exact_optimal_minus_attack": -0.003475000000000006,
+        "bound_minus_attack": 0.1477595841058832
+      },
+      "any_u100|sigma=0.5": {
+        "bound_minus_orthogonal_reference": 0.048861610624365504,
+        "orthogonal_reference_minus_exact_optimal": 0.12721897481112893,
+        "exact_optimal_minus_attack": 0.026999999999999996,
+        "bound_minus_attack": 0.20308058543549443
+      },
+      "any_u1000|sigma=0.5": {
+        "bound_minus_orthogonal_reference": 0.01751899488168293,
+        "orthogonal_reference_minus_exact_optimal": 0.0815614180166174,
+        "exact_optimal_minus_attack": -0.00027499999999999747,
+        "bound_minus_attack": 0.09880541289830033
+      },
+      "same_u10|sigma=1": {
+        "bound_minus_orthogonal_reference": 0.04820792298464599,
+        "orthogonal_reference_minus_exact_optimal": 0.15566076866071502,
+        "exact_optimal_minus_attack": 0.011275000000000007,
+        "bound_minus_attack": 0.215143691645361
+      },
+      "same_u100|sigma=1": {
+        "bound_minus_orthogonal_reference": 0.009906530671604352,
+        "orthogonal_reference_minus_exact_optimal": 0.05518071740208968,
+        "exact_optimal_minus_attack": 0.0022749999999999992,
+        "bound_minus_attack": 0.06736224807369404
+      },
+      "any_u10|sigma=1": {
+        "bound_minus_orthogonal_reference": 0.04820792298464599,
+        "orthogonal_reference_minus_exact_optimal": 0.01576076866071502,
+        "exact_optimal_minus_attack": -0.010825000000000029,
+        "bound_minus_attack": 0.05314369164536098
+      },
+      "any_u100|sigma=1": {
+        "bound_minus_orthogonal_reference": 0.009906530671604352,
+        "orthogonal_reference_minus_exact_optimal": 0.020780717402089678,
+        "exact_optimal_minus_attack": 0.0056749999999999995,
+        "bound_minus_attack": 0.03636224807369403
+      },
+      "any_u1000|sigma=1": {
+        "bound_minus_orthogonal_reference": 0.001694568939918633,
+        "orthogonal_reference_minus_exact_optimal": 0.008078899465737978,
+        "exact_optimal_minus_attack": 0.0025249999999999995,
+        "bound_minus_attack": 0.01229846840565661
+      },
+      "same_u10|sigma=2": {
+        "bound_minus_orthogonal_reference": 0.018016566258118816,
+        "orthogonal_reference_minus_exact_optimal": 0.0621725141691864,
+        "exact_optimal_minus_attack": 4.999999999999449e-05,
+        "bound_minus_attack": 0.08023908042730521
+      },
+      "same_u100|sigma=2": {
+        "bound_minus_orthogonal_reference": 0.002222103435700118,
+        "orthogonal_reference_minus_exact_optimal": 0.01485183568714269,
+        "exact_optimal_minus_attack": -0.002175,
+        "bound_minus_attack": 0.014898939122842809
+      },
+      "any_u10|sigma=2": {
+        "bound_minus_orthogonal_reference": 0.018016566258118816,
+        "orthogonal_reference_minus_exact_optimal": 0.004597514169186412,
+        "exact_optimal_minus_attack": 0.0016249999999999876,
+        "bound_minus_attack": 0.024239080427305215
+      },
+      "any_u100|sigma=2": {
+        "bound_minus_orthogonal_reference": 0.002222103435700118,
+        "orthogonal_reference_minus_exact_optimal": 0.005226835687142689,
+        "exact_optimal_minus_attack": -0.0015499999999999993,
+        "bound_minus_attack": 0.005898939122842808
+      },
+      "any_u1000|sigma=2": {
+        "bound_minus_orthogonal_reference": 0.0002601897098898319,
+        "orthogonal_reference_minus_exact_optimal": 0.0017853694992523463,
+        "exact_optimal_minus_attack": -0.0012500000000000002,
+        "bound_minus_attack": 0.0007955592091421779
+      },
+      "same_u10|sigma=4": {
+        "bound_minus_orthogonal_reference": 0.00717307601079914,
+        "orthogonal_reference_minus_exact_optimal": 0.026318043974970923,
+        "exact_optimal_minus_attack": 0.021650000000000003,
+        "bound_minus_attack": 0.055141119985770065
+      },
+      "same_u100|sigma=4": {
+        "bound_minus_orthogonal_reference": 0.0006814313929854494,
+        "orthogonal_reference_minus_exact_optimal": 0.005374462872560869,
+        "exact_optimal_minus_attack": 0.000874999999999999,
+        "bound_minus_attack": 0.0069308942655463175
+      },
+      "any_u10|sigma=4": {
+        "bound_minus_orthogonal_reference": 0.00717307601079914,
+        "orthogonal_reference_minus_exact_optimal": 0.0012180439749709393,
+        "exact_optimal_minus_attack": 0.013749999999999984,
+        "bound_minus_attack": 0.022141119985770064
+      },
+      "any_u100|sigma=4": {
+        "bound_minus_orthogonal_reference": 0.0006814313929854494,
+        "orthogonal_reference_minus_exact_optimal": 0.0019994628725608678,
+        "exact_optimal_minus_attack": 0.0002500000000000002,
+        "bound_minus_attack": 0.0029308942655463174
+      },
+      "any_u1000|sigma=4": {
+        "bound_minus_orthogonal_reference": 6.587995758162643e-05,
+        "orthogonal_reference_minus_exact_optimal": 0.00048815461445053123,
+        "exact_optimal_minus_attack": 0.0006999999999999999,
+        "bound_minus_attack": 0.0012540345720321575
+      }
+    }
+  }
+}

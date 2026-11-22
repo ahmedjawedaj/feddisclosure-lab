@@ -1,0 +1,94 @@
+{
+ "schema_version": 1,
+ "preregistration": "docs/preregistration/v0.15.md",
+ "note": "Thresholds are copied verbatim from the pre-registration and were not changed. Replay in plain PyTorch, no live Docker run.",
+ "P1": {
+  "prediction": "DeterministicFedAvg (replies ordered by site id) closes the float64 parity gap",
+  "pass_rule": "7 of 7 native runs pass the unchanged 1e-5 gate",
+  "observed": {
+   "native_runs_replayed": 7,
+   "passing_with_deterministic": 7,
+   "worst_deterministic_max_abs_diff": 0.0,
+   "upstream_saved_native_gate_passes": 5,
+   "replay_reproduces_saved_native_final_model_bitwise": 7,
+   "per_run": {
+    "run-iid-d": true,
+    "run-iid-repeat": true,
+    "run-mnist-full-iid-seed2": true,
+    "run-mnist-full-iid-seed3": true,
+    "run-mnist-full-iid": true,
+    "run-mnist-full-labelskew": true,
+    "run-noniid-labelskew": true
+   }
+  },
+  "pass": true,
+  "scope": "replay only. The live confirmation with the strategy enabled is pending"
+ },
+ "P2": {
+  "prediction": "Upstream FedAvg parity depends on reply order",
+  "pass_rule": "In the bitwise replay, the pass rate over reply orders is strictly below 100% for 4 clients",
+  "observed": {
+   "primary_shipped_4_client_config": {
+    "c4-digits-iid-2round": {
+     "upstream_pass_rate": 1.0,
+     "worst_max_abs_diff": 2.9802322387695312e-08
+    }
+   },
+   "exploratory_4_client_configs": {
+    "c4-digits-iid-10round": {
+     "upstream_pass_rate": 1.0,
+     "worst_max_abs_diff": 8.940696716308594e-08
+    },
+    "c4-mnist-iid-10round": {
+     "upstream_pass_rate": 0.8333333333333334,
+     "worst_max_abs_diff": 0.0026389360427856445
+    }
+   },
+   "note": "No saved native run has 4 clients. The primary config was fixed before the results were seen"
+  },
+  "pass": false
+ },
+ "baseline_float64_gate_native_runs": {
+  "run-iid-d": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 2.9802322387695312e-08
+  },
+  "run-iid-repeat": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 2.9802322387695312e-08
+  },
+  "run-mnist-full-iid-seed2": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 5.364418029785156e-07
+  },
+  "run-mnist-full-iid-seed3": {
+   "saved_pass": false,
+   "saved_max_abs_diff": 0.012978928163647652
+  },
+  "run-mnist-full-iid": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 7.82310962677002e-07
+  },
+  "run-mnist-full-labelskew": {
+   "saved_pass": false,
+   "saved_max_abs_diff": 0.006923466920852661
+  },
+  "run-noniid-labelskew": {
+   "saved_pass": true,
+   "saved_max_abs_diff": 2.9802322387695312e-08
+  }
+ },
+ "P3": {
+  "prediction": "Reply order does not move privacy metrics beyond seed noise",
+  "pass_rule": "Difference in mean victim MSE between reply orders is below the seed standard deviation",
+  "observed": {
+   "orders": 24,
+   "seeds": 8,
+   "distinct_starting_models": 12,
+   "order_effect_max_minus_min_of_seed_mean_mse": 3.2014213502407074e-09,
+   "seed_sd_mean_over_orders": 0.016000311452892657,
+   "ratio_effect_to_seed_sd": 2.0008493957546873e-07
+  },
+  "pass": true
+ }
+}

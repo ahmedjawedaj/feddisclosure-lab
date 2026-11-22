@@ -77,6 +77,7 @@ features = 64
 classes = 10
 data-root = "data/training/digits-iid"
 artifact-dir = "reports/results/sprint2/flower"
+aggregation = "upstream"
 
 # The three-supernode simulation connection is written to `~/.flwr/config.toml` by
 # `feddisclosure.training.flwr_cli.ensure_simulation_connection`. A legacy

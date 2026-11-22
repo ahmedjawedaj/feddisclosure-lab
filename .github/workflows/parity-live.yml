@@ -1,0 +1,42 @@
+name: Live parity of the opt-in deterministic aggregation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies (CPU only, pinned like the native workflow)
+        run: |
+          python -m pip install -e '.[test]'
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1'
+          python -m pip install 'scikit-learn>=1.4,<2' 'numpy>=1.26,<3' 'flwr==1.27.0'
+      - name: Confirm Docker
+        run: |
+          docker version
+          docker compose version
+      - name: Run upstream and deterministic arms
+        run: bash scripts/run_parity_live.sh
+      - name: Summarise
+        if: always()
+        run: |
+          for f in reports/results/native_flower/v0150/live_parity/*.exit; do echo "== $f"; cat "$f"; done
+      - name: Retain successes and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-parity-evidence
+          path: reports/results/native_flower/v0150/live_parity/
+          if-no-files-found: warn

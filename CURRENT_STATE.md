@@ -22,7 +22,7 @@ collusion inversion stay 24 to 26 points above the label-only floor, the aggrega
 and the DP rows are a naive attacker only. LiRA at epsilon
 6 to 8 still shows a detectable signal (AUC 0.54 to 0.58), and the earlier 24-shadow run understated it.
 Kept as FAIL: float64 parity on label skew and seed 3, the naive 2-round tolerance on the original 4-client run.
-Still open: MNIST licence unresolved (no explicit licence from the originators), no proven multi-round SecAgg+ bound,
+Still open: MNIST licence unresolved (no explicit licence from the originators), no multi-round SecAgg+ bound for the non-convex model (an L2 bound for convex losses is in docs/proofs/multi-round-note.md),
 no DP-aware inversion attacker, no inversion on captured Docker traffic, Docker topology tested at 3 and 4 clients only.
 
 ## 2026-11-21 v0.14 Phase 2 and 3 executed (see `docs/v0.14-privacy-secagg-results.md`)

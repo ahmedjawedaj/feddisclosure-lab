@@ -1,0 +1,1295 @@
+{
+  "schema_version": 1,
+  "primary_attack": "ip",
+  "cells": {
+    "same_u10|sigma=0.2": {
+      "config": "same_u10",
+      "label_mode": "same",
+      "u": 10,
+      "sigma": 0.2,
+      "chance": 0.1,
+      "bound": 0.9998997749004908,
+      "orthogonal_reference": 0.9983421403980827,
+      "ip_attack": {
+        "successes": 662,
+        "trials": 1000,
+        "rate": 0.662,
+        "wilson": [
+          0.6321115753976023,
+          0.6906485548530779
+        ],
+        "clopper_pearson": [
+          0.6317379065986055,
+          0.6913047013179057
+        ]
+      },
+      "dist_attack": {
+        "successes": 662,
+        "trials": 1000,
+        "rate": 0.662,
+        "wilson": [
+          0.6321115753976023,
+          0.6906485548530779
+        ],
+        "clopper_pearson": [
+          0.6317379065986055,
+          0.6913047013179057
+        ]
+      },
+      "exact_optimal": {
+        "successes": 27225,
+        "trials": 40000,
+        "rate": 0.680625,
+        "wilson": [
+          0.6760388273887435,
+          0.6851764827677723
+        ],
+        "clopper_pearson": [
+          0.6760304973669621,
+          0.6851932695994559
+        ],
+        "per_trial_mean_standard_error": 0.00448794229029307,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u100|sigma=0.2": {
+      "config": "same_u100",
+      "label_mode": "same",
+      "u": 100,
+      "sigma": 0.2,
+      "chance": 0.01,
+      "bound": 0.9962484881251569,
+      "orthogonal_reference": 0.9881677916114535,
+      "ip_attack": {
+        "successes": 291,
+        "trials": 1000,
+        "rate": 0.291,
+        "wilson": [
+          0.2636897827038124,
+          0.3199098023431496
+        ],
+        "clopper_pearson": [
+          0.2629972176857615,
+          0.32023904389549707
+        ]
+      },
+      "dist_attack": {
+        "successes": 291,
+        "trials": 1000,
+        "rate": 0.291,
+        "wilson": [
+          0.2636897827038124,
+          0.3199098023431496
+        ],
+        "clopper_pearson": [
+          0.2629972176857615,
+          0.32023904389549707
+        ]
+      },
+      "exact_optimal": {
+        "successes": 12049,
+        "trials": 40000,
+        "rate": 0.301225,
+        "wilson": [
+          0.2967482012786509,
+          0.30573997435395023
+        ],
+        "clopper_pearson": [
+          0.29673099672722575,
+          0.3057478740073035
+        ],
+        "per_trial_mean_standard_error": 0.004920323562425439,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u10|sigma=0.2": {
+      "config": "any_u10",
+      "label_mode": "any",
+      "u": 10,
+      "sigma": 0.2,
+      "chance": 0.1,
+      "bound": 0.9998997749004908,
+      "orthogonal_reference": 0.9983421403980827,
+      "ip_attack": {
+        "successes": 942,
+        "trials": 1000,
+        "rate": 0.942,
+        "wilson": [
+          0.9257504237337675,
+          0.9548667217650018
+        ],
+        "clopper_pearson": [
+          0.9256635046176483,
+          0.9556671397471793
+        ]
+      },
+      "dist_attack": {
+        "successes": 942,
+        "trials": 1000,
+        "rate": 0.942,
+        "wilson": [
+          0.9257504237337675,
+          0.9548667217650018
+        ],
+        "clopper_pearson": [
+          0.9256635046176483,
+          0.9556671397471793
+        ]
+      },
+      "exact_optimal": {
+        "successes": 37839,
+        "trials": 40000,
+        "rate": 0.945975,
+        "wilson": [
+          0.9437164505850938,
+          0.9481478979106964
+        ],
+        "clopper_pearson": [
+          0.9437145024939031,
+          0.9481704786366879
+        ],
+        "per_trial_mean_standard_error": 0.002388541292191639,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u100|sigma=0.2": {
+      "config": "any_u100",
+      "label_mode": "any",
+      "u": 100,
+      "sigma": 0.2,
+      "chance": 0.01,
+      "bound": 0.9962484881251569,
+      "orthogonal_reference": 0.9881677916114535,
+      "ip_attack": {
+        "successes": 636,
+        "trials": 1000,
+        "rate": 0.636,
+        "wilson": [
+          0.605710772604704,
+          0.665248349087225
+        ],
+        "clopper_pearson": [
+          0.6053128948804471,
+          0.6658836625558713
+        ]
+      },
+      "dist_attack": {
+        "successes": 636,
+        "trials": 1000,
+        "rate": 0.636,
+        "wilson": [
+          0.605710772604704,
+          0.665248349087225
+        ],
+        "clopper_pearson": [
+          0.6053128948804471,
+          0.6658836625558713
+        ]
+      },
+      "exact_optimal": {
+        "successes": 26783,
+        "trials": 40000,
+        "rate": 0.669575,
+        "wilson": [
+          0.664949405127104,
+          0.6741680272316014
+        ],
+        "clopper_pearson": [
+          0.6649408133435062,
+          0.674184559247631
+        ],
+        "per_trial_mean_standard_error": 0.0047339047549807365,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u1000|sigma=0.2": {
+      "config": "any_u1000",
+      "label_mode": "any",
+      "u": 1000,
+      "sigma": 0.2,
+      "chance": 0.001,
+      "bound": 0.9719184346935027,
+      "orthogonal_reference": 0.9507061101779454,
+      "ip_attack": {
+        "successes": 288,
+        "trials": 1000,
+        "rate": 0.288,
+        "wilson": [
+          0.2607870341550728,
+          0.3168355114428025
+        ],
+        "clopper_pearson": [
+          0.2600922071007793,
+          0.3171618867161928
+        ]
+      },
+      "dist_attack": {
+        "successes": 288,
+        "trials": 1000,
+        "rate": 0.288,
+        "wilson": [
+          0.2607870341550728,
+          0.3168355114428025
+        ],
+        "clopper_pearson": [
+          0.2600922071007793,
+          0.3171618867161928
+        ]
+      },
+      "exact_optimal": {
+        "successes": 12034,
+        "trials": 40000,
+        "rate": 0.30085,
+        "wilson": [
+          0.2963748310268258,
+          0.3053634166262117
+        ],
+        "clopper_pearson": [
+          0.29635761785626474,
+          0.30537130738209556
+        ],
+        "per_trial_mean_standard_error": 0.004890751163875234,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u10|sigma=0.5": {
+      "config": "same_u10",
+      "label_mode": "same",
+      "u": 10,
+      "sigma": 0.5,
+      "chance": 0.1,
+      "bound": 0.7637595841058832,
+      "orthogonal_reference": 0.6736454790069353,
+      "ip_attack": {
+        "successes": 305,
+        "trials": 1000,
+        "rate": 0.305,
+        "wilson": [
+          0.2772552724809733,
+          0.3342371633283932
+        ],
+        "clopper_pearson": [
+          0.2765733695316623,
+          0.3345797312373533
+        ]
+      },
+      "dist_attack": {
+        "successes": 305,
+        "trials": 1000,
+        "rate": 0.305,
+        "wilson": [
+          0.2772552724809733,
+          0.3342371633283932
+        ],
+        "clopper_pearson": [
+          0.2765733695316623,
+          0.3345797312373533
+        ]
+      },
+      "exact_optimal": {
+        "successes": 11795,
+        "trials": 40000,
+        "rate": 0.294875,
+        "wilson": [
+          0.2904262826484375,
+          0.2993631125302183
+        ],
+        "clopper_pearson": [
+          0.29040893221197656,
+          0.2993708614888215
+        ],
+        "per_trial_mean_standard_error": 0.0035013023996069655,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u100|sigma=0.5": {
+      "config": "same_u100",
+      "label_mode": "same",
+      "u": 100,
+      "sigma": 0.5,
+      "chance": 0.01,
+      "bound": 0.37208058543549444,
+      "orthogonal_reference": 0.32321897481112893,
+      "ip_attack": {
+        "successes": 53,
+        "trials": 1000,
+        "rate": 0.053,
+        "wilson": [
+          0.04074650524859452,
+          0.06867461683749176
+        ],
+        "clopper_pearson": [
+          0.03994925236001937,
+          0.06875518328996323
+        ]
+      },
+      "dist_attack": {
+        "successes": 53,
+        "trials": 1000,
+        "rate": 0.053,
+        "wilson": [
+          0.04074650524859452,
+          0.06867461683749176
+        ],
+        "clopper_pearson": [
+          0.03994925236001937,
+          0.06875518328996323
+        ]
+      },
+      "exact_optimal": {
+        "successes": 2347,
+        "trials": 40000,
+        "rate": 0.058675,
+        "wilson": [
+          0.056413991188399376,
+          0.0610207672624003
+        ],
+        "clopper_pearson": [
+          0.056391491522416584,
+          0.061022831325750954
+        ],
+        "per_trial_mean_standard_error": 0.0017581127197467562,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u10|sigma=0.5": {
+      "config": "any_u10",
+      "label_mode": "any",
+      "u": 10,
+      "sigma": 0.5,
+      "chance": 0.1,
+      "bound": 0.7637595841058832,
+      "orthogonal_reference": 0.6736454790069353,
+      "ip_attack": {
+        "successes": 616,
+        "trials": 1000,
+        "rate": 0.616,
+        "wilson": [
+          0.5854663334716732,
+          0.645645858559678
+        ],
+        "clopper_pearson": [
+          0.5850500048195575,
+          0.6462648624488312
+        ]
+      },
+      "dist_attack": {
+        "successes": 616,
+        "trials": 1000,
+        "rate": 0.616,
+        "wilson": [
+          0.5854663334716732,
+          0.645645858559678
+        ],
+        "clopper_pearson": [
+          0.5850500048195575,
+          0.6462648624488312
+        ]
+      },
+      "exact_optimal": {
+        "successes": 24501,
+        "trials": 40000,
+        "rate": 0.612525,
+        "wilson": [
+          0.6077401979081848,
+          0.617288191159563
+        ],
+        "clopper_pearson": [
+          0.6077302575972094,
+          0.6173034023920282
+        ],
+        "per_trial_mean_standard_error": 0.0041507201607495605,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u100|sigma=0.5": {
+      "config": "any_u100",
+      "label_mode": "any",
+      "u": 100,
+      "sigma": 0.5,
+      "chance": 0.01,
+      "bound": 0.37208058543549444,
+      "orthogonal_reference": 0.32321897481112893,
+      "ip_attack": {
+        "successes": 169,
+        "trials": 1000,
+        "rate": 0.169,
+        "wilson": [
+          0.14704962548581355,
+          0.193483688631624
+        ],
+        "clopper_pearson": [
+          0.1462744886936184,
+          0.19369274635644362
+        ]
+      },
+      "dist_attack": {
+        "successes": 169,
+        "trials": 1000,
+        "rate": 0.169,
+        "wilson": [
+          0.14704962548581355,
+          0.193483688631624
+        ],
+        "clopper_pearson": [
+          0.1462744886936184,
+          0.19369274635644362
+        ]
+      },
+      "exact_optimal": {
+        "successes": 7840,
+        "trials": 40000,
+        "rate": 0.196,
+        "wilson": [
+          0.19213904959960337,
+          0.19991933496742348
+        ],
+        "clopper_pearson": [
+          0.19211945123937443,
+          0.19992472791618274
+        ],
+        "per_trial_mean_standard_error": 0.0027546030272686916,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u1000|sigma=0.5": {
+      "config": "any_u1000",
+      "label_mode": "any",
+      "u": 1000,
+      "sigma": 0.5,
+      "chance": 0.001,
+      "bound": 0.13780541289830034,
+      "orthogonal_reference": 0.12028641801661741,
+      "ip_attack": {
+        "successes": 39,
+        "trials": 1000,
+        "rate": 0.039,
+        "wilson": [
+          0.028658960904180485,
+          0.052869310419501346
+        ],
+        "clopper_pearson": [
+          0.027877148795336416,
+          0.05293093578544508
+        ]
+      },
+      "dist_attack": {
+        "successes": 39,
+        "trials": 1000,
+        "rate": 0.039,
+        "wilson": [
+          0.028658960904180485,
+          0.052869310419501346
+        ],
+        "clopper_pearson": [
+          0.027877148795336416,
+          0.05293093578544508
+        ]
+      },
+      "exact_optimal": {
+        "successes": 1549,
+        "trials": 40000,
+        "rate": 0.038725,
+        "wilson": [
+          0.03687810161132199,
+          0.04066048832668882
+        ],
+        "clopper_pearson": [
+          0.03685528478668997,
+          0.04066204990871907
+        ],
+        "per_trial_mean_standard_error": 0.0012590013738910137,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u10|sigma=1": {
+      "config": "same_u10",
+      "label_mode": "same",
+      "u": 10,
+      "sigma": 1.0,
+      "chance": 0.1,
+      "bound": 0.389143691645361,
+      "orthogonal_reference": 0.340935768660715,
+      "ip_attack": {
+        "successes": 174,
+        "trials": 1000,
+        "rate": 0.174,
+        "wilson": [
+          0.15176235026548338,
+          0.19873269626709858
+        ],
+        "clopper_pearson": [
+          0.15099005847602556,
+          0.1989468579930364
+        ]
+      },
+      "dist_attack": {
+        "successes": 174,
+        "trials": 1000,
+        "rate": 0.174,
+        "wilson": [
+          0.15176235026548338,
+          0.19873269626709858
+        ],
+        "clopper_pearson": [
+          0.15099005847602556,
+          0.1989468579930364
+        ]
+      },
+      "exact_optimal": {
+        "successes": 7411,
+        "trials": 40000,
+        "rate": 0.185275,
+        "wilson": [
+          0.18149785415886172,
+          0.18911259019264326
+        ],
+        "clopper_pearson": [
+          0.18147801568887575,
+          0.18911772629789064
+        ],
+        "per_trial_mean_standard_error": 0.0027731281280558625,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u100|sigma=1": {
+      "config": "same_u100",
+      "label_mode": "same",
+      "u": 100,
+      "sigma": 1.0,
+      "chance": 0.01,
+      "bound": 0.09236224807369403,
+      "orthogonal_reference": 0.08245571740208968,
+      "ip_attack": {
+        "successes": 25,
+        "trials": 1000,
+        "rate": 0.025,
+        "wilson": [
+          0.016990131293434067,
+          0.0366452892678433
+        ],
+        "clopper_pearson": [
+          0.01624253569688223,
+          0.03668482305192304
+        ]
+      },
+      "dist_attack": {
+        "successes": 25,
+        "trials": 1000,
+        "rate": 0.025,
+        "wilson": [
+          0.016990131293434067,
+          0.0366452892678433
+        ],
+        "clopper_pearson": [
+          0.01624253569688223,
+          0.03668482305192304
+        ]
+      },
+      "exact_optimal": {
+        "successes": 1091,
+        "trials": 40000,
+        "rate": 0.027275,
+        "wilson": [
+          0.0257235955806321,
+          0.028917193381367064
+        ],
+        "clopper_pearson": [
+          0.02570065889296576,
+          0.028918457059895025
+        ],
+        "per_trial_mean_standard_error": 0.0010672808737457367,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u10|sigma=1": {
+      "config": "any_u10",
+      "label_mode": "any",
+      "u": 10,
+      "sigma": 1.0,
+      "chance": 0.1,
+      "bound": 0.389143691645361,
+      "orthogonal_reference": 0.340935768660715,
+      "ip_attack": {
+        "successes": 336,
+        "trials": 1000,
+        "rate": 0.336,
+        "wilson": [
+          0.30740158982270954,
+          0.36585358696055253
+        ],
+        "clopper_pearson": [
+          0.30674385946862914,
+          0.3662253829372324
+        ]
+      },
+      "dist_attack": {
+        "successes": 336,
+        "trials": 1000,
+        "rate": 0.336,
+        "wilson": [
+          0.30740158982270954,
+          0.36585358696055253
+        ],
+        "clopper_pearson": [
+          0.30674385946862914,
+          0.3662253829372324
+        ]
+      },
+      "exact_optimal": {
+        "successes": 13007,
+        "trials": 40000,
+        "rate": 0.325175,
+        "wilson": [
+          0.32060134809573004,
+          0.32978222783167277
+        ],
+        "clopper_pearson": [
+          0.3205846949682495,
+          0.32979069527232985
+        ],
+        "per_trial_mean_standard_error": 0.003088103099923277,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u100|sigma=1": {
+      "config": "any_u100",
+      "label_mode": "any",
+      "u": 100,
+      "sigma": 1.0,
+      "chance": 0.01,
+      "bound": 0.09236224807369403,
+      "orthogonal_reference": 0.08245571740208968,
+      "ip_attack": {
+        "successes": 56,
+        "trials": 1000,
+        "rate": 0.056,
+        "wilson": [
+          0.043374813385442,
+          0.07202334814973096
+        ],
+        "clopper_pearson": [
+          0.04257554968661718,
+          0.07210774628325273
+        ]
+      },
+      "dist_attack": {
+        "successes": 56,
+        "trials": 1000,
+        "rate": 0.056,
+        "wilson": [
+          0.043374813385442,
+          0.07202334814973096
+        ],
+        "clopper_pearson": [
+          0.04257554968661718,
+          0.07210774628325273
+        ]
+      },
+      "exact_optimal": {
+        "successes": 2467,
+        "trials": 40000,
+        "rate": 0.061675,
+        "wilson": [
+          0.05935934153400799,
+          0.0640748407533013
+        ],
+        "clopper_pearson": [
+          0.059336895753181344,
+          0.06407697937133286
+        ],
+        "per_trial_mean_standard_error": 0.0013851852270050794,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u1000|sigma=1": {
+      "config": "any_u1000",
+      "label_mode": "any",
+      "u": 1000,
+      "sigma": 1.0,
+      "chance": 0.001,
+      "bound": 0.01829846840565661,
+      "orthogonal_reference": 0.016603899465737978,
+      "ip_attack": {
+        "successes": 6,
+        "trials": 1000,
+        "rate": 0.006,
+        "wilson": [
+          0.0027526691418763745,
+          0.01302816824185209
+        ],
+        "clopper_pearson": [
+          0.0022049824851513773,
+          0.013013423270974496
+        ]
+      },
+      "dist_attack": {
+        "successes": 6,
+        "trials": 1000,
+        "rate": 0.006,
+        "wilson": [
+          0.0027526691418763745,
+          0.01302816824185209
+        ],
+        "clopper_pearson": [
+          0.0022049824851513773,
+          0.013013423270974496
+        ]
+      },
+      "exact_optimal": {
+        "successes": 341,
+        "trials": 40000,
+        "rate": 0.008525,
+        "wilson": [
+          0.007670041557301256,
+          0.009474348426512874
+        ],
+        "clopper_pearson": [
+          0.0076473594567833805,
+          0.009475061067941628
+        ],
+        "per_trial_mean_standard_error": 0.00048676104128341185,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u10|sigma=2": {
+      "config": "same_u10",
+      "label_mode": "same",
+      "u": 10,
+      "sigma": 2.0,
+      "chance": 0.1,
+      "bound": 0.21723908042730522,
+      "orthogonal_reference": 0.1992225141691864,
+      "ip_attack": {
+        "successes": 137,
+        "trials": 1000,
+        "rate": 0.137,
+        "wilson": [
+          0.11707313063299474,
+          0.1597050960275183
+        ],
+        "clopper_pearson": [
+          0.11628168943368121,
+          0.15988096510541736
+        ]
+      },
+      "dist_attack": {
+        "successes": 137,
+        "trials": 1000,
+        "rate": 0.137,
+        "wilson": [
+          0.11707313063299474,
+          0.1597050960275183
+        ],
+        "clopper_pearson": [
+          0.11628168943368121,
+          0.15988096510541736
+        ]
+      },
+      "exact_optimal": {
+        "successes": 5482,
+        "trials": 40000,
+        "rate": 0.13705,
+        "wilson": [
+          0.1337146753656471,
+          0.14045503081396601
+        ],
+        "clopper_pearson": [
+          0.13369377293802667,
+          0.14045900762643032
+        ],
+        "per_trial_mean_standard_error": 0.002296752614578369,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u100|sigma=2": {
+      "config": "same_u100",
+      "label_mode": "same",
+      "u": 100,
+      "sigma": 2.0,
+      "chance": 0.01,
+      "bound": 0.03389893912284281,
+      "orthogonal_reference": 0.03167683568714269,
+      "ip_attack": {
+        "successes": 19,
+        "trials": 1000,
+        "rate": 0.019,
+        "wilson": [
+          0.012196885750790904,
+          0.02948445591231312
+        ],
+        "clopper_pearson": [
+          0.011477036993100945,
+          0.0295124016250978
+        ]
+      },
+      "dist_attack": {
+        "successes": 19,
+        "trials": 1000,
+        "rate": 0.019,
+        "wilson": [
+          0.012196885750790904,
+          0.02948445591231312
+        ],
+        "clopper_pearson": [
+          0.011477036993100945,
+          0.0295124016250978
+        ]
+      },
+      "exact_optimal": {
+        "successes": 673,
+        "trials": 40000,
+        "rate": 0.016825,
+        "wilson": [
+          0.015610197041209398,
+          0.018132598890281303
+        ],
+        "clopper_pearson": [
+          0.015587260516610925,
+          0.018133574944685385
+        ],
+        "per_trial_mean_standard_error": 0.0007814441950837116,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u10|sigma=2": {
+      "config": "any_u10",
+      "label_mode": "any",
+      "u": 10,
+      "sigma": 2.0,
+      "chance": 0.1,
+      "bound": 0.21723908042730522,
+      "orthogonal_reference": 0.1992225141691864,
+      "ip_attack": {
+        "successes": 193,
+        "trials": 1000,
+        "rate": 0.193,
+        "wilson": [
+          0.16973301355427384,
+          0.21861661615585704
+        ],
+        "clopper_pearson": [
+          0.16897210326979487,
+          0.21885000358205464
+        ]
+      },
+      "dist_attack": {
+        "successes": 193,
+        "trials": 1000,
+        "rate": 0.193,
+        "wilson": [
+          0.16973301355427384,
+          0.21861661615585704
+        ],
+        "clopper_pearson": [
+          0.16897210326979487,
+          0.21885000358205464
+        ]
+      },
+      "exact_optimal": {
+        "successes": 7785,
+        "trials": 40000,
+        "rate": 0.194625,
+        "wilson": [
+          0.19077453598959063,
+          0.19853411265236928
+        ],
+        "clopper_pearson": [
+          0.1907549067909111,
+          0.19853947268936006
+        ],
+        "per_trial_mean_standard_error": 0.0024351929162880585,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u100|sigma=2": {
+      "config": "any_u100",
+      "label_mode": "any",
+      "u": 100,
+      "sigma": 2.0,
+      "chance": 0.01,
+      "bound": 0.03389893912284281,
+      "orthogonal_reference": 0.03167683568714269,
+      "ip_attack": {
+        "successes": 28,
+        "trials": 1000,
+        "rate": 0.028,
+        "wilson": [
+          0.019442276812770925,
+          0.04017018319759311
+        ],
+        "clopper_pearson": [
+          0.018684686195537568,
+          0.04021488737384331
+        ]
+      },
+      "dist_attack": {
+        "successes": 28,
+        "trials": 1000,
+        "rate": 0.028,
+        "wilson": [
+          0.019442276812770925,
+          0.04017018319759311
+        ],
+        "clopper_pearson": [
+          0.018684686195537568,
+          0.04021488737384331
+        ]
+      },
+      "exact_optimal": {
+        "successes": 1058,
+        "trials": 40000,
+        "rate": 0.02645,
+        "wilson": [
+          0.024922321557365703,
+          0.028068625849593316
+        ],
+        "clopper_pearson": [
+          0.024899379626967966,
+          0.028069867565918265
+        ],
+        "per_trial_mean_standard_error": 0.0008410439078043756,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u1000|sigma=2": {
+      "config": "any_u1000",
+      "label_mode": "any",
+      "u": 1000,
+      "sigma": 2.0,
+      "chance": 0.001,
+      "bound": 0.004795559209142178,
+      "orthogonal_reference": 0.004535369499252346,
+      "ip_attack": {
+        "successes": 4,
+        "trials": 1000,
+        "rate": 0.004,
+        "wilson": [
+          0.0015565881404084308,
+          0.010239556277262253
+        ],
+        "clopper_pearson": [
+          0.0010909079877259717,
+          0.010209664683929871
+        ]
+      },
+      "dist_attack": {
+        "successes": 4,
+        "trials": 1000,
+        "rate": 0.004,
+        "wilson": [
+          0.0015565881404084308,
+          0.010239556277262253
+        ],
+        "clopper_pearson": [
+          0.0010909079877259717,
+          0.010209664683929871
+        ]
+      },
+      "exact_optimal": {
+        "successes": 110,
+        "trials": 40000,
+        "rate": 0.00275,
+        "wilson": [
+          0.0022823577114505916,
+          0.0033131413870825547
+        ],
+        "clopper_pearson": [
+          0.0022606913064309245,
+          0.0033135577215170453
+        ],
+        "per_trial_mean_standard_error": 0.00027615894655752836,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u10|sigma=4": {
+      "config": "same_u10",
+      "label_mode": "same",
+      "u": 10,
+      "sigma": 4.0,
+      "chance": 0.1,
+      "bound": 0.15114111998577007,
+      "orthogonal_reference": 0.14396804397497093,
+      "ip_attack": {
+        "successes": 96,
+        "trials": 1000,
+        "rate": 0.096,
+        "wilson": [
+          0.07925690009839675,
+          0.11583512075793179
+        ],
+        "clopper_pearson": [
+          0.07845203624742247,
+          0.11596664336287679
+        ]
+      },
+      "dist_attack": {
+        "successes": 96,
+        "trials": 1000,
+        "rate": 0.096,
+        "wilson": [
+          0.07925690009839675,
+          0.11583512075793179
+        ],
+        "clopper_pearson": [
+          0.07845203624742247,
+          0.11596664336287679
+        ]
+      },
+      "exact_optimal": {
+        "successes": 4706,
+        "trials": 40000,
+        "rate": 0.11765,
+        "wilson": [
+          0.1145292185091851,
+          0.12084421352766586
+        ],
+        "clopper_pearson": [
+          0.11450789866589943,
+          0.12084772133845595
+        ],
+        "per_trial_mean_standard_error": 0.002153628476691283,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "same_u100|sigma=4": {
+      "config": "same_u100",
+      "label_mode": "same",
+      "u": 100,
+      "sigma": 4.0,
+      "chance": 0.01,
+      "bound": 0.018930894265546318,
+      "orthogonal_reference": 0.01824946287256087,
+      "ip_attack": {
+        "successes": 12,
+        "trials": 1000,
+        "rate": 0.012,
+        "wilson": [
+          0.006877647806403522,
+          0.02085726847549828
+        ],
+        "clopper_pearson": [
+          0.0062155255595952455,
+          0.02086767959103641
+        ]
+      },
+      "dist_attack": {
+        "successes": 12,
+        "trials": 1000,
+        "rate": 0.012,
+        "wilson": [
+          0.006877647806403522,
+          0.02085726847549828
+        ],
+        "clopper_pearson": [
+          0.0062155255595952455,
+          0.02086767959103641
+        ]
+      },
+      "exact_optimal": {
+        "successes": 515,
+        "trials": 40000,
+        "rate": 0.012875,
+        "wilson": [
+          0.011816055373621378,
+          0.01402749917313168
+        ],
+        "clopper_pearson": [
+          0.011793186499372667,
+          0.014028357128302077
+        ],
+        "per_trial_mean_standard_error": 0.0006673115312053881,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u10|sigma=4": {
+      "config": "any_u10",
+      "label_mode": "any",
+      "u": 10,
+      "sigma": 4.0,
+      "chance": 0.1,
+      "bound": 0.15114111998577007,
+      "orthogonal_reference": 0.14396804397497093,
+      "ip_attack": {
+        "successes": 129,
+        "trials": 1000,
+        "rate": 0.129,
+        "wilson": [
+          0.10963544529450506,
+          0.1512040095017769
+        ],
+        "clopper_pearson": [
+          0.10884057120623476,
+          0.1513714153149562
+        ]
+      },
+      "dist_attack": {
+        "successes": 129,
+        "trials": 1000,
+        "rate": 0.129,
+        "wilson": [
+          0.10963544529450506,
+          0.1512040095017769
+        ],
+        "clopper_pearson": [
+          0.10884057120623476,
+          0.1513714153149562
+        ]
+      },
+      "exact_optimal": {
+        "successes": 5710,
+        "trials": 40000,
+        "rate": 0.14275,
+        "wilson": [
+          0.1393561480169309,
+          0.14621246345205044
+        ],
+        "clopper_pearson": [
+          0.13933536964778476,
+          0.14621657772938312
+        ],
+        "per_trial_mean_standard_error": 0.0020725546996359307,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u100|sigma=4": {
+      "config": "any_u100",
+      "label_mode": "any",
+      "u": 100,
+      "sigma": 4.0,
+      "chance": 0.01,
+      "bound": 0.018930894265546318,
+      "orthogonal_reference": 0.01824946287256087,
+      "ip_attack": {
+        "successes": 16,
+        "trials": 1000,
+        "rate": 0.016,
+        "wilson": [
+          0.009872242002277388,
+          0.02583206021173997
+        ],
+        "clopper_pearson": [
+          0.00917231926922208,
+          0.02585324908137346
+        ]
+      },
+      "dist_attack": {
+        "successes": 16,
+        "trials": 1000,
+        "rate": 0.016,
+        "wilson": [
+          0.009872242002277388,
+          0.02583206021173997
+        ],
+        "clopper_pearson": [
+          0.00917231926922208,
+          0.02585324908137346
+        ]
+      },
+      "exact_optimal": {
+        "successes": 650,
+        "trials": 40000,
+        "rate": 0.01625,
+        "wilson": [
+          0.015056596944072624,
+          0.01753630941875374
+        ],
+        "clopper_pearson": [
+          0.015033666687371173,
+          0.01753726877293196
+        ],
+        "per_trial_mean_standard_error": 0.0006792634973991308,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    },
+    "any_u1000|sigma=4": {
+      "config": "any_u1000",
+      "label_mode": "any",
+      "u": 1000,
+      "sigma": 4.0,
+      "chance": 0.001,
+      "bound": 0.0022540345720321576,
+      "orthogonal_reference": 0.002188154614450531,
+      "ip_attack": {
+        "successes": 1,
+        "trials": 1000,
+        "rate": 0.001,
+        "wilson": [
+          0.00017654637062607809,
+          0.0056425585979579355
+        ],
+        "clopper_pearson": [
+          2.5317487491294065e-05,
+          0.005558924279826672
+        ]
+      },
+      "dist_attack": {
+        "successes": 1,
+        "trials": 1000,
+        "rate": 0.001,
+        "wilson": [
+          0.00017654637062607809,
+          0.0056425585979579355
+        ],
+        "clopper_pearson": [
+          2.5317487491294065e-05,
+          0.005558924279826672
+        ]
+      },
+      "exact_optimal": {
+        "successes": 68,
+        "trials": 40000,
+        "rate": 0.0017,
+        "wilson": [
+          0.0013413304371684297,
+          0.0021543703185863557
+        ],
+        "clopper_pearson": [
+          0.0013203508931078584,
+          0.002154664487489027
+        ],
+        "per_trial_mean_standard_error": 0.00019912219778229055,
+        "note": "Monte Carlo over noise draws on the realised candidate sets"
+      }
+    }
+  },
+  "geometry_mean_over_trials": {
+    "same_u10": {
+      "mean_norm_over_clip": 0.9999995178130728,
+      "frac_clipped": 1.0,
+      "mean_cos_to_true": 0.7929669302236452,
+      "mean_dist_to_true_over_clip": 0.6258394722309557,
+      "nearest_other_dist_over_clip": 0.44262185258614933
+    },
+    "same_u100": {
+      "mean_norm_over_clip": 0.9999995176434527,
+      "frac_clipped": 1.0,
+      "mean_cos_to_true": 0.794492755108231,
+      "mean_dist_to_true_over_clip": 0.6235525831032089,
+      "nearest_other_dist_over_clip": 0.3117145067323364
+    },
+    "any_u10": {
+      "mean_norm_over_clip": 0.9999995172382289,
+      "frac_clipped": 1.0,
+      "mean_cos_to_true": 0.005239086860038228,
+      "mean_dist_to_true_over_clip": 1.3873401723066854,
+      "nearest_other_dist_over_clip": 0.9260682738228693
+    },
+    "any_u100": {
+      "mean_norm_over_clip": 0.9999995181715289,
+      "frac_clipped": 1.0,
+      "mean_cos_to_true": 0.011243590721774104,
+      "mean_dist_to_true_over_clip": 1.3818812162926188,
+      "nearest_other_dist_over_clip": 0.4415946531784097
+    },
+    "any_u1000": {
+      "mean_norm_over_clip": 0.9999995181599937,
+      "frac_clipped": 1.0,
+      "mean_cos_to_true": 0.012157502650177038,
+      "mean_dist_to_true_over_clip": 1.3810235972159943,
+      "nearest_other_dist_over_clip": 0.3127657539769377
+    }
+  },
+  "trials_per_cell": 1000,
+  "mc_draws_per_trial": 40
+}

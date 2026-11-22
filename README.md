@@ -123,7 +123,7 @@ Project status files at the repo root (`CURRENT_STATE.md`, `NEXT_SPRINT.md`, `PR
 
 - **Not a privacy product.** No differential privacy, secure aggregation or security certification is claimed. Epsilons are accountant outputs for specific runs.
 - **Inversion study is an observation-model study.** The SecAgg+ view uses the upstream quantiser arithmetic on single-step updates, not captured Docker traffic. The attacker is naive and not DP-aware.
-- **No proven multi-round SecAgg+ bound.** Two-round error is bimodal because of ReLU flips. Only an empirical percentile rule is offered.
+- **Multi-round SecAgg+ error.** A proof exists only for convex losses (an L2 bound, [`docs/proofs/multi-round-note.md`](docs/proofs/multi-round-note.md)). For the non-convex model used here, two-round error is bimodal because of ReLU flips, and only an empirical tolerance limit is offered. The one-round bound is proven in [`docs/proofs/one-round-secagg-error.md`](docs/proofs/one-round-secagg-error.md).
 - **Scale.** Docker topologies were tested at 3 and 4 clients on a 2 CPU machine.
 - **Data.** Digits and MNIST only. The MNIST originators publish no licence text, so redistribution terms are treated as unverified and the raw files are not in this repo.
 - **Hosted CI.** The workflows had not run on GitHub-hosted runners before this repository was published. Their status is shown by the badges above and discussed in [`CHANGELOG.md`](CHANGELOG.md).
