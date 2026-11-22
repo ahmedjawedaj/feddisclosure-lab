@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "preregistration": "docs/preregistration/v0.15.md",
+  "note": "Thresholds are copied verbatim from the pre-registration and were not changed.",
+  "E1": {
+    "prediction": "The stated bound holds",
+    "pass_rule": "Zero counterexamples in at least 10,000 property-test cases with unequal sizes and float32 inputs",
+    "observed": {
+      "cases_float32": 20000,
+      "violations_integer_weight_mean": 0,
+      "violations_true_mean_with_weight_term": 0,
+      "max_error_over_stated_bound": 0.9062499983119778
+    },
+    "pass": true
+  },
+  "E2": {
+    "prediction": "The float32 client path adds a bias the float64 bound misses",
+    "pass_rule": "A counterexample to the float64-only bound exists for float32 inputs, or the float32 term is shown to be below 1e-6 of the bound",
+    "observed": {
+      "clause_1_counterexample_to_2cn_over_T_found": false,
+      "random_cases_above_2cn_over_T": 0,
+      "cell_lemma_violations": 0,
+      "worst_single_client_error_units_either_rounding": 0.9374995231628418,
+      "clause_2_float32_term_over_bound": 0.18749994039535522,
+      "float32_bias_max_abs_units_measured": 0.18749994039535522,
+      "float32_bias_theoretical_sup_units": 0.1875,
+      "elements": 24000000
+    },
+    "pass": false,
+    "reading": "The float32 path does add a deterministic bias of up to 3/16 of a quantisation unit per client. It never pushes a client error past one unit, so 2cn/T survives. Neither clause of the rule holds."
+  },
+  "E3": {
+    "prediction": "The Hoeffding bound holds with independent client RNG and fails with a shared seed",
+    "pass_rule": "Empirical 99th percentile below the bound for n 4 to 256 with independent RNG, and a violation at n 256 with a shared seed",
+    "observed": {
+      "4": {
+        "independent_p99_over_bound": 0.6695724890281017,
+        "shared_identical_p99_over_bound": 0.9106291802491197,
+        "shared_different_data_p99_over_bound": 0.8038182885997387
+      },
+      "16": {
+        "independent_p99_over_bound": 0.6879426730339803,
+        "shared_identical_p99_over_bound": 1.8034177319056037,
+        "shared_different_data_p99_over_bound": 1.2465747272923113
+      },
+      "64": {
+        "independent_p99_over_bound": 0.7063141590451358,
+        "shared_identical_p99_over_bound": 3.626017928142425,
+        "shared_different_data_p99_over_bound": 2.1342498491790516
+      },
+      "256": {
+        "independent_p99_over_bound": 0.7266396196760669,
+        "shared_identical_p99_over_bound": 7.205905722611673,
+        "shared_different_data_p99_over_bound": 3.949884061435341
+      }
+    },
+    "independent_below_bound_all_n": true,
+    "independent_below_single_coordinate_bound_all_n": true,
+    "shared_seed_violates_at_256": true,
+    "note_n4": "At n=4 the Hoeffding bound with d=64 and delta=0.01 is larger than the worst case bound 2cn/T, so the check there is weak.",
+    "trials_per_cell": 300,
+    "coordinates": 64,
+    "pass": true
+  },
+  "M1": {
+    "prediction": "A two-round ReLU counterexample exists and the L2 convex theorem holds in tests",
+    "pass_rule": "Counterexample reproduced, zero violations of the L2 bound in at least 1,000 convex trials",
+    "observed": {
+      "convex_trials": 1000,
+      "l2_bound_violations": 0,
+      "trials_with_step_exactly_two_over_beta": 391,
+      "negative_control_violations_step_1.3_over_beta": 34,
+      "tiny_relu_counterexample_min_round2_over_one_round_bound": 28169.552187510788,
+      "tiny_relu_fraction_above_2x_bound": 0.335,
+      "digits_relu_reproduction_fraction_above_2x_bound": 0.36666666666666664
+    },
+    "pass": true
+  },
+  "total_runtime_seconds": 40.5
+}
