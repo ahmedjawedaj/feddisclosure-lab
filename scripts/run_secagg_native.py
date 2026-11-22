@@ -6,6 +6,7 @@ from importlib.util import find_spec
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import time
 
@@ -13,6 +14,19 @@ from feddisclosure.training.flwr_cli import run_flwr_cli
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "experiments/flower_secagg"
+
+
+def diagnostics() -> str:
+    """Process list and Flower log tails, printed only when the run fails."""
+    parts = []
+    ps = subprocess.run(["ps", "-eo", "pid,etime,args"], capture_output=True, text=True, check=False)
+    parts.append("processes:\n" + "\n".join(
+        line[:200] for line in ps.stdout.splitlines()
+        if any(k in line.lower() for k in ("flwr", "ray", "superlink", "supernode", "serverapp", "clientapp"))))
+    for log in sorted((Path.home() / ".flwr").rglob("*.log"))[:6]:
+        tail = "\n".join(log.read_text(errors="replace").splitlines()[-25:])
+        parts.append(f"{log}:\n{tail}")
+    return "\n".join(parts)
 
 
 def execute(*, data_root: Path, output: Path, timeout: int = 900):
@@ -57,6 +71,7 @@ def execute(*, data_root: Path, output: Path, timeout: int = 900):
     if not evidence["native_success"]:
         tail = "\n".join((stderr + "\n" + stdout).strip().splitlines()[-40:])
         print(f"--- last lines of Flower output ---\n{tail}\n--- end ---", file=sys.stderr)
+        print(f"--- diagnostics ---\n{diagnostics()}\n--- end ---", file=sys.stderr)
         raise RuntimeError("Native Flower SecAgg+ execution failed; inspect logs")
     return evidence
 
