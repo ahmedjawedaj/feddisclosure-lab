@@ -133,3 +133,20 @@ def test_state_database_races_always_reset(tmp_path):
     run_flwr_cli(_script(tmp_path, body), cwd=tmp_path, timeout=60, attempts=3, wait=0.01,
                  reset=lambda: resets.append(1), listening=lambda: True)
     assert len(resets) == 2
+
+
+def test_shim_directory_is_prepended_to_pythonpath():
+    from feddisclosure.training.flwr_cli import SHIM_DIR, shim_environment
+    assert (SHIM_DIR / "sitecustomize.py").is_file()
+    env = shim_environment({"PYTHONPATH": "/somewhere", "HOME": "/h"})
+    assert env["PYTHONPATH"].split(":")[0] == str(SHIM_DIR) and env["PYTHONPATH"].endswith("/somewhere")
+    assert shim_environment({})["PYTHONPATH"] == str(SHIM_DIR)
+
+
+def test_shim_only_acts_inside_flower_console_scripts(tmp_path):
+    import subprocess
+    from feddisclosure.training.flwr_cli import shim_environment
+    env = shim_environment()
+    env["FEDDISCLOSURE_FLWR_HOME"] = str(tmp_path)
+    subprocess.run([sys.executable, "-c", "pass"], env=env, check=True)
+    assert not (tmp_path / "migrate.lock.log").exists()  # an ordinary python process is untouched

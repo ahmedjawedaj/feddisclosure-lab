@@ -11,6 +11,7 @@ can never hide a real failure.
 """
 from __future__ import annotations
 
+import os
 import re
 import shutil
 import socket
@@ -37,6 +38,15 @@ STARTUP_RACES = {
 _ANSI = re.compile(r"\x1b\[[0-9;]*m")
 LOCAL_SUPERLINK_STATE = Path.home() / ".flwr" / "local-superlink"
 LOCAL_CONTROL_API = ("127.0.0.1", 39093)
+SHIM_DIR = Path(__file__).resolve().parent / "flwr_shim"
+
+
+def shim_environment(base=None) -> dict:
+    """Environment for `flwr run` with the state-migration lock shim on PYTHONPATH."""
+    env = dict(os.environ if base is None else base)
+    parts = [str(SHIM_DIR)] + ([env["PYTHONPATH"]] if env.get("PYTHONPATH") else [])
+    env["PYTHONPATH"] = os.pathsep.join(parts)
+    return env
 
 
 def control_api_listening(address=LOCAL_CONTROL_API, wait: float = 20.0) -> bool:
@@ -110,7 +120,8 @@ def run_flwr_cli(command, *, cwd, timeout: float, attempts: int = 8, wait: float
         if remaining <= 0:
             return 124, "", "", True, log
         try:
-            done = subprocess.run(command, cwd=cwd, capture_output=True, text=True, timeout=remaining)
+            done = subprocess.run(command, cwd=cwd, capture_output=True, text=True, timeout=remaining,
+                                  env=shim_environment())
         except subprocess.TimeoutExpired as exc:
             out, err = exc.stdout or "", exc.stderr or ""
             out = out.decode(errors="replace") if isinstance(out, bytes) else out
