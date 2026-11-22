@@ -1,0 +1,50 @@
+# Override for compose.flower.n4.yaml that puts a plain TCP relay in front of every SuperNode.
+# Use: docker compose -f compose.flower.n4.yaml -f compose.wire.yaml up --build -d
+# Each SuperNode talks to its own relay (wire-relay-N) and the relay forwards to the SuperLink.
+# The relay logs byte counts, timestamps and rolling hashes and dumps the raw streams to
+# ${FDL_RUN_DIR}/relay on the host. It parses nothing. No port is published to the host.
+# The relay script is bind mounted read-only into the already pinned Flower image, so no new
+# image and no extra Docker build context file is needed.
+# Research sandbox only: insecure internal transport, never expose on the Internet.
+x-wire-relay: &wire-relay
+  image: flwr/superexec:1.27.0
+  entrypoint: ["python", "/opt/wire_relay/relay.py"]
+  networks: [flower-lab]
+  restart: "no"
+  security_opt: ["no-new-privileges:true"]
+  depends_on: [superlink]
+  volumes:
+    - type: bind
+      source: ./docker/wire_relay/relay.py
+      target: /opt/wire_relay/relay.py
+      read_only: true
+    - type: bind
+      source: ${FDL_RUN_DIR:?Run scripts/run_wire_capture.py first}/relay
+      target: /relay-out
+
+services:
+  wire-relay-0:
+    <<: *wire-relay
+    command: ["--name", "site-0", "--listen-port", "9092", "--upstream", "superlink:9092", "--out-dir", "/relay-out"]
+  wire-relay-1:
+    <<: *wire-relay
+    command: ["--name", "site-1", "--listen-port", "9092", "--upstream", "superlink:9092", "--out-dir", "/relay-out"]
+  wire-relay-2:
+    <<: *wire-relay
+    command: ["--name", "site-2", "--listen-port", "9092", "--upstream", "superlink:9092", "--out-dir", "/relay-out"]
+  wire-relay-3:
+    <<: *wire-relay
+    command: ["--name", "site-3", "--listen-port", "9092", "--upstream", "superlink:9092", "--out-dir", "/relay-out"]
+
+  supernode-0:
+    command: ["--insecure", "--superlink", "wire-relay-0:9092", "--clientappio-api-address", "0.0.0.0:9094", "--node-config", "partition-id=0 num-partitions=4", "--isolation", "process"]
+    depends_on: [wire-relay-0]
+  supernode-1:
+    command: ["--insecure", "--superlink", "wire-relay-1:9092", "--clientappio-api-address", "0.0.0.0:9094", "--node-config", "partition-id=1 num-partitions=4", "--isolation", "process"]
+    depends_on: [wire-relay-1]
+  supernode-2:
+    command: ["--insecure", "--superlink", "wire-relay-2:9092", "--clientappio-api-address", "0.0.0.0:9094", "--node-config", "partition-id=2 num-partitions=4", "--isolation", "process"]
+    depends_on: [wire-relay-2]
+  supernode-3:
+    command: ["--insecure", "--superlink", "wire-relay-3:9092", "--clientappio-api-address", "0.0.0.0:9094", "--node-config", "partition-id=3 num-partitions=4", "--isolation", "process"]
+    depends_on: [wire-relay-3]

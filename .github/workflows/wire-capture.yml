@@ -1,0 +1,71 @@
+name: Wire-level validation (SecAgg+ proxy and relay capture)
+
+on:
+  workflow_dispatch:
+    inputs:
+      seeds:
+        description: 'Number of seeds (runs use seeds 0 to N-1, each with a SecAgg+ run and a plaintext run)'
+        required: false
+        default: '5'
+        type: string
+      iterations:
+        description: 'Attack iterations used by the analysis'
+        required: false
+        default: '300'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  wire-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONPATH: src:.
+      WIRE_SEEDS: ${{ inputs.seeds }}
+      WIRE_ITERATIONS: ${{ inputs.iterations }}
+      WIRE_OUT: reports/results/privacy/v0150/wire/hosted
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check the inputs
+        run: |
+          [[ "$WIRE_SEEDS" =~ ^[0-9]+$ ]] && [ "$WIRE_SEEDS" -ge 1 ] && [ "$WIRE_SEEDS" -le 10 ]
+          [[ "$WIRE_ITERATIONS" =~ ^[0-9]+$ ]] && [ "$WIRE_ITERATIONS" -ge 1 ]
+      - name: Install analysis dependencies (CPU only)
+        run: |
+          python -m pip install -e '.[test]'
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1'
+          python -m pip install 'scikit-learn>=1.4,<2' 'numpy>=1.26,<3' 'scipy>=1.11,<2' 'scikit-image>=0.22,<1' 'flwr==1.27.0'
+      - name: Static checks and unit tests
+        run: |
+          python scripts/check_workflows_static.py
+          pytest -q tests/training/test_wire_capture.py tests/integration/test_wire_compose_static.py
+      - name: Confirm real Docker daemon and Compose v2
+        run: |
+          docker version
+          docker compose version
+          docker info
+      - name: Capture SecAgg+ and plaintext runs with the proxy and the relays
+        timeout-minutes: 40
+        run: python scripts/run_wire_capture.py --seeds "$WIRE_SEEDS" --output "$WIRE_OUT" --timeout 600
+      - name: Analyse the captures
+        run: python scripts/analyze_wire_capture.py --runs "$WIRE_OUT" --output "$WIRE_OUT/analysis" --iterations "$WIRE_ITERATIONS"
+      - name: Show the verdicts
+        if: always()
+        run: cat "$WIRE_OUT/analysis/wire_validation.md" || true
+      - name: Retain successes and failures for audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wire-capture-evidence
+          path: |
+            reports/results/privacy/v0150/wire/hosted
+            !reports/results/privacy/v0150/wire/hosted/**/final_model.pt
+            !reports/results/privacy/v0150/wire/hosted/**/checkpoints/**
+          if-no-files-found: warn
