@@ -1,0 +1,21 @@
+FedDisclosure Lab
+Copyright 2026 Ahmed Jawed and contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party software is used as dependencies and keeps its own licences.
+It is not redistributed in this repository. Main dependencies:
+  Flower (flwr)      Apache-2.0
+  Opacus             Apache-2.0
+  OpenDP             MIT
+  PyTorch            BSD-3-Clause
+  scikit-learn       BSD-3-Clause
+
+Data. This repository does not contain raw datasets.
+  scikit-learn Digits: the UCI optical recognition of handwritten digits set,
+    bundled with scikit-learn.
+  MNIST: Y. LeCun, C. Cortes and C. J. C. Burges. The originators publish no
+    formal licence text and secondary sources disagree, so redistribution terms
+    are treated as unverified. Users must obtain the files themselves. The
+    expected SHA-256 values are pinned in src/feddisclosure/training/datasets.py
+    and listed in docs/data-provenance.md.

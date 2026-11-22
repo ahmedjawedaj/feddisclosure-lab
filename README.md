@@ -1,266 +1,134 @@
-## v0.14 execution milestone
-
-Real Docker + Flower 1.27 Deployment Runtime training (including full 60,000 image MNIST), upstream Flower SecAgg+, OpenDP releases with a persistent budget ledger and Opacus DP-FedAvg have all been executed with saved evidence. Start with `docs/v0.14-privacy-secagg-results.md` and reproduce with `docs/v0.14-reproduce.md`. Negative results are kept: SecAgg+ gives nothing against n-1 colluders, the earlier n=3 dropout-halt claim was wrong and is withdrawn (4 of 5 mid-round dropout scenarios tolerated, 1 halted, as the share-count rule predicts), two of three extra full-MNIST native runs failed the 1e-5 parity gate (float32 reply-order aggregation, gate not relaxed), the naive 2-round SecAgg+ tolerance failed for one 4-client run, DP did not lower a near-chance membership AUC, and DP costs the worst client a lot under label skew. Later in the same milestone: aggregate-only SecAgg+ still leaves over half of victim images recognisable in a favourable single-step inversion, n-1 collusion returns plaintext-level leakage, DP noise stopped that attack, and a 64-shadow LiRA study found a detectable signal at epsilon 6 to 8 on Digits and MNIST. Hosted CI has not run (BLOCKED). No privacy certification is claimed.
-
-## v0.13.0 cloud execution (partial infrastructure milestone)
-
-Three separate Linux-namespace-isolated PyTorch clients actually trained two
-FedAvg rounds with 20.83% global accuracy and numerical agreement against the
-original PyTorch reference. This is **not Docker-based Flower training**.
-See `docs/v0.13-cloud-execution.md` and the native blockers in
-`CURRENT_STATE.md`.
-
-> **v0.12.0 engineering handoff (2026-11-20):** Native Flower Docker deployment files, 3-client partition staging, container isolation checker, per-client execution receipts and a strict numerical parity gate have been added. Static checks run. **Docker and Flower have NOT been executed natively in this environment.** Start with [the v0.12 deployment protocol](docs/v0.12-docker-flower-certification.md); never call the Docker/Flower acceptance complete without observed native evidence.
-
-# v0.11.0 — Verified retry safety, native certification preparation (2026-11-20)
-
-- **Measured:** Three-site fault-injection HTTP benchmark, persistent idempotent DP query retry and conflict rejection. `reports/results/sprint4/retry_benchmark.json` uses a deterministic TEST mechanism. It offers NO differential-privacy guarantee.
-- **Implemented but NOT executed natively:** Upstream Flower SecAgg+ app, strict native CI gate, hardened Flower evidence runner and parity checker. Docker, Flower, OpenDP and Opacus are absent here.
-- **Verified:** 115 passing fast tests after the final changes, two independent-worker training integration passes, live analytics benchmark, historical evidence verification. See `docs/v0.11-runtime-and-retry.md` and the latest saved verification logs for final counts.
-- **Action required to run hosted native CI:** Configure a dedicated GitHub remote for this repository (none is present) and run `.github/workflows/native-v1-certification.yml` on GitHub's Ubuntu runner. Never claim 100% or formal DP/SecAgg+ before actual native results.
-
-## FedDisclosure Lab v0.10.0 research milestone
-
-**Research benchmark, not a production privacy product.** The new executed three-site HTTP benchmark demonstrates an experiment-ID reset bypass against the original query-history policy and tests a principal-wide persistent policy lock. A 90-population × four-policy matrix (1,080 executed site-policy queries) and a ten-model/five-seed output-only membership comparison (30 scored attacks) are saved with independent validators. The matched membership *query records* are identical across partitions, while underlying IID and non-IID training sets are not. The offline research explorer now has a query-history tab. Detailed methods and limitations: `docs/v0.10-results.md`.
-
-```bash
-PYTHONPATH=src:. pytest -q -m 'not slow'
-python scripts/verify_history_matrix.py
-python scripts/verify_balanced_membership.py
-python -m dashboard.build_dashboard
-# This verifies actual three-site HTTP behavior without Docker:
-PYTHONPATH=src:. python scripts/run_history_scope_benchmark.py --output reports/results/sprint1/repeat_history_http.json
-# Optional native Compose test (requires Docker; uses fresh volumes):
-bash scripts/verify_compose_history.sh
-```
-
-**Faculty briefing:** `reports/faculty-briefing-v0.10.0.pptx` contains 12 interim slides and can be regenerated with `python scripts/build_faculty_briefing.py` after installing the optional `.[presentation]` dependencies.
-
-**Not verified:** Native Docker, Flower ServerApp/ClientApp, OpenDP, Opacus, Flower SecAgg+. Formal DP or production security guarantees are not claimed. Do not substitute generated figure/source code for native acceptance evidence.
-
----
-
-# v0.9.0 — Stronger aggregate attack, paired uncertainty, research explorer
-
-**Executed:** Three new seeds (241, 242, 243) of an all-contributor-label-oracle *joint* aggregate-only inversion. Each experiment jointly reconstructs 24 public 8×8 digit images from the arithmetic average of three independently computed SGD updates. All contributor labels (in site-grouped order) are disclosed as **extra attacker privileges**. Evaluation is separate, and exact image values are never provided to the attack process. The mean pooled label-matched MSE across these three seeds is about 0.0573; target-oracle best matching is not a real attacker identification capability. No Flower SecAgg+ or formal privacy protocol is claimed.
-
-**Executed:** A paired exploratory analysis over the existing five-seed, equal-work IID versus Dirichlet α=0.1 study. Mean difference (α=0.1 minus IID) was +2.33 percentage points global accuracy (95% t interval −1.73 to +6.40) and −11.67 points worst-client validation (interval −36.38 to +13.05). These wide intervals **do not establish a reliable effect**.
-
-**Delivered:** Offline HTML research explorer (`dashboard/dist/index.html`) and optional Streamlit UI (`dashboard/app.py`), both reading only allowlisted scalar research summaries. No raw datasets, attacker observations, recovery outputs, or private images are embedded. The static explorer works without any package installation.
-
-**Native blocker remains:** Docker, Flower, OpenDP, Opacus and SecAgg+ have NOT been successfully executed here. No GitHub Actions run has been observed. See `docs/v0.9-results.md`, `docs/faculty-briefing.md`, `docs/thesis-directions.md`, `CURRENT_STATE.md` and `NEXT_SPRINT.md`. Reproduce with:
-
-```bash
-python scripts/verify_joint_aggregate.py
-python scripts/analyze_balanced_study.py
-python -m dashboard.build_dashboard
-PYTHONPATH=src:. pytest -q -m 'not slow'
-```
-
----
-
-# v0.8.0 research milestone
-
-**Executed:** five seeds × individual/aggregate-only/colluding observer roles = 15 actual public-digit update inversion attacks, with a saved multi-seed figure and independent integrity verifier. Mean target MSE: 0.01664 / 0.10848 / 0.01664. The aggregate case is an idealized mean and uses a deliberately weak target-only probe; the all-but-one collusion case algebraically reveals the individual update. **No Flower SecAgg+ was executed.**
-
-**Implemented but native blocked:** local Opacus DP-SGD vs ordinary SGD code, accountant checks, CLI, config, tests and GitHub CI. No real native Opacus output or epsilon guarantee is available from this environment. Docker, Flower and native OpenDP are also unverified.
-
-To verify: `python scripts/verify_aggregate_collusion.py`, `pytest -q -m 'not slow'`. See `docs/v0.8-research-protocol.md`, `docs/v0.8-results.md`, `CURRENT_STATE.md`, `NEXT_SPRINT.md` and the original setup instructions below.
-
----
-
 # FedDisclosure Lab
 
-**A reproducible privacy leakage and defense benchmark for federated analytics and learning**
+[![tests](https://github.com/ahmedjawedaj/feddisclosure-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/ahmedjawedaj/feddisclosure-lab/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/ahmedjawedaj/feddisclosure-lab/actions/workflows/codeql.yml/badge.svg)](https://github.com/ahmedjawedaj/feddisclosure-lab/actions/workflows/codeql.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.11%20to%203.13-blue.svg)](pyproject.toml)
+[![Status](https://img.shields.io/badge/status-research%20benchmark-orange.svg)](#status-and-honest-limits)
 
-Status: **v0.7.0: 20 matched equal-work public-data FedAvg runs executed; OpenDP HTTP/ledger adapter tested with fake mechanism, native OpenDP/Docker/Flower still NOT VERIFIED**. Updated 2026-11-19.
+**A reproducible laboratory for measuring how much a federated learning system actually discloses, and how much common defenses really help.**
 
-This is an independent research-engineering project using **only synthetic or approved public data**. No thesis novelty, production security, differential privacy or secure aggregation is claimed at this stage.
+FedDisclosure Lab trains real federated models with [Flower](https://flower.ai) in Docker, applies real privacy mechanisms ([Opacus](https://opacus.ai) DP-SGD, [OpenDP](https://opendp.org) releases, Flower SecAgg+), and then attacks the result with membership inference and update inversion. Every claim is tied to saved evidence, and negative results are kept next to the positive ones.
 
-## v0.7.0 equal-work federation and privacy release controls
+> **This is a research benchmark, not a privacy product.** It makes no formal security or privacy certification claim. Read [Status and honest limits](#status-and-honest-limits) before you cite or reuse any number.
 
-- **20 executed experiments**: five matched seeds (241–245) × IID/balanced Dirichlet α 0.1, 0.5 and 10.0, four rounds and identical 192 train/48 validation examples per client. Training uses separate PyTorch worker processes; not native Flower.
-- **Mean global accuracies:** 68.89% IID, 71.22% α=0.1, 67.67% α=0.5, 71.56% α=10. **Mean worst-client validation:** 65.00%, 53.33%, 60.00%, 65.42%, respectively. Exploratory, not statistically significant; α differences are not monotonic.
-- **Privacy-defense implementation:** site-local OpenDP Laplace count adapter, persistent epsilon ledger, DP-only `/v1/dp-count`, federated aggregate `/v1/federated-dp-count`, protection against raw-route bypass and restarts to/from unsafe database history. Tests use a **fake measurement** to check application behavior. Native OpenDP could not run and no privacy guarantee is claimed for these tests.
-- Protocol and results: `docs/v0.7-pre-registered-protocol.md`, `docs/v0.7-research-report.md` and `docs/opendp-runtime.md`. Integrity verification: `python scripts/verify_v070_evidence.py`. Figure: `reports/figures/sprint5_balanced_heterogeneity.png`.
-- Native test workflow files for OpenDP and balanced federation are included but have not executed on GitHub. Current release check: 76 fast tests passed, 2 skipped, 2 slow integration tests passed independently, 20 checkpoint hashes verified. Unsplit full-suite timed out and is not counted as passing. Docker, Flower, OpenDP, Opacus, SecAgg+ remain open gates.
+## Why this exists
 
-### Reproduce v0.7 benchmarks
+Federated learning is often described as private because raw data never leaves the client. The literature and our own measurements say that is not enough. Updates leak, secure aggregation has failure modes, and differential privacy trades away accuracy that some clients pay for more than others. This repo asks narrow, testable questions and refuses to round the answers in anyone's favor.
 
-```bash
-python -m pip install -e '.[research,test]'  # public data only
-python scripts/run_balanced_heterogeneity.py --seeds 241 242 243 244 245 --rounds 4
-python scripts/plot_balanced_heterogeneity.py
-python scripts/verify_v070_evidence.py
-pytest -q -m 'not slow'
-```
+## What you can do with it
 
-### Native OpenDP on a capable host (not executed here)
-
-```bash
-python -m pip install -e '.[privacy,test]'
-python scripts/run_dp_analytics.py --epsilon 0.25 --total-budget 1.0
-```
-
-**Do not deploy both raw and DP query modes to the same analytics user.** Use fresh site volumes, run the real OpenDP map test, and validate assumptions before citing privacy guarantees. See `docs/opendp-runtime.md`.
-
-## v0.6.0 verified research extensions — 19 November 2026
-
-- Measured gradient-matching attacks from **changing disjoint SGD minibatches**, using one observed individual-client model delta, 8 or 32 different public digit examples and privileged labels. The four-step runs have no intermediate-gradient visibility.
-- Compared three independently trained FedAvg checkpoints under output-only model access. Three predeclared membership scores × three training seeds produced nine ROC-AUC results, mostly near chance.
-- Executed matched eight-round severe label-skew **FedAvg vs FedProx** for seed241, plus an eight-round moderate Dirichlet(alpha=0.5) FedAvg experiment. The moderate run has **unequal site sizes/optimizer steps**; see the research report for confounders.
-- Added model-parameter parity verification for the real Flower app, fail-closed config/hash checks, a Flower CI gate, reproducible plots, two additional agent skills for Codex/Claude, and evidence verification.
-- **Native Flower, Docker Compose, OpenDP, Opacus, SecAgg+, external MNIST and Colab remain unexecuted/unverified here.**
-
-Read `docs/v0.6-research-report.md`, `docs/v0.6-experiment-protocol.md`, `CURRENT_STATE.md` and `NEXT_SPRINT.md`. To verify the full evidence bundle, run `python scripts/verify_v060_evidence.py` from the extracted repository root.
-
-## Historical v0.4.1 measured update — 19 November 2026
-
-- **Analytics:** live three-institution/four-HTTP-process experiment still reproduces a 3-person synthetic disclosure (`110-107`) and a blocked second query under the history heuristic.
-- **Training:** 5 paired seeds × IID/severe label skew (10 real three-client PyTorch reference runs), plus 1/5-client single-seed pilots. These runs are **NOT native Flower** and do not justify a convergence claim.
-- **Disclosure:** exact-gradient inversion on public 8×8 digits, five matched exact/noisy examples and one batch-8 known-label case. Successful low-error reconstruction occurs with deliberately privileged gradients. No formally private noise mechanism is present.
-- **Local model updates:** measured one-, four-, and sixteen-step actual SGD model-delta inversion on one repeatedly used public image; reconstruction degrades with the longer local-update schedule.
-- **Membership:** output-only confidence-based baseline on the frozen public model; five query-seed AUCs are near chance. The attacker never receives membership labels; no safety guarantee follows from this negative result.
-- **Verification:** 40 fast tests and both slow independent training integration tests passed as separate invocations; one Flower-dependent test skipped. Real local analytics passed again. Native Docker/Flower gates are still **blocked**, with recorded failed attempts.
-
-The new work and scripts are described in `docs/disclosure-protocol.md`, `docs/fl-experiment-protocol.md`, `CURRENT_STATE.md`, and `NEXT_SPRINT.md`. The release includes actual JSON evidence and generated research figures. For the Python benchmark environment, install `pip install -e '.[research,test]'`; native Flower remains a separate `.[ml,test]` extra.
-
-## Federated analytics runtime
-
-Three separate FastAPI institutional processes, each with its own SQLite database, answer two allowlisted count queries through a federated gateway. An analytics observer sees only gateway-wide totals. A controlled differencing attack combines individually released counts, and a history-aware release policy blocks that particular attack. An independent scorer measures inference and query rejection.
-
-**Expected measured result:** With the naive release policy, the observer sees 110 total records and 107 negative records, inferring a hidden subgroup of 3. With the history rule, the second query is rejected. See `reports/results/sprint1_analytics_verified.json`.
-
-## Run without Docker (fully tested)
-
-Python 3.11–3.13 is supported by the core package.
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[test]'
-pytest -q
-python scripts/run_local_stack.py --once
-```
-
-The local runner starts **four real processes** (three institutions and one gateway) on dynamically assigned localhost ports, with distinct SQLite databases in temporary storage. It automatically stops the services and writes `reports/results/analytics_local.json`.
-
-## Sprint 2: verified 3-client PyTorch reference and native Flower app
-
-PyTorch + scikit-learn can execute the reproducible CPU-only three-worker baseline even when Flower cannot be installed:
-
-```bash
-python -m pip install -e '.[research,test]'  # on a network-enabled machine
-python scripts/run_torch_reference.py --config configs/training/fedavg_digits_iid.yaml --data-dir data/training/digits-iid --output reports/results/sprint2/torch_iid_reference.json --references
-python scripts/run_torch_reference.py --config configs/training/fedavg_digits_non_iid.yaml --data-dir data/training/digits-non-iid --output reports/results/sprint2/torch_non_iid_reference.json --references
-python scripts/plot_training.py
-```
-
-This is **actual PyTorch training using 3 separate OS worker processes**, but **not Flower**. The privileged evaluator is a separate process that accesses *public* test data. Local-only and pooled references are explicitly evaluator-only and have different optimizer schedules. Tracked JSON results include measured training metrics, explicit limitations and SHA-256 references to final public-digit `.pt` checkpoints (the checkpoints are Git-ignored and included only in the downloadable release archive).
-
-The native Flower 1.27 `ServerApp` and `ClientApp` are implemented against the official Message API, but could not be executed here because neither Flower nor package-network access was available:
-
-```bash
-python scripts/run_flower_experiment.py  # needs flwr[simulation] + its dependencies
-```
-
-This launches actual `flwr run` with 3 SuperNodes and writes failure/success logs, checkpoint and validation summary. **Native Flower remains an open runtime acceptance gate.** For real physically isolated institutions use independent SuperNodes on separate mounts/containers; the simulation is a protocol baseline, not strong OS isolation.
-
-See `docs/fl-experiment-protocol.md`, `CURRENT_STATE.md`, and `NEXT_SPRINT.md`.
-
-## Run with Docker Compose (configured, not verified here)
-
-You must have Docker Engine and Compose v2. On the Docker host:
-
-```bash
-cp .env.example .env
-# Replace BOTH demo placeholder tokens in .env with independent random strings.
-docker compose up --build -d --wait
-docker compose ps
-docker compose logs -f
-```
-
-Only the gateway is published, at `127.0.0.1:8080`. Institutional services are reachable only on the private Compose network and hold separate SQLite volumes. Run the benchmark from the host:
-
-```bash
-export FDL_RESEARCH_KEY='the-same-key-as-in-.env'
-python -m feddisclosure.cli analytics-benchmark --gateway http://127.0.0.1:8080
-```
-
-On a Docker host, use `bash scripts/verify_compose.sh` to perform the full network/volume/port inspection and save benchmark/log evidence. This native execution was **not possible** in the build environment.
-
-Stop with `docker compose down`. Add `-v` only when deliberately resetting research datasets and release histories. The `.env` file is gitignored. Do not expose this prototype to the public Internet; the API keys and experimental policy switch are not hardened production authorization.
-
-## Reproducible research
-
-```bash
-python -m feddisclosure.cli analytics-benchmark \
-  --gateway http://127.0.0.1:8080 \
-  --config configs/analytics/differencing.yaml \
-  --output reports/results/my_trial.json
-```
-
-Config records, attacker observations, outcomes, policies, runtimes, version information and limitations are saved in JSON. The randomized experiment ID ensures that persisted query histories do not contaminate subsequent tests. The evaluator can access synthetic ground truth; the attack module is restricted to published counts.
-
-## Layout
-
-```text
-feddisclosure-lab/
-├── src/feddisclosure/  # typed protocol, data, policy, attacks, evaluation, CLI
-├── services/           # independent site and gateway APIs; future coordinator/evaluator
-├── configs/            # versioned, YAML experiment specifications
-├── scripts/            # four-process local integration harness
-├── tests/              # unit, integration, privacy guards, regression
-├── docs/               # research context, methodology, threat models, handoff
-├── reports/            # measured JSON evidence, planned figures/report
-├── .agents/skills/     # Codex repo skills
-├── .claude/skills/     # Claude repo skills
-├── AGENTS.md           # universal engineering/research instructions
-├── CLAUDE.md           # Claude entry point
-├── CURRENT_STATE.md    # verified milestone ledger
-└── NEXT_SPRINT.md      # scoped next implementation plan
-```
-
-## Development and evidence loop
-
-1. Start from `CURRENT_STATE.md`, `NEXT_SPRINT.md`, and `docs/threat-models.md`.
-2. Make one falsifiable research hypothesis with an explicit observer and metric.
-3. Implement the smallest baseline; add a failing regression test before fixing bugs.
-4. Run `pytest -q` and `python scripts/run_local_stack.py --once`.
-5. Save the config, result, version and limitations; mark **observed**, **unverified**, and **planned** separately.
-6. Update state files and commit tested work. Never fabricate measurements.
-
-## Seven sprint roadmap
-
-| Sprint | Status | Gate |
+| Area | What is implemented | Where |
 |---|---|---|
-| 0: Foundation | Implemented | Typed configs, threat models, tests, agent handoff |
-| 1: Federated analytics | Core implemented; Docker pending | Three independent sites; count differencing and history rule |
-| 2: Flower + PyTorch | Public-digits PyTorch reference executed; native Flower code written but not run | 3-client native Flower FedAvg, IID/non-IID, local/pooled comparisons |
-| 3: Leakage attacks | First public-data baselines executed | Gradient inversion and output-only membership; multi-step update leakage remains |
-| 4: Defenses | Planned | OpenDP, Opacus, Flower SecAgg+ under matched threat models |
-| 5: Benchmarks | Planned | Multi-seed ablations, accuracy/leakage/efficiency figures |
-| 6: Research release | Planned | Dashboard, report, clean-install & faculty presentation |
+| Native federated training | Flower 1.27 Deployment Runtime in Docker Compose (SuperLink, SuperNodes, isolated client containers) on 3 and 4 clients, with per-client execution receipts and a fail-fast watchdog | `compose.flower*.yaml`, `scripts/run_flower_docker.py` |
+| Secure aggregation | Upstream Flower SecAgg+ runs, a dropout matrix, an error-propagation study and a multi-round acceptance rule | `scripts/run_secagg_*`, `scripts/verify_secagg_dropout_matrix.py` |
+| Differential privacy | Opacus DP-FedAvg with an RDP accountant, OpenDP counting releases with a persistent budget ledger | `src/feddisclosure/defenses/` |
+| Membership inference | LiRA shadow-model attack, 64 shadows and 16 targets, on Digits and full MNIST | `scripts/run_lira_study.py` |
+| Update inversion | Gradient-matching reconstruction against plaintext, SecAgg+ aggregate, n-1 collusion and DP views | `src/feddisclosure/attacks/view_study.py`, `scripts/run_view_comparison.py` |
+| Determinism gates | Bitwise float32 replay of Flower aggregation and a strict float64 parity gate (kept strict even where it fails) | `scripts/reproduce_flower_bitwise.py`, `scripts/verify_flower_replay_gate.py` |
+| Federated analytics | Three-site gateway with disclosure controls and a persistent principal-wide query history policy | `services/`, `src/feddisclosure/analytics/` |
+| Evidence dashboard | Offline HTML explorer that reads only allowlisted scalar summaries | `dashboard/` |
 
-See `docs/roadmap.md` for sprint tasks and acceptance criteria. `training` now includes executed PyTorch reference code and a native Flower implementation pending runtime verification. `federation`, `defenses`, the dashboard and other service modules remain future work.
+Only synthetic or public data are used (scikit-learn Digits and the MNIST training split). See [`docs/data-provenance.md`](docs/data-provenance.md).
 
-## Scope boundaries
+## Headline results (v0.14.2)
 
-No external confidential datasets, real hospital connectors, cryptographic protocol reimplementations, public production deployment, novel-method claims or validated digital twin in v1. Prototype demonstrations are not evidence of comprehensive security.
+All numbers come from saved runs under `reports/results/`. Context and caveats are in [`docs/v0.14-privacy-secagg-results.md`](docs/v0.14-privacy-secagg-results.md).
 
-License: Apache-2.0. Research content and experimental code are provided without warranty.
+**Update inversion, 4 clients, 10 seeds, labels known to the attacker.** Lower error means a better reconstruction. The no-information floor (mean image) is 0.073.
 
-## Existing prototype migration note
+| Attacker view | Victim MSE | Share of images recognisable |
+|---|---|---|
+| Plaintext update | 0.013 | 94% |
+| SecAgg+ aggregate only | 0.057 | 55% |
+| SecAgg+ with n-1 colluders | 0.023 | 91% |
+| Opacus DP, sigma 0.2 (individual update) | 0.179 | 0% |
 
-The former starter project was documented as a single-process synthetic SQLite demonstration. The earlier starter source archive was not accessible in this working environment, so this repository is a clean implementation that reproduces the documented 110/107/3 benchmark. It should not be described as a line-by-line migration.
+Aggregate-only SecAgg+ still leaves a lot of signal in this favorable single-step setup, and collusion removes the protection entirely. The DP row only shows that a naive attacker fails. A DP-aware attacker has not been run yet.
 
-## First figure
+**Membership inference (LiRA AUC, 64 shadows, 16 targets).** 0.5 is chance.
 
-Run `python scripts/plot_analytics.py` after installing the optional `visual` dependency group. The generated `reports/figures/sprint1_analytics.png` truthfully distinguishes a withheld response from a count of zero.
+| Setting | No DP | DP, epsilon about 6 to 8 | DP, epsilon about 1.5 to 2 |
+|---|---|---|---|
+| Digits, overfit regime | 0.742 | 0.543 | 0.518 |
+| Digits, moderate regime | 0.605 | 0.537 | 0.508 |
+| MNIST, overfit regime | 0.823 | 0.575 | 0.504 |
 
-## v0.5.0 measured extensions
+DP at epsilon near 2 brings the attack to chance, but held-out accuracy collapses in the overfit runs (about 0.2, versus 0.84 to 0.92 without DP). An earlier 24-shadow run understated leakage at epsilon 6 to 8. The 64-shadow run corrected it and the correction is documented.
 
-- Multi-record unprotected client-model-delta reconstruction: batches 1, 8, 32; local SGD steps 1 or 4; five scored public-image attack cases with strict evaluator-only image truth and explicit label visibility. See `docs/disclosure-protocol.md`.
-- Paired offline multi-process FedAvg versus FedProx (mu=0.3) on severe non-IID public digits, three seeds, four rounds, mean global test accuracy 55.19% versus 49.07% and zero worst-client validation for both. See `docs/fedprox-ablation.md` and `scripts/run_fedprox_ablation.py`.
-- Added SHA-256 cross-check of six trained model checkpoints, run resume/manifest guards, two research figures, tests and updated Claude/Codex handoff. Verify with `python scripts/verify_research_evidence.py` after extracting the full evidence archive.
-- **Not verified:** real Flower execution, Docker Compose, calibrated OpenDP/Opacus privacy, Flower SecAgg+, external MNIST. The word "federated" in offline references denotes separate training processes with no OS-enforced data isolation.
+**SecAgg+ dropout.** Five mid-round dropout scenarios matched the share-count rule: four tolerated, one halted. An earlier claim that three-client dropout halts was wrong and is withdrawn in the docs.
+
+**Determinism.** Bitwise float32 replay reproduces 7 of 7 native Flower runs. The stricter float64 reference parity gate (1e-5) passes only 5 of 7, because Flower averages float32 updates in reply order. The gate was not relaxed.
+
+## Quick start
+
+Requirements: Python 3.11 to 3.13. Docker Engine with Compose v2 is needed only for the native Flower runs.
+
+```bash
+git clone https://github.com/ahmedjawedaj/feddisclosure-lab.git
+cd feddisclosure-lab
+python -m venv .venv && source .venv/bin/activate
+pip install -e '.[test,research]'
+
+# fast test suite (145 pass and 3 skip, no Docker needed)
+PYTHONPATH=src:. pytest -q -m 'not slow'
+
+# rebuild the offline evidence dashboard
+python -m dashboard.build_dashboard
+```
+
+The three-site analytics demo and the native Flower runs have their own steps. See [`docs/v0.14-reproduce.md`](docs/v0.14-reproduce.md) for the pinned versions (Flower 1.27.0, torch 2.5.1 CPU, Opacus 1.6.0, OpenDP 0.16.0) and the exact commands behind every table above.
+
+## How an experiment is organised
+
+```mermaid
+flowchart LR
+    D[Public data<br/>Digits, MNIST] --> P[Partition<br/>IID or label skew]
+    P --> T[Flower training<br/>Docker, 3 to 4 clients]
+    T --> R[Receipts, hashes,<br/>topology attestation]
+    T --> V[Protected views<br/>plaintext, SecAgg+, DP]
+    V --> A[Attacks<br/>LiRA, update inversion]
+    R --> G[Acceptance gates<br/>parity, replay, fail-fast]
+    A --> E[Saved evidence<br/>reports/results]
+    G --> E
+    E --> B[Dashboard and docs]
+```
+
+A run counts as evidence only if its gates pass. Failed gates are recorded and reported, not deleted.
+
+## Repository layout
+
+```
+src/feddisclosure/    library: analytics, attacks, defenses, federation, training, evaluation
+services/             three-site analytics gateway and client services
+scripts/              experiment runners, verifiers, plotting and report builders
+configs/              experiment, attack and defense configurations
+docker/, compose*.yaml  container images and Compose topologies
+tests/                unit, integration, privacy, training and regression tests
+reports/results/      saved evidence (JSON, logs, hashes, receipts)
+dashboard/            offline evidence explorer
+docs/                 protocols, results, threat models, decisions, provenance
+```
+
+Project status files at the repo root (`CURRENT_STATE.md`, `NEXT_SPRINT.md`, `PROJECT_CONTEXT.md`, `AGENTS.md`) record what has been verified and what remains open. The pre-public README with the full milestone history is kept in [`docs/history/README-legacy.md`](docs/history/README-legacy.md).
+
+## Status and honest limits
+
+- **Not a privacy product.** No differential privacy, secure aggregation or security certification is claimed. Epsilons are accountant outputs for specific runs.
+- **Inversion study is an observation-model study.** The SecAgg+ view uses the upstream quantiser arithmetic on single-step updates, not captured Docker traffic. The attacker is naive and not DP-aware.
+- **No proven multi-round SecAgg+ bound.** Two-round error is bimodal because of ReLU flips. Only an empirical percentile rule is offered.
+- **Scale.** Docker topologies were tested at 3 and 4 clients on a 2 CPU machine.
+- **Data.** Digits and MNIST only. The MNIST originators publish no licence text, so redistribution terms are treated as unverified and the raw files are not in this repo.
+- **Hosted CI.** The workflows had not run on GitHub-hosted runners before this repository was published. Their status is shown by the badges above and discussed in [`CHANGELOG.md`](CHANGELOG.md).
+
+## Contributing
+
+Contributions that add experiments, attackers, datasets or fixes are welcome. The one hard rule is that acceptance gates are never weakened to make a result pass and negative results are preserved. See [`CONTRIBUTING.md`](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately as described in [`SECURITY.md`](SECURITY.md).
+
+## Citing
+
+If you use this work, please cite it using [`CITATION.cff`](CITATION.cff) (GitHub shows a "Cite this repository" button). There is no DOI or peer-reviewed paper yet.
+
+## License
+
+Code is released under the [Apache License 2.0](LICENSE). Third-party data and software keep their own terms, see [`NOTICE`](NOTICE).

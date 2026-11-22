@@ -1,0 +1,23 @@
+name: Feature or experiment proposal
+description: Propose an experiment, attacker, dataset or tool
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question or goal
+      description: What narrow, testable question would this answer?
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Proposed design
+      description: Threat model, data, protected views, metrics and how a negative result would look.
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: Acceptance gates
+      description: What must pass for the result to count as evidence?
