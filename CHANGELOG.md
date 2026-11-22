@@ -2,7 +2,9 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
-## [Unreleased]
+## Published with 0.14.2: hosted CI and repository fixes
+
+These changes were made while the repository was first published on GitHub and its workflows first ran on hosted runners. They ship in the 0.14.2 release and do not change any research result.
 
 ### Added
 - `commit-attribution` workflow and `scripts/check_commit_attribution.sh`. Pushes and pull requests fail if any commit has an AI assistant as author, committer or co-author.
@@ -75,4 +77,4 @@ See [`docs/history/README-legacy.md`](docs/history/README-legacy.md) for the ful
 
 ## Hosted CI
 
-Before this repository was published on GitHub the workflows had never run on hosted runners. Results of the first hosted runs are recorded in the next entry once they are observed.
+On 2026-11-22 every workflow was run on hosted runners for the first time. The first runs failed in several ways, all listed above, and none was hidden or relaxed. After the fixes, the push and pull request workflows (tests on Python 3.11, 3.12 and 3.13, history controls, commit attribution, CodeQL) and the dispatched native workflows (Flower smoke, SecAgg+ smoke, native v1 gate, Docker certification, balanced heterogeneity, Opacus, OpenDP) passed on the merged `main`. A rare Ray start-up timeout was seen locally but not on hosted runners. The workflows retry it, and the retry is recorded in the evidence.
