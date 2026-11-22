@@ -7,6 +7,8 @@ import numpy as np
 import pytest
 import torch
 
+pytest.importorskip("flwr")
+
 SPEC = importlib.util.spec_from_file_location("study_reply_order", Path(__file__).parents[2] / "scripts/study_reply_order.py")
 study = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(study)

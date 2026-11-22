@@ -6,6 +6,8 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 import torch
+
+pytest.importorskip("flwr")
 from flwr.app import Array, ArrayRecord, ConfigRecord, Message, MetricRecord, RecordDict
 from flwr.serverapp.strategy.strategy_utils import aggregate_arrayrecords
 
