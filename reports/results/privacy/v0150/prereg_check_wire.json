@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "preregistration": "docs/preregistration/v0.15.md",
+  "note": "Thresholds are copied verbatim from the pre-registration and were not changed. Hosted run 45075971652 on main at 0320a0879252e04635fbc3a7c63f6d87fc6f970c, 5 seeds, 300 attack iterations, Flower 1.27.0 in Docker on a GitHub hosted runner.",
+  "caveats": {
+    "W1": "The naive attack on one masked vector scored 0 of 40 recognisable (mean MSE 0.335), so the pass is easy and says only that this attack gets nothing from a single masked vector.",
+    "W5": "The repository client returns an empty metrics dict, so the check covers sample counts and the visibility of the metrics record, not metric values.",
+    "W3": "Captured and simulated aggregates use different rounding draws. The differences were 2.5 points in rate and 0.0028 in MSE."
+  },
+  "W1": {
+    "id": "W1",
+    "prediction": "Inversion on one captured masked vector is at the label floor",
+    "observed": {
+      "seeds": 5,
+      "attack_rate": 0.0,
+      "attack_wilson95": [
+        0.0,
+        0.08762160119728664
+      ],
+      "floor_rate": 0.725,
+      "floor_wilson95": [
+        0.5716504419378943,
+        0.8389198375233267
+      ],
+      "margin": 0.05,
+      "attack_mean_mse": 0.3347581073641777,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  "W2": {
+    "id": "W2",
+    "prediction": "The dequantised captured aggregate matches the exact weighted mean inside the one-round bound",
+    "observed": {
+      "runs": 5,
+      "worst_max_error": 0.0003737076622244498,
+      "bound": 0.0004768432982595912,
+      "worst_error_over_bound": 0.7837116796826725,
+      "runs_all_below_bound": 5,
+      "coordinates_per_run": 2410,
+      "T": 134216,
+      "n": 4,
+      "no_clipping_in_all_runs": true,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  "W3": {
+    "id": "W3",
+    "prediction": "Attack results on the captured aggregate agree with the simulated results",
+    "observed": {
+      "seeds": 5,
+      "min_seeds": 5,
+      "captured_rate": 0.6,
+      "captured_wilson95": [
+        0.44595893660346186,
+        0.7365167431570808
+      ],
+      "simulated_rate": 0.575,
+      "simulated_wilson95": [
+        0.42195068541991065,
+        0.7149060744004962
+      ],
+      "captured_mean_mse": 0.055649941554293036,
+      "simulated_mean_mse": 0.052820233698003,
+      "abs_rate_difference": 0.025000000000000022,
+      "abs_mse_difference": 0.0028297078562900396,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  "W4": {
+    "id": "W4",
+    "prediction": "In plaintext mode a passive observer on the relay recovers individual updates",
+    "observed": {
+      "seeds": 5,
+      "recognisable_rate": 0.975,
+      "wilson95": [
+        0.8711863103652591,
+        0.9955731684973186
+      ],
+      "threshold": 0.85,
+      "relay_updates_equal_proxy": 20,
+      "relay_updates_checked": 20,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  "W5": {
+    "id": "W5",
+    "prediction": "Per-client sample counts and metrics are visible to the server in clear",
+    "observed": {
+      "replies": 20,
+      "visible_in_clear": 20,
+      "fraction": 1.0,
+      "metric_keys_seen": [],
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  "W6": {
+    "id": "W6",
+    "prediction": "The relay stream and the proxy record agree",
+    "observed": {
+      "objects": 100,
+      "found_in_relay": 100,
+      "methods": {
+        "blob_hash": 100,
+        "float32_bytes": 100,
+        "either": 100,
+        "missing": 0
+      },
+      "relay_logs_consistent": true,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  }
+}

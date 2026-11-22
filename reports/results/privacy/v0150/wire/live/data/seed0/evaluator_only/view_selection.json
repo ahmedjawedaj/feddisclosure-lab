@@ -1,0 +1,48 @@
+{
+  "seed": 0,
+  "records_per_client": 8,
+  "clients": 4,
+  "selection_function": "feddisclosure.attacks.view_seed.select_view_records",
+  "client_source_idx": [
+    [
+      752,
+      97,
+      1729,
+      75,
+      862,
+      608,
+      492,
+      979
+    ],
+    [
+      688,
+      1711,
+      974,
+      703,
+      1035,
+      1184,
+      165,
+      1474
+    ],
+    [
+      1104,
+      1013,
+      154,
+      285,
+      1365,
+      538,
+      393,
+      961
+    ],
+    [
+      391,
+      53,
+      467,
+      533,
+      865,
+      622,
+      1795,
+      507
+    ]
+  ]
+}

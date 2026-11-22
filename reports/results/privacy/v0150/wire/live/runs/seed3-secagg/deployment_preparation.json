@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "preparation_only": true,
+  "client_count": 4,
+  "manifest_sha256": "6975577b3021c1bf1ee283a7cac5dd5af4ee0fe2900be2c9255618d495788449",
+  "config": {
+    "allowed_observations": [
+      "masked_vectors",
+      "sample_counts",
+      "relay_byte_streams"
+    ],
+    "batch_size": 8,
+    "clients": 4,
+    "dataset": "sklearn_digits",
+    "id": "wire-seed3",
+    "learning_rate": 0.15,
+    "local_epochs": 1,
+    "observer": "wire_capture",
+    "partition": "iid",
+    "rounds": 1,
+    "seed": 3,
+    "source_limit": null
+  },
+  "sites": [
+    {
+      "site_id": 0,
+      "path": "/home/runner/work/feddisclosure-lab/feddisclosure-lab/reports/results/privacy/v0150/wire/hosted/data/seed3/institution-00",
+      "train_sha256": "271bb31ad05b577e235fcdffb896dcd731bbc738609ffe34e439096948225cc8",
+      "val_sha256": "4193dbbd6c612de5a8a103f9056c3c128417ec3087d42f05cbeb9c15f583fcc4",
+      "train_records": 8,
+      "val_records": 1
+    },
+    {
+      "site_id": 1,
+      "path": "/home/runner/work/feddisclosure-lab/feddisclosure-lab/reports/results/privacy/v0150/wire/hosted/data/seed3/institution-01",
+      "train_sha256": "6b2524a9330694aa90bf1f6d4e37dcfc30b6cc36e79169dc1b1d8c126143dfe1",
+      "val_sha256": "82b16f0ff6ae9e8aa1ef608ef5aef24b37c2a7aaef33305a2b73e2e777fe6731",
+      "train_records": 8,
+      "val_records": 1
+    },
+    {
+      "site_id": 2,
+      "path": "/home/runner/work/feddisclosure-lab/feddisclosure-lab/reports/results/privacy/v0150/wire/hosted/data/seed3/institution-02",
+      "train_sha256": "f56767627c968b17ea8bd106a4cf0c4e1929be9fb906c65ef6243f70dd3ec81b",
+      "val_sha256": "780efc9fee70c8169727098000cf96cd9809282f44d06c3c9d95e677ad417a6c",
+      "train_records": 8,
+      "val_records": 1
+    },
+    {
+      "site_id": 3,
+      "path": "/home/runner/work/feddisclosure-lab/feddisclosure-lab/reports/results/privacy/v0150/wire/hosted/data/seed3/institution-03",
+      "train_sha256": "3985b7ec46a797e72046c6acb7852f462c536fe70637bb5f8db694d58085350b",
+      "val_sha256": "7051c48aaf9a34e95803645b0d5a2c3f124d9f26aa16dd11d135a00d54a853e3",
+      "train_records": 8,
+      "val_records": 1
+    }
+  ],
+  "run_dir": "/home/runner/work/feddisclosure-lab/feddisclosure-lab/reports/results/privacy/v0150/wire/hosted/runs/seed3-secagg",
+  "env_file": "/home/runner/work/feddisclosure-lab/feddisclosure-lab/reports/results/privacy/v0150/wire/hosted/env/seed3-secagg.env",
+  "evaluator_not_mounted": true,
+  "native_execution_verified": false
+}

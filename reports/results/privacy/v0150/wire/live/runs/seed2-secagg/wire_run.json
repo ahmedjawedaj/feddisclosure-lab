@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "seed": 2,
+  "mode": "secagg",
+  "ok": true,
+  "data_dir": "/home/runner/work/feddisclosure-lab/feddisclosure-lab/reports/results/privacy/v0150/wire/hosted/data/seed2",
+  "relay_dir": "relay",
+  "capture_dir": "server/wire",
+  "started_utc": "2026-11-22T22:13:08.841990+00:00",
+  "flower_command": [
+    "docker",
+    "compose",
+    "--env-file",
+    "/home/runner/work/feddisclosure-lab/feddisclosure-lab/reports/results/privacy/v0150/wire/hosted/env/seed2-secagg.env",
+    "-f",
+    "/home/runner/work/feddisclosure-lab/feddisclosure-lab/compose.flower.n4.yaml",
+    "-f",
+    "/home/runner/work/feddisclosure-lab/feddisclosure-lab/compose.wire.yaml",
+    "run",
+    "--rm",
+    "--no-deps",
+    "-v",
+    "/home/runner/work/feddisclosure-lab/feddisclosure-lab/docker/wire_relay/app:/alt-app:ro",
+    "--entrypoint",
+    "sh",
+    "flwr-cli",
+    "-c",
+    "cp -r /alt-app /tmp/alt-app && exec flwr run /tmp/alt-app fdl-docker --stream --run-config \"$0\"",
+    "num-server-rounds=1 local-epochs=1 batch-size=8 learning-rate=0.15 proximal-mu=0.0 clients=4 seed=2 features=64 classes=10 data-root=\"/never-mounted-client-data\" artifact-dir=\"/artifacts\" use-secagg=true num-shares=4 reconstruction-threshold=2 timeout=60.0 wire-capture=true"
+  ],
+  "cli_attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 0,
+      "superlink_unreachable": false
+    }
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "finished_utc": "2026-11-22T22:13:53.557100+00:00"
+}

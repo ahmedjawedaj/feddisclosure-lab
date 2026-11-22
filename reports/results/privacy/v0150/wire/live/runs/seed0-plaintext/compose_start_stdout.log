@@ -1,0 +1,111 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 3.56kB done
+#1 DONE 0.0s
+
+#2 [clientexec-2 internal] load build definition from SuperExec.Dockerfile
+#2 transferring dockerfile: 1.66kB done
+#2 DONE 0.0s
+
+#3 [clientexec-0 internal] load metadata for docker.io/flwr/superexec:1.27.0
+#3 DONE 0.0s
+
+#4 [clientexec-3 internal] load .dockerignore
+#4 transferring context: 387B done
+#4 DONE 0.0s
+
+#5 [clientexec-2 stage-0 1/9] FROM docker.io/flwr/superexec:1.27.0@sha256:15b43740a29e781580f915082903480cd023c0c03364ab77c05ee264fc96e05b
+#5 resolve docker.io/flwr/superexec:1.27.0@sha256:15b43740a29e781580f915082903480cd023c0c03364ab77c05ee264fc96e05b done
+#5 DONE 0.0s
+
+#6 [clientexec-3 internal] load build context
+#6 transferring context: 4.70kB done
+#6 DONE 0.0s
+
+#7 [serverexec stage-0 4/9] COPY --chown=app:app --chmod=a+rX pyproject.toml README.md ./
+#7 CACHED
+
+#8 [serverexec stage-0 2/9] RUN mkdir -p /app /opt/fdl-flwr-home/.flwr && chown -R app:app /app /opt/fdl-flwr-home
+#8 CACHED
+
+#9 [serverexec stage-0 3/9] WORKDIR /app
+#9 CACHED
+
+#10 [serverexec stage-0 5/9] RUN --mount=type=secret,id=fdl_build_ca,mode=0444     if [ -s /run/secrets/fdl_build_ca ]; then export PIP_CERT=/run/secrets/fdl_build_ca; fi     && python -m pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1'
+#10 CACHED
+
+#11 [serverexec stage-0 6/9] COPY --chown=app:app --chmod=a+rX src/ ./src/
+#11 CACHED
+
+#12 [serverexec stage-0 7/9] RUN --mount=type=secret,id=fdl_build_ca,mode=0444     if [ -s /run/secrets/fdl_build_ca ]; then export PIP_CERT=/run/secrets/fdl_build_ca; fi     && python -m pip install --no-cache-dir -e . 'scikit-learn>=1.4,<2'
+#12 CACHED
+
+#13 [serverexec stage-0 8/9] COPY --chown=app:app --chmod=a+rX docker/flower/flwr-config.toml /opt/fdl-flwr-home/.flwr/config.toml
+#13 CACHED
+
+#14 [clientexec-0 stage-0 9/9] RUN chmod -R a+rwX /opt/fdl-flwr-home
+#14 CACHED
+
+#15 [clientexec-2] exporting to image
+#15 exporting layers done
+#15 exporting manifest sha256:bc1bcf010ef43e11faf163a07ac3ea418e6deec4128c57923859fc1385b0bdf2 done
+#15 exporting config sha256:d3747678bbdc3e047f480a54cb47e7faa5ebf0306116c15f11d78fe968145db1 done
+#15 exporting attestation manifest sha256:4b805621df24a460d8bdf3d6178cd72b8a7aa492b846423a6bfeaed8b8fd0af8 0.0s done
+#15 exporting manifest list sha256:8a936d814d1b309c00a8e85c52cb8ea427b517d5b7670cca50462cc677bd8384 0.0s done
+#15 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#15 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 0.0s done
+#15 DONE 0.1s
+
+#16 [clientexec-3] exporting to image
+#16 exporting layers done
+#16 exporting manifest sha256:de92c4ba00f8fe1e4838039271aad01c7af67066083983f699f0b2d6d229fcb8 done
+#16 exporting config sha256:afe3f9fac94cc2f5f0df253e70c71a04c29630ff81a3a5949d3f7052b071f432 done
+#16 exporting attestation manifest sha256:f671754970e8400555fd8afd2e31cf55a4105399560728c08c01142dbe4da68b 0.0s done
+#16 exporting manifest list sha256:ae99b66ae854a750efbce27e711c68b3a64f69c6dce0a85a1b3c48a089705774 done
+#16 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#16 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#16 DONE 0.1s
+
+#17 [clientexec-1] exporting to image
+#17 exporting layers done
+#17 exporting manifest sha256:2fae8c617f0879712e889c76f96b9c324a9132d19603ed8904f2c083c2d2dee6 done
+#17 exporting config sha256:2b26dd7095be23823fd496151dd1d02a8e5bb1cadd84c0ae0ee33a6d073e5614 done
+#17 exporting attestation manifest sha256:2ae698f29a1c45b247a5c741fbdacf62e775b8aa98c4d7e4e30c224a156fa527 0.0s done
+#17 exporting manifest list sha256:caedbdcc896aca026f8ee0e8af12cb7bc88907d6a98eefe6d01300f6c374e519 0.0s done
+#17 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#17 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#17 DONE 0.1s
+
+#18 [serverexec] exporting to image
+#18 exporting layers done
+#18 exporting manifest sha256:8fb85af456dc59de892232186466bc004f49c8a96e46a9d51116c348a6d76f6c done
+#18 exporting config sha256:dd3bb295c716740f74b2c2434ca579992f81afb44d6d5055cf0fe6ec4fb386b4 done
+#18 exporting attestation manifest sha256:a0fc17daf605f5e7b346db0cb4c322ad0f5dbe64e1c44d8ac78871ceed4213a7 0.0s done
+#18 exporting manifest list sha256:9dc9ac62a36278e3d8c9ae71b14656bb44d989a612307b1418a77f2768b82d8b 0.0s done
+#18 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#18 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 0.0s done
+#18 DONE 0.1s
+
+#19 [clientexec-0] exporting to image
+#19 exporting layers done
+#19 exporting manifest sha256:8d64c9e1ea1aadb84cf80d7aae058eb3f64b1aa12e35bcd0c7230173dce0e065 done
+#19 exporting config sha256:89d5fc85281ae7a797c4523ea5ae06da9141752d0b36018ab4ad3a7996f3d1c8 done
+#19 exporting attestation manifest sha256:f24c8dbd2cce495556e73492cb2c6efca6736322dd82704a0d995ec7fe6046cd 0.0s done
+#19 exporting manifest list sha256:00e18f601c50163d1f203e343447480254c38f7e61e147a8ead5a51bdbd03171 0.0s done
+#19 naming to docker.io/library/feddisclosure-flower-exec:0.12.0 done
+#19 unpacking to docker.io/library/feddisclosure-flower-exec:0.12.0 0.0s done
+#19 DONE 0.1s
+
+#20 [clientexec-2] resolving provenance for metadata file
+#20 DONE 0.0s
+
+#21 [clientexec-0] resolving provenance for metadata file
+#21 DONE 0.0s
+
+#22 [serverexec] resolving provenance for metadata file
+#22 DONE 0.0s
+
+#23 [clientexec-1] resolving provenance for metadata file
+#23 DONE 0.0s
+
+#24 [clientexec-3] resolving provenance for metadata file
+#24 DONE 0.0s
