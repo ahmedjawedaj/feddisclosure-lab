@@ -1,0 +1,13 @@
+# Isolated environment for scripts/run_external_baselines.py (WP11). Not part of the main environment.
+# python -m venv --system-site-packages /tmp/venv_ext
+# /tmp/venv_ext/bin/pip install --no-deps breaching==0.1.2
+# /tmp/venv_ext/bin/pip install mialibrary==0.1.5 hydra-core==1.3.8 lpips==0.1.4
+# /tmp/venv_ext/bin/pip install --no-deps --index-url https://download.pytorch.org/whl/cpu torchvision==0.29.2+cpu
+# The main environment already provides torch 2.15.0+cpu and numpy 2.5.3 and must not be modified.
+# The torchvision from PyPI is a CUDA build and does not load against the CPU torch, so the CPU build is
+# installed inside the venv only.
+breaching==0.1.2
+mialibrary==0.1.5
+hydra-core==1.3.8
+lpips==0.1.4
+torchvision==0.29.2+cpu

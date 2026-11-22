@@ -1,0 +1,104 @@
+{
+  "seeds": 20,
+  "attacks": {
+    "repo": {
+      "mse_mean_bootstrap_ci": [
+        0.011499961385855429,
+        0.008042827346632038,
+        0.015367775825188204
+      ],
+      "recognisable_share": 0.95625,
+      "mean_seconds": 0.31999999999999995
+    },
+    "ig_library_default": {
+      "mse_mean_bootstrap_ci": [
+        0.04818308792145118,
+        0.04284287282782003,
+        0.05364733366126138
+      ],
+      "recognisable_share": 0.73125,
+      "mean_seconds": 52.415000000000006
+    },
+    "dlg_known_labels": {
+      "mse_mean_bootstrap_ci": [
+        0.02462243779042528,
+        0.017101012825514517,
+        0.03229658518563379
+      ],
+      "recognisable_share": 0.85,
+      "mean_seconds": 20.175000000000004
+    },
+    "tuned_ig_tv0.001": {
+      "mse_mean_bootstrap_ci": [
+        0.006168078595646895,
+        0.003976360206540126,
+        0.008671195199488092
+      ],
+      "recognisable_share": 0.99375,
+      "mean_seconds": 8.76
+    }
+  },
+  "label_floor": {
+    "class_average_mse": [
+      0.04226595842313265,
+      0.03897087766895378,
+      0.04575496159896591
+    ],
+    "class_average_rate": [
+      0.7375,
+      0.675,
+      0.8
+    ],
+    "matched_mse": [
+      0.04199756854889649,
+      0.038857800984597964,
+      0.04528483572296301
+    ],
+    "matched_rate": [
+      0.7375,
+      0.675,
+      0.8
+    ]
+  },
+  "b1": {
+    "ig_library_default": {
+      "repo_mean_mse": 0.011499961385855429,
+      "external_mean_mse": 0.04818308792145118,
+      "ratio": 0.23867215410940132,
+      "threshold_max_ratio": 1.5,
+      "verdict": "PASS",
+      "paired_mse_repo_minus_external_ci": [
+        -0.03668312653559575,
+        -0.040785739502594794,
+        -0.03275679409183808
+      ],
+      "seeds_repo_lower_mse": 20
+    },
+    "dlg_known_labels": {
+      "repo_mean_mse": 0.011499961385855429,
+      "external_mean_mse": 0.02462243779042528,
+      "ratio": 0.4670521044154012,
+      "threshold_max_ratio": 1.5,
+      "verdict": "PASS",
+      "paired_mse_repo_minus_external_ci": [
+        -0.013122476404569853,
+        -0.019831620481845506,
+        -0.006513611009224413
+      ],
+      "seeds_repo_lower_mse": 17
+    },
+    "tuned_ig_tv0.001": {
+      "repo_mean_mse": 0.011499961385855429,
+      "external_mean_mse": 0.006168078595646895,
+      "ratio": 1.86443172010997,
+      "threshold_max_ratio": 1.5,
+      "verdict": "FAIL",
+      "paired_mse_repo_minus_external_ci": [
+        0.005331882790208533,
+        0.0029753153974817126,
+        0.007873160327638814
+      ],
+      "seeds_repo_lower_mse": 3
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "work_package": "WP11",
+  "versions": {
+    "breaching": {
+      "version": "0.1.2",
+      "license": "MIT"
+    },
+    "mialibrary": {
+      "version": "0.1.5",
+      "license": null
+    },
+    "torch": {
+      "version": "2.15.0+cpu",
+      "license": "Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND BSD-2-Clause AND BSD-3-Clause "
+    },
+    "torchvision": {
+      "version": "0.29.2+cpu",
+      "license": "BSD"
+    },
+    "numpy": {
+      "version": "2.5.3",
+      "license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0"
+    },
+    "scipy": {
+      "version": "1.18.1",
+      "license": "Copyright (c) 2001-2002 Enthought, Inc. 2003, SciPy Developers."
+    },
+    "jax": {
+      "version": "0.7.0",
+      "license": "Apache-2.0"
+    },
+    "hydra-core": {
+      "version": "1.3.8",
+      "license": "MIT"
+    },
+    "omegaconf": {
+      "version": "2.3.1",
+      "license": null
+    }
+  },
+  "checks": {
+    "B1": {
+      "claim": "Our inversion attack is not much weaker than breaching on a matched setup",
+      "rule": "Our mean MSE at most 1.5 times the external baseline MSE",
+      "headline_external_configuration": "tuned_ig_tv0.001",
+      "headline_rule": "the breaching configuration selected on tuning seeds (strongest available)",
+      "verdict": "FAIL",
+      "headline": {
+        "repo_mean_mse": 0.011499961385855429,
+        "external_mean_mse": 0.006168078595646895,
+        "ratio": 1.86443172010997,
+        "threshold_max_ratio": 1.5,
+        "verdict": "FAIL",
+        "paired_mse_repo_minus_external_ci": [
+          0.005331882790208533,
+          0.0029753153974817126,
+          0.007873160327638814
+        ],
+        "seeds_repo_lower_mse": 3
+      },
+      "all_configurations": {
+        "ig_library_default": {
+          "ratio": 0.23867215410940132,
+          "verdict": "PASS"
+        },
+        "dlg_known_labels": {
+          "ratio": 0.4670521044154012,
+          "verdict": "PASS"
+        },
+        "tuned_ig_tv0.001": {
+          "ratio": 1.86443172010997,
+          "verdict": "FAIL"
+        }
+      },
+      "seeds": 20
+    },
+    "B2": {
+      "claim": "Our LiRA AUC is not much weaker than a reference LiRA",
+      "rule": "Our AUC at least reference AUC minus 0.03",
+      "reference_implementation": "mialibrary 0.1.5 simple_lira (PyPI, independent of this repo)",
+      "headline_reference": "mialibrary_mean_perexample_var",
+      "headline_rule": "strongest mialibrary variant by mean AUC (most demanding for the repo)",
+      "verdict": "PASS",
+      "headline": {
+        "repo_auc": 0.7415856481481481,
+        "reference_auc": 0.7400752314814815,
+        "difference_repo_minus_reference": 0.0015104166666666252,
+        "threshold_min_difference": -0.03,
+        "verdict": "PASS"
+      },
+      "like_for_like": {
+        "reference": "mialibrary_mean_perexample_var",
+        "repo_auc": 0.7415856481481481,
+        "reference_auc": 0.7400752314814815,
+        "difference_repo_minus_reference": 0.0015104166666666252,
+        "threshold_min_difference": -0.03,
+        "verdict": "PASS"
+      },
+      "all_references": {
+        "mialibrary_mean_perexample_var": "PASS",
+        "independent_mean_perexample_var": "PASS",
+        "mialibrary_mean_global_var": "PASS",
+        "independent_mean_global_var": "PASS",
+        "mialibrary_median_perexample_var": "PASS",
+        "independent_median_perexample_var": "PASS",
+        "mialibrary_median_global_var": "PASS",
+        "independent_median_global_var": "PASS"
+      }
+    }
+  }
+}

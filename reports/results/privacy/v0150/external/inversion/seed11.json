@@ -1,0 +1,31 @@
+{
+ "seed": 11,
+ "attacks": {
+  "repo": {
+   "victim_mse": 0.02325497940182686,
+   "victim_rate_mse_below_0_05": 0.875,
+   "seconds": 0.3
+  },
+  "ig_library_default": {
+   "victim_mse": 0.061496275662903326,
+   "victim_rate_mse_below_0_05": 0.625,
+   "seconds": 53.7
+  },
+  "dlg_known_labels": {
+   "victim_mse": 0.024854715450065373,
+   "victim_rate_mse_below_0_05": 0.875,
+   "seconds": 53.7
+  },
+  "tuned_ig_tv0.001": {
+   "victim_mse": 0.01868586967545833,
+   "victim_rate_mse_below_0_05": 1.0,
+   "seconds": 8.6
+  }
+ },
+ "floor": {
+  "class_average_mse": 0.048580250281200214,
+  "class_average_rate_mse_below_0_05": 0.75,
+  "matched_mse": 0.048580250281200214,
+  "matched_rate_mse_below_0_05": 0.75
+ }
+}
