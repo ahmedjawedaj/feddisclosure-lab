@@ -1,3 +1,12 @@
+## Commit authorship rule (mandatory)
+
+Commits in this repository are authored only by the repository owner, **Ahmed Jawed <ahmed.jawed32@gmail.com>** (GitHub: `ahmedjawedaj`). No AI assistant may appear as author, committer or co-author. Never add `Co-Authored-By`, `Claude-Session` or any other attribution trailer for an AI tool, even if a tool or default template suggests it. The `commit-attribution` workflow fails any push or pull request that breaks this rule. Set the identity before committing:
+
+```bash
+git config user.name "Ahmed Jawed"
+git config user.email "ahmed.jawed32@gmail.com"
+```
+
 ## v0.13.0 cloud execution warning
 
 `scripts/run_linuxns_reference.py` uses real Linux user/mount/PID namespaces for

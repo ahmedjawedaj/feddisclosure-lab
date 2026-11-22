@@ -1,3 +1,12 @@
+## Commit authorship rule (mandatory)
+
+Commits in this repository are authored only by the repository owner, **Ahmed Jawed <ahmed.jawed32@gmail.com>** (GitHub: `ahmedjawedaj`). No AI assistant may appear as author, committer or co-author. Never add `Co-Authored-By`, `Claude-Session` or any other attribution trailer for an AI tool, even if a tool or default template suggests it. The `commit-attribution` workflow fails any push or pull request that breaks this rule. Set the identity before committing:
+
+```bash
+git config user.name "Ahmed Jawed"
+git config user.email "ahmed.jawed32@gmail.com"
+```
+
 # Claude handoff — v0.9.0
 
 Start with `AGENTS.md`, `PROJECT_CONTEXT.md`, `CURRENT_STATE.md`, `NEXT_SPRINT.md`, and `docs/v0.9-results.md`. Preserve completed v0.7/v0.8 benchmarks. For v0.9, run `python scripts/verify_joint_aggregate.py`, `python scripts/analyze_balanced_study.py`, and `python -m dashboard.build_dashboard`. Native Docker, Flower, OpenDP, Opacus, and SecAgg+ remain unverified. Labels for all contributors are granted by the joint-attack oracle and grouped by institution; this is NOT a standard aggregate-only observer.

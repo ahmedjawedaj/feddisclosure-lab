@@ -1,0 +1,18 @@
+name: commit-attribution
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Reject AI assistant authors and co-author trailers
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            bash scripts/check_commit_attribution.sh "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+          else
+            bash scripts/check_commit_attribution.sh "${{ github.event.before }}" "${{ github.sha }}"
+          fi

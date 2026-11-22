@@ -10,6 +10,7 @@ Thanks for helping. This is a research benchmark, so the rules protect the evide
 4. **Synthetic or public data only.** No private or personal data, ever.
 5. **Say what was and was not run.** State the topology, versions, seeds and whether it ran natively, in simulation or only as a static check.
 6. **No secrets, tokens or personal paths** in commits or logs.
+7. **No AI assistant as author or co-author on commits.** See the commit authorship rule in `AGENTS.md`. CI enforces it.
 
 ## Getting set up
 
