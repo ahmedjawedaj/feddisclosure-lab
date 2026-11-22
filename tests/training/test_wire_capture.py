@@ -88,8 +88,19 @@ def blobs_of(arrays):
     return b"".join(b"filler" + wc.ndarray_to_npy_bytes(a) for a in arrays)
 
 
+def quantise_like_the_naive_observer(update_arrays, num_examples=8, max_weight=1000.0):
+    """The exact inverse of analyze_wire_capture.naive_dequantise: an update that carries no mask at all."""
+    q = wc.quantised_weights([num_examples], max_weight=max_weight)[0]
+    scale = q / wc.QUANT_RANGE
+    out = []
+    for a in update_arrays:
+        v = (np.asarray(a, dtype=np.float64) * scale + wc.CLIP_RANGE) * (wc.QUANT_RANGE / (2 * wc.CLIP_RANGE))
+        out.append(np.rint(v).astype(np.int64))
+    return out
+
+
 def build_synthetic_run(root, seed, mode, *, drop_relay_s2c=False, hide_counts=False, aggregate_shift=0.0,
-                        shared_data=True):
+                        shared_data=True, leak_victim_update=False):
     """A full run directory as scripts/run_wire_capture.py would leave it, built without Docker."""
     import torch
     from feddisclosure.attacks.view_seed import client_step_seed
@@ -142,6 +153,9 @@ def build_synthetic_run(root, seed, mode, *, drop_relay_s2c=False, hide_counts=F
         for i, n in enumerate(nodes):
             masked = [np.array([33554], dtype=np.int64)] + [
                 rng.integers(0, 2 ** 32, size=a.shape, dtype=np.int64) for a in init_arrays]
+            if leak_victim_update and i == 0:
+                # Positive control: the victim's reply carries its quantised update with no mask on it.
+                masked = [masked[0]] + quantise_like_the_naive_observer(updates[0])
             blobs = [wc.ndarray_to_npy_bytes(m) for m in masked]
             replies.append(wc.SimpleMessage(wc.SimpleContent(
                 metrics={"fitres.num_examples": {"num_examples": 8}}, configs={
@@ -543,6 +557,24 @@ def test_w3_tolerances_and_minimum_seeds():
     assert not wc.check_w3([{"rate": float("nan"), "mse": 0.1}] * 5, cap)["pass"]
 
 
+def test_w3_reports_per_seed_gaps_that_cancel_in_the_pooled_figures():
+    # Per-seed gaps of 0.25 and -0.25 are far outside the 10 point tolerance but cancel when pooled.
+    cap = [{"rate": 0.75, "mse": 0.06}, {"rate": 0.25, "mse": 0.04}] + [{"rate": 0.5, "mse": 0.05}] * 3
+    sim = [{"rate": 0.5, "mse": 0.05}] * 5
+    out = wc.check_w3(cap, sim)
+    obs = out["observed"]
+    assert out["pass"] and obs["abs_rate_difference"] == pytest.approx(0.0)
+    assert obs["per_seed_rate_gaps"][:2] == pytest.approx([0.25, -0.25])
+    assert obs["per_seed_mse_gaps"][:2] == pytest.approx([0.01, -0.01])
+    assert obs["label"] == "PASS (pooled, low power)"
+    assert wc.check_w3(cap, [{"rate": 0.9, "mse": 0.05}] * 5)["observed"]["label"] == "FAIL"
+
+
+def test_w1_note_says_the_pooled_intervals_overstate_the_sample():
+    out = wc.check_w1([0.0] * 5, [0.625] * 5)
+    assert "effective n" in out["observed"]["interval_note"] and out["pass"]
+
+
 def test_w4_threshold_is_85_percent():
     assert wc.check_w4([0.875] * 5, 20, 20)["pass"]
     assert wc.check_w4([1.0, 1.0, 1.0, 1.0, 0.25], 20, 20)["pass"]              # exactly 85 percent
@@ -553,7 +585,17 @@ def test_w4_threshold_is_85_percent():
 def test_w5_needs_clear_counts_and_metrics_in_every_reply():
     replies = [{"node_id": i, "num_examples": 8, "num_examples_visible": True, "metrics_visible": True, "metrics": {}}
                for i in range(4)]
-    assert wc.check_w5(replies, {i: 8 for i in range(4)})["pass"]
+    ok = wc.check_w5(replies, {i: 8 for i in range(4)})
+    assert ok["pass"]
+    # The client returns no metric values, so the metrics half is vacuous and the output says so.
+    obs = ok["observed"]
+    assert obs["counts_visible"] == 4 and obs["metrics_record_visible"] == 4
+    assert obs["metrics_present"] == 0 and obs["metrics_vacuous"] is True
+    assert obs["label"] == "PASS for sample counts (4 of 4), metrics not exercised because the client returns none"
+    with_metrics = [dict(r, metrics={"loss": 0.5}) for r in replies]
+    real = wc.check_w5(with_metrics, {i: 8 for i in range(4)})
+    assert real["pass"] and real["observed"]["metrics_present"] == 4 and real["observed"]["metrics_vacuous"] is False
+    assert real["observed"]["label"] == "PASS"
     hidden = [dict(r) for r in replies]
     hidden[2]["num_examples_visible"] = False
     out = wc.check_w5(hidden)
@@ -663,6 +705,31 @@ def test_analysis_decides_all_six_checks_on_synthetic_runs(synthetic_root, tmp_p
     assert all(set(c) == {"id", "prediction", "observed", "pass"} for c in machine)
     text = (tmp_path / "out" / "wire_validation.md").read_text()
     assert "| W6 |" in text and "\u2014" not in text and ";" not in text.split("## Limitations")[0].replace("&amp;", "")
+
+
+def test_w1_fails_when_the_victim_reply_carries_an_unmasked_update(tmp_path):
+    """Positive control for W1. If a masked vector were really the quantised update with no mask on it, the
+    naive observer would invert it and W1 has to fail. Without this a pass could mean the check is blind."""
+    pytest.importorskip("flwr")
+    import analyze_wire_capture as aw
+    root = tmp_path / "leaky"
+    seeds = [0, 1]
+    for seed in seeds:
+        build_synthetic_run(root, seed, "secagg", leak_victim_update=True)
+        build_synthetic_run(root, seed, "plaintext")
+    report = aw.analyze(root, tmp_path / "leaky_out", iterations=300, seeds=seeds)
+    w1 = next(c for c in report["checks"] if c["id"] == "W1")
+    obs = w1["observed"]
+    assert obs["attack_rate"] > obs["floor_rate"] + wc.W1_MARGIN, obs
+    assert not w1["pass"]
+    # The same builder without the leak passes, so the failure comes from the unmasked vector alone.
+    clean = tmp_path / "clean"
+    for seed in seeds:
+        build_synthetic_run(clean, seed, "secagg")
+        build_synthetic_run(clean, seed, "plaintext")
+    clean_w1 = next(c for c in aw.analyze(clean, tmp_path / "clean_out", iterations=300, seeds=seeds)["checks"]
+                    if c["id"] == "W1")
+    assert clean_w1["pass"], clean_w1["observed"]
 
 
 def test_analysis_reports_run_data_selection_and_updates(synthetic_root, tmp_path):

@@ -148,6 +148,17 @@ def test_bootstrap_mean_ci_is_deterministic_and_needs_two_values():
         eb.bootstrap_mean_ci([1.0])
 
 
+def test_bootstrap_ratio_ci_is_deterministic_brackets_the_ratio_and_needs_pairs():
+    num = [2.0, 4.0, 3.0, 9.0, 1.0, 5.0]
+    den = [1.0, 2.0, 1.5, 3.0, 1.0, 2.5]
+    ci = eb.bootstrap_ratio_ci(num, den, n_boot=2000, seed=3)
+    assert ci == eb.bootstrap_ratio_ci(num, den, n_boot=2000, seed=3)
+    assert ci[0] <= sum(num) / sum(den) <= ci[1]
+    assert eb.bootstrap_ratio_ci([2.0, 2.0, 2.0], [1.0, 1.0, 1.0], n_boot=200) == [2.0, 2.0]
+    with pytest.raises(ValueError):
+        eb.bootstrap_ratio_ci([1.0, 2.0], [1.0])
+
+
 def test_split_and_evaluate_use_first_shadows_then_targets():
     phi, mem = _toy_shadows(m=20)
     models = {"phi": phi, "member": mem, "model_id": np.arange(20)}

@@ -93,14 +93,38 @@ def test_exact_optimal_limits_far_apart_and_identical_and_orthogonal():
     assert abs(k / n - 0.1) < 0.01
 
 
+def _success_rates(cands, true_idx, sigma, n, seed):
+    rng = np.random.default_rng(seed)
+    ip_hits = nn_hits = 0
+    for _ in range(n):
+        r = cands[true_idx] + sigma * rng.standard_normal(cands.shape[1])
+        ip_hits += int(dpi.ip_choice(r, cands) == true_idx)
+        nn_hits += int(dpi.nearest_choice(r, cands) == true_idx)
+    return ip_hits / n, nn_hits / n
+
+
 def test_exact_optimal_is_not_beaten_by_inner_product_on_clipped_candidates():
-    # all candidates have norm C, so both rules coincide draw by draw
+    # All candidates have norm C. Inner product and nearest candidate then pick the same candidate on every
+    # draw, so their success rates are equal, and both match the Monte Carlo optimum of the same candidates.
     rng = np.random.default_rng(2)
     g = rng.standard_normal((20, 30))
     g /= np.linalg.norm(g, axis=1, keepdims=True)
-    for _ in range(50):
-        r = g[4] + 0.7 * rng.standard_normal(30)
-        assert dpi.ip_choice(r, g) == dpi.nearest_choice(r, g)
+    sigma, n = 0.3, 2000
+    ip_rate, nn_rate = _success_rates(g, 4, sigma, n, seed=5)
+    assert ip_rate == nn_rate
+    assert 0.05 < nn_rate < 0.98                                   # a rate that can move, not 0 or 1
+    draws = 20000
+    opt = dpi.mc_optimal_successes(g, 4, sigma=sigma, draws=draws, rng=np.random.default_rng(6)) / draws
+    se = math.sqrt(opt * (1 - opt) * (1 / n + 1 / draws))
+    assert abs(ip_rate - opt) < 4 * se
+
+
+def test_nearest_rule_beats_inner_product_in_success_rate_when_norms_differ():
+    # Control for the test above: with unequal norms the two rules differ and the Bayes rule wins on rate.
+    cands = np.zeros((2, 4))
+    cands[0, 0], cands[1, 0] = 1.0, 0.3
+    ip_rate, nn_rate = _success_rates(cands, 1, 0.3, 2000, seed=3)
+    assert nn_rate > 0.8 and ip_rate < 0.3
 
 
 # ---------------------------------------------------------------- candidate sets
@@ -211,8 +235,8 @@ def _fake_summary(attack_rate_scale=1.0, trials=1000):
 def test_d1_flags_an_attack_that_beats_the_bound():
     ok = dpi.prereg_check(_fake_summary(0.9))
     assert ok["D1"]["pass"] and ok["D1"]["observed"]["breaches"] == []
-    bad = dpi.prereg_check(_fake_summary(1.0))     # attack exactly at the bound with 1000 trials is fine
-    assert bad["D1"]["pass"]
+    at_bound = dpi.prereg_check(_fake_summary(1.0))     # attack exactly at the bound with 1000 trials is fine
+    assert at_bound["D1"]["pass"]
     # a cell whose attack rate is far above the bound at high noise is a breach
     s = _fake_summary(0.9)
     key = "any_u100|sigma=4"
@@ -241,3 +265,76 @@ def test_summarize_collapses_duplicate_seed_lines(tmp_path):
     s = dpi.summarize(tmp_path, sigmas=(1.0,), configs=(("any", 10),))
     assert s["cells"]["any_u10|sigma=1"]["ip_attack"]["trials"] == 2
     json.dumps(s)
+
+
+# ---------------------------------------------------------------- D2, D3 and D4 verdict logic
+def test_d2_needs_both_candidate_modes_with_wilson_lower_limit_above_0_60():
+    s = _fake_summary(0.9)
+    out = dpi.prereg_check(s)["D2"]
+    assert out["pass"] and all(v > 0.60 for v in out["observed"]["wilson_lower_by_candidate_mode"].values())
+    # same-label fails alone: the rule needs both modes
+    s = _fake_summary(0.9)
+    s["cells"]["same_u10|sigma=0.2"]["ip_attack"] = dpi._rate(600, 1000)
+    out = dpi.prereg_check(s)["D2"]
+    assert not out["pass"] and out["observed"]["wilson_lower_by_candidate_mode"]["same_u10"] < 0.60
+    # any-label fails alone
+    s = _fake_summary(0.9)
+    s["cells"]["any_u10|sigma=0.2"]["ip_attack"] = dpi._rate(600, 1000)
+    assert not dpi.prereg_check(s)["D2"]["pass"]
+
+
+def test_d2_threshold_is_strictly_above_0_60():
+    s = _fake_summary(0.9)
+    s["cells"]["same_u10|sigma=0.2"]["ip_attack"]["wilson"] = [0.60, 0.70]
+    assert not dpi.prereg_check(s)["D2"]["pass"]
+    s["cells"]["same_u10|sigma=0.2"]["ip_attack"]["wilson"] = [0.6001, 0.70]
+    assert dpi.prereg_check(s)["D2"]["pass"]
+
+
+def test_d3_fails_when_same_label_attack_is_more_than_0_05_below_the_bound():
+    # The registered outcome: any-label gap 0.022 is within the limit, same-label gap 0.055 is not.
+    s = _fake_summary(0.9)
+    s["cells"]["same_u10|sigma=4"]["ip_attack"] = dpi._rate(96, 1000)
+    s["cells"]["any_u10|sigma=4"]["ip_attack"] = dpi._rate(129, 1000)
+    chk = dpi.prereg_check(s)
+    d3 = chk["D3"]
+    assert not d3["pass"]
+    assert d3["observed"]["any_u10"]["gap"] == pytest.approx(dpi.rero_bound(10, 4.0) - 0.129)
+    assert abs(d3["observed"]["any_u10"]["gap"]) <= 0.05 < abs(d3["observed"]["same_u10"]["gap"])
+    assert d3["observed"]["same_u10"]["gap"] == pytest.approx(0.055, abs=1e-3)
+    # D3 is separate from the other checks, the rest still pass on this summary
+    assert chk["D1"]["pass"] and chk["D4"]["pass"] and chk["D5"]["pass"]
+
+
+def test_d3_passes_only_when_both_modes_are_within_0_05_and_uses_the_absolute_gap():
+    s = _fake_summary(1.0)                                   # attack at the bound, gap 0 in both modes
+    assert dpi.prereg_check(s)["D3"]["pass"]
+    bound = dpi.rero_bound(10, 4.0)
+    for mode in ("same", "any"):
+        s = _fake_summary(1.0)
+        s["cells"][f"{mode}_u10|sigma=4"]["ip_attack"]["rate"] = bound - 0.0499
+        assert dpi.prereg_check(s)["D3"]["pass"]
+        s["cells"][f"{mode}_u10|sigma=4"]["ip_attack"]["rate"] = bound - 0.0501
+        assert not dpi.prereg_check(s)["D3"]["pass"]
+        s["cells"][f"{mode}_u10|sigma=4"]["ip_attack"]["rate"] = bound + 0.0501   # above the bound also fails
+        assert not dpi.prereg_check(s)["D3"]["pass"]
+
+
+def test_d4_needs_a_lower_rate_with_non_overlapping_wilson_intervals_for_every_candidate_set():
+    s = _fake_summary(0.9)
+    out = dpi.prereg_check(s)["D4"]
+    assert out["pass"] and len(out["observed"]) == len(dpi.CONFIGS)
+    # lower but overlapping at one candidate set: fails
+    s = _fake_summary(0.9)
+    s["cells"]["same_u100|sigma=0.5"]["ip_attack"] = dpi._rate(53, 1000)
+    s["cells"]["same_u100|sigma=4"]["ip_attack"] = dpi._rate(45, 1000)
+    out = dpi.prereg_check(s)["D4"]
+    assert not out["pass"] and out["observed"]["same_u100"]["lower_and_non_overlapping"] is False
+    assert all(v["lower_and_non_overlapping"] for k, v in out["observed"].items() if k != "same_u100")
+    # higher at sigma 4 than at sigma 0.5 for one candidate set: fails
+    s = _fake_summary(0.9)
+    s["cells"]["any_u1000|sigma=4"]["ip_attack"] = dpi._rate(200, 1000)
+    s["cells"]["any_u1000|sigma=0.5"]["ip_attack"] = dpi._rate(50, 1000)
+    out = dpi.prereg_check(s)["D4"]
+    assert not out["pass"] and out["observed"]["any_u1000"]["rate_sigma4"] > out["observed"]["any_u1000"]["rate_sigma0.5"]
+

@@ -75,6 +75,19 @@ def bootstrap_mean_ci(values: Sequence[float], *, n_boot: int = 10000, seed: int
     return [float(v.mean()), float(np.quantile(means, a)), float(np.quantile(means, 1 - a))]
 
 
+def bootstrap_ratio_ci(numerator: Sequence[float], denominator: Sequence[float], *, n_boot: int = 10000,
+                       seed: int = 0, confidence: float = 0.95) -> list[float]:
+    """Percentile bootstrap interval of mean(numerator) / mean(denominator), resampling paired seeds."""
+    num, den = np.asarray(numerator, dtype=float), np.asarray(denominator, dtype=float)
+    if len(num) != len(den) or len(num) < 2:
+        raise ValueError("need at least two paired values for a bootstrap interval")
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, len(num), size=(n_boot, len(num)))
+    ratios = num[idx].mean(axis=1) / den[idx].mean(axis=1)
+    a = (1 - confidence) / 2
+    return [float(np.quantile(ratios, a)), float(np.quantile(ratios, 1 - a))]
+
+
 def b1_verdict(repo_mse: Sequence[float], external_mse: Sequence[float], *,
                max_ratio: float = B1_MAX_RATIO) -> dict:
     """B1. PASS when mean(repo MSE) <= max_ratio * mean(external MSE). Lower MSE means a stronger attack."""

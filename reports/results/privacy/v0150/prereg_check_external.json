@@ -57,7 +57,12 @@
           0.0029753153974817126,
           0.007873160327638814
         ],
-        "seeds_repo_lower_mse": 3
+        "seeds_repo_lower_mse": 3,
+        "ratio_bootstrap_ci95": [
+          1.468943824998931,
+          2.5068765814249105
+        ],
+        "ratio_bootstrap_note": "Percentile bootstrap over the 20 seeds of the ratio of mean MSE, 10000 resamples, seed 0, recomputed from external/inversion/seed*.json. Per-seed ratios are dominated by three seeds near 10 times. Added after review R2, the verdict and ratio are unchanged."
       },
       "all_configurations": {
         "ig_library_default": {

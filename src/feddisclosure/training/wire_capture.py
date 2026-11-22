@@ -702,7 +702,10 @@ def check_w1(attack_rates, floor_rates, attack_mses=None, images_per_seed: int =
     return {"id": "W1", "prediction": pred, "pass_rule": rule,
             "observed": {"seeds": len(attack_rates), "attack_rate": rate, "attack_wilson95": _wilson(k, n),
                          "floor_rate": floor, "floor_wilson95": _wilson(fk, fn), "margin": W1_MARGIN,
-                         "attack_mean_mse": None if attack_mses is None else float(np.mean(attack_mses))},
+                         "attack_mean_mse": None if attack_mses is None else float(np.mean(attack_mses)),
+                         "interval_note": "The pooled Wilson intervals treat all victim images as independent, "
+                                          "but the images of one seed come from one update, so the effective n "
+                                          "is closer to the number of seeds. The pass rule uses point estimates."},
             "pass": bool(rate <= floor + W1_MARGIN)}
 
 
@@ -733,13 +736,22 @@ def check_w3(captured: list[dict], simulated: list[dict], images_per_seed: int =
     cmse, smse = float(np.mean([d["mse"] for d in captured])), float(np.mean([d["mse"] for d in simulated]))
     drate, dmse = abs(crate - srate), abs(cmse - smse)
     enough = len(captured) >= W3_MIN_SEEDS
+    passed = bool(enough and drate <= W3_RATE_TOLERANCE and dmse <= W3_MSE_TOLERANCE)
+    # Per-seed gaps (captured minus simulated). The rule is judged on pooled rates and mean MSE, in which
+    # opposite per-seed gaps cancel, so the individual gaps are reported next to the verdict.
+    rate_gaps = [float(c["rate"] - s["rate"]) for c, s in zip(captured, simulated)]
+    mse_gaps = [float(c["mse"] - s["mse"]) for c, s in zip(captured, simulated)]
     return {"id": "W3", "prediction": pred, "pass_rule": rule,
             "observed": {"seeds": len(captured), "min_seeds": W3_MIN_SEEDS,
                          "captured_rate": crate, "captured_wilson95": _wilson(ck, cn),
                          "simulated_rate": srate, "simulated_wilson95": _wilson(sk, sn),
                          "captured_mean_mse": cmse, "simulated_mean_mse": smse,
-                         "abs_rate_difference": drate, "abs_mse_difference": dmse},
-            "pass": bool(enough and drate <= W3_RATE_TOLERANCE and dmse <= W3_MSE_TOLERANCE)}
+                         "abs_rate_difference": drate, "abs_mse_difference": dmse,
+                         "per_seed_rate_gaps": rate_gaps, "per_seed_mse_gaps": mse_gaps,
+                         "label": ("PASS (pooled, low power)" if passed else "FAIL"),
+                         "label_note": "Judged on pooled rates and mean MSE only. Per-seed gaps can be larger than "
+                                       "the tolerances and cancel in the pooled figures. Five seeds give low power."},
+            "pass": passed}
 
 
 def check_w4(rates, relay_matches_proxy: int | None = None, clients_checked: int | None = None,
@@ -756,19 +768,37 @@ def check_w4(rates, relay_matches_proxy: int | None = None, clients_checked: int
 
 
 def check_w5(replies: list[dict], expected_counts: dict | None = None) -> dict:
-    """replies: one dict per fit-stage SecAgg+ reply with num_examples, num_examples_visible, metrics_visible."""
+    """replies: one dict per fit-stage SecAgg+ reply with num_examples, num_examples_visible, metrics_visible.
+
+    The verdict rule is unchanged: a reply counts when its sample count is visible (and correct when an
+    expected count is given) and its metrics record is visible. The metrics half is vacuous when the client
+    returns no metric values, so the output reports counts_visible and metrics_present separately and flags
+    that case instead of letting an empty metrics record read as an observed metric."""
     pred, rule = W_TEXT["W5"]
     if not replies:
         return _failed("W5", pred, rule, "no SecAgg+ replies were recorded")
-    good = 0
+    good = counts_visible = record_visible = metrics_present = 0
     for r in replies:
-        ok = bool(r.get("num_examples_visible")) and bool(r.get("metrics_visible"))
+        count_ok = bool(r.get("num_examples_visible"))
         want = None if expected_counts is None else expected_counts.get(r.get("node_id"))
         if want is not None:
-            ok = ok and r.get("num_examples") == want
-        good += int(ok)
+            count_ok = count_ok and r.get("num_examples") == want
+        rec_ok = bool(r.get("metrics_visible"))
+        counts_visible += int(count_ok)
+        record_visible += int(rec_ok)
+        metrics_present += int(rec_ok and bool(r.get("metrics")))
+        good += int(count_ok and rec_ok)
+    vacuous = metrics_present == 0
+    label = (f"PASS for sample counts ({counts_visible} of {len(replies)}), metrics not exercised because "
+             "the client returns none" if good == len(replies) and vacuous else
+             ("PASS" if good == len(replies) else "FAIL"))
     return {"id": "W5", "prediction": pred, "pass_rule": rule,
             "observed": {"replies": len(replies), "visible_in_clear": good, "fraction": good / len(replies),
+                         "counts_visible": counts_visible, "metrics_record_visible": record_visible,
+                         "metrics_present": metrics_present, "metrics_vacuous": bool(vacuous),
+                         "label": label,
+                         "metrics_note": ("The metrics half of the row was vacuous: no reply carried a metric "
+                                          "value, so only the sample counts were observed." if vacuous else ""),
                          "metric_keys_seen": sorted({k for r in replies for k in (r.get("metrics") or {})})},
             "pass": bool(good == len(replies))}
 

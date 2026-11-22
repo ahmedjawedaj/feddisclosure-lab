@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "preregistration": "docs/preregistration/v0.15.md",
-  "note": "Thresholds are copied verbatim from the pre-registration and were not changed. Replay in plain PyTorch, no live Docker run.",
+  "note": "Thresholds are copied verbatim from the pre-registration and were not changed. P1 to P3 are judged in replay in plain PyTorch. Live hosted runs are in live_hosted_run. Wording fixes added after review R2, no threshold and no result number changed.",
   "P1": {
     "prediction": "DeterministicFedAvg (replies ordered by site id) closes the float64 parity gap",
     "pass_rule": "7 of 7 native runs pass the unchanged 1e-5 gate",
@@ -22,7 +22,8 @@
       }
     },
     "pass": true,
-    "scope": "replay 7 of 7, plus live hosted runs: strategy on gave bitwise equality in 3 of 3 Digits configs"
+    "scope": "Judged in replay on the 7 native runs plus 3 live Digits configs (6 hosted runs, strategy on and off). The live configs do not include a config that fails upstream, because the MNIST configs that failed upstream were not run live. The strategy is the reference arithmetic by construction.",
+    "label": "PASS in replay only. Live runs confirm transport and client determinism but exercise no config that fails upstream"
   },
   "P2": {
     "prediction": "Upstream FedAvg parity depends on reply order",
@@ -44,7 +45,7 @@
           "worst_max_abs_diff": 0.0026389360427856445
         }
       },
-      "note": "No saved native run has 4 clients. The primary config was fixed before the results were seen"
+      "note": "The primary config was fixed before the results were seen. Live run 45076810526 has a native 4-client Digits iid 10-round run in each mode with one reply order each. It passes upstream and cannot show order dependence."
     },
     "pass": false
   },
@@ -87,9 +88,11 @@
       "distinct_starting_models": 12,
       "order_effect_max_minus_min_of_seed_mean_mse": 3.2014213502407074e-09,
       "seed_sd_mean_over_orders": 0.016000311452892657,
-      "ratio_effect_to_seed_sd": 2.0008493957546873e-07
+      "ratio_effect_to_seed_sd": 2.0008493957546873e-07,
+      "sensitivity_note": "In the Gaussian perturbation control the order-effect analogue stays below the seed SD even at a perturbation scale of 1e-2, so this metric could not exceed the seed SD on this setup."
     },
-    "pass": true
+    "pass": true,
+    "label": "PASS, metric insensitive on this setup, cannot fail"
   },
   "live_hosted_run": {
     "workflow": ".github/workflows/parity-live.yml",
