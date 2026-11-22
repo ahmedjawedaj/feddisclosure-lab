@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import re
 import shutil
+import socket
 import subprocess
 import time
 import tomllib
@@ -35,6 +36,20 @@ STARTUP_RACES = {
 }
 _ANSI = re.compile(r"\x1b\[[0-9;]*m")
 LOCAL_SUPERLINK_STATE = Path.home() / ".flwr" / "local-superlink"
+LOCAL_CONTROL_API = ("127.0.0.1", 39093)
+
+
+def control_api_listening(address=LOCAL_CONTROL_API, wait: float = 20.0) -> bool:
+    """True if something accepts connections on the local SuperLink Control API within `wait` seconds."""
+    deadline = time.monotonic() + wait
+    while True:
+        try:
+            with socket.create_connection(address, timeout=1.0):
+                return True
+        except OSError:
+            if time.monotonic() >= deadline:
+                return False
+            time.sleep(0.5)
 
 
 CONNECTION = "local-simulation"
@@ -86,7 +101,7 @@ def _tail(text: str, lines: int = 20) -> str:
 
 
 def run_flwr_cli(command, *, cwd, timeout: float, attempts: int = 8, wait: float = 3.0,
-                 reset=reset_local_superlink):
+                 reset=reset_local_superlink, listening=control_api_listening):
     """Return (exit_code, stdout, stderr, timed_out, attempt_log)."""
     log = []
     deadline = time.monotonic() + timeout
@@ -109,6 +124,11 @@ def run_flwr_cli(command, *, cwd, timeout: float, attempts: int = 8, wait: float
                     "output_tail": _tail(done.stderr + "\n" + done.stdout)})
         if race is None or attempt == attempts:
             return done.returncode, done.stdout, done.stderr, False, log
-        reset()
+        # "Unavailable" with a SuperLink that is still booting: give it time and reconnect to
+        # the SAME process. Resetting it would restart the boot and lose the race again.
+        # Any other race, or an unavailable SuperLink that is not listening (it died), needs
+        # a clean start.
+        if not (race == "superlink_unavailable" and listening()):
+            reset()
         time.sleep(wait)
     raise AssertionError("unreachable")
