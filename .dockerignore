@@ -9,5 +9,7 @@
 !docker/flower/
 !docker/flower/SuperExec.Dockerfile
 !docker/flower/flwr-config.toml
+!services/
+!services/**
 **/__pycache__/
 **/*.pyc

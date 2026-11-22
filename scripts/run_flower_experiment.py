@@ -43,7 +43,8 @@ def main():
            "clients": config["clients"], "seed": config["seed"],
            "features": manifest["num_features"], "classes": manifest["num_classes"],
            "data-root": str(data_dir), "artifact-dir": str(output)}
-    run_config = " ".join(f"{k}={v}" for k, v in cfg.items())
+    # Flower 1.27 run-config grammar: bool, int and float bare, strings double-quoted.
+    run_config = " ".join(f"{k}={json.dumps(v) if isinstance(v, str) else v}" for k, v in cfg.items())
     command = ["flwr", "run", ".", "--stream", "--run-config", run_config]
     start = time.perf_counter()
     timed_out = False

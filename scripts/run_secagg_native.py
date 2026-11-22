@@ -30,7 +30,7 @@ def execute(*, data_root: Path, output: Path, timeout: int = 900):
         "artifact-dir": str(output.resolve()),
     }
     cmd = ["flwr", "run", ".", "--stream", "--run-config",
-           " ".join(f"{k}={v}" for k, v in config.items())]
+           " ".join(f"{k}={json.dumps(v)}" for k, v in config.items())]
     start = time.perf_counter()
     try:
         result = subprocess.run(cmd, cwd=PROJECT, capture_output=True, text=True, timeout=timeout)
