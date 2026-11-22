@@ -36,7 +36,7 @@ def test_runner_logs_timeout_as_failure(tmp_path, monkeypatch):
     monkeypatch.setattr(runner, "find_spec", lambda name: object())
     def timeout(*args, **kwargs):
         raise subprocess.TimeoutExpired(args[0], 1200, output=b"partial stdout", stderr=b"timeout stderr")
-    monkeypatch.setattr(runner.subprocess, "run", timeout)
+    monkeypatch.setattr(subprocess, "run", timeout)
     monkeypatch.setattr(sys, "argv", ["run", "--config", "configs/cfg.yaml",
                                    "--data-dir", "data", "--output-dir", "result"])
     with pytest.raises(SystemExit, match="not a verified run"):

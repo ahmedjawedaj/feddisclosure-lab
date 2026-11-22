@@ -70,7 +70,7 @@ cd feddisclosure-lab
 python -m venv .venv && source .venv/bin/activate
 pip install -e '.[test,research]'
 
-# fast test suite (145 pass and 3 skip, no Docker needed)
+# fast test suite (153 pass and 5 skip, no Docker needed)
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard

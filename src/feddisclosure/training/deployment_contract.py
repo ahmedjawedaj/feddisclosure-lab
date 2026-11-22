@@ -50,9 +50,14 @@ def record_client_event(directory: str, *, event_type: str, site_id: int,
              "weights_sha256": weights_sha256,
              "recorded_utc": datetime.now(timezone.utc).isoformat()}
     # A small append-only event file belongs exclusively to this container's
-    # attestation mount. No client data, labels or model arrays are stored.
-    fd = os.open(destination / "events.jsonl", os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o600)
+    # attestation mount. No client data, labels or model arrays are stored, only
+    # digests and counts. It is group and world readable so the host user that
+    # started the run can verify it even when the host could not chown the mount
+    # to the container uid (the unprivileged CI runner case).
+    path = destination / "events.jsonl"
+    fd = os.open(path, os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o644)
     try:
+        os.fchmod(fd, 0o644)
         os.write(fd, (json.dumps(event, sort_keys=True) + "\n").encode("utf-8"))
         os.fsync(fd)
     finally:
