@@ -10,7 +10,7 @@ import subprocess
 import sys
 import time
 
-from feddisclosure.training.flwr_cli import run_flwr_cli
+from feddisclosure.training.flwr_cli import CONNECTION, ensure_simulation_connection, run_flwr_cli
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "experiments/flower_secagg"
@@ -44,7 +44,8 @@ def execute(*, data_root: Path, output: Path, timeout: int = 900):
         "data-root": str(data_root.resolve()),
         "artifact-dir": str(output.resolve()),
     }
-    cmd = ["flwr", "run", ".", "--stream", "--run-config",
+    ensure_simulation_connection()
+    cmd = ["flwr", "run", ".", CONNECTION, "--stream", "--run-config",
            " ".join(f"{k}={json.dumps(v)}" for k, v in config.items())]
     start = time.perf_counter()
     code, stdout, stderr, timed_out, cli_attempts = run_flwr_cli(cmd, cwd=PROJECT, timeout=timeout)

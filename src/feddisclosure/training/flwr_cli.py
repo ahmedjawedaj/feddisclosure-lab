@@ -14,10 +14,35 @@ from __future__ import annotations
 import shutil
 import subprocess
 import time
+import tomllib
 from pathlib import Path
 
 UNAVAILABLE = "Connection to the SuperLink is unavailable"
 LOCAL_SUPERLINK_STATE = Path.home() / ".flwr" / "local-superlink"
+
+
+CONNECTION = "local-simulation"
+SUPERNODES = 3
+
+
+def ensure_simulation_connection(config_path: Path | None = None, supernodes: int = SUPERNODES) -> Path:
+    """Make sure `~/.flwr/config.toml` has a local-simulation connection with the requested number of supernodes.
+
+    Defining the connection up front means Flower never has to migrate a legacy
+    `[tool.flwr.federations]` table out of the app's pyproject.toml while a run starts.
+    An existing connection with a different supernode count is an error, never overwritten.
+    """
+    path = config_path or Path.home() / ".flwr" / "config.toml"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    text = path.read_text() if path.exists() else ""
+    existing = tomllib.loads(text).get("superlink", {}).get(CONNECTION) if text else None
+    if existing is None:
+        header = "" if text else f'[superlink]\ndefault = "{CONNECTION}"\n'
+        path.write_text(text + ("\n" if text and not text.endswith("\n") else "") + header
+                        + f"\n[superlink.{CONNECTION}]\noptions.num-supernodes = {supernodes}\n")
+    elif existing.get("options", {}).get("num-supernodes") != supernodes:
+        raise RuntimeError(f"{path} defines {CONNECTION} with a different supernode count; this run needs {supernodes}")
+    return path
 
 
 def reset_local_superlink(state_dir: Path = LOCAL_SUPERLINK_STATE) -> None:

@@ -47,3 +47,34 @@ def test_every_attempt_records_its_output_tail(tmp_path):
     body = f"import sys\nprint('boom detail', file=sys.stderr)\nprint({UNAVAILABLE!r}, file=sys.stderr)\nsys.exit(1)\n"
     _, _, _, _, log = run_flwr_cli(_script(tmp_path, body), cwd=tmp_path, timeout=60, attempts=2, wait=0.01, reset=lambda: None)
     assert all("boom detail" in a["output_tail"] for a in log)
+
+
+def test_connection_written_to_a_fresh_config(tmp_path):
+    import tomllib
+    from feddisclosure.training.flwr_cli import ensure_simulation_connection
+    path = ensure_simulation_connection(tmp_path / ".flwr" / "config.toml")
+    cfg = tomllib.loads(path.read_text())
+    assert cfg["superlink"]["default"] == "local-simulation"
+    assert cfg["superlink"]["local-simulation"]["options"]["num-supernodes"] == 3
+
+
+def test_existing_config_is_extended_not_overwritten(tmp_path):
+    import tomllib
+    from feddisclosure.training.flwr_cli import ensure_simulation_connection
+    path = tmp_path / "config.toml"
+    path.write_text('[superlink]\ndefault = "local"\n\n[superlink.local]\noptions.num-supernodes = 10')
+    ensure_simulation_connection(path)
+    cfg = tomllib.loads(path.read_text())
+    assert cfg["superlink"]["default"] == "local"
+    assert cfg["superlink"]["local"]["options"]["num-supernodes"] == 10
+    assert cfg["superlink"]["local-simulation"]["options"]["num-supernodes"] == 3
+
+
+def test_conflicting_supernode_count_is_an_error(tmp_path):
+    import pytest
+    from feddisclosure.training.flwr_cli import ensure_simulation_connection
+    path = tmp_path / "config.toml"
+    path.write_text('[superlink.local-simulation]\noptions.num-supernodes = 5\n')
+    with pytest.raises(RuntimeError, match="different supernode count"):
+        ensure_simulation_connection(path)
+    assert "= 5" in path.read_text()

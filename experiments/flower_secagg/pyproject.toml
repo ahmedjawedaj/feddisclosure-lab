@@ -33,8 +33,7 @@ classes = 10
 data-root = "../../data/training/digits-iid"
 artifact-dir = "../../reports/results/sprint4/secagg_native"
 
-[tool.flwr.federations]
-default = "local-simulation"
-
-[tool.flwr.federations.local-simulation]
-options.num-supernodes = 3
+# The three-supernode simulation connection lives in the Flower config file
+# (`~/.flwr/config.toml`, section `[superlink.local-simulation]`), written by
+# scripts/run_secagg_native.py. Keeping a legacy `[tool.flwr.federations]` table here
+# makes Flower rewrite this file on first use, which raced the run on hosted CI.

@@ -16,7 +16,9 @@ def test_secagg_project_uses_official_modules_and_threshold():
     assert params["clients"] == 3
     assert params["num-shares"] == params["clients"]
     assert 2 <= params["reconstruction-threshold"] <= params["num-shares"]
-    assert fl["federations"]["local-simulation"]["options"]["num-supernodes"] == 3
+    # The connection is written to the Flower config by the runner, never kept as a legacy table.
+    assert "federations" not in fl
+    assert "ensure_simulation_connection()" in (ROOT / "scripts/run_secagg_native.py").read_text()
     client = (ROOT / "src/feddisclosure/training/secagg_client.py").read_text()
     server = (ROOT / "src/feddisclosure/training/secagg_server.py").read_text()
     ast.parse(client)

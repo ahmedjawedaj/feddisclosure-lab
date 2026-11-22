@@ -11,7 +11,7 @@ import sys
 import time
 import yaml
 from feddisclosure.training.datasets import prepare_partitions
-from feddisclosure.training.flwr_cli import run_flwr_cli
+from feddisclosure.training.flwr_cli import CONNECTION, ensure_simulation_connection, run_flwr_cli
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -45,7 +45,8 @@ def main():
            "data-root": str(data_dir), "artifact-dir": str(output)}
     # Flower 1.27 run-config grammar: bool, int and float bare, strings double-quoted.
     run_config = " ".join(f"{k}={json.dumps(v) if isinstance(v, str) else v}" for k, v in cfg.items())
-    command = ["flwr", "run", ".", "--stream", "--run-config", run_config]
+    ensure_simulation_connection()
+    command = ["flwr", "run", ".", CONNECTION, "--stream", "--run-config", run_config]
     start = time.perf_counter()
     exit_code, stdout, stderr, timed_out, cli_attempts = run_flwr_cli(command, cwd=ROOT, timeout=1200)
     elapsed = time.perf_counter() - start
