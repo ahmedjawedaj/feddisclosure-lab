@@ -59,6 +59,11 @@ services:
     # internal network, so the gateway also joins a non-internal edge network.
     # The institutions stay on the internal network only (no host or internet route).
     networks: [internal, edge]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 3s
+      timeout: 4s
+      retries: 20
     depends_on:
       institution-a: {condition: service_healthy}
       institution-b: {condition: service_healthy}

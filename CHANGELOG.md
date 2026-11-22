@@ -9,6 +9,7 @@ All notable changes are listed here, newest first. The format follows [Keep a Ch
 
 ### Fixed
 - `scripts/verify_compose_isolation.py` assumed all four services share one network. The gateway now also joins a separate `edge` network so the host can reach its loopback port. The check now requires the three institutions to share exactly one internal-only network and allows the gateway one extra network. The first hosted `tests` run failed on this and the other five jobs passed.
+- The gateway had no healthcheck, so `docker compose up --wait` could return before it was listening. The history gate then failed intermittently on a connection error, passing on one commit and failing on the next. The gateway now has a `/health` healthcheck.
 
 ## [0.14.2] - 2026-11-22
 
