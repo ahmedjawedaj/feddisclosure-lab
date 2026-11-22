@@ -7,4 +7,4 @@ the masked vectors are random numbers. Passing here only shows that the analysis
 whose answers are known. It says nothing about a real deployment.
 
 The real results come from the `wire-capture` workflow and will be written under
-`reports/results/privacy/v0150/wire/hosted/`.
+`reports/results/privacy/v0150/wire/live/`.

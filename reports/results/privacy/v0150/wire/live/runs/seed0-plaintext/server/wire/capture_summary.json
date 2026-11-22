@@ -1,0 +1,55 @@
+{
+  "aggregates": {
+    "strategy_output": {
+      "dtype": [
+        "float32",
+        "float32",
+        "float32",
+        "float32"
+      ],
+      "file": "strategy_output.npz",
+      "sha256": "14b94262e06f39d2acc874151da35a227c139df9cc6d9392a310a7ec3ddd4aaa",
+      "shapes": [
+        [
+          32,
+          64
+        ],
+        [
+          32
+        ],
+        [
+          10,
+          32
+        ],
+        [
+          10
+        ]
+      ]
+    }
+  },
+  "calls": 1,
+  "completed": true,
+  "error": null,
+  "finished": 1795385508.985805,
+  "messages": 8,
+  "meta": {
+    "batch_size": 8,
+    "clients": 4,
+    "learning_rate": 0.15,
+    "local_epochs": 1,
+    "max_weight": 1000.0,
+    "num_shares": 4,
+    "reconstruction_threshold": 2,
+    "rounds": 1,
+    "seed": 0
+  },
+  "mode": "plaintext",
+  "schema_version": 1,
+  "stages": {
+    "plain_train": {
+      "in": 4,
+      "out": 4
+    }
+  },
+  "started": 1795385499.896673
+}

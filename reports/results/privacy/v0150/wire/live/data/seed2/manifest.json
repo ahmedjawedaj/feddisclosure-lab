@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "source": "sklearn_digits",
+  "provenance": "sklearn.load_digits, 8x8 public digits",
+  "seed": 2,
+  "partition": "iid",
+  "clients": 4,
+  "source_limit": null,
+  "num_features": 64,
+  "num_classes": 10,
+  "dirichlet_alpha": null,
+  "allocation_method": "view_seed_selection",
+  "client_partitions": [
+    {
+      "client_id": 0,
+      "file": "institution-00/train.npz",
+      "val_file": "institution-00/val.npz",
+      "samples": 8,
+      "val_samples": 1,
+      "sha256": "0b1156115e938e33d7c576f83b4e24aa9517288f28340f3280393afa23ebab4b",
+      "val_sha256": "a56076ef302d233dbdd9d36d2fb39970ca88525e4c59b0cb37245404c3ff6c41"
+    },
+    {
+      "client_id": 1,
+      "file": "institution-01/train.npz",
+      "val_file": "institution-01/val.npz",
+      "samples": 8,
+      "val_samples": 1,
+      "sha256": "a6f0e3a5828be95c2df61fa53ca51636a6e117f40e4be4e9b53a78e6cd180c3d",
+      "val_sha256": "841f1a59f341f2cdd2176412244011a1b72506ae9358e5238a40136f0e981ab1"
+    },
+    {
+      "client_id": 2,
+      "file": "institution-02/train.npz",
+      "val_file": "institution-02/val.npz",
+      "samples": 8,
+      "val_samples": 1,
+      "sha256": "fbc7687107982e8d42d299c501cd6cf74890b3fbc2bcaf2398e29e8df5419343",
+      "val_sha256": "38b17b8dcb5a5cdc2d4f562ed8bb90ba42fd2cb0426597646840990b250f6765"
+    },
+    {
+      "client_id": 3,
+      "file": "institution-03/train.npz",
+      "val_file": "institution-03/val.npz",
+      "samples": 8,
+      "val_samples": 1,
+      "sha256": "eaae14739b01d881e30f24814ae8fdd127814f6b6be9d8b167c5a264974da2b5",
+      "val_sha256": "a4ba781315405471d283fb8926e02e2cfb4c7fb5e9c4b0ea5a528c92840857b7"
+    }
+  ],
+  "evaluator_test": {
+    "file": "evaluator_only/test.npz",
+    "samples": 16,
+    "sha256": "8b012b0d764324eed16f9e528b435d1ba670d15dca7153552fb712231e223c5d"
+  },
+  "raw_data_policy": "only client-owned NPZ files in training. Evaluator files are separate"
+}

@@ -1,0 +1,65 @@
+{
+  "complete": true,
+  "runs": [
+    {
+      "seed": 0,
+      "mode": "secagg",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 0,
+      "mode": "plaintext",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 1,
+      "mode": "secagg",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 1,
+      "mode": "plaintext",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 2,
+      "mode": "secagg",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 2,
+      "mode": "plaintext",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 3,
+      "mode": "secagg",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 3,
+      "mode": "plaintext",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 4,
+      "mode": "secagg",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 4,
+      "mode": "plaintext",
+      "ok": true,
+      "error": null
+    }
+  ]
+}

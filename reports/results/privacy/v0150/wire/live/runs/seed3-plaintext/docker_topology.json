@@ -1,0 +1,32 @@
+{
+  "static_verified": true,
+  "native_verified": true,
+  "services": [
+    "superlink",
+    "serverexec",
+    "supernode-0",
+    "supernode-1",
+    "supernode-2",
+    "supernode-3",
+    "clientexec-0",
+    "clientexec-1",
+    "clientexec-2",
+    "clientexec-3"
+  ],
+  "client_readonly_mounts": 4,
+  "clients": 4,
+  "claim": "Observed running Docker containers and distinct read-only site mounts",
+  "container_ids": {
+    "superlink": "dfc90676f103f3e1f8b6597182a11ec155fc7866a44465b3f315ded2234928f3",
+    "serverexec": "6ba1d6e2d7e069c8e8a397366be885b4ceab8f3db83d5bc87ce15968e8b502b9",
+    "supernode-0": "dec46726c66b83e1018328cb8a607aa1e54bbad09fc41fb4f76a20d66493f39d",
+    "supernode-1": "f8c368669aecf0b2b318f4f1b090a7aac6673c19cb72482d7a97b4f34ba648bd",
+    "supernode-2": "1f5ac6ad5fdb05738e77435230619d88678db3ed8713ddf593050646d49f58d5",
+    "supernode-3": "955f51f1ccbb9529997bbc9043465c6bfe24c0b3fd06eb7b61ad82c10d8ff4f9",
+    "clientexec-0": "c68771e14cc6ffe1a999b3e8be2339aab736f18a1421a1c8bf2bc5baa584d757",
+    "clientexec-1": "79e07b47c8984ecc5a45a5d4ebc7fb512ca96e657db818aa1fc5d2f72f28ae36",
+    "clientexec-2": "0e0d33d79d993cf163afbfb42701e6f7a039f9191d2b5f5511324e51b78a6d7e",
+    "clientexec-3": "e95f16c8e06007769ecb625d403e628b7557f81053e37ff3aabc7f2bce8a5639"
+  },
+  "network_name": "feddisclosure-flower_flower-lab"
+}
