@@ -49,3 +49,19 @@ def test_completion_evidence_keeps_failures_visible():
     assert all(x['bitwise_flower_replay'] for x in c['mnist_native'])
     assert c['n4_two_round']['runs_above_naive_tolerance'] == ['baseline']
     assert all(x['exit_code'] == 125 for x in c['fail_fast'])
+
+
+def test_inversion_rows_show_the_label_floor_and_the_renamed_mean_image_floor(tmp_path):
+    vc = make_snapshot()['v014']['completion']['view_comparison'] if make_snapshot()['v014'] else None
+    if vc is None:
+        pytest.skip('completion evidence not present')
+    lf = vc['label_floor']
+    assert 0.0 < lf['mse'] < vc['mean_image_floor_ignores_labels_mse']
+    assert lf['public_pool_size'] == 1765 and lf['client_records'] == 32
+    assert [r['pool_size'] for r in lf['pool_size_sensitivity']] == [20, 50, 100, 300, 1765]
+    assert vc['views']['plaintext_individual']['rate_minus_label_floor']['low'] > 0
+    assert vc['views']['secagg_aggregate_maxw1000']['rate_minus_label_floor']['high'] < 0
+    html = build(destination=tmp_path / 'index.html').read_text()
+    assert 'Label-only floor' in html and 'ignores labels' in html and 'prior-knowledge reference' in html
+    assert 'no-information floor' not in html
+    assert 'naive attacker only, not a protection claim' in html

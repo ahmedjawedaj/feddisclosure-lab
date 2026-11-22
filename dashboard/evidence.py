@@ -119,11 +119,25 @@ def _completion(root: Path, hashes: dict):
     vc, hashes['v014_view_comparison'] = _load(root, 'reports/results/privacy/v014/view_comparison/summary.json')
     views = {k: {'victim_mse': _number(v['victim_mse'][0]), 'recognisable_rate': _number(v['rate_mse_below_0_05'][0])}
              for k, v in vc['views'].items()}
+    lf, hashes['v0143_label_floor'] = _load(root, 'reports/results/privacy/v0143/label_floor.json')
+    iv, hashes['v0143_view_intervals'] = _load(root, 'reports/results/privacy/v0143/view_intervals.json')
+    for k, v in views.items():
+        d = iv['views'][k]['paired_rate_minus_label_floor_bootstrap95']
+        v['rate_minus_label_floor'] = {'mean': _number(d[0]), 'low': _number(d[1]), 'high': _number(d[2])}
+    label_floor = {'mse': _number(lf['pooled']['class_average_mse']),
+                   'recognisable_rate': _number(lf['pooled']['class_average_rate_mse_below_0_05']),
+                   'public_pool_size': int(lf['per_seed'][0]['public_pool_size']),
+                   'client_records': int(vc['clients'] * vc['records_per_client']),
+                   'pool_size_sensitivity': [{'pool_size': int(lf['per_seed'][0]['public_pool_size']) if r['pool_size'] == 'full' else int(r['pool_size']),
+                                              'mse': _number(r['mse']),
+                                              'recognisable_rate': _number(r['rate_mse_below_0_05'])}
+                                             for r in lf['pool_size_sensitivity']['rows']]}
     mc, hashes['v014_mc_rule'] = _load(root, 'reports/results/secagg/v014_dropout_matrix/multiround_acceptance_rule.json')
     mcc = mc['cases']['n4_2_rounds']
     gate, hashes['v014_replay_gate'] = _load(root, 'reports/results/native_flower/v014/replay_gate_summary.json')
     return {'dropout': scen, 'lira': lira,
-            'view_comparison': {'views': views, 'floor_mean_image_mse': _number(vc['floor']['mean_image_mse'][0]), 'seeds': vc['seeds']},
+            'view_comparison': {'views': views, 'label_floor': label_floor,
+                                'mean_image_floor_ignores_labels_mse': _number(vc['floor']['mean_image_mse'][0]), 'seeds': vc['seeds']},
             'multiround_rule': {'q99': _number(mcc['mc_quantiles']['0.99']), 'median': _number(mcc['mc_quantiles']['0.5']),
                                 'fraction_above_naive_2x': _number(mcc['fraction_above_naive_2x_bound']), 'trials': mc['trials'],
                                 'docker_runs_accepted': all(r['accepted'] for r in mcc['docker_runs'].values())},

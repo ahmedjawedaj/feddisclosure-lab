@@ -151,15 +151,16 @@ bullets(s,['Without DP, LiRA beats the loss threshold on both datasets',
            'A smaller 24-shadow run understated this, so read any attack as a lower bound'],x=.95,y=4.18,size=17,step=.62)
 
 # 7c
-vw=V['completion']['view_comparison']['views']; fl=V['completion']['view_comparison']['floor_mean_image_mse']
-s=slide('What an observer can reconstruct','Update inversion, 4 clients, 10 seeds, labels known to the attacker. Lower error means more leakage.')
-card(s,'PLAINTEXT UPDATE','%.3f'%vw['plaintext_individual']['victim_mse'],'%.0f%% of images recognisable'%(100*vw['plaintext_individual']['recognisable_rate']),.8,1.72)
-card(s,'SECAGG+ AGGREGATE','%.3f'%vw['secagg_aggregate_maxw1000']['victim_mse'],'%.0f%% recognisable'%(100*vw['secagg_aggregate_maxw1000']['recognisable_rate']),4.85,1.72)
-card(s,'SECAGG+, N-1 COLLUDE','%.3f'%vw['secagg_collusion_n-1_maxw1000']['victim_mse'],'%.0f%% recognisable'%(100*vw['secagg_collusion_n-1_maxw1000']['recognisable_rate']),8.9,1.72)
-bullets(s,['SecAgg+ helps but still leaves over half the victim images recognisable in this favourable setup',
-           'With n-1 colluders the leakage returns to the plaintext level',
-           'DP noise (sigma 0.2 or more) pushed reconstruction past the no-information floor %.3f'%fl,
-           'Observation-model study with real quantiser arithmetic, not captured Docker traffic'],x=.95,y=4.18,size=17,step=.62)
+vc=V['completion']['view_comparison']; vw=vc['views']; lf=vc['label_floor']; fl=vc['mean_image_floor_ignores_labels_mse']
+gap=lambda k:100*vw[k]['rate_minus_label_floor']['mean']
+s=slide('What an observer can reconstruct (corrected in v0.14.3)','Update inversion, 4 clients, 10 seeds, labels known to the attacker. Compared with the label-only floor.')
+card(s,'PLAINTEXT UPDATE','%.3f'%vw['plaintext_individual']['victim_mse'],'%.0f%% recognisable, %.0f points above floor'%(100*vw['plaintext_individual']['recognisable_rate'],gap('plaintext_individual')),.8,1.72)
+card(s,'SECAGG+ AGGREGATE','%.3f'%vw['secagg_aggregate_maxw1000']['victim_mse'],'%.0f%% recognisable, not above floor'%(100*vw['secagg_aggregate_maxw1000']['recognisable_rate']),4.85,1.72)
+card(s,'SECAGG+, N-1 COLLUDE','%.3f'%vw['secagg_collusion_n-1_maxw1000']['victim_mse'],'%.0f%% recognisable, %.0f points above floor'%(100*vw['secagg_collusion_n-1_maxw1000']['recognisable_rate'],gap('secagg_collusion_n-1_maxw1000')),8.9,1.72)
+bullets(s,['Label-only floor: MSE %.3f and %.1f%% recognisable, from %d labelled public images (the attack uses none). The old mean-image floor %.3f ignored labels'%(lf['mse'],100*lf['recognisable_rate'],lf['public_pool_size'],fl),
+           'Plaintext and n-1 colluders stay clearly above the floor. The aggregate does not beat it for this attack, and a prior-initialised attacker could',
+           'The DP rows are a naive attacker only (sigma 0.2 gives %.3f, worse than the mean image). That shows this attacker fails, not that DP protects'%vw['dp0.2_individual']['victim_mse'],
+           'Observation-model study with real quantiser arithmetic, not captured Docker traffic'],x=.95,y=4.18,size=15,step=.66)
 
 # 8
 s=slide('What this does and does not show','Keeping guarantees separate from attack success.')

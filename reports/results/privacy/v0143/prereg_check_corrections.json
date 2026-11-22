@@ -1,0 +1,70 @@
+[
+ {
+  "id": "C1",
+  "kind": "consistency check on data already seen (post-probe), not a confirmation. The label-only probe was run on these same seeds before this check was written",
+  "prediction": "Label-only floor reproduces the probe: MSE within 0.045 +- 0.005 and recognisable within 67.5% +- 5 points",
+  "observed": {
+   "floor_mse": 0.04564884847872962,
+   "floor_rate": 0.675
+  },
+  "pass": true
+ },
+ {
+  "id": "C2",
+  "kind": "consistency check on data already seen (post-probe), not a confirmation. The label-only probe was run on these same seeds before this check was written",
+  "prediction": "Aggregate-only inversion (n=4) is not better than the floor: rate <= floor + 5 points and MSE >= floor MSE - 0.005",
+  "observed": {
+   "aggregate_rate": 0.55,
+   "floor_rate": 0.675,
+   "aggregate_mse": 0.05709325823700055,
+   "floor_mse": 0.04564884847872962
+  },
+  "pass": true
+ },
+ {
+  "id": "C3",
+  "prediction": "Plaintext and n-1 collusion rows are at least floor + 15 points",
+  "observed": {
+   "plaintext_minus_floor": 0.26249999999999996,
+   "collusion_minus_floor": 0.23749999999999993
+  },
+  "pass": true
+ },
+ {
+  "id": "C4",
+  "kind": "consistency check on data already seen (post-probe), not a confirmation. The label-only probe was run on these same seeds before this check was written",
+  "prediction": "Opacus DP sigma 0.2 individual view has victim MSE above the mean-image MSE",
+  "observed": {
+   "dp0.2_individual_mse": 0.17857453981414437,
+   "mean_image_mse": 0.07272997498512268
+  },
+  "pass": true
+ },
+ {
+  "id": "C5",
+  "kind": "integrity check",
+  "prediction": "Rate intervals stay inside [0, 1], MSE intervals are ordered low <= mean <= high and not negative, unit tests pass (skipped tests do not count as passed), point estimates match the saved summary within 1e-9",
+  "observed": {
+   "max_abs_diff_to_saved_summary": 0.0,
+   "all_rate_intervals_inside_0_1": true,
+   "all_mse_intervals_ordered_and_nonnegative": true,
+   "unit_tests": {
+    "files": [
+     "tests/training/test_intervals.py",
+     "tests/training/test_label_floor.py",
+     "tests/training/test_view_seed_helper.py",
+     "tests/training/test_recompute_view_intervals.py",
+     "tests/training/test_view_comparison_helpers.py"
+    ],
+    "returncode": 0,
+    "summary": "============================== 52 passed in 3.15s ==============================",
+    "passed": 52,
+    "failed": 0,
+    "skipped": 0,
+    "label_floor_passed": 11,
+    "label_floor_skipped": 0
+   }
+  },
+  "pass": true
+ }
+]

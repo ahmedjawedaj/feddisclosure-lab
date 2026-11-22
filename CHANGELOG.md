@@ -2,6 +2,33 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.14.3] - 2026-11-23
+
+Release 0.14.3 corrects how the v0.14.2 update-inversion results were read. No attack was rerun and no saved v0.14.2 evidence was changed. New files hold recomputed statistics and the missing baseline.
+
+### Withdrawn or corrected
+- **Aggregate-only leakage claim, withdrawn.** v0.14.2 said SecAgg+ aggregate-only inversion "still leaves a lot of signal" (victim MSE 0.057, 55% recognisable, 55 to 59% across the two quantiser settings). The attacker knows the labels. A label-only floor, which rebuilds each victim record as the class-average image of a 1765-image labelled public pool, scores MSE 0.046 and 67.5% recognisable (54 of 80 images) on the same seeds. The attack with max weight 1000 does not beat that floor. With max weight 16 (58.8%) the paired difference to the floor is -8.8 points with an interval of -23.8 to +5.0, so it cannot be told apart from the floor. The attack uses no public images, so a prior-initialised attacker could beat the floor. The floor depends on the pool size (31% recognisable at 20 images, 48% at 50, 57% at 100, 64% at 300), and the aggregate row is below it only for a pool of roughly 100 or more labelled public images. This is a statement about this attack and not a proof that the aggregate is safe. The old numbers are unchanged.
+- **DP "stopped this attack" reading, withdrawn.** The 0% recognisable result at sigma 0.2 (MSE 0.179, worse than the mean image at 0.073) only shows that a naive attacker, one that does not model clipping or noise, fails. The same holds for the other sigmas, and sigma 0.05 is already worse than the mean image (0.101 against 0.073), so the point does not depend on a threshold. None of it is evidence that DP protects against a stronger attacker.
+- **"SecAgg+ adds no visible further protection once DP noise is there", withdrawn.** It was read off a naive attacker that already fails against the noise, so it cannot show that SecAgg+ adds nothing.
+- **"DP keeps working under collusion because the colluders only recover the noised update", withdrawn.** It states a protection result for DP. The experiment shows only that the naive attacker also fails on the noised update.
+- **t-intervals on rates, replaced.** Recognisable shares were given with t-intervals over 10 seeds, which can exceed 1. They are now reported with Wilson and Clopper-Pearson intervals pooled over the 80 victim images. MSE intervals are percentile bootstrap intervals over seeds. Point estimates are identical to the saved summary (difference below 1e-9).
+- **Weak mean-image baseline, replaced.** The v0.14.2 floor was the overall mean image (MSE 0.073). That is the wrong baseline for an attacker that knows labels, so every inversion number is now shown next to the label-only floor. The mean-image floor is renamed "mean-image floor (ignores labels)". The old name "no-information floor" is retired.
+- **Faculty briefing slide 9, superseded.** The v0.14.0 deck said SecAgg+ "still leaves over half the victim images recognisable" and that DP noise "pushed reconstruction past the no-information floor". Slide 9 of `reports/faculty-briefing-v0.14.0.pptx` has been rebuilt with the corrected reading. Copies of the deck made before 0.14.3 carry the withdrawn claims on slide 9 and are superseded.
+
+### Added
+- `label_floor` and `identification_rate` in `feddisclosure.attacks.view_study`, and `scripts/compute_label_floor.py` writing `reports/results/privacy/v0143/label_floor.json`, including a pool-size sensitivity block (pool sizes 20, 50, 100, 300 and full, 20 random subsets per seed with a fixed generator). The floor uses a 1765-image labelled public pool, against the 32 records the clients hold, and is a prior-knowledge reference, not an attack. `identification_rate` is reported for the floor only. It is a separate metric, not comparable to MSE, and no attack view has an identification rate.
+- `scripts/recompute_view_intervals.py` writing `view_intervals.json` and `prereg_check_corrections.json` (checks C1 to C5 of `docs/preregistration/v0.15.md`) in the same directory. C1, C2 and C4 are marked as consistency checks on data already seen (post-probe), not confirmations. C5 does not count skipped tests as passed and also checks the MSE intervals.
+- `scripts/verify_readme_claims.py`, a hygiene check that the README table, the numbers quoted in its prose and its verdict words match the saved evidence files. It fails closed (NaN and infinity never pass, exponents are parsed). `scripts/record_fast_suite.py` runs the fast suite and records pytest's own closing line, which the check reads.
+- `feddisclosure.attacks.view_seed`, the data selection and per-client seed shared by the view scripts.
+- Tests for the label floor and its pool, the interval recomputation (hand-computable cases, threshold boundaries), the pooled Wilson helper and the overwrite guard of `run_view_comparison.py`, and the claim verifier (tolerance, NaN, stale verdicts).
+
+### Changed
+- **Docs and README.** `README.md`, `CURRENT_STATE.md`, `NEXT_SPRINT.md` and `docs/v0.14-privacy-secagg-results.md` now state the corrected reading, the pool-size table, and that the attack uses no public images. `docs/v0.14-reproduce.md` explains the `--output` and `--overwrite-summary` guard.
+- **Dashboard.** `dashboard/evidence.py`, `dashboard/build_dashboard.py` and `dashboard/dist/` show the label-only floor, its pool size and the rate difference to the floor for every inversion view. DP rows carry the note that the attacker is naive and that this is not a protection claim.
+- **Briefing deck.** `scripts/build_faculty_briefing_v014.py` and the rebuilt `reports/faculty-briefing-v0.14.0.pptx` use the label floor on slide 9.
+- `scripts/run_view_comparison.py` has a `--legacy-seeds` flag, on by default so the saved v0.14.2 runs still reproduce. `--no-legacy-seeds` uses `feddisclosure.evaluation.intervals.client_seed` and writes to its own directory. Writing into the saved v0.14.2 directory needs `--overwrite-summary`. New runs also store the label floor and use pooled Wilson intervals for rates.
+- Package version is 0.14.3.
+
 ## Published with 0.14.2: hosted CI and repository fixes
 
 These changes were made while the repository was first published on GitHub and its workflows first ran on hosted runners. They ship in the 0.14.2 release and do not change any research result.

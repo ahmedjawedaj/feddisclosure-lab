@@ -31,20 +31,27 @@ Federated learning is often described as private because raw data never leaves t
 
 Only synthetic or public data are used (scikit-learn Digits and the MNIST training split). See [`docs/data-provenance.md`](docs/data-provenance.md).
 
-## Headline results (v0.14.2)
+## Headline results (v0.14.3)
 
-All numbers come from saved runs under `reports/results/`. Context and caveats are in [`docs/v0.14-privacy-secagg-results.md`](docs/v0.14-privacy-secagg-results.md).
+All numbers come from saved runs under `reports/results/`. Context and caveats are in [`docs/v0.14-privacy-secagg-results.md`](docs/v0.14-privacy-secagg-results.md). Release 0.14.3 corrects two rows of the v0.14.2 table. The old numbers are kept visible and the change is listed in [`CHANGELOG.md`](CHANGELOG.md).
 
-**Update inversion, 4 clients, 10 seeds, labels known to the attacker.** Lower error means a better reconstruction. The no-information floor (mean image) is 0.073.
+**Update inversion, 4 clients, 10 seeds, 80 victim images, labels known to the attacker.** Lower error means a better reconstruction. "Recognisable" means per-image MSE below 0.05.
 
-| Attacker view | Victim MSE | Share of images recognisable |
-|---|---|---|
-| Plaintext update | 0.013 | 94% |
-| SecAgg+ aggregate only | 0.057 | 55% |
-| SecAgg+ with n-1 colluders | 0.023 | 91% |
-| Opacus DP, sigma 0.2 (individual update) | 0.179 | 0% |
+| Attacker view | Victim MSE | Share of images recognisable | Compared with the label-only floor |
+|---|---|---|---|
+| Plaintext update | 0.013 | 94% | 26 points above |
+| SecAgg+ aggregate only (max weight 1000) | 0.057 | 55% | does not beat the floor |
+| SecAgg+ with n-1 colluders | 0.023 | 91% | 24 points above |
+| Opacus DP, sigma 0.2 (individual update, naive attacker) | 0.179 | 0% | not a protection claim |
+| Label-only floor (class-average image of a public pool) | 0.046 | 67.5% | reference |
+| Mean-image floor (v0.14.2 baseline, ignores labels) | 0.073 | 2.5% | too weak for this attacker |
 
-Aggregate-only SecAgg+ still leaves a lot of signal in this favorable single-step setup, and collusion removes the protection entirely. The DP row only shows that a naive attacker fails. A DP-aware attacker has not been run yet.
+**What the label-only floor is.** It is a prior-knowledge reference, not an attack. It rebuilds each victim record as the average image of its class, taken from a 1765-image labelled public pool (the images no client holds, against the 32 records the 4 clients hold). The inversion attack itself uses no public images. With the full pool the floor reaches 67.5% recognisable (54 of 80 images, Wilson 95% interval 57% to 77%). The floor depends on the pool size: with a pool of 20 images the floor is 31% recognisable, with 50 images 48%, with 100 images 57% and with 300 images 64%. The mean image of v0.14.2 ignores labels, which made the aggregate-only row look like leakage.
+
+- **Plaintext and collusion.** An individual update, and an update recovered by n-1 colluders, stay clearly above the floor. These two rows still show leakage.
+- **SecAgg+ aggregate only, max weight 1000.** This attack does not beat the label-only floor, on both error (0.057 against 0.046) and recognisable share (55% against 67.5%). The aggregate row is below the floor only for a pool of roughly 100 or more labelled public images. With a pool of 50 or fewer, the floor is lower than the attack on recognisable share. This attack uses no public images, so an attacker that starts from public images could do better than shown. With max weight 16 the share is 58.8% and the paired difference to the floor is -8.8 points with an interval of -23.8 to +5.0, so it cannot be told apart from the floor. This is a statement about this attack with one local step, 4 clients and 8 records each. It is not a proof that the aggregate is safe, and the v0.14.2 reading that the aggregate still leaks is withdrawn.
+- **DP sigma 0.2.** Only a naive attacker was tested, one that matches gradients without modelling clipping or noise. It fails (0.179 is worse than the mean image at 0.073). That shows this attacker fails. It makes no claim about how well DP protects against anything stronger. The v0.14.2 reading that DP "stops inversion" is withdrawn.
+- **Intervals.** Recognisable shares use Wilson intervals pooled over the 80 images, not t-intervals, which could leave the range 0 to 1. Both interval types are in `reports/results/privacy/v0143/view_intervals.json`.
 
 **Membership inference (LiRA AUC, 64 shadows, 16 targets).** 0.5 is chance.
 
@@ -70,7 +77,7 @@ cd feddisclosure-lab
 python -m venv .venv && source .venv/bin/activate
 pip install -e '.[test,research]'
 
-# fast test suite (153 pass and 5 skip, no Docker needed)
+# fast test suite (234 pass and 4 skip, no Docker needed)
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard
