@@ -1,0 +1,12 @@
+id: digits-iid-4clients-10round-v015
+seed: 20261118
+dataset: sklearn_digits
+partition: iid
+clients: 4
+rounds: 10
+local_epochs: 1
+batch_size: 32
+learning_rate: 0.15
+source_limit: 600
+observer: honest_but_curious_coordinator
+allowed_observations: [per_client_model_updates, sample_counts, aggregate_validation_metrics]

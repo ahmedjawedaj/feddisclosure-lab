@@ -1,0 +1,2593 @@
+{
+ "name": "c4-digits-iid-2round",
+ "config": "configs/training/fedavg_digits_iid_4clients.yaml",
+ "data_dir": "data/training/digits-docker-iid-4c-v014",
+ "clients": 4,
+ "rounds": 2,
+ "sample_counts": [
+  96,
+  96,
+  96,
+  96
+ ],
+ "native_run": false,
+ "primary_for_p2": true,
+ "orders_total": 24,
+ "gate": {
+  "atol": 1e-05,
+  "rtol": 1e-05
+ },
+ "one_round": {
+  "upstream": [
+   {
+    "round": 1,
+    "orders": 24,
+    "pass_rate": 1.0,
+    "orders_passing": 24,
+    "max_abs_diff_worst": 1.4901161193847656e-08,
+    "max_abs_diff_best": 1.4901161193847656e-08,
+    "max_abs_diff_median": 1.4901161193847656e-08,
+    "per_order": [
+     {
+      "order": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       1,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       2,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       2,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       3,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       3,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       0,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       0,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       2,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       2,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       3,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       3,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       0,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       0,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       1,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       1,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       3,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       3,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       0,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       0,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       1,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       2,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       2,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     }
+    ]
+   },
+   {
+    "round": 2,
+    "orders": 24,
+    "pass_rate": 1.0,
+    "orders_passing": 24,
+    "max_abs_diff_worst": 1.4901161193847656e-08,
+    "max_abs_diff_best": 1.4901161193847656e-08,
+    "max_abs_diff_median": 1.4901161193847656e-08,
+    "per_order": [
+     {
+      "order": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       1,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       2,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       2,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       3,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       0,
+       3,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       0,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       0,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       2,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       2,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       3,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       1,
+       3,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       0,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       0,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       1,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       1,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       3,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       2,
+       3,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       0,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       0,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       1,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       2,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     },
+     {
+      "order": [
+       3,
+       2,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08
+     }
+    ]
+   }
+  ],
+  "deterministic": [
+   {
+    "round": 1,
+    "orders": 24,
+    "pass_rate": 1.0,
+    "orders_passing": 24,
+    "max_abs_diff_worst": 0.0,
+    "max_abs_diff_best": 0.0,
+    "max_abs_diff_median": 0.0,
+    "per_order": [
+     {
+      "order": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       1,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       2,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       2,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       3,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       3,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       0,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       0,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       2,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       2,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       3,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       3,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       0,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       0,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       1,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       1,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       3,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       3,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       0,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       0,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       1,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       2,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       2,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     }
+    ]
+   },
+   {
+    "round": 2,
+    "orders": 24,
+    "pass_rate": 1.0,
+    "orders_passing": 24,
+    "max_abs_diff_worst": 0.0,
+    "max_abs_diff_best": 0.0,
+    "max_abs_diff_median": 0.0,
+    "per_order": [
+     {
+      "order": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       1,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       2,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       2,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       3,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       0,
+       3,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       0,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       0,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       2,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       2,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       3,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       1,
+       3,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       0,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       0,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       1,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       1,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       3,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       2,
+       3,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       0,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       0,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       1,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       2,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     },
+     {
+      "order": [
+       3,
+       2,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0
+     }
+    ]
+   }
+  ]
+ },
+ "trajectory": {
+  "upstream": {
+   "final": {
+    "orders": 24,
+    "pass_rate": 1.0,
+    "orders_passing": 24,
+    "max_abs_diff_worst": 2.9802322387695312e-08,
+    "max_abs_diff_best": 1.4901161193847656e-08,
+    "max_abs_diff_median": 2.9802322387695312e-08,
+    "distinct_final_models": 12,
+    "per_order": [
+     {
+      "order": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "81be888ab86185926776ec83de09e6652b33439acad9b4c54816610a2a48bd4b"
+     },
+     {
+      "order": [
+       0,
+       1,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "0a1aa9de20efd750edfd92a6f5fda78b72f5392177aa1756634748661af8a39e"
+     },
+     {
+      "order": [
+       0,
+       2,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "39f97ad7f76bed7801dc646b9a59de8333de0f07a37b2ede3cdf166a6a8663f8"
+     },
+     {
+      "order": [
+       0,
+       2,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "e4553db7e17a5b531fa547b8dc42c7ee4236251bc4da68ee20e5b4806ccf8c71"
+     },
+     {
+      "order": [
+       0,
+       3,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08,
+      "final_digest": "e4d288b0fd5908bfb64a71f609878ed42d42fd569fab48ea706e2c3c84cf2ba6"
+     },
+     {
+      "order": [
+       0,
+       3,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "73ce645099d5da1d60b9f564f571541e92dcfe8d435bc65455340b9a4840a669"
+     },
+     {
+      "order": [
+       1,
+       0,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "81be888ab86185926776ec83de09e6652b33439acad9b4c54816610a2a48bd4b"
+     },
+     {
+      "order": [
+       1,
+       0,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "0a1aa9de20efd750edfd92a6f5fda78b72f5392177aa1756634748661af8a39e"
+     },
+     {
+      "order": [
+       1,
+       2,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "61e786519442b85b466cf90f073cab2f77cfff6084a65c40508dabf7ba8719b7"
+     },
+     {
+      "order": [
+       1,
+       2,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "9e954d1e5423b26c4ec519b77048875b0a09babafbcc5635ba47368a0c8b3f0c"
+     },
+     {
+      "order": [
+       1,
+       3,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "d28bbe86a037dc88d3b57fe34a4854af0fc7485092179031de4e908c72825713"
+     },
+     {
+      "order": [
+       1,
+       3,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08,
+      "final_digest": "1000e765609a2e2fa5b3974bd7aa53fda6d5a032f93e98741fe3d0d88f1f95e2"
+     },
+     {
+      "order": [
+       2,
+       0,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "39f97ad7f76bed7801dc646b9a59de8333de0f07a37b2ede3cdf166a6a8663f8"
+     },
+     {
+      "order": [
+       2,
+       0,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "e4553db7e17a5b531fa547b8dc42c7ee4236251bc4da68ee20e5b4806ccf8c71"
+     },
+     {
+      "order": [
+       2,
+       1,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "61e786519442b85b466cf90f073cab2f77cfff6084a65c40508dabf7ba8719b7"
+     },
+     {
+      "order": [
+       2,
+       1,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "9e954d1e5423b26c4ec519b77048875b0a09babafbcc5635ba47368a0c8b3f0c"
+     },
+     {
+      "order": [
+       2,
+       3,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "7ac858e2b65c5858601cf922c40a5cf6f16b40497bdc52e7e099ade80f11f034"
+     },
+     {
+      "order": [
+       2,
+       3,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "2d6432ae367b16301e0bd039a0a7610d30bba7190c3d8e8193db0c4916689396"
+     },
+     {
+      "order": [
+       3,
+       0,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08,
+      "final_digest": "e4d288b0fd5908bfb64a71f609878ed42d42fd569fab48ea706e2c3c84cf2ba6"
+     },
+     {
+      "order": [
+       3,
+       0,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "73ce645099d5da1d60b9f564f571541e92dcfe8d435bc65455340b9a4840a669"
+     },
+     {
+      "order": [
+       3,
+       1,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "d28bbe86a037dc88d3b57fe34a4854af0fc7485092179031de4e908c72825713"
+     },
+     {
+      "order": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 1.4901161193847656e-08,
+      "final_digest": "1000e765609a2e2fa5b3974bd7aa53fda6d5a032f93e98741fe3d0d88f1f95e2"
+     },
+     {
+      "order": [
+       3,
+       2,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "7ac858e2b65c5858601cf922c40a5cf6f16b40497bdc52e7e099ade80f11f034"
+     },
+     {
+      "order": [
+       3,
+       2,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 2.9802322387695312e-08,
+      "final_digest": "2d6432ae367b16301e0bd039a0a7610d30bba7190c3d8e8193db0c4916689396"
+     }
+    ]
+   },
+   "by_round": [
+    {
+     "round": 1,
+     "orders": 24,
+     "pass_rate": 1.0,
+     "orders_passing": 24,
+     "max_abs_diff_worst": 1.4901161193847656e-08,
+     "max_abs_diff_best": 1.4901161193847656e-08,
+     "max_abs_diff_median": 1.4901161193847656e-08
+    },
+    {
+     "round": 2,
+     "orders": 24,
+     "pass_rate": 1.0,
+     "orders_passing": 24,
+     "max_abs_diff_worst": 2.9802322387695312e-08,
+     "max_abs_diff_best": 1.4901161193847656e-08,
+     "max_abs_diff_median": 2.9802322387695312e-08
+    }
+   ],
+   "per_order_rounds": [
+    {
+     "order": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      1,
+      3,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      2,
+      1,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      2,
+      3,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      3,
+      1,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      3,
+      2,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      0,
+      2,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      0,
+      3,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      2,
+      0,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      2,
+      3,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      3,
+      0,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      3,
+      2,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      0,
+      1,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      0,
+      3,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      1,
+      0,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      1,
+      3,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      3,
+      0,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      3,
+      1,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      0,
+      1,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      0,
+      2,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      1,
+      0,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      1,
+      2,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      2,
+      0,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      2,
+      1,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 1.4901161193847656e-08
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 2.9802322387695312e-08
+      }
+     ]
+    }
+   ]
+  },
+  "deterministic": {
+   "final": {
+    "orders": 24,
+    "pass_rate": 1.0,
+    "orders_passing": 24,
+    "max_abs_diff_worst": 0.0,
+    "max_abs_diff_best": 0.0,
+    "max_abs_diff_median": 0.0,
+    "distinct_final_models": 1,
+    "per_order": [
+     {
+      "order": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       0,
+       1,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       0,
+       2,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       0,
+       2,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       0,
+       3,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       0,
+       3,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       1,
+       0,
+       2,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       1,
+       0,
+       3,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       1,
+       2,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       1,
+       2,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       1,
+       3,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       1,
+       3,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       2,
+       0,
+       1,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       2,
+       0,
+       3,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       2,
+       1,
+       0,
+       3
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       2,
+       1,
+       3,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       2,
+       3,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       2,
+       3,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       3,
+       0,
+       1,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       3,
+       0,
+       2,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       3,
+       1,
+       0,
+       2
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       3,
+       2,
+       0,
+       1
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     },
+     {
+      "order": [
+       3,
+       2,
+       1,
+       0
+      ],
+      "passes": true,
+      "max_abs_diff": 0.0,
+      "final_digest": "d811f82562d00ed20f6831f19a49c3e8fce30243491d3ca895e1f72e168f5cad"
+     }
+    ]
+   },
+   "by_round": [
+    {
+     "round": 1,
+     "orders": 24,
+     "pass_rate": 1.0,
+     "orders_passing": 24,
+     "max_abs_diff_worst": 0.0,
+     "max_abs_diff_best": 0.0,
+     "max_abs_diff_median": 0.0
+    },
+    {
+     "round": 2,
+     "orders": 24,
+     "pass_rate": 1.0,
+     "orders_passing": 24,
+     "max_abs_diff_worst": 0.0,
+     "max_abs_diff_best": 0.0,
+     "max_abs_diff_median": 0.0
+    }
+   ],
+   "per_order_rounds": [
+    {
+     "order": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      1,
+      3,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      2,
+      1,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      2,
+      3,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      3,
+      1,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      0,
+      3,
+      2,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      0,
+      2,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      0,
+      3,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      2,
+      0,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      2,
+      3,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      3,
+      0,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      1,
+      3,
+      2,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      0,
+      1,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      0,
+      3,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      1,
+      0,
+      3
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      1,
+      3,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      3,
+      0,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      2,
+      3,
+      1,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      0,
+      1,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      0,
+      2,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      1,
+      0,
+      2
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      1,
+      2,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      2,
+      0,
+      1
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    },
+    {
+     "order": [
+      3,
+      2,
+      1,
+      0
+     ],
+     "rounds": [
+      {
+       "round": 1,
+       "passes": true,
+       "max_abs_diff": 0.0
+      },
+      {
+       "round": 2,
+       "passes": true,
+       "max_abs_diff": 0.0
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "deterministic_bitwise_equal_to_reference": true,
+ "client_trainings": 56,
+ "seconds": 1.2
+}

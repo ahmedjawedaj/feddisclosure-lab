@@ -84,6 +84,10 @@ def train(msg: Message, context: Context) -> Message:
                             dataset_sha256=os.environ["FDL_SITE_SHA256"],
                             samples=int(metrics["num-examples"]), weights_sha256=state_digest)
     reply = RecordDict({"arrays": ArrayRecord(model.state_dict()), "metrics": MetricRecord(metrics)})
+    if str(context.run_config.get("aggregation", "upstream")) == "deterministic":
+        # Opt-in. The server orders replies by site id, so the reply must carry it. See docs/v0.15-reply-order.md.
+        from feddisclosure.training.deterministic_fedavg import site_record
+        reply["site"] = site_record(site_id)
     return Message(content=reply, reply_to=msg)
 
 
