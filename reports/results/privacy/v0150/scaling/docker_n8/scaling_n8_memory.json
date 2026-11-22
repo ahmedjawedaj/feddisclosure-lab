@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "samples": 11,
+  "poll_interval_seconds": 2.0,
+  "containers_expected": 18,
+  "containers_seen": 19,
+  "peak_total_bytes": 3245772635,
+  "peak_total_gb": 3.246,
+  "peak_single_container_gb": 0.317,
+  "per_container_peak_gb": {
+    "feddisclosure-flower-clientexec-0-1": 0.316,
+    "feddisclosure-flower-clientexec-1-1": 0.3,
+    "feddisclosure-flower-clientexec-2-1": 0.263,
+    "feddisclosure-flower-clientexec-3-1": 0.317,
+    "feddisclosure-flower-clientexec-4-1": 0.262,
+    "feddisclosure-flower-clientexec-5-1": 0.262,
+    "feddisclosure-flower-clientexec-6-1": 0.316,
+    "feddisclosure-flower-clientexec-7-1": 0.262,
+    "feddisclosure-flower-flwr-cli-run-87de9b197714": 0.075,
+    "feddisclosure-flower-serverexec-1": 0.262,
+    "feddisclosure-flower-superlink-1": 0.084,
+    "feddisclosure-flower-supernode-0-1": 0.083,
+    "feddisclosure-flower-supernode-1-1": 0.083,
+    "feddisclosure-flower-supernode-2-1": 0.083,
+    "feddisclosure-flower-supernode-3-1": 0.083,
+    "feddisclosure-flower-supernode-4-1": 0.083,
+    "feddisclosure-flower-supernode-5-1": 0.083,
+    "feddisclosure-flower-supernode-6-1": 0.083,
+    "feddisclosure-flower-supernode-7-1": 0.083
+  },
+  "limit_gb": 6.0,
+  "gb_means": "10^9 bytes",
+  "run_completed": true,
+  "outcome": "pass",
+  "pass": true,
+  "memory_measure": "docker stats MemUsage per container, summed at each poll, maximum over polls",
+  "caveat": "Docker reports usage without page cache. A spike shorter than the poll interval can be missed, so the peak is a lower bound.",
+  "timeline_seconds_total_bytes": [
+    [
+      135.7,
+      983270689
+    ],
+    [
+      139.8,
+      1560207687
+    ],
+    [
+      144.0,
+      2231065640
+    ],
+    [
+      148.4,
+      2618535443
+    ],
+    [
+      152.6,
+      2235972976
+    ],
+    [
+      157.0,
+      2737978737
+    ],
+    [
+      161.1,
+      2083331769
+    ],
+    [
+      165.5,
+      3245772635
+    ],
+    [
+      169.6,
+      2043580252
+    ],
+    [
+      173.9,
+      2320026828
+    ],
+    [
+      178.0,
+      1638074941
+    ]
+  ],
+  "row": "S3",
+  "clients": 8,
+  "num_shares": 8,
+  "reconstruction_threshold": 5,
+  "runner_exit_code": 0,
+  "poll_errors": [],
+  "host": {
+    "cpus": 4,
+    "mem_total_gb": 16.76
+  }
+}

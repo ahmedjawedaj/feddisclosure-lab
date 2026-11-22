@@ -81,7 +81,19 @@
     "id": "S3",
     "prediction": "Memory at 8 clients fits",
     "pass_rule": "Peak container memory below 6 GB. If not, the 8-client run is dropped and recorded as such",
-    "status": "PENDING. Needs a Docker daemon, not available where this was built. Dispatch .github/workflows/scaling-n8.yml and rerun this script on the result.",
-    "pass": null
+    "observed": {
+      "peak_total_gb": 3.246,
+      "peak_single_container_gb": 0.317,
+      "containers_seen": 19,
+      "samples": 11,
+      "outcome": "pass",
+      "num_shares": 8,
+      "reconstruction_threshold": 5,
+      "host": {
+        "cpus": 4,
+        "mem_total_gb": 16.76
+      }
+    },
+    "pass": true
   }
 }
