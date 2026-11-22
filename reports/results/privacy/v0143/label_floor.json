@@ -1,0 +1,319 @@
+{
+ "schema_version": 1,
+ "dataset": "sklearn_digits",
+ "clients": 4,
+ "records_per_client": 8,
+ "seeds": 10,
+ "selection": "default_rng(1000+seed), permutation, first 32 records held by clients, rest public pool",
+ "floor_definition": "every victim record is rebuilt as the class-average image of the public pool, labels known",
+ "recognisable_definition": "per-image MSE below 0.05",
+ "headline_scoring": "class_average_* fields, direct per-record MSE with no matching. matched_* fields use optimal matching as the attack views do.",
+ "identification": {
+  "u": 10,
+  "repeats": 200,
+  "chance": 0.1,
+  "note": "Not comparable to MSE. Rate at which the true record is nearest to the class-average image among u same-label public candidates."
+ },
+ "pool_description": "labelled public pool of 1765 images per seed, the images no client holds. The 4 clients hold 32 records. The attack itself uses no public images.",
+ "pool_size_sensitivity": {
+  "definition": "class-average floor built from a random labelled subset of the public pool",
+  "rng": "default_rng([7000, seed, pool_size])",
+  "subsets_per_seed": 20,
+  "seeds": 10,
+  "missing_class_rule": "a class absent from the subset is rebuilt as the subset mean image",
+  "rows": [
+   {
+    "pool_size": 20,
+    "subsets_per_seed": 20,
+    "mse": 0.07143568241968751,
+    "rate_mse_below_0_05": 0.309375,
+    "share_of_subsets_missing_a_class": 0.765
+   },
+   {
+    "pool_size": 50,
+    "subsets_per_seed": 20,
+    "mse": 0.05696858937852085,
+    "rate_mse_below_0_05": 0.47625,
+    "share_of_subsets_missing_a_class": 0.025
+   },
+   {
+    "pool_size": 100,
+    "subsets_per_seed": 20,
+    "mse": 0.05038893103599548,
+    "rate_mse_below_0_05": 0.5725,
+    "share_of_subsets_missing_a_class": 0.0
+   },
+   {
+    "pool_size": 300,
+    "subsets_per_seed": 20,
+    "mse": 0.04687052278779447,
+    "rate_mse_below_0_05": 0.635625,
+    "share_of_subsets_missing_a_class": 0.0
+   },
+   {
+    "pool_size": "full",
+    "subsets_per_seed": 1,
+    "mse": 0.0456488486379385,
+    "rate_mse_below_0_05": 0.675,
+    "share_of_subsets_missing_a_class": 0.0
+   }
+  ],
+  "aggregate_attack_reference": {
+   "view": "secagg_aggregate_maxw1000",
+   "note": "this attack uses no public images",
+   "mse": 0.05709325823700055,
+   "rate_mse_below_0_05": 0.55
+  }
+ },
+ "pooled": {
+  "class_average_mse": 0.04564884847872962,
+  "class_average_rate_mse_below_0_05": 0.675,
+  "matched_mse": 0.04511206873025729,
+  "matched_rate_mse_below_0_05": 0.675,
+  "mean_image_mse": 0.07272997498512268,
+  "mean_image_rate_mse_below_0_05": 0.025,
+  "identification_rate": 0.10518750000000002,
+  "victim_images": 80
+ },
+ "per_seed": [
+  {
+   "class_average_mse": 0.057540400008945405,
+   "class_average_rate_mse_below_0_05": 0.625,
+   "per_image_mse": [
+    0.03484792953384579,
+    0.026916814048198175,
+    0.0754122923139439,
+    0.11411010638130364,
+    0.03910411804670882,
+    0.049772705628897,
+    0.08305846200995086,
+    0.03710077210871504
+   ],
+   "matched_mse": 0.057540400008945405,
+   "matched_rate_mse_below_0_05": 0.625,
+   "identification_rate": 0.01875,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 0,
+   "mean_image_mse": 0.08058260381221771,
+   "mean_image_rate_mse_below_0_05": 0.0,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.04267472967457045,
+   "class_average_rate_mse_below_0_05": 0.75,
+   "per_image_mse": [
+    0.08964225342367643,
+    0.036749869713536276,
+    0.044286184667485046,
+    0.051680061483501065,
+    0.02841323663151428,
+    0.0282947153565155,
+    0.032483726812170516,
+    0.02984778930816448
+   ],
+   "matched_mse": 0.04267472967457045,
+   "matched_rate_mse_below_0_05": 0.75,
+   "identification_rate": 0.049375,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 1,
+   "mean_image_mse": 0.07770071178674698,
+   "mean_image_rate_mse_below_0_05": 0.0,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.035037018544708746,
+   "class_average_rate_mse_below_0_05": 0.875,
+   "per_image_mse": [
+    0.06796670603006827,
+    0.03437233095007614,
+    0.02342216563064245,
+    0.018674757456530213,
+    0.0325441827377016,
+    0.03879822188296342,
+    0.019098896020815652,
+    0.045418887648872225
+   ],
+   "matched_mse": 0.035037018544708746,
+   "matched_rate_mse_below_0_05": 0.875,
+   "identification_rate": 0.241875,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 2,
+   "mean_image_mse": 0.07131586968898773,
+   "mean_image_rate_mse_below_0_05": 0.0,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.032226493931938605,
+   "class_average_rate_mse_below_0_05": 0.875,
+   "per_image_mse": [
+    0.022673728338059952,
+    0.03944897075692445,
+    0.026412790265787488,
+    0.018599001477874445,
+    0.08309124903029633,
+    0.02760373620902154,
+    0.010920304691291675,
+    0.029062170686252976
+   ],
+   "matched_mse": 0.032226493931938605,
+   "matched_rate_mse_below_0_05": 0.875,
+   "identification_rate": 0.271875,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 3,
+   "mean_image_mse": 0.0680072158575058,
+   "mean_image_rate_mse_below_0_05": 0.125,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.054937484205368335,
+   "class_average_rate_mse_below_0_05": 0.5,
+   "per_image_mse": [
+    0.04479636560513261,
+    0.02671463812146894,
+    0.07749922244731755,
+    0.07843398806622626,
+    0.04484468421913997,
+    0.024514491237056915,
+    0.07785574789011944,
+    0.064840736056485
+   ],
+   "matched_mse": 0.054937484205368335,
+   "matched_rate_mse_below_0_05": 0.5,
+   "identification_rate": 0.006875,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 4,
+   "mean_image_mse": 0.07330327481031418,
+   "mean_image_rate_mse_below_0_05": 0.0,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.055859489568355875,
+   "class_average_rate_mse_below_0_05": 0.625,
+   "per_image_mse": [
+    0.04360081602626198,
+    0.09580213500535281,
+    0.04917191073383881,
+    0.05731810178022227,
+    0.044505183106045676,
+    0.08198844263224347,
+    0.04883729903317688,
+    0.02565202822970511
+   ],
+   "matched_mse": 0.050491692083632606,
+   "matched_rate_mse_below_0_05": 0.625,
+   "identification_rate": 0.0,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 5,
+   "mean_image_mse": 0.07491699606180191,
+   "mean_image_rate_mse_below_0_05": 0.125,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.045626388596688924,
+   "class_average_rate_mse_below_0_05": 0.625,
+   "per_image_mse": [
+    0.044047344093308315,
+    0.020640503467280934,
+    0.06631243583825959,
+    0.029299554057070826,
+    0.035380358624389235,
+    0.02345336389858401,
+    0.09187975166414694,
+    0.05399779713047156
+   ],
+   "matched_mse": 0.045626388596688924,
+   "matched_rate_mse_below_0_05": 0.625,
+   "identification_rate": 0.19125,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 6,
+   "mean_image_mse": 0.07121536135673523,
+   "mean_image_rate_mse_below_0_05": 0.0,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.04239262615174608,
+   "class_average_rate_mse_below_0_05": 0.625,
+   "per_image_mse": [
+    0.0603219723991436,
+    0.0929900321087246,
+    0.03143546036563239,
+    0.009895977721047895,
+    0.02290178802600516,
+    0.060010778915465274,
+    0.02217488282572398,
+    0.039410116852225764
+   ],
+   "matched_mse": 0.04239262615174608,
+   "matched_rate_mse_below_0_05": 0.625,
+   "identification_rate": 0.125,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 7,
+   "mean_image_mse": 0.06705048680305481,
+   "mean_image_rate_mse_below_0_05": 0.0,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.045983190539830035,
+   "class_average_rate_mse_below_0_05": 0.75,
+   "per_image_mse": [
+    0.02780946889515941,
+    0.034101797662331346,
+    0.045212723636539276,
+    0.061439923616490186,
+    0.046907004551938664,
+    0.06704459895642194,
+    0.0401947796544848,
+    0.04515522734527469
+   ],
+   "matched_mse": 0.045983190539830035,
+   "matched_rate_mse_below_0_05": 0.75,
+   "identification_rate": 0.024375,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 8,
+   "mean_image_mse": 0.07083304226398468,
+   "mean_image_rate_mse_below_0_05": 0.0,
+   "public_pool_size": 1765
+  },
+  {
+   "class_average_mse": 0.04421066356514374,
+   "class_average_rate_mse_below_0_05": 0.5,
+   "per_image_mse": [
+    0.04672937968179616,
+    0.07310523014244771,
+    0.05134224742129099,
+    0.027888419590439507,
+    0.054238446310495826,
+    0.03304033074164528,
+    0.010893883869833115,
+    0.05644737076320136
+   ],
+   "matched_mse": 0.04421066356514374,
+   "matched_rate_mse_below_0_05": 0.5,
+   "identification_rate": 0.1225,
+   "identification_u": 10,
+   "identification_chance": 0.1,
+   "seed": 9,
+   "mean_image_mse": 0.07237418740987778,
+   "mean_image_rate_mse_below_0_05": 0.0,
+   "public_pool_size": 1765
+  }
+ ],
+ "check_against_saved_mean_image_floor": {
+  "seeds_compared": 10,
+  "max_abs_diff": 0.0
+ },
+ "limitations": [
+  "Evaluation seeds 0 to 9 only, the same ones as v0.14.2",
+  "Floor uses the public pool of the same seed, 1765 images, victim images excluded",
+  "Digits only"
+ ]
+}

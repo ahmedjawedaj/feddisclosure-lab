@@ -12,6 +12,7 @@
 - [x] Statistical acceptance rule for multi-round SecAgg+ error (Monte Carlo, 300 runs). A proven bound is still open.
 - [x] LiRA at 64 shadows and 16 targets on Digits and MNIST.
 - [ ] DP-aware inversion attacker, and inversion on captured multi-step Docker traffic.
+- [ ] Prior-initialised aggregate attacker that uses labelled public images, to compare with the label-only floor (the v0.14.2 attack uses none, so the v0.14.3 aggregate result is not a safety claim).
 - [ ] Docker topologies beyond 4 clients and a second dataset for the SecAgg experiments.
 - [ ] Hosted CI (needs an authorised repository). MNIST licence stays unresolved.
 - [ ] Hosted CI on an authorized private repository.

@@ -1,3 +1,15 @@
+## 2026-11-23 v0.14.3 corrections to the update-inversion reading (see `CHANGELOG.md` and `docs/v0.14-privacy-secagg-results.md`)
+
+No attack was rerun and no saved v0.14.2 evidence changed. The v0.14.2 claims that the SecAgg+ aggregate "still leaves 55 to 59% of
+victim images recognisable" and that DP "stopped this attack" are withdrawn. The attacker knows the labels, so the baseline is the
+label-only floor (class-average image of a 1765-image labelled public pool): MSE 0.046 and 67.5% recognisable (54 of 80 images, Wilson 57% to 77%).
+Plaintext (94%) and n-1 collusion (91%) stay 26 and 24 points above it. The aggregate attack with max weight 1000 (55%) does not beat it.
+With max weight 16 (58.8%) it cannot be told apart from it. The floor uses public images and the attack uses none, so a
+prior-initialised attacker could do better, and the floor depends on the pool size (31% at 20 images, 57% at 100, 67.5% at 1765).
+The DP rows only show that a naive attacker fails. New files: `reports/results/privacy/v0143/` (`label_floor.json`, `view_intervals.json`,
+`prereg_check_corrections.json`, `fast_suite.txt`). `python scripts/verify_readme_claims.py` checks the README numbers and verdict words against them.
+Still open: DP-aware inversion attacker, prior-initialised aggregate attacker, inversion on captured multi-step Docker traffic.
+
 ## 2026-11-22 v0.14 remaining items executed (see `docs/v0.14-privacy-secagg-results.md` sections 1, 2, 6, 7)
 
 Executed in the cloud container since the completion run: protected versus unprotected update-inversion
@@ -5,12 +17,12 @@ comparison (plaintext, SecAgg+ aggregate with upstream quantiser arithmetic, n-1
 a Monte Carlo acceptance rule for multi-round SecAgg+ error (300 runs), a float32 replay parity gate (7 of 7 native
 runs pass, the float64 1e-5 gate still passes 5 of 7), LiRA at 64 shadows and 16 targets on Digits and on MNIST,
 the MNIST file provenance check, and a static workflow check.
-Results that matter: aggregate-only SecAgg+ still leaves 55 to 59% of victim images recognisable in the favourable
-single-step attack, n-1 collusion returns plaintext-level leakage, DP noise stopped this attack. LiRA at epsilon
+Results that matter (the first and third readings were corrected in v0.14.3, see the next entry): plaintext and n-1
+collusion inversion stay 24 to 26 points above the label-only floor, the aggregate-only SecAgg+ attack does not beat that floor,
+and the DP rows are a naive attacker only. LiRA at epsilon
 6 to 8 still shows a detectable signal (AUC 0.54 to 0.58), and the earlier 24-shadow run understated it.
 Kept as FAIL: float64 parity on label skew and seed 3, the naive 2-round tolerance on the original 4-client run.
-Still open: hosted CI (BLOCKED, the GitHub token in this environment is invalid and no authorised repository
-exists), MNIST licence unresolved (no explicit licence from the originators), no proven multi-round SecAgg+ bound,
+Still open: MNIST licence unresolved (no explicit licence from the originators), no proven multi-round SecAgg+ bound,
 no DP-aware inversion attacker, no inversion on captured Docker traffic, Docker topology tested at 3 and 4 clients only.
 
 ## 2026-11-21 v0.14 Phase 2 and 3 executed (see `docs/v0.14-privacy-secagg-results.md`)
