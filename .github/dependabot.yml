@@ -1,15 +1,33 @@
+# Dependabot is deliberately conservative here. The evidence in reports/results was
+# produced with pinned versions (Flower 1.27, torch 2.5.1 CPU, Opacus 1.6, OpenDP 0.16,
+# python 3.12 base image). Bumping those would invalidate saved evidence, so they are
+# ignored and must be upgraded by hand together with a re-run of the affected gates.
 version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
   - package-ecosystem: pip
     directory: /
     schedule:
-      interval: weekly
-    open-pull-requests-limit: 5
+      interval: monthly
+    open-pull-requests-limit: 3
+    ignore:
+      - dependency-name: flwr
+      - dependency-name: torch
+      - dependency-name: torchvision
+      - dependency-name: opacus
+      - dependency-name: opendp
+      - dependency-name: pandas
+      - dependency-name: scikit-learn
+      - dependency-name: numpy
   - package-ecosystem: docker
     directory: /
     schedule:
       interval: monthly
+    ignore:
+      - dependency-name: python
