@@ -3,9 +3,9 @@
   "preregistration": "docs/preregistration/v0.15.md",
   "note": "Thresholds are copied verbatim from the pre-registration and were not changed. Hosted run 45075971652 on main at 0320a0879252e04635fbc3a7c63f6d87fc6f970c, 5 seeds, 300 attack iterations, Flower 1.27.0 in Docker on a GitHub hosted runner.",
   "caveats": {
-    "W1": "The naive attack on one masked vector scored 0 of 40 recognisable (mean MSE 0.335), so the pass is easy and says only that this attack gets nothing from a single masked vector.",
-    "W5": "The repository client returns an empty metrics dict, so the check covers sample counts and the visibility of the metrics record, not metric values.",
-    "W3": "Captured and simulated aggregates use different rounding draws. The differences were 2.5 points in rate and 0.0028 in MSE."
+    "W1": "The naive attack on one masked vector scored 0 of 40 recognisable (mean MSE 0.335), far below the floor of 0.725, a vacuous pass. It says only that this attack gets nothing from a single masked vector. The pooled Wilson intervals treat the 40 images as independent although the 8 images of a seed come from one update, so the effective n is closer to 5 seeds. The pass rule uses point estimates.",
+    "W5": "PASS for sample counts (20 of 20), metrics not exercised because the client returns none. The repository client returns an empty metrics dict, so the check covers sample counts and the presence of the metrics record, not metric values.",
+    "W3": "Judged on pooled rates and mean MSE only, so the label is PASS (pooled, low power). Captured and simulated aggregates use different rounding draws. The pooled differences were 2.5 points in rate and 0.0028 in MSE. The per-seed gaps (captured minus simulated) were larger than the tolerances in places and cancel in the pooled figures."
   },
   "W1": {
     "id": "W1",
@@ -27,7 +27,8 @@
       "seeds_with_result": 5,
       "seeds_requested": 5
     },
-    "pass": true
+    "pass": true,
+    "label": "PASS (vacuous: far below the floor)"
   },
   "W2": {
     "id": "W2",
@@ -68,9 +69,25 @@
       "abs_rate_difference": 0.025000000000000022,
       "abs_mse_difference": 0.0028297078562900396,
       "seeds_with_result": 5,
-      "seeds_requested": 5
+      "seeds_requested": 5,
+      "per_seed_rate_gaps": [
+        0.25,
+        0.0,
+        -0.125,
+        -0.25,
+        0.25
+      ],
+      "per_seed_mse_gaps": [
+        -0.0111,
+        -0.0013,
+        0.01,
+        0.0154,
+        0.0011
+      ],
+      "per_seed_gap_convention": "captured minus simulated, seeds 0 to 4"
     },
-    "pass": true
+    "pass": true,
+    "label": "PASS (pooled, low power)"
   },
   "W4": {
     "id": "W4",
@@ -99,9 +116,14 @@
       "fraction": 1.0,
       "metric_keys_seen": [],
       "seeds_with_result": 5,
-      "seeds_requested": 5
+      "seeds_requested": 5,
+      "counts_visible": 20,
+      "metrics_record_visible": 20,
+      "metrics_present": 0,
+      "metrics_vacuous": true
     },
-    "pass": true
+    "pass": true,
+    "label": "PASS for sample counts (20 of 20), metrics not exercised because the client returns none"
   },
   "W6": {
     "id": "W6",
@@ -120,5 +142,6 @@
       "seeds_requested": 5
     },
     "pass": true
-  }
+  },
+  "updated": "2026-11-23 review R2 wording fixes. No threshold and no result number changed."
 }

@@ -156,6 +156,7 @@ def stage_inversion(a) -> None:
 
 def stage_summarise_inversion(a) -> dict:
     from feddisclosure.evaluation.external_baselines import b1_verdict, bootstrap_mean_ci
+    from feddisclosure.evaluation.external_baselines import bootstrap_ratio_ci as eb_ratio_ci
     rows = [json.loads((OUT / f"inversion/seed{s}.json").read_text()) for s in range(a.seeds)]
     cfg = configs()
     names = ["repo", *cfg]
@@ -179,6 +180,7 @@ def stage_summarise_inversion(a) -> dict:
         diff = np.array(per["repo"]["mse"]) - np.array(per[n]["mse"])
         out["b1"][n]["paired_mse_repo_minus_external_ci"] = bootstrap_mean_ci(diff)
         out["b1"][n]["seeds_repo_lower_mse"] = int((diff < 0).sum())
+        out["b1"][n]["ratio_bootstrap_ci95"] = eb_ratio_ci(per["repo"]["mse"], per[n]["mse"])
     return out
 
 
