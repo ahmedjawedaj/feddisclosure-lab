@@ -87,7 +87,7 @@ def test_wrapped_coloured_sqlite_race_is_recognised():
     assert startup_race(boxed) == "sqlite_table_exists"
     assert startup_race("The current node timed out during startup.") == "ray_startup_timeout"
     assert startup_race(UNAVAILABLE) == "superlink_unavailable"
-    assert startup_race("\x1b[31m\u2502\x1b[0m Exception calling application: 'config' \x1b[31m\u2502\x1b[0m") == "state_init_keyerror"
+    assert startup_race("\x1b[31m\u2502\x1b[0m Exception calling application: 'config' \x1b[31m\u2502\x1b[0m") == "superlink_servicer_error"
 
 
 def test_training_errors_are_not_start_up_races():
@@ -95,6 +95,7 @@ def test_training_errors_are_not_start_up_races():
     assert startup_race("RuntimeError: Only 0 of 1 rounds produced an aggregate") is None
     assert startup_race("AssertionError: loss is nan") is None
     assert startup_race("KeyError: 'config'") is None  # only the SuperLink-side gRPC form is a start-up race
+    assert startup_race("Exception in ServerApp thread") is None
 
 
 def test_sqlite_race_is_retried_then_succeeds(tmp_path):
@@ -109,3 +110,10 @@ def test_sqlite_race_is_retried_then_succeeds(tmp_path):
     )
     code, out, _, _, log = run_flwr_cli(_script(tmp_path, body), cwd=tmp_path, timeout=60, wait=0.01, reset=lambda: None)
     assert code == 0 and [a["startup_race"] for a in log] == ["sqlite_table_exists", None]
+
+
+def test_servicer_error_variants_are_retried(tmp_path):
+    from feddisclosure.training.flwr_cli import startup_race
+    for msg in ("Exception calling application: 'config'",
+                "Exception calling application: invalid interpolation syntax in 'sqlite:///%3Amemory%3A' at position 10"):
+        assert startup_race(msg) == "superlink_servicer_error"

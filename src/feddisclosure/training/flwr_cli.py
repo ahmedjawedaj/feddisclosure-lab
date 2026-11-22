@@ -26,8 +26,12 @@ STARTUP_RACES = {
     "superlink_unavailable": UNAVAILABLE,
     "sqlite_table_exists": "table node already exists",
     "ray_startup_timeout": "The current node timed out during startup",
-    # SuperLink-side gRPC error while it initialises its state database on a clean host.
-    "state_init_keyerror": "Exception calling application: 'config'",
+    # Unhandled exception inside the SuperLink's own StartRun handler (gRPC wraps it as
+    # "Exception calling application: ..."). On clean hosted runners it showed up as
+    # `'config'`, `table node already exists` and `invalid interpolation syntax in
+    # 'sqlite:///%3Amemory%3A'`, all raised while the SuperLink was setting up its state
+    # database, before any application code ran.
+    "superlink_servicer_error": "Exception calling application:",
 }
 _ANSI = re.compile(r"\x1b\[[0-9;]*m")
 LOCAL_SUPERLINK_STATE = Path.home() / ".flwr" / "local-superlink"
@@ -81,7 +85,7 @@ def _tail(text: str, lines: int = 20) -> str:
     return "\n".join(text.strip().splitlines()[-lines:])[-3000:]
 
 
-def run_flwr_cli(command, *, cwd, timeout: float, attempts: int = 6, wait: float = 5.0,
+def run_flwr_cli(command, *, cwd, timeout: float, attempts: int = 8, wait: float = 3.0,
                  reset=reset_local_superlink):
     """Return (exit_code, stdout, stderr, timed_out, attempt_log)."""
     log = []
