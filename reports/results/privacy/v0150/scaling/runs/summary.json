@@ -1,0 +1,450 @@
+{
+  "schema_version": 1,
+  "dataset": "sklearn_digits",
+  "records_per_client": 8,
+  "seeds": 30,
+  "evaluation_seeds": "0 to 29",
+  "attack_iterations": 300,
+  "lr": 0.15,
+  "labels_known_to_attacker": true,
+  "legacy_client_seeds": false,
+  "secagg": "upstream Flower SecAgg+ quantiser arithmetic, clipping_range 8, quantization_range 2**22",
+  "primary_views": {
+    "aggregate": "secagg_aggregate_maxw1000",
+    "collusion": "secagg_collusion_n-1_maxw1000"
+  },
+  "summaries": {
+    "4": {
+      "clients": 4,
+      "seeds": 30,
+      "label_floor": {
+        "successes": 180,
+        "images": 240,
+        "rate": 0.75,
+        "wilson": [
+          0.6915695792009672,
+          0.8005534608282535
+        ],
+        "seed_bootstrap": [
+          0.75,
+          0.7,
+          0.8
+        ],
+        "mean_mse": 0.04141826388907617,
+        "mse_seed_bootstrap": [
+          0.04141826388907618,
+          0.03886852489513572,
+          0.0440387799332118
+        ]
+      },
+      "mean_image_floor": {
+        "successes": 7,
+        "images": 240,
+        "rate": 0.029166666666666667,
+        "wilson": [
+          0.014198730672500263,
+          0.05896954393913429
+        ],
+        "seed_bootstrap": [
+          0.029166666666666667,
+          0.0125,
+          0.05
+        ],
+        "mean_mse": 0.07207120933259527,
+        "mse_seed_bootstrap": [
+          0.07207120933259527,
+          0.07048544478951953,
+          0.0736652972890685
+        ]
+      },
+      "views": {
+        "plaintext_individual": {
+          "successes": 228,
+          "images": 240,
+          "rate": 0.95,
+          "wilson": [
+            0.9146517753073891,
+            0.9711696967452079
+          ],
+          "seed_bootstrap": [
+            0.95,
+            0.9166666666666666,
+            0.9791666666666666
+          ],
+          "mean_mse": 0.01281088562532086,
+          "mse_seed_bootstrap": [
+            0.01281088562532086,
+            0.009601014834032983,
+            0.01645383951945023
+          ],
+          "rate_minus_floor": 0.19999999999999996,
+          "paired_rate_minus_floor_bootstrap": [
+            0.2,
+            0.14166666666666666,
+            0.25416666666666665
+          ]
+        },
+        "secagg_aggregate_maxw1000": {
+          "successes": 111,
+          "images": 240,
+          "rate": 0.4625,
+          "wilson": [
+            0.40050742719245885,
+            0.5256741168031581
+          ],
+          "seed_bootstrap": [
+            0.4625,
+            0.4,
+            0.5208333333333334
+          ],
+          "mean_mse": 0.06616587260505184,
+          "mse_seed_bootstrap": [
+            0.06616587260505184,
+            0.06071831559636242,
+            0.07167675133862456
+          ],
+          "rate_minus_floor": -0.2875,
+          "paired_rate_minus_floor_bootstrap": [
+            -0.2875,
+            -0.3625,
+            -0.2125
+          ]
+        },
+        "secagg_collusion_n-1_maxw1000": {
+          "successes": 217,
+          "images": 240,
+          "rate": 0.9041666666666667,
+          "wilson": [
+            0.8603080239740112,
+            0.9352908907398955
+          ],
+          "seed_bootstrap": [
+            0.9041666666666667,
+            0.8583333333333333,
+            0.9458333333333333
+          ],
+          "mean_mse": 0.021124797887265838,
+          "mse_seed_bootstrap": [
+            0.021124797887265838,
+            0.017523819890957387,
+            0.024681317209748765
+          ],
+          "rate_minus_floor": 0.15416666666666667,
+          "paired_rate_minus_floor_bootstrap": [
+            0.15416666666666667,
+            0.08333333333333333,
+            0.21677083333333372
+          ]
+        },
+        "secagg_aggregate_maxw16": {
+          "successes": 132,
+          "images": 240,
+          "rate": 0.55,
+          "wilson": [
+            0.4867646006783032,
+            0.611660007327541
+          ],
+          "seed_bootstrap": [
+            0.55,
+            0.475,
+            0.625
+          ],
+          "mean_mse": 0.06206403766991571,
+          "mse_seed_bootstrap": [
+            0.06206403766991571,
+            0.05594227875582874,
+            0.06825337702757679
+          ],
+          "rate_minus_floor": -0.19999999999999996,
+          "paired_rate_minus_floor_bootstrap": [
+            -0.2,
+            -0.3,
+            -0.10416666666666667
+          ]
+        },
+        "secagg_collusion_n-1_maxw16": {
+          "successes": 230,
+          "images": 240,
+          "rate": 0.9583333333333334,
+          "wilson": [
+            0.9250129960961526,
+            0.9772125772907518
+          ],
+          "seed_bootstrap": [
+            0.9583333333333334,
+            0.925,
+            0.9875
+          ],
+          "mean_mse": 0.012297387581731082,
+          "mse_seed_bootstrap": [
+            0.012297387581731082,
+            0.009033114701074233,
+            0.015697035413038594
+          ],
+          "rate_minus_floor": 0.20833333333333337,
+          "paired_rate_minus_floor_bootstrap": [
+            0.20833333333333334,
+            0.15416666666666667,
+            0.2625
+          ]
+        }
+      }
+    },
+    "8": {
+      "clients": 8,
+      "seeds": 30,
+      "label_floor": {
+        "successes": 179,
+        "images": 240,
+        "rate": 0.7458333333333333,
+        "wilson": [
+          0.6871754052016925,
+          0.7967455841603746
+        ],
+        "seed_bootstrap": [
+          0.7458333333333333,
+          0.6958333333333333,
+          0.7958333333333333
+        ],
+        "mean_mse": 0.0414516800052856,
+        "mse_seed_bootstrap": [
+          0.0414516800052856,
+          0.03892195301169894,
+          0.04406770317019442
+        ]
+      },
+      "mean_image_floor": {
+        "successes": 7,
+        "images": 240,
+        "rate": 0.029166666666666667,
+        "wilson": [
+          0.014198730672500263,
+          0.05896954393913429
+        ],
+        "seed_bootstrap": [
+          0.029166666666666667,
+          0.0125,
+          0.05
+        ],
+        "mean_mse": 0.07207551227572064,
+        "mse_seed_bootstrap": [
+          0.07207551227572064,
+          0.07048839250540671,
+          0.07366797648486681
+        ]
+      },
+      "views": {
+        "plaintext_individual": {
+          "successes": 228,
+          "images": 240,
+          "rate": 0.95,
+          "wilson": [
+            0.9146517753073891,
+            0.9711696967452079
+          ],
+          "seed_bootstrap": [
+            0.95,
+            0.9166666666666666,
+            0.9791666666666666
+          ],
+          "mean_mse": 0.01281088562532086,
+          "mse_seed_bootstrap": [
+            0.01281088562532086,
+            0.009601014834032983,
+            0.01645383951945023
+          ],
+          "rate_minus_floor": 0.2041666666666666,
+          "paired_rate_minus_floor_bootstrap": [
+            0.20416666666666666,
+            0.14583333333333334,
+            0.25833333333333336
+          ]
+        },
+        "secagg_aggregate_maxw1000": {
+          "successes": 84,
+          "images": 240,
+          "rate": 0.35,
+          "wilson": [
+            0.29244980923302405,
+            0.4122763667494435
+          ],
+          "seed_bootstrap": [
+            0.35,
+            0.2875,
+            0.4166666666666667
+          ],
+          "mean_mse": 0.07297473664705952,
+          "mse_seed_bootstrap": [
+            0.07297473664705952,
+            0.06757275738559353,
+            0.07843227940805568
+          ],
+          "rate_minus_floor": -0.39583333333333337,
+          "paired_rate_minus_floor_bootstrap": [
+            -0.3958333333333333,
+            -0.475,
+            -0.32083333333333336
+          ]
+        },
+        "secagg_collusion_n-1_maxw1000": {
+          "successes": 218,
+          "images": 240,
+          "rate": 0.9083333333333333,
+          "wilson": [
+            0.8651157819717392,
+            0.9386851834093211
+          ],
+          "seed_bootstrap": [
+            0.9083333333333333,
+            0.8625,
+            0.95
+          ],
+          "mean_mse": 0.023412379507014216,
+          "mse_seed_bootstrap": [
+            0.023412379507014216,
+            0.019965761662097067,
+            0.026840962062463707
+          ],
+          "rate_minus_floor": 0.16249999999999998,
+          "paired_rate_minus_floor_bootstrap": [
+            0.1625,
+            0.08333333333333333,
+            0.2375
+          ]
+        },
+        "secagg_aggregate_maxw16": {
+          "successes": 95,
+          "images": 240,
+          "rate": 0.3958333333333333,
+          "wilson": [
+            0.3360721516827564,
+            0.4588765816384016
+          ],
+          "seed_bootstrap": [
+            0.3958333333333333,
+            0.3333333333333333,
+            0.4666666666666667
+          ],
+          "mean_mse": 0.06667037261649966,
+          "mse_seed_bootstrap": [
+            0.06667037261649966,
+            0.06144918055700448,
+            0.0716150241473224
+          ],
+          "rate_minus_floor": -0.35000000000000003,
+          "paired_rate_minus_floor_bootstrap": [
+            -0.35,
+            -0.42083333333333334,
+            -0.2791666666666667
+          ]
+        },
+        "secagg_collusion_n-1_maxw16": {
+          "successes": 230,
+          "images": 240,
+          "rate": 0.9583333333333334,
+          "wilson": [
+            0.9250129960961526,
+            0.9772125772907518
+          ],
+          "seed_bootstrap": [
+            0.9583333333333334,
+            0.9291666666666667,
+            0.9833333333333333
+          ],
+          "mean_mse": 0.012855942473239186,
+          "mse_seed_bootstrap": [
+            0.012855942473239186,
+            0.009370047442457216,
+            0.0166923464664842
+          ],
+          "rate_minus_floor": 0.21250000000000002,
+          "paired_rate_minus_floor_bootstrap": [
+            0.2125,
+            0.1625,
+            0.26666666666666666
+          ]
+        }
+      }
+    }
+  },
+  "S1": {
+    "id": "S1",
+    "prediction": "At 8 clients the aggregate view stays at the floor",
+    "pass_rule": "Recognisable rate at most floor plus 5 points",
+    "observed": {
+      "view": "secagg_aggregate_maxw1000",
+      "aggregate_rate": 0.35,
+      "aggregate_wilson": [
+        0.29244980923302405,
+        0.4122763667494435
+      ],
+      "floor_rate": 0.7458333333333333,
+      "floor_wilson": [
+        0.6871754052016925,
+        0.7967455841603746
+      ],
+      "gap": -0.39583333333333337,
+      "aggregate_mean_mse": 0.07297473664705952,
+      "floor_mean_mse": 0.0414516800052856,
+      "gap_upper_limit_is_conservative_check": true
+    },
+    "pass": true
+  },
+  "S2": {
+    "id": "S2",
+    "prediction": "n-1 collusion stays at plaintext level at 4 and 8 clients",
+    "pass_rule": "Recognisable rate at least 85%",
+    "observed": {
+      "view": "secagg_collusion_n-1_maxw1000",
+      "by_clients": {
+        "4": {
+          "rate": 0.9041666666666667,
+          "wilson": [
+            0.8603080239740112,
+            0.9352908907398955
+          ],
+          "wilson_lower_at_least_0_85": true
+        },
+        "8": {
+          "rate": 0.9083333333333333,
+          "wilson": [
+            0.8651157819717392,
+            0.9386851834093211
+          ],
+          "wilson_lower_at_least_0_85": true
+        }
+      }
+    },
+    "pass": true
+  },
+  "S1_at_4_clients_for_reference": {
+    "id": "S1",
+    "prediction": "At 8 clients the aggregate view stays at the floor",
+    "pass_rule": "Recognisable rate at most floor plus 5 points",
+    "observed": {
+      "view": "secagg_aggregate_maxw1000",
+      "aggregate_rate": 0.4625,
+      "aggregate_wilson": [
+        0.40050742719245885,
+        0.5256741168031581
+      ],
+      "floor_rate": 0.75,
+      "floor_wilson": [
+        0.6915695792009672,
+        0.8005534608282535
+      ],
+      "gap": -0.2875,
+      "aggregate_mean_mse": 0.06616587260505184,
+      "floor_mean_mse": 0.04141826388907617,
+      "gap_upper_limit_is_conservative_check": true
+    },
+    "pass": true
+  },
+  "limitations": [
+    "Observation-model study with the real quantiser arithmetic, not an attack on captured Docker traffic",
+    "One local SGD step on 8 distinct records per client, known labels, known learning rate and initial model",
+    "Digits are 8x8 public images from one dataset, so the numbers say nothing about larger images",
+    "Rate intervals are Wilson intervals pooled over victim images. Images of one seed are not independent, so the seed-level bootstrap interval is reported as well",
+    "A failed reconstruction is evidence about this attack only, not a privacy guarantee"
+  ]
+}

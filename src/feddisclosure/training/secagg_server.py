@@ -16,6 +16,7 @@ from flwr.server.strategy import FedAvg
 from flwr.server.workflow import DefaultWorkflow, SecAggPlusWorkflow
 from flwr.server.workflow.constant import MAIN_PARAMS_RECORD
 
+from feddisclosure.training.secagg_params import validate_secagg_params
 from feddisclosure.training.task import DigitMLP
 
 app = ServerApp()
@@ -39,8 +40,9 @@ def main(grid: Grid, context: Context) -> None:
     clients = int(cfg["clients"])
     shares = int(cfg["num-shares"])
     threshold = int(cfg["reconstruction-threshold"])
-    if clients < 3 or shares != clients or not 2 <= threshold <= shares:
-        raise ValueError("SecAgg+ requires >=3 clients and 2 <= threshold <= num-shares=clients")
+    # num-shares equal to clients (every client is in everyone's neighbourhood) is the default. A
+    # smaller odd num-shares gives proper neighbourhoods and is meant for larger client counts.
+    validate_secagg_params(clients, shares, threshold)
     torch.manual_seed(int(cfg["seed"]))
     model = DigitMLP(int(cfg["features"]), int(cfg["classes"]))
     parameters = ndarrays_to_parameters([v.detach().cpu().numpy() for v in model.state_dict().values()])

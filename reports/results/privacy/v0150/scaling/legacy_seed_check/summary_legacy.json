@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "dataset": "sklearn_digits",
+  "records_per_client": 8,
+  "seeds": 10,
+  "evaluation_seeds": "0 to 9",
+  "attack_iterations": 300,
+  "lr": 0.15,
+  "labels_known_to_attacker": true,
+  "legacy_client_seeds": true,
+  "secagg": "upstream Flower SecAgg+ quantiser arithmetic, clipping_range 8, quantization_range 2**22",
+  "primary_views": {
+    "aggregate": "secagg_aggregate_maxw1000",
+    "collusion": "secagg_collusion_n-1_maxw1000"
+  },
+  "summaries": {
+    "4": {
+      "clients": 4,
+      "seeds": 10,
+      "label_floor": {
+        "successes": 54,
+        "images": 80,
+        "rate": 0.675,
+        "wilson": [
+          0.5664052731061473,
+          0.7675583815564182
+        ],
+        "seed_bootstrap": [
+          0.675,
+          0.6,
+          0.75
+        ],
+        "mean_mse": 0.045648848478729624,
+        "mse_seed_bootstrap": [
+          0.04564884847872962,
+          0.040726291021064856,
+          0.050648102770191765
+        ]
+      },
+      "mean_image_floor": {
+        "successes": 2,
+        "images": 80,
+        "rate": 0.025,
+        "wilson": [
+          0.006882893202970648,
+          0.0866443298557801
+        ],
+        "seed_bootstrap": [
+          0.025,
+          0.0,
+          0.0625
+        ],
+        "mean_mse": 0.07272997400723398,
+        "mse_seed_bootstrap": [
+          0.07272997400723398,
+          0.0704163212608546,
+          0.07525707782479003
+        ]
+      },
+      "views": {
+        "plaintext_individual": {
+          "successes": 75,
+          "images": 80,
+          "rate": 0.9375,
+          "wilson": [
+            0.8618985123272557,
+            0.973010624329158
+          ],
+          "seed_bootstrap": [
+            0.9375,
+            0.8875,
+            0.9875
+          ],
+          "mean_mse": 0.01320345361477493,
+          "mse_seed_bootstrap": [
+            0.01320345361477493,
+            0.00778331083641854,
+            0.019673389025291498
+          ],
+          "rate_minus_floor": 0.26249999999999996,
+          "paired_rate_minus_floor_bootstrap": [
+            0.2625,
+            0.1875,
+            0.3375
+          ]
+        },
+        "secagg_aggregate_maxw1000": {
+          "successes": 44,
+          "images": 80,
+          "rate": 0.55,
+          "wilson": [
+            0.44119507889355963,
+            0.6542231081528878
+          ],
+          "seed_bootstrap": [
+            0.55,
+            0.4625,
+            0.6375
+          ],
+          "mean_mse": 0.05709325823700055,
+          "mse_seed_bootstrap": [
+            0.05709325823700055,
+            0.05085421535273781,
+            0.06415269891469506
+          ],
+          "rate_minus_floor": -0.125,
+          "paired_rate_minus_floor_bootstrap": [
+            -0.125,
+            -0.1875,
+            -0.0625
+          ]
+        },
+        "secagg_collusion_n-1_maxw1000": {
+          "successes": 73,
+          "images": 80,
+          "rate": 0.9125,
+          "wilson": [
+            0.8302320449152499,
+            0.9569679982179401
+          ],
+          "seed_bootstrap": [
+            0.9125,
+            0.825,
+            0.975
+          ],
+          "mean_mse": 0.023051246869727038,
+          "mse_seed_bootstrap": [
+            0.023051246869727038,
+            0.01627951022339403,
+            0.030355800070537953
+          ],
+          "rate_minus_floor": 0.23749999999999993,
+          "paired_rate_minus_floor_bootstrap": [
+            0.2375,
+            0.1625,
+            0.325
+          ]
+        },
+        "secagg_aggregate_maxw16": {
+          "successes": 47,
+          "images": 80,
+          "rate": 0.5875,
+          "wilson": [
+            0.47804040345890164,
+            0.6889414238723812
+          ],
+          "seed_bootstrap": [
+            0.5875,
+            0.4625,
+            0.7
+          ],
+          "mean_mse": 0.05864877204876393,
+          "mse_seed_bootstrap": [
+            0.05864877204876393,
+            0.04748633310897277,
+            0.07200631124491337
+          ],
+          "rate_minus_floor": -0.08750000000000002,
+          "paired_rate_minus_floor_bootstrap": [
+            -0.0875,
+            -0.2375,
+            0.05
+          ]
+        },
+        "secagg_collusion_n-1_maxw16": {
+          "successes": 73,
+          "images": 80,
+          "rate": 0.9125,
+          "wilson": [
+            0.8302320449152499,
+            0.9569679982179401
+          ],
+          "seed_bootstrap": [
+            0.9125,
+            0.8246875000000011,
+            1.0
+          ],
+          "mean_mse": 0.015435908249077812,
+          "mse_seed_bootstrap": [
+            0.015435908249077812,
+            0.008155691379549418,
+            0.0236425835100094
+          ],
+          "rate_minus_floor": 0.23749999999999993,
+          "paired_rate_minus_floor_bootstrap": [
+            0.2375,
+            0.13718750000000118,
+            0.3375
+          ]
+        }
+      }
+    }
+  },
+  "v0142_reproduction": {
+    "compared_view_seed_pairs": 50,
+    "max_abs_diff_victim_mse": 0.0,
+    "reproduces_saved_v0142": true
+  },
+  "limitations": [
+    "Observation-model study with the real quantiser arithmetic, not an attack on captured Docker traffic",
+    "One local SGD step on 8 distinct records per client, known labels, known learning rate and initial model",
+    "Digits are 8x8 public images from one dataset, so the numbers say nothing about larger images",
+    "Rate intervals are Wilson intervals pooled over victim images. Images of one seed are not independent, so the seed-level bootstrap interval is reported as well",
+    "A failed reconstruction is evidence about this attack only, not a privacy guarantee"
+  ]
+}

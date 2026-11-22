@@ -1,0 +1,70 @@
+name: Scaling to 8 clients (one SecAgg+ round, peak container memory)
+
+on:
+  workflow_dispatch:
+    inputs:
+      num_shares:
+        description: 'SecAgg+ neighbourhood size. 8 means every client is in every neighbourhood. A smaller odd number (3 to 7) uses proper neighbourhoods'
+        required: false
+        default: '8'
+        type: string
+      threshold:
+        description: 'SecAgg+ reconstruction threshold (2 up to num_shares, and below num_shares when num_shares is below 8)'
+        required: false
+        default: '5'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  scaling-n8:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONPATH: src:.
+      N8_SHARES: ${{ inputs.num_shares }}
+      N8_THRESHOLD: ${{ inputs.threshold }}
+      N8_OUT: reports/results/privacy/v0150/scaling/docker_n8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check the inputs
+        run: |
+          [[ "$N8_SHARES" =~ ^[0-9]+$ ]] && [ "$N8_SHARES" -ge 3 ] && [ "$N8_SHARES" -le 8 ]
+          [[ "$N8_THRESHOLD" =~ ^[0-9]+$ ]] && [ "$N8_THRESHOLD" -ge 2 ] && [ "$N8_THRESHOLD" -le 8 ]
+      - name: Install dependencies (CPU only)
+        run: |
+          python -m pip install -e '.[test]'
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1'
+          python -m pip install 'scikit-learn>=1.4,<2' 'numpy>=1.26,<3' 'scipy>=1.11,<2' 'scikit-image>=0.22,<1' 'flwr==1.27.0'
+      - name: Static checks and unit tests
+        run: |
+          python scripts/check_workflows_static.py
+          pytest -q tests/training/test_scaling_memory.py tests/training/test_secagg_params.py tests/integration/test_scaling_n8_static.py tests/test_compose_n_clients.py
+      - name: Confirm real Docker daemon and Compose v2
+        run: |
+          docker version
+          docker compose version
+          docker info
+      - name: Run one 8-client SecAgg+ round and sample container memory
+        timeout-minutes: 40
+        run: python scripts/run_scaling_n8.py --output "$N8_OUT" --num-shares "$N8_SHARES" --threshold "$N8_THRESHOLD" --timeout 1500
+      - name: Show the memory record
+        if: always()
+        run: cat "$N8_OUT/scaling_n8_memory.json" || true
+      - name: Retain successes and failures for audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scaling-n8-evidence
+          path: |
+            reports/results/privacy/v0150/scaling/docker_n8
+            !reports/results/privacy/v0150/scaling/docker_n8/data/**
+            !reports/results/privacy/v0150/scaling/docker_n8/run/server/**/*.pt
+            !reports/results/privacy/v0150/scaling/docker_n8/run.env
+          if-no-files-found: warn

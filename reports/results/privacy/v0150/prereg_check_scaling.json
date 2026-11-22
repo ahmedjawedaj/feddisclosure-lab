@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "preregistration": "docs/preregistration/v0.15.md",
+  "note": "Thresholds are copied verbatim from the pre-registration and were not changed. Pass rules are applied to point estimates of pooled recognisable rates. Intervals are reported next to them. The primary SecAgg+ setting is max_weight 1000 (the upstream default, fixed before the 8-client run). 30 evaluation seeds (0 to 29), 8 victim images per seed.",
+  "S1": {
+    "id": "S1",
+    "prediction": "At 8 clients the aggregate view stays at the floor",
+    "pass_rule": "Recognisable rate at most floor plus 5 points",
+    "observed": {
+      "view": "secagg_aggregate_maxw1000",
+      "aggregate_rate": 0.35,
+      "aggregate_wilson": [
+        0.29244980923302405,
+        0.4122763667494435
+      ],
+      "floor_rate": 0.7458333333333333,
+      "floor_wilson": [
+        0.6871754052016925,
+        0.7967455841603746
+      ],
+      "gap": -0.39583333333333337,
+      "aggregate_mean_mse": 0.07297473664705952,
+      "floor_mean_mse": 0.0414516800052856,
+      "gap_upper_limit_is_conservative_check": true
+    },
+    "pass": true,
+    "operationalisation": "Floor is the class-average label floor on the same victim images. The aggregate view is the SecAgg+ aggregate with joint-oracle labels. Pass uses point estimates. The aggregate is far BELOW the floor, so S1 passes because the attack is weak on 64 joint images, not because of any guarantee."
+  },
+  "S2": {
+    "id": "S2",
+    "prediction": "n-1 collusion stays at plaintext level at 4 and 8 clients",
+    "pass_rule": "Recognisable rate at least 85%",
+    "observed": {
+      "view": "secagg_collusion_n-1_maxw1000",
+      "by_clients": {
+        "4": {
+          "rate": 0.9041666666666667,
+          "wilson": [
+            0.8603080239740112,
+            0.9352908907398955
+          ],
+          "wilson_lower_at_least_0_85": true
+        },
+        "8": {
+          "rate": 0.9083333333333333,
+          "wilson": [
+            0.8651157819717392,
+            0.9386851834093211
+          ],
+          "wilson_lower_at_least_0_85": true
+        }
+      }
+    },
+    "pass": true,
+    "operationalisation": "n-1 collusion on the primary max_weight 1000 view at 4 and 8 clients. Both counts must reach 85 percent."
+  },
+  "S1_at_4_clients_for_reference": {
+    "id": "S1",
+    "prediction": "At 8 clients the aggregate view stays at the floor",
+    "pass_rule": "Recognisable rate at most floor plus 5 points",
+    "observed": {
+      "view": "secagg_aggregate_maxw1000",
+      "aggregate_rate": 0.4625,
+      "aggregate_wilson": [
+        0.40050742719245885,
+        0.5256741168031581
+      ],
+      "floor_rate": 0.75,
+      "floor_wilson": [
+        0.6915695792009672,
+        0.8005534608282535
+      ],
+      "gap": -0.2875,
+      "aggregate_mean_mse": 0.06616587260505184,
+      "floor_mean_mse": 0.04141826388907617,
+      "gap_upper_limit_is_conservative_check": true
+    },
+    "pass": true
+  },
+  "S3": {
+    "id": "S3",
+    "prediction": "Memory at 8 clients fits",
+    "pass_rule": "Peak container memory below 6 GB. If not, the 8-client run is dropped and recorded as such",
+    "status": "PENDING. Needs a Docker daemon, not available where this was built. Dispatch .github/workflows/scaling-n8.yml and rerun this script on the result.",
+    "pass": null
+  }
+}

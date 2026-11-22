@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "preregistration": "docs/preregistration/v0.15.md",
+  "note": "Thresholds are copied verbatim from the pre-registration and were not changed. Pass rules are applied to point estimates. Primary SecAgg+ setting is max_weight 1000. Attack settings come from tuning seeds 9000 to 9002. Evaluation seeds are 0 to 19.",
+  "X1": {
+    "id": "X1",
+    "prediction": "The second dataset (Fashion-MNIST, small CNN) shows the same ordering",
+    "pass_rule": "Plaintext and n-1 collusion at least floor plus 10 points, aggregate-only within floor plus 5 points",
+    "observed": {
+      "floor_rate": 0.58125,
+      "floor_wilson": [
+        0.5037778324249305,
+        0.6549121608596999
+      ],
+      "max_weight": 1000.0,
+      "plaintext_individual": {
+        "rate": 0.8625,
+        "wilson": [
+          0.8005890571519036,
+          0.9074124513487551
+        ],
+        "rate_minus_floor": 0.28125
+      },
+      "secagg_collusion_maxw1000": {
+        "rate": 0.675,
+        "wilson": [
+          0.5990613789197846,
+          0.7427324527701887
+        ],
+        "rate_minus_floor": 0.09375
+      },
+      "secagg_aggregate_maxw1000": {
+        "rate": 0.45,
+        "wilson": [
+          0.3749863030702235,
+          0.5273583164469271
+        ],
+        "rate_minus_floor": -0.13125000000000003
+      }
+    },
+    "parts": {
+      "plaintext_at_least_floor_plus_10": true,
+      "collusion_at_least_floor_plus_10": false,
+      "aggregate_within_floor_plus_5": true
+    },
+    "pass": false,
+    "operationalisation": "Plaintext and n-1 collusion must each be at least floor plus 10 points and the aggregate view at most floor plus 5 points. All three parts must hold. The same rule at max_weight 16 is reported as X1_secondary_max_weight_16 and does not change the verdict."
+  },
+  "X1_secondary_max_weight_16": {
+    "id": "X1",
+    "prediction": "The second dataset (Fashion-MNIST, small CNN) shows the same ordering",
+    "pass_rule": "Plaintext and n-1 collusion at least floor plus 10 points, aggregate-only within floor plus 5 points",
+    "observed": {
+      "floor_rate": 0.58125,
+      "floor_wilson": [
+        0.5037778324249305,
+        0.6549121608596999
+      ],
+      "max_weight": 16.0,
+      "plaintext_individual": {
+        "rate": 0.8625,
+        "wilson": [
+          0.8005890571519036,
+          0.9074124513487551
+        ],
+        "rate_minus_floor": 0.28125
+      },
+      "secagg_collusion_maxw16": {
+        "rate": 0.71875,
+        "wilson": [
+          0.6445855244726805,
+          0.7826567651397861
+        ],
+        "rate_minus_floor": 0.13749999999999996
+      },
+      "secagg_aggregate_maxw16": {
+        "rate": 0.53125,
+        "wilson": [
+          0.45410272037299715,
+          0.6069318924287838
+        ],
+        "rate_minus_floor": -0.050000000000000044
+      }
+    },
+    "parts": {
+      "plaintext_at_least_floor_plus_10": true,
+      "collusion_at_least_floor_plus_10": true,
+      "aggregate_within_floor_plus_5": true
+    },
+    "pass": true
+  }
+}
