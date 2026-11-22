@@ -32,12 +32,23 @@ def main():
             host_ports = [b["HostIp"] for vals in published.values() if vals for b in vals]
             assert host_ports == ["127.0.0.1"], f"Gateway published off loopback: {host_ports}"
     assert len(set(volume_names)) == 3, "Shared institution volume would violate isolation"
-    assert len(set.union(*networks)) == 1 and all(n == networks[0] for n in networks), "Unexpected networks"
-    network = next(iter(networks[0]))
+    # Institutions must share exactly one network, and it must be internal-only.
+    institution_networks = networks[:3]
+    gateway_networks = networks[3]
+    assert all(n == institution_networks[0] for n in institution_networks), "Institutions differ in networks"
+    assert len(institution_networks[0]) == 1, "Institutions must be on exactly one network"
+    network = next(iter(institution_networks[0]))
     network_config = json.loads(docker("network", "inspect", network))[0]
     assert network_config["Internal"] is True, "Institution network must be internal-only"
+    # The gateway joins that network and may add a separate edge network so the host
+    # can reach its loopback port. Institutions are never attached to the edge network.
+    assert network in gateway_networks, "Gateway must be on the institution network"
+    extra = sorted(gateway_networks - {network})
+    assert len(extra) <= 1, f"Gateway has unexpected extra networks: {extra}"
     evidence = {"observed": True, "containers": names, "separate_data_volumes": True,
                 "all_services_on_one_internal_network": True,
+                "institutions_on_internal_network_only": True,
+                "gateway_extra_networks": len(extra),
                 "only_gateway_bound_to_host_loopback": True}
     destination = Path(args.output)
     destination.parent.mkdir(parents=True, exist_ok=True)
