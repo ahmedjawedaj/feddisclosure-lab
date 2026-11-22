@@ -6,9 +6,10 @@ from importlib.util import find_spec
 import json
 from pathlib import Path
 import shutil
-import subprocess
 import sys
 import time
+
+from feddisclosure.training.flwr_cli import run_flwr_cli
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = ROOT / "experiments/flower_secagg"
@@ -32,14 +33,7 @@ def execute(*, data_root: Path, output: Path, timeout: int = 900):
     cmd = ["flwr", "run", ".", "--stream", "--run-config",
            " ".join(f"{k}={json.dumps(v)}" for k, v in config.items())]
     start = time.perf_counter()
-    try:
-        result = subprocess.run(cmd, cwd=PROJECT, capture_output=True, text=True, timeout=timeout)
-        code, stdout, stderr, timed_out = result.returncode, result.stdout, result.stderr, False
-    except subprocess.TimeoutExpired as exc:
-        code = 124
-        stdout = exc.stdout or ""
-        stderr = exc.stderr or ""
-        timed_out = True
+    code, stdout, stderr, timed_out, cli_attempts = run_flwr_cli(cmd, cwd=PROJECT, timeout=timeout)
     if isinstance(stdout, bytes):
         stdout = stdout.decode(errors="replace")
     if isinstance(stderr, bytes):
@@ -53,6 +47,7 @@ def execute(*, data_root: Path, output: Path, timeout: int = 900):
         "command": cmd,
         "exit_code": code,
         "timed_out": timed_out,
+        "cli_attempts": cli_attempts,
         "workflow_marker_exists": marker.exists(),
         "duration_seconds": round(time.perf_counter() - start, 3),
         "native_success": bool(code == 0 and marker.exists() and not timed_out),
@@ -60,6 +55,8 @@ def execute(*, data_root: Path, output: Path, timeout: int = 900):
     }
     (output / "secagg_run.json").write_text(json.dumps(evidence, indent=2) + "\n")
     if not evidence["native_success"]:
+        tail = "\n".join((stderr + "\n" + stdout).strip().splitlines()[-40:])
+        print(f"--- last lines of Flower output ---\n{tail}\n--- end ---", file=sys.stderr)
         raise RuntimeError("Native Flower SecAgg+ execution failed; inspect logs")
     return evidence
 

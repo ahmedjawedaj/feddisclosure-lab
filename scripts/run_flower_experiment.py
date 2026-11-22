@@ -7,11 +7,11 @@ from datetime import datetime, timezone
 from importlib.util import find_spec
 import json
 from pathlib import Path
-import subprocess
 import sys
 import time
 import yaml
 from feddisclosure.training.datasets import prepare_partitions
+from feddisclosure.training.flwr_cli import run_flwr_cli
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -47,26 +47,14 @@ def main():
     run_config = " ".join(f"{k}={json.dumps(v) if isinstance(v, str) else v}" for k, v in cfg.items())
     command = ["flwr", "run", ".", "--stream", "--run-config", run_config]
     start = time.perf_counter()
-    timed_out = False
-    try:
-        completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=1200)
-        stdout, stderr, exit_code = completed.stdout, completed.stderr, completed.returncode
-    except subprocess.TimeoutExpired as exc:
-        timed_out = True
-        stdout = exc.stdout or b""
-        stderr = exc.stderr or b""
-        if isinstance(stdout, bytes):
-            stdout = stdout.decode("utf-8", errors="replace")
-        if isinstance(stderr, bytes):
-            stderr = stderr.decode("utf-8", errors="replace")
-        exit_code = 124
+    exit_code, stdout, stderr, timed_out, cli_attempts = run_flwr_cli(command, cwd=ROOT, timeout=1200)
     elapsed = time.perf_counter() - start
     # Keep complete runtime evidence separate; do not claim success from an app that failed.
     (output / "flower_stdout.log").write_text(stdout)
     (output / "flower_stderr.log").write_text(stderr)
     evidence = {"engine": "Flower ServerApp/ClientApp", "timestamp_utc": datetime.now(timezone.utc).isoformat(),
                 "command": command, "config": config, "exit_code": exit_code, "timed_out": timed_out,
-                "duration_seconds": round(elapsed, 4),
+                "duration_seconds": round(elapsed, 4), "cli_attempts": cli_attempts,
                 "final_model_exists": (output / "final_model.pt").is_file(),
                 "summary_exists": (output / "flower_summary.json").is_file()}
     (output / "flower_run.json").write_text(json.dumps(evidence, indent=2) + "\n")
