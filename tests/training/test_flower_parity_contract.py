@@ -68,3 +68,10 @@ def test_parity_does_not_accept_simulation_as_container_certification(tmp_path):
     with pytest.raises(ValueError, match="Deployment Runtime certification"):
         certify(flower, reference, tmp_path / "ref.pt", tmp_path / "manifest.json",
                 require_deployment=True)
+
+
+@pytest.mark.parametrize("clients,expected", [(3, 8), (4, 10), (8, 18)])
+def test_expected_container_count_scales_with_sites(clients, expected):
+    from scripts.verify_flower_parity import expected_container_count
+
+    assert expected_container_count(clients) == expected

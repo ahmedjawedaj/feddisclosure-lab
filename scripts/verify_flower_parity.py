@@ -20,6 +20,11 @@ def require(condition: bool, message: str) -> None:
         raise ValueError(message)
 
 
+def expected_container_count(clients: int) -> int:
+    """SuperLink and ServerApp executor plus a SuperNode and ClientApp executor per site."""
+    return 2 + 2 * int(clients)
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -59,7 +64,8 @@ def certify(flower_dir: Path, reference_json: Path, reference_checkpoint: Path,
                 and site_receipts.get("rounds") == fc["rounds"]
                 and len(site_receipts.get("sites", {})) == fc["clients"]
                 and topology.get("native_verified") is True
-                and len(set(topology.get("container_ids", {}).values())) == 8,
+                and len(set(topology.get("container_ids", {}).values()))
+                == expected_container_count(fc["clients"]),
                 "Missing multi-container participation or isolation evidence")
     require(reference["manifest_sha256"] == sha256(manifest), "Reference data provenance mismatch")
     require(reference["final_checkpoint"]["sha256"] == sha256(reference_checkpoint), "Reference checkpoint tampered")
