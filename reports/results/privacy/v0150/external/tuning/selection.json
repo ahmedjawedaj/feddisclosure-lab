@@ -1,0 +1,58 @@
+{
+  "tuning_seeds": [
+    9000,
+    9001,
+    9002
+  ],
+  "candidates": {
+    "ig_tv0.2": {
+      "mean_mse": 0.06439098909886887,
+      "attack": "invertinggradients",
+      "overrides": [
+        "optim.max_iterations=4000",
+        "regularization.total_variation.scale=0.2"
+      ]
+    },
+    "ig_tv0.05": {
+      "mean_mse": 0.024544819388919153,
+      "attack": "invertinggradients",
+      "overrides": [
+        "optim.max_iterations=4000",
+        "regularization.total_variation.scale=0.05"
+      ]
+    },
+    "ig_tv0.01": {
+      "mean_mse": 0.01437001908238582,
+      "attack": "invertinggradients",
+      "overrides": [
+        "optim.max_iterations=4000",
+        "regularization.total_variation.scale=0.01"
+      ]
+    },
+    "ig_tv0.001": {
+      "mean_mse": 0.006914659756475836,
+      "attack": "invertinggradients",
+      "overrides": [
+        "optim.max_iterations=4000",
+        "regularization.total_variation.scale=0.001"
+      ]
+    },
+    "ig_tv0": {
+      "mean_mse": 0.010732327291878008,
+      "attack": "invertinggradients",
+      "overrides": [
+        "optim.max_iterations=4000",
+        "regularization.total_variation.scale=0.0"
+      ]
+    },
+    "dlg_known_labels": {
+      "mean_mse": 0.03942781512139203,
+      "attack": "deepleakage",
+      "overrides": [
+        "attack_type=optimization"
+      ]
+    }
+  },
+  "selected": "ig_tv0.001",
+  "rule": "lowest mean victim MSE over the tuning seeds. Evaluation seeds were not used."
+}
