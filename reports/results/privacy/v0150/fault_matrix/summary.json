@@ -1,0 +1,1247 @@
+{
+  "schema_version": 1,
+  "dp": {
+    "control": {
+      "audits": 200,
+      "wb_noise": {
+        "successes": 2,
+        "trials": 200,
+        "rate": 0.01,
+        "wilson": [
+          0.0027466581335444384,
+          0.0357217617161768
+        ],
+        "clopper_pearson": [
+          0.001213349013736031,
+          0.035654668397239776
+        ]
+      },
+      "wb_clip": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "wb_any": {
+        "successes": 2,
+        "trials": 200,
+        "rate": 0.01,
+        "wilson": [
+          0.0027466581335444384,
+          0.0357217617161768
+        ],
+        "clopper_pearson": [
+          0.001213349013736031,
+          0.035654668397239776
+        ]
+      },
+      "noise_std_ratio_estimate": {
+        "mean": 1.0002506826704536,
+        "min": 0.9871258507090283,
+        "max": 1.0130221576059348
+      },
+      "clip_max_norm_over_clip": {
+        "mean": 0.9999996294209239,
+        "min": 0.9999994106550192
+      },
+      "bb": {
+        "successes": 1,
+        "trials": 200,
+        "rate": 0.005,
+        "wilson": [
+          0.0008831687156009814,
+          0.02777370439789293
+        ],
+        "clopper_pearson": [
+          0.00012658102786701836,
+          0.02754189845720562
+        ],
+        "attack_rate_pooled": {
+          "successes": 3861,
+          "trials": 12000,
+          "rate": 0.32175,
+          "wilson": [
+            0.3134500076193947,
+            0.33016407919808577
+          ],
+          "clopper_pearson": [
+            0.3133942129715977,
+            0.3301923290542534
+          ]
+        },
+        "bound_for_claimed_sigma": 0.389143691645361,
+        "trials_per_audit": 60
+      }
+    },
+    "noise_x0.25": {
+      "audits": 200,
+      "wb_noise": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "wb_clip": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "wb_any": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "noise_std_ratio_estimate": {
+        "mean": 0.2500452975788804,
+        "min": 0.24673531597804324,
+        "max": 0.2529753083778369
+      },
+      "clip_max_norm_over_clip": {
+        "mean": 0.9999996294209239,
+        "min": 0.9999994106550192
+      },
+      "bb": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ],
+        "attack_rate_pooled": {
+          "successes": 10791,
+          "trials": 12000,
+          "rate": 0.89925,
+          "wilson": [
+            0.8937361505669821,
+            0.904508314163009
+          ],
+          "clopper_pearson": [
+            0.8937256773801674,
+            0.9045797848418976
+          ]
+        },
+        "bound_for_claimed_sigma": 0.389143691645361,
+        "trials_per_audit": 60
+      }
+    },
+    "noise_x0.5": {
+      "audits": 200,
+      "wb_noise": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "wb_clip": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "wb_any": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "noise_std_ratio_estimate": {
+        "mean": 0.5000575091263932,
+        "min": 0.4937899860959142,
+        "max": 0.5065314199646178
+      },
+      "clip_max_norm_over_clip": {
+        "mean": 0.9999996294209239,
+        "min": 0.9999994106550192
+      },
+      "bb": {
+        "successes": 190,
+        "trials": 200,
+        "rate": 0.95,
+        "wilson": [
+          0.9104218518612239,
+          0.972617354399236
+        ],
+        "clopper_pearson": [
+          0.9099724622986486,
+          0.9757658345278915
+        ],
+        "attack_rate_pooled": {
+          "successes": 7298,
+          "trials": 12000,
+          "rate": 0.6081666666666666,
+          "wilson": [
+            0.5993992540935206,
+            0.6168648484361242
+          ],
+          "clopper_pearson": [
+            0.5993654909657358,
+            0.6169153412253923
+          ]
+        },
+        "bound_for_claimed_sigma": 0.389143691645361,
+        "trials_per_audit": 60
+      }
+    },
+    "noise_x2": {
+      "audits": 200,
+      "wb_noise": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "wb_clip": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "wb_any": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "noise_std_ratio_estimate": {
+        "mean": 1.999990237704447,
+        "min": 1.9772777266116426,
+        "max": 2.0204527987029617
+      },
+      "clip_max_norm_over_clip": {
+        "mean": 0.9999996294209239,
+        "min": 0.9999994106550192
+      },
+      "bb": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ],
+        "attack_rate_pooled": {
+          "successes": 2263,
+          "trials": 12000,
+          "rate": 0.18858333333333333,
+          "wilson": [
+            0.18168448211360702,
+            0.19568150313039698
+          ],
+          "clopper_pearson": [
+            0.18161891560906715,
+            0.1956991385444441
+          ]
+        },
+        "bound_for_claimed_sigma": 0.389143691645361,
+        "trials_per_audit": 60
+      }
+    },
+    "clip_skipped": {
+      "audits": 200,
+      "wb_noise": {
+        "successes": 2,
+        "trials": 200,
+        "rate": 0.01,
+        "wilson": [
+          0.0027466581335444384,
+          0.0357217617161768
+        ],
+        "clopper_pearson": [
+          0.001213349013736031,
+          0.035654668397239776
+        ]
+      },
+      "wb_clip": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "wb_any": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "noise_std_ratio_estimate": {
+        "mean": 1.0019839230588607,
+        "min": 0.9891448427405054,
+        "max": 1.0130908827263208
+      },
+      "clip_max_norm_over_clip": {
+        "mean": 2.2902381767163735,
+        "min": 1.7319350544657333
+      },
+      "bb": {
+        "successes": 70,
+        "trials": 200,
+        "rate": 0.35,
+        "wilson": [
+          0.28728824127358077,
+          0.4183653566395992
+        ],
+        "clopper_pearson": [
+          0.28407067032294203,
+          0.4204506224779936
+        ],
+        "attack_rate_pooled": {
+          "successes": 5860,
+          "trials": 12000,
+          "rate": 0.48833333333333334,
+          "wilson": [
+            0.4793949621809886,
+            0.49727917159855667
+          ],
+          "clopper_pearson": [
+            0.47935187430200954,
+            0.4973204542158409
+          ]
+        },
+        "bound_for_claimed_sigma": 0.389143691645361,
+        "trials_per_audit": 60
+      }
+    },
+    "noise_x0.9": {
+      "audits": 200,
+      "wb_noise": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "wb_clip": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "wb_any": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "noise_std_ratio_estimate": {
+        "mean": 0.8998596929291277,
+        "min": 0.8881733378803215,
+        "max": 0.90907392670325
+      },
+      "clip_max_norm_over_clip": {
+        "mean": 0.9999996294209239,
+        "min": 0.9999994106550192
+      }
+    },
+    "noise_x1.1": {
+      "audits": 200,
+      "wb_noise": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "wb_clip": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "wb_any": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "noise_std_ratio_estimate": {
+        "mean": 1.0999787818088465,
+        "min": 1.0890769738391304,
+        "max": 1.1132715550888128
+      },
+      "clip_max_norm_over_clip": {
+        "mean": 0.9999996294209239,
+        "min": 0.9999994106550192
+      }
+    }
+  },
+  "secagg_sim": {
+    "control": {
+      "trials": 200,
+      "d1": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "d2": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "naive_two_round_gate": {
+        "successes": 70,
+        "trials": 200,
+        "rate": 0.35,
+        "wilson": [
+          0.28728824127358077,
+          0.4183653566395992
+        ],
+        "clopper_pearson": [
+          0.28407067032294203,
+          0.4204506224779936
+        ]
+      },
+      "last_round_err_over_bound": {
+        "median": 0.673812561239292,
+        "min": 0.583303566942203,
+        "max": 0.8083560442987552
+      },
+      "last_round_d2_z": {
+        "median": -0.0137223190613828,
+        "min": -2.1830684491044767,
+        "max": 2.3062099603109183
+      }
+    },
+    "control_dropout": {
+      "trials": 200,
+      "d1": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "d2": {
+        "successes": 5,
+        "trials": 200,
+        "rate": 0.025,
+        "wilson": [
+          0.010724719651761264,
+          0.05717834040664198
+        ],
+        "clopper_pearson": [
+          0.008166166190842514,
+          0.05737435112684586
+        ]
+      },
+      "naive_two_round_gate": {
+        "successes": 55,
+        "trials": 200,
+        "rate": 0.275,
+        "wilson": [
+          0.21779700329307355,
+          0.34068339357669647
+        ],
+        "clopper_pearson": [
+          0.21437741524309537,
+          0.34242541862375053
+        ]
+      },
+      "last_round_err_over_bound": {
+        "median": 0.7507190338071696,
+        "min": 0.6541637017673332,
+        "max": 0.8692727356242494
+      },
+      "last_round_d2_z": {
+        "median": 0.02101344764529378,
+        "min": -3.0225137764776577,
+        "max": 3.2722571171587203
+      }
+    },
+    "plaintext_fallback": {
+      "trials": 200,
+      "d1": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "d2": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "naive_two_round_gate": {
+        "successes": 0,
+        "trials": 200,
+        "rate": 0.0,
+        "wilson": [
+          0.0,
+          0.018845326377266575
+        ],
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "last_round_err_over_bound": {
+        "median": 0.001858243814445611,
+        "min": 0.001197624739398984,
+        "max": 0.003627121882347865
+      },
+      "last_round_d2_z": {
+        "median": -37.41777206544114,
+        "min": -37.68208892439858,
+        "max": -37.17955063005354
+      }
+    },
+    "stale_model": {
+      "trials": 200,
+      "d1": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "d2": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "naive_two_round_gate": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "last_round_err_over_bound": {
+        "median": 1340.2807413410958,
+        "min": 695.5392390752593,
+        "max": 2718.8066498433154
+      },
+      "last_round_d2_z": {
+        "median": 44817941.02104136,
+        "min": 13436976.717182904,
+        "max": 123857045.91760026
+      }
+    },
+    "dropout_cached_update": {
+      "trials": 200,
+      "d1": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "d2": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "naive_two_round_gate": {
+        "successes": 200,
+        "trials": 200,
+        "rate": 1.0,
+        "wilson": [
+          0.9811546736227335,
+          1.0
+        ],
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "last_round_err_over_bound": {
+        "median": 1657.135628994612,
+        "min": 1010.6566182297765,
+        "max": 3326.142497810493
+      },
+      "last_round_d2_z": {
+        "median": 42039374.62859073,
+        "min": 12496380.77966396,
+        "max": 106658379.65516913
+      }
+    }
+  },
+  "matrix": {
+    "F1 noise x0.25": {
+      "fault": "F1",
+      "A_existing_gates": null,
+      "B_whitebox_noise": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "B_whitebox_clip": {
+        "detected": false,
+        "rate": 0.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "B_whitebox_any": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "C_informed_attack": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "D1_error_bound": null,
+      "D2_error_distribution": null
+    },
+    "F1 noise x0.5": {
+      "fault": "F1",
+      "A_existing_gates": null,
+      "B_whitebox_noise": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "B_whitebox_clip": {
+        "detected": false,
+        "rate": 0.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "B_whitebox_any": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "C_informed_attack": {
+        "detected": true,
+        "rate": 0.95,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9099724622986486,
+          0.9757658345278915
+        ]
+      },
+      "D1_error_bound": null,
+      "D2_error_distribution": null
+    },
+    "F1 noise x2": {
+      "fault": "F1",
+      "A_existing_gates": null,
+      "B_whitebox_noise": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "B_whitebox_clip": {
+        "detected": false,
+        "rate": 0.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "B_whitebox_any": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "C_informed_attack": {
+        "detected": false,
+        "rate": 0.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "D1_error_bound": null,
+      "D2_error_distribution": null
+    },
+    "F2 clipping skipped": {
+      "fault": "F2",
+      "A_existing_gates": null,
+      "B_whitebox_noise": {
+        "detected": false,
+        "rate": 0.01,
+        "trials": 200,
+        "clopper_pearson": [
+          0.001213349013736031,
+          0.035654668397239776
+        ]
+      },
+      "B_whitebox_clip": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "B_whitebox_any": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "C_informed_attack": {
+        "detected": false,
+        "rate": 0.35,
+        "trials": 200,
+        "clopper_pearson": [
+          0.28407067032294203,
+          0.4204506224779936
+        ]
+      },
+      "D1_error_bound": null,
+      "D2_error_distribution": null
+    },
+    "F3 plaintext fallback, logs kept": {
+      "fault": "F3",
+      "A_existing_gates": {
+        "detected": false,
+        "deterministic": true
+      },
+      "A_channels": [],
+      "B_whitebox_noise": null,
+      "B_whitebox_clip": null,
+      "B_whitebox_any": null,
+      "C_informed_attack": null,
+      "D1_error_bound": {
+        "detected": false,
+        "rate": 0.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "D2_error_distribution": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      }
+    },
+    "F3 plaintext fallback, no workflow markers": {
+      "fault": "F3",
+      "A_existing_gates": {
+        "detected": false,
+        "deterministic": true
+      },
+      "A_channels": [],
+      "B_whitebox_noise": null,
+      "B_whitebox_clip": null,
+      "B_whitebox_any": null,
+      "C_informed_attack": null,
+      "D1_error_bound": {
+        "detected": false,
+        "rate": 0.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.0,
+          0.01827534035513624
+        ]
+      },
+      "D2_error_distribution": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      }
+    },
+    "F4 dropout below threshold tolerated": {
+      "fault": "F4",
+      "A_existing_gates": {
+        "detected": true,
+        "deterministic": true
+      },
+      "A_channels": [
+        "rule:n4-t3-kill2-r2"
+      ],
+      "B_whitebox_noise": null,
+      "B_whitebox_clip": null,
+      "B_whitebox_any": null,
+      "C_informed_attack": null,
+      "D1_error_bound": null,
+      "D2_error_distribution": null
+    },
+    "F4 dropout at threshold halts (off by one)": {
+      "fault": "F4",
+      "A_existing_gates": {
+        "detected": true,
+        "deterministic": true
+      },
+      "A_channels": [
+        "rule:n4-t2-kill2-r2",
+        "rule:n4-t3-kill1-r2"
+      ],
+      "B_whitebox_noise": null,
+      "B_whitebox_clip": null,
+      "B_whitebox_any": null,
+      "C_informed_attack": null,
+      "D1_error_bound": null,
+      "D2_error_distribution": null
+    },
+    "F4 dropped client's cached update reused": {
+      "fault": "F4",
+      "A_existing_gates": {
+        "detected": true,
+        "deterministic": true
+      },
+      "A_channels": [
+        "tolerance:n3-t2-kill1-r2",
+        "tolerance:n4-t2-kill1-r2",
+        "tolerance:n4-t2-kill2-r2",
+        "tolerance:n4-t3-kill1-r2"
+      ],
+      "B_whitebox_noise": null,
+      "B_whitebox_clip": null,
+      "B_whitebox_any": null,
+      "C_informed_attack": null,
+      "D1_error_bound": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "D2_error_distribution": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      }
+    },
+    "F5 stale global model": {
+      "fault": "F5",
+      "A_existing_gates": {
+        "detected": true,
+        "deterministic": true
+      },
+      "A_channels": [
+        "equivalence_2_rounds",
+        "numerical_parity",
+        "replicate:rep1",
+        "replicate:rep2",
+        "replicate:rep3",
+        "tolerance:n3-t2-kill1-r2",
+        "tolerance:n4-t2-kill1-r2",
+        "tolerance:n4-t2-kill2-r2",
+        "tolerance:n4-t3-kill1-r2"
+      ],
+      "B_whitebox_noise": null,
+      "B_whitebox_clip": null,
+      "B_whitebox_any": null,
+      "C_informed_attack": null,
+      "D1_error_bound": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      },
+      "D2_error_distribution": {
+        "detected": true,
+        "rate": 1.0,
+        "trials": 200,
+        "clopper_pearson": [
+          0.9817246596448638,
+          1.0
+        ]
+      }
+    }
+  },
+  "false_positive_rates": {
+    "B_whitebox_noise": {
+      "successes": 2,
+      "trials": 200,
+      "rate": 0.01,
+      "wilson": [
+        0.0027466581335444384,
+        0.0357217617161768
+      ],
+      "clopper_pearson": [
+        0.001213349013736031,
+        0.035654668397239776
+      ]
+    },
+    "B_whitebox_clip": {
+      "successes": 0,
+      "trials": 200,
+      "rate": 0.0,
+      "wilson": [
+        0.0,
+        0.018845326377266575
+      ],
+      "clopper_pearson": [
+        0.0,
+        0.01827534035513624
+      ]
+    },
+    "B_whitebox_any": {
+      "successes": 2,
+      "trials": 200,
+      "rate": 0.01,
+      "wilson": [
+        0.0027466581335444384,
+        0.0357217617161768
+      ],
+      "clopper_pearson": [
+        0.001213349013736031,
+        0.035654668397239776
+      ]
+    },
+    "C_informed_attack": {
+      "successes": 1,
+      "trials": 200,
+      "rate": 0.005,
+      "wilson": [
+        0.0008831687156009814,
+        0.02777370439789293
+      ],
+      "clopper_pearson": [
+        0.00012658102786701836,
+        0.02754189845720562
+      ],
+      "attack_rate_pooled": {
+        "successes": 3861,
+        "trials": 12000,
+        "rate": 0.32175,
+        "wilson": [
+          0.3134500076193947,
+          0.33016407919808577
+        ],
+        "clopper_pearson": [
+          0.3133942129715977,
+          0.3301923290542534
+        ]
+      },
+      "bound_for_claimed_sigma": 0.389143691645361,
+      "trials_per_audit": 60
+    },
+    "D1_error_bound": {
+      "successes": 0,
+      "trials": 200,
+      "rate": 0.0,
+      "wilson": [
+        0.0,
+        0.018845326377266575
+      ],
+      "clopper_pearson": [
+        0.0,
+        0.01827534035513624
+      ]
+    },
+    "D2_error_distribution": {
+      "successes": 0,
+      "trials": 200,
+      "rate": 0.0,
+      "wilson": [
+        0.0,
+        0.018845326377266575
+      ],
+      "clopper_pearson": [
+        0.0,
+        0.01827534035513624
+      ]
+    },
+    "naive_two_round_tolerance_gate_logic": {
+      "successes": 70,
+      "trials": 200,
+      "rate": 0.35,
+      "wilson": [
+        0.28728824127358077,
+        0.4183653566395992
+      ],
+      "clopper_pearson": [
+        0.28407067032294203,
+        0.4204506224779936
+      ]
+    },
+    "control_dropout_D1": {
+      "successes": 0,
+      "trials": 200,
+      "rate": 0.0,
+      "wilson": [
+        0.0,
+        0.018845326377266575
+      ],
+      "clopper_pearson": [
+        0.0,
+        0.01827534035513624
+      ]
+    },
+    "control_dropout_D2": {
+      "successes": 5,
+      "trials": 200,
+      "rate": 0.025,
+      "wilson": [
+        0.010724719651761264,
+        0.05717834040664198
+      ],
+      "clopper_pearson": [
+        0.008166166190842514,
+        0.05737435112684586
+      ]
+    },
+    "A_existing_gates_on_honest_saved_evidence": {
+      "channels_failing": {
+        "matrix": [
+          "n4_full_participation_equivalence",
+          "replicate:baseline"
+        ],
+        "native": [],
+        "parity": []
+      },
+      "note": "deterministic, one honest copy. The failing channel is the naive two-round tolerance, which the verifier itself records as failed for the baseline run"
+    }
+  }
+}

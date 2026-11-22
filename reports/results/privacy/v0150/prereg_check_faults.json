@@ -1,0 +1,377 @@
+{
+  "schema_version": 1,
+  "preregistration": "docs/preregistration/v0.15.md",
+  "note": "Thresholds are copied verbatim from the pre-registration and were not changed. The power rule is read on the point estimate. The Clopper-Pearson interval is reported next to it.",
+  "F1": {
+    "id": "F1",
+    "prediction": "Every seeded fault is caught by at least one detector except possibly mask reuse",
+    "pass_rule": "At least 4 of 5 faults detected, and the evading faults are named in the results",
+    "observed": {
+      "strict_detectors_A_B_C_D1": {
+        "detected": {
+          "F1": true,
+          "F2": true,
+          "F3": false,
+          "F4": true,
+          "F5": true
+        },
+        "n_detected": 4,
+        "evading_faults": [
+          "F3"
+        ],
+        "evading_variants": [
+          "F3 plaintext fallback, logs kept",
+          "F3 plaintext fallback, no workflow markers"
+        ]
+      },
+      "with_D2_extension": {
+        "detected": {
+          "F1": true,
+          "F2": true,
+          "F3": true,
+          "F4": true,
+          "F5": true
+        },
+        "n_detected": 5,
+        "evading_faults": [],
+        "evading_variants": []
+      },
+      "detail": {
+        "F1": [
+          {
+            "variant": "F1 noise x0.25",
+            "detected_by": [
+              "B_whitebox_any",
+              "C_informed_attack"
+            ],
+            "detected": true
+          },
+          {
+            "variant": "F1 noise x0.5",
+            "detected_by": [
+              "B_whitebox_any",
+              "C_informed_attack"
+            ],
+            "detected": true
+          },
+          {
+            "variant": "F1 noise x2",
+            "detected_by": [
+              "B_whitebox_any"
+            ],
+            "detected": true
+          }
+        ],
+        "F2": [
+          {
+            "variant": "F2 clipping skipped",
+            "detected_by": [
+              "B_whitebox_any"
+            ],
+            "detected": true
+          }
+        ],
+        "F3": [
+          {
+            "variant": "F3 plaintext fallback, logs kept",
+            "detected_by": [
+              "D2_error_distribution"
+            ],
+            "detected": true
+          },
+          {
+            "variant": "F3 plaintext fallback, no workflow markers",
+            "detected_by": [
+              "D2_error_distribution"
+            ],
+            "detected": true
+          }
+        ],
+        "F4": [
+          {
+            "variant": "F4 dropout below threshold tolerated",
+            "detected_by": [
+              "A_existing_gates"
+            ],
+            "detected": true
+          },
+          {
+            "variant": "F4 dropout at threshold halts (off by one)",
+            "detected_by": [
+              "A_existing_gates"
+            ],
+            "detected": true
+          },
+          {
+            "variant": "F4 dropped client's cached update reused",
+            "detected_by": [
+              "A_existing_gates",
+              "D1_error_bound",
+              "D2_error_distribution"
+            ],
+            "detected": true
+          }
+        ],
+        "F5": [
+          {
+            "variant": "F5 stale global model",
+            "detected_by": [
+              "A_existing_gates",
+              "D1_error_bound",
+              "D2_error_distribution"
+            ],
+            "detected": true
+          }
+        ]
+      }
+    },
+    "operationalisation": "A fault type is detected only if all of its variants are detected by a detector whose false positive rate under the control is at most 0.05 (deterministic evidence gates count by their yes or no). Strict counts detectors A, B, C and D1 as specified. D2 is an extension added before the run so that a zero-error plaintext aggregate can be seen. Both counts are given. The pass verdict uses the strict count.",
+    "pass": true
+  },
+  "F2": {
+    "id": "F2",
+    "prediction": "The many-run DP audit catches a noise scale off by a factor of 2 or more",
+    "pass_rule": "Detection power at least 0.9 with false positive rate at most 0.05",
+    "observed": {
+      "power_by_noise_factor": {
+        "noise_x0.25": {
+          "power": 1.0,
+          "clopper_pearson": [
+            0.9817246596448638,
+            1.0
+          ],
+          "audits": 200
+        },
+        "noise_x0.5": {
+          "power": 1.0,
+          "clopper_pearson": [
+            0.9817246596448638,
+            1.0
+          ],
+          "audits": 200
+        },
+        "noise_x2": {
+          "power": 1.0,
+          "clopper_pearson": [
+            0.9817246596448638,
+            1.0
+          ],
+          "audits": 200
+        }
+      },
+      "false_positive_rate": {
+        "rate": 0.01,
+        "clopper_pearson": [
+          0.001213349013736031,
+          0.035654668397239776
+        ],
+        "audits": 200
+      },
+      "sensitivity_not_part_of_rule": {
+        "noise_x0.9": 1.0,
+        "noise_x1.1": 1.0
+      }
+    },
+    "operationalisation": "Factors 0.25, 0.5 and 2 on the claimed sigma 1.0. The white-box noise test (chi-square at level 0.01, 10 real Opacus runs of 2,410 coordinates per audit) must reach power 0.9 at every factor. The false positive rate is that of the same test under the no-fault control.",
+    "pass": true
+  },
+  "fault_level_strict": {
+    "by_fault": {
+      "F1": [
+        {
+          "variant": "F1 noise x0.25",
+          "detected_by": [
+            "B_whitebox_any",
+            "C_informed_attack"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F1 noise x0.5",
+          "detected_by": [
+            "B_whitebox_any",
+            "C_informed_attack"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F1 noise x2",
+          "detected_by": [
+            "B_whitebox_any"
+          ],
+          "detected": true
+        }
+      ],
+      "F2": [
+        {
+          "variant": "F2 clipping skipped",
+          "detected_by": [
+            "B_whitebox_any"
+          ],
+          "detected": true
+        }
+      ],
+      "F3": [
+        {
+          "variant": "F3 plaintext fallback, logs kept",
+          "detected_by": [],
+          "detected": false
+        },
+        {
+          "variant": "F3 plaintext fallback, no workflow markers",
+          "detected_by": [],
+          "detected": false
+        }
+      ],
+      "F4": [
+        {
+          "variant": "F4 dropout below threshold tolerated",
+          "detected_by": [
+            "A_existing_gates"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F4 dropout at threshold halts (off by one)",
+          "detected_by": [
+            "A_existing_gates"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F4 dropped client's cached update reused",
+          "detected_by": [
+            "A_existing_gates",
+            "D1_error_bound"
+          ],
+          "detected": true
+        }
+      ],
+      "F5": [
+        {
+          "variant": "F5 stale global model",
+          "detected_by": [
+            "A_existing_gates",
+            "D1_error_bound"
+          ],
+          "detected": true
+        }
+      ]
+    },
+    "detected": {
+      "F1": true,
+      "F2": true,
+      "F3": false,
+      "F4": true,
+      "F5": true
+    },
+    "n_detected": 4,
+    "evading_faults": [
+      "F3"
+    ],
+    "evading_variants": [
+      "F3 plaintext fallback, logs kept",
+      "F3 plaintext fallback, no workflow markers"
+    ]
+  },
+  "fault_level_with_D2": {
+    "by_fault": {
+      "F1": [
+        {
+          "variant": "F1 noise x0.25",
+          "detected_by": [
+            "B_whitebox_any",
+            "C_informed_attack"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F1 noise x0.5",
+          "detected_by": [
+            "B_whitebox_any",
+            "C_informed_attack"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F1 noise x2",
+          "detected_by": [
+            "B_whitebox_any"
+          ],
+          "detected": true
+        }
+      ],
+      "F2": [
+        {
+          "variant": "F2 clipping skipped",
+          "detected_by": [
+            "B_whitebox_any"
+          ],
+          "detected": true
+        }
+      ],
+      "F3": [
+        {
+          "variant": "F3 plaintext fallback, logs kept",
+          "detected_by": [
+            "D2_error_distribution"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F3 plaintext fallback, no workflow markers",
+          "detected_by": [
+            "D2_error_distribution"
+          ],
+          "detected": true
+        }
+      ],
+      "F4": [
+        {
+          "variant": "F4 dropout below threshold tolerated",
+          "detected_by": [
+            "A_existing_gates"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F4 dropout at threshold halts (off by one)",
+          "detected_by": [
+            "A_existing_gates"
+          ],
+          "detected": true
+        },
+        {
+          "variant": "F4 dropped client's cached update reused",
+          "detected_by": [
+            "A_existing_gates",
+            "D1_error_bound",
+            "D2_error_distribution"
+          ],
+          "detected": true
+        }
+      ],
+      "F5": [
+        {
+          "variant": "F5 stale global model",
+          "detected_by": [
+            "A_existing_gates",
+            "D1_error_bound",
+            "D2_error_distribution"
+          ],
+          "detected": true
+        }
+      ]
+    },
+    "detected": {
+      "F1": true,
+      "F2": true,
+      "F3": true,
+      "F4": true,
+      "F5": true
+    },
+    "n_detected": 5,
+    "evading_faults": [],
+    "evading_variants": []
+  }
+}
