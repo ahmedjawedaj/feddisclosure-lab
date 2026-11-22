@@ -1,0 +1,116 @@
+[
+  {
+    "id": "W1",
+    "prediction": "Inversion on one captured masked vector is at the label floor",
+    "observed": {
+      "seeds": 5,
+      "attack_rate": 0.0,
+      "attack_wilson95": [
+        0.0,
+        0.08762160119728664
+      ],
+      "floor_rate": 0.725,
+      "floor_wilson95": [
+        0.5716504419378943,
+        0.8389198375233267
+      ],
+      "margin": 0.05,
+      "attack_mean_mse": 0.35933074206113813,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  {
+    "id": "W2",
+    "prediction": "The dequantised captured aggregate matches the exact weighted mean inside the one-round bound",
+    "observed": {
+      "runs": 5,
+      "worst_max_error": 0.00035642821937062474,
+      "bound": 0.0004768432982595912,
+      "worst_error_over_bound": 0.7474745281553415,
+      "runs_all_below_bound": 5,
+      "coordinates_per_run": 2410,
+      "T": 134216,
+      "n": 4,
+      "no_clipping_in_all_runs": true,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  {
+    "id": "W3",
+    "prediction": "Attack results on the captured aggregate agree with the simulated results",
+    "observed": {
+      "seeds": 5,
+      "min_seeds": 5,
+      "captured_rate": 0.575,
+      "captured_wilson95": [
+        0.42195068541991065,
+        0.7149060744004962
+      ],
+      "simulated_rate": 0.575,
+      "simulated_wilson95": [
+        0.42195068541991065,
+        0.7149060744004962
+      ],
+      "captured_mean_mse": 0.05282023309264332,
+      "simulated_mean_mse": 0.05282023309264332,
+      "abs_rate_difference": 0.0,
+      "abs_mse_difference": 0.0,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  {
+    "id": "W4",
+    "prediction": "In plaintext mode a passive observer on the relay recovers individual updates",
+    "observed": {
+      "seeds": 5,
+      "recognisable_rate": 0.975,
+      "wilson95": [
+        0.8711863103652591,
+        0.9955731684973186
+      ],
+      "threshold": 0.85,
+      "relay_updates_equal_proxy": 20,
+      "relay_updates_checked": 20,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  {
+    "id": "W5",
+    "prediction": "Per-client sample counts and metrics are visible to the server in clear",
+    "observed": {
+      "replies": 20,
+      "visible_in_clear": 20,
+      "fraction": 1.0,
+      "metric_keys_seen": [],
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  },
+  {
+    "id": "W6",
+    "prediction": "The relay stream and the proxy record agree",
+    "observed": {
+      "objects": 100,
+      "found_in_relay": 100,
+      "methods": {
+        "blob_hash": 100,
+        "float32_bytes": 100,
+        "either": 100,
+        "missing": 0
+      },
+      "relay_logs_consistent": true,
+      "seeds_with_result": 5,
+      "seeds_requested": 5
+    },
+    "pass": true
+  }
+]
