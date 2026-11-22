@@ -10,6 +10,7 @@ All notable changes are listed here, newest first. The format follows [Keep a Ch
 ### Fixed
 - `scripts/verify_compose_isolation.py` assumed all four services share one network. The gateway now also joins a separate `edge` network so the host can reach its loopback port. The check now requires the three institutions to share exactly one internal-only network and allows the gateway one extra network. The first hosted `tests` run failed on this and the other five jobs passed.
 - The gateway had no healthcheck, so `docker compose up --wait` could return before it was listening. The history gate then failed intermittently on a connection error, passing on one commit and failing on the next. The gateway now has a `/health` healthcheck.
+- The native Flower Docker run failed on the unprivileged hosted runner with `Permission denied` on `clients/site-0/events.jsonl`. The container wrote the attestation file as mode 0600 under its own uid, and the runner user could not read it. It is now mode 0644. The file holds digests and counts only. This never showed in the root sandbox where the earlier native runs were produced.
 
 ## [0.14.2] - 2026-11-22
 
