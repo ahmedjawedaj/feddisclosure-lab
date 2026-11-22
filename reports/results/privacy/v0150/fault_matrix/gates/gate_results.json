@@ -1,0 +1,1389 @@
+{
+  "variants": {
+    "control": {
+      "matrix": {
+        "script": "verify_secagg_dropout_matrix.py",
+        "exit_code": 0,
+        "channels": {
+          "rule:n4-t2-kill1-r2": true,
+          "tolerance:n4-t2-kill1-r2": true,
+          "rule:n4-t3-kill1-r2": true,
+          "tolerance:n4-t3-kill1-r2": true,
+          "rule:n4-t2-kill2-r2": true,
+          "tolerance:n4-t2-kill2-r2": true,
+          "rule:n4-t3-kill2-r2": true,
+          "rule:n3-t2-kill1-r2": true,
+          "tolerance:n3-t2-kill1-r2": true,
+          "n4_full_participation_equivalence": false,
+          "n4_one_round_bound": true,
+          "replicate:baseline": false,
+          "replicate:rep1": true,
+          "replicate:rep2": true,
+          "replicate:rep3": true
+        },
+        "scenario_report_fields": {
+          "n4-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t2-kill2-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill2-r2": {
+            "protocol_outcome": "HALTED",
+            "results_per_round": [
+              4
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 1,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n3-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              3,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          }
+        },
+        "tamper_log": [],
+        "max_abs_diffs": {
+          "n4-t2-kill1-r2": 3.776123373039342e-05,
+          "n4-t3-kill1-r2": 4.248803946549362e-05,
+          "n4-t2-kill2-r2": 4.604584535237641e-05,
+          "n3-t2-kill1-r2": 3.353791511004345e-05
+        },
+        "n4_full": {
+          "secagg_vs_plaintext_control_max_abs_diff": 0.00018877285325542836,
+          "secagg_vs_independent_pytorch_max_abs_diff": 0.00018877285325542836,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 7.947285970052083e-05,
+          "within_tolerance": false,
+          "secagg_run_certified_native": true
+        },
+        "one_round": {
+          "max_abs_diff": 3.2218191441807376e-05,
+          "bound": 3.9736429850260414e-05,
+          "within_bound": true,
+          "note": "Single round, so the derived worst-case quantisation bound applies directly."
+        },
+        "verdict": {
+          "flagged": false,
+          "newly_failing_channels": [],
+          "channels_failing_on_honest_evidence": [
+            "n4_full_participation_equivalence",
+            "replicate:baseline"
+          ]
+        }
+      },
+      "native": {
+        "script": "verify_secagg_native.py",
+        "channels": {
+          "equivalence_2_rounds": true,
+          "single_round:max_weight_1000": true,
+          "single_round:max_weight_200": true
+        },
+        "tamper_log": [],
+        "report_fields_for_secagg_on_t2_n3": {
+          "secagg-on-t2-n3": {
+            "secure_aggregation_enabled": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow"
+          }
+        },
+        "equivalence_2_rounds": {
+          "secagg_vs_plaintext_control_max_abs_diff": 3.5560221128716485e-05,
+          "secagg_vs_independent_pytorch_max_abs_diff": 3.5560221128716485e-05,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 5.9604644775390625e-05,
+          "within_tolerance": true
+        },
+        "verdict": {
+          "flagged": false,
+          "newly_failing_channels": [],
+          "channels_failing_on_honest_evidence": []
+        }
+      },
+      "parity": {
+        "script": "verify_flower_parity.py",
+        "channels": {
+          "numerical_parity": true
+        },
+        "max_abs_diff": 2.9802322387695312e-08,
+        "error": null,
+        "tamper_log": [],
+        "verdict": {
+          "flagged": false,
+          "newly_failing_channels": [],
+          "channels_failing_on_honest_evidence": []
+        }
+      },
+      "any_existing_gate_flags": null
+    },
+    "plaintext_fallback": {
+      "matrix": {
+        "script": "verify_secagg_dropout_matrix.py",
+        "exit_code": 0,
+        "channels": {
+          "rule:n4-t2-kill1-r2": true,
+          "tolerance:n4-t2-kill1-r2": true,
+          "rule:n4-t3-kill1-r2": true,
+          "tolerance:n4-t3-kill1-r2": true,
+          "rule:n4-t2-kill2-r2": true,
+          "tolerance:n4-t2-kill2-r2": true,
+          "rule:n4-t3-kill2-r2": true,
+          "rule:n3-t2-kill1-r2": true,
+          "tolerance:n3-t2-kill1-r2": true,
+          "n4_full_participation_equivalence": true,
+          "n4_one_round_bound": true,
+          "replicate:baseline": true,
+          "replicate:rep1": true,
+          "replicate:rep2": true,
+          "replicate:rep3": true
+        },
+        "scenario_report_fields": {
+          "n4-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t2-kill2-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill2-r2": {
+            "protocol_outcome": "HALTED",
+            "results_per_round": [
+              4
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 1,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n3-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              3,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          }
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_dropout_matrix/n4-t2-kill1-r2/server/final_model.pt",
+            "what": "n4-t2-kill1-r2: final model replaced by the plaintext_fallback result",
+            "sha256_before": "fccdd0559761eba6968966ef66be1ec01fc5fdae897090a31b1714a5732ebf5f",
+            "sha256_after": "33ef0f19f265aa3bd158dfc024e7f34908a7ce7bb083c5385ca31b3eaa6c6991"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_dropout_matrix/n4-t3-kill1-r2/server/final_model.pt",
+            "what": "n4-t3-kill1-r2: final model replaced by the plaintext_fallback result",
+            "sha256_before": "9cccc17b97527a4a62dc841036ce58cb3cbf7aa1ce2de7eb10b209285fb7d921",
+            "sha256_after": "33ef0f19f265aa3bd158dfc024e7f34908a7ce7bb083c5385ca31b3eaa6c6991"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_dropout_matrix/n4-t2-kill2-r2/server/final_model.pt",
+            "what": "n4-t2-kill2-r2: final model replaced by the plaintext_fallback result",
+            "sha256_before": "71212968344974c4dbb9f5c28a0072c00c51be7b46f9fdd5b9df4d42dd8baecf",
+            "sha256_after": "b50b89f35f896f91716f9d1fa07a226c10ac38e6e8dcc0acbabe08e59374d927"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_dropout_matrix/n3-t2-kill1-r2/server/final_model.pt",
+            "what": "n3-t2-kill1-r2: final model replaced by the plaintext_fallback result",
+            "sha256_before": "c5be9d87785d61ecba6c3e989414ecac986d4e6787f0b3e9dbc9e407c69def6d",
+            "sha256_after": "3e069676fc3712c5aacaac7120bece8aff8098ed03fc4a400787b2a6293f5731"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_dropout_matrix/n4-1round-secagg/server/final_model.pt",
+            "what": "n4-1round-secagg: final model replaced by the plaintext_fallback result",
+            "sha256_before": "001349f8e49ebf1bdb512328fe29eb16938198fe24a746ec0e605cad61dea4e8",
+            "sha256_after": "bbe462d4c1f5ca40850b7b7b2ae736b069bf7d52ebe5a539ea23f3aab2ab645b"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_n4/n4-t2-baseline/server/final_model.pt",
+            "what": "baseline: final model replaced by the plaintext_fallback result",
+            "sha256_before": "5d939ba81dd70e6626ea711371876586339466d2bc97962b1b033f8b79757edc",
+            "sha256_after": "3cebb7ecccbb5b6de4eb1a3706bade9eafcb5aef05d5e15ae747b964ec512073"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_n4_replicates/rep1/server/final_model.pt",
+            "what": "rep1: final model replaced by the plaintext_fallback result",
+            "sha256_before": "070585cdff9c9e60ace9e3b5d6f09a4e7e53fa96e6b1dccb72cf3ec9137dd09d",
+            "sha256_after": "3cebb7ecccbb5b6de4eb1a3706bade9eafcb5aef05d5e15ae747b964ec512073"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_n4_replicates/rep2/server/final_model.pt",
+            "what": "rep2: final model replaced by the plaintext_fallback result",
+            "sha256_before": "27aafac1237bc14d73e68d7f1e1bf013a2c180f0d42352772abc2421a92a89db",
+            "sha256_after": "3cebb7ecccbb5b6de4eb1a3706bade9eafcb5aef05d5e15ae747b964ec512073"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/matrix/v014_n4_replicates/rep3/server/final_model.pt",
+            "what": "rep3: final model replaced by the plaintext_fallback result",
+            "sha256_before": "d12a66c1c31047f787dad34ddd092c8eb1ec0f39ef93b97cce95c1b7609da323",
+            "sha256_after": "3cebb7ecccbb5b6de4eb1a3706bade9eafcb5aef05d5e15ae747b964ec512073"
+          }
+        ],
+        "max_abs_diffs": {
+          "n4-t2-kill1-r2": 2.9802322387695312e-08,
+          "n4-t3-kill1-r2": 2.9802322387695312e-08,
+          "n4-t2-kill2-r2": 2.2351741790771484e-08,
+          "n3-t2-kill1-r2": 2.9802322387695312e-08
+        },
+        "n4_full": {
+          "secagg_vs_plaintext_control_max_abs_diff": 2.9802322387695312e-08,
+          "secagg_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 7.947285970052083e-05,
+          "within_tolerance": true,
+          "secagg_run_certified_native": true
+        },
+        "one_round": {
+          "max_abs_diff": 1.4901161193847656e-08,
+          "bound": 3.9736429850260414e-05,
+          "within_bound": true,
+          "note": "Single round, so the derived worst-case quantisation bound applies directly."
+        },
+        "verdict": {
+          "flagged": false,
+          "newly_failing_channels": [],
+          "channels_failing_on_honest_evidence": [
+            "n4_full_participation_equivalence",
+            "replicate:baseline"
+          ]
+        }
+      },
+      "native": {
+        "script": "verify_secagg_native.py",
+        "channels": {
+          "equivalence_2_rounds": true,
+          "single_round:max_weight_1000": true,
+          "single_round:max_weight_200": true
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/native/v014/secagg-on-t2-n3/server/final_model.pt",
+            "what": "secagg-on-t2-n3: final model replaced by the plaintext_fallback result",
+            "sha256_before": "ecb7bb68e71e508fa3bfa034797522e5318e949fb53259181948b89da0295201",
+            "sha256_after": "bb6e523d2f42283eff3f385a8a9b1a3ed79d78a1fd9c426952ffc82c0459c260"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/native/v014/secagg-1round-collusion/server/final_model.pt",
+            "what": "secagg-1round-collusion: final model replaced by the plaintext_fallback result",
+            "sha256_before": "0b696e702559cea41ef7b71f6b17afeb979fb3d2a19c3fc6105c1639a1c438ba",
+            "sha256_after": "52d7b4bef272ac95370bd89763ede313d505060677038bafe56cd6bf36f6dca0"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback/native/v014/secagg-1round-maxweight200/server/final_model.pt",
+            "what": "secagg-1round-maxweight200: final model replaced by the plaintext_fallback result",
+            "sha256_before": "9bb00078703dc09d0178357f9f69faccbc70869a04aadfc67e1fd2fcff9727b4",
+            "sha256_after": "52d7b4bef272ac95370bd89763ede313d505060677038bafe56cd6bf36f6dca0"
+          }
+        ],
+        "report_fields_for_secagg_on_t2_n3": {
+          "secagg-on-t2-n3": {
+            "secure_aggregation_enabled": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow"
+          }
+        },
+        "equivalence_2_rounds": {
+          "secagg_vs_plaintext_control_max_abs_diff": 2.9802322387695312e-08,
+          "secagg_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 5.9604644775390625e-05,
+          "within_tolerance": true
+        },
+        "verdict": {
+          "flagged": false,
+          "newly_failing_channels": [],
+          "channels_failing_on_honest_evidence": []
+        }
+      },
+      "parity": null,
+      "any_existing_gate_flags": false
+    },
+    "plaintext_fallback_no_markers": {
+      "matrix": {
+        "script": "verify_secagg_dropout_matrix.py",
+        "exit_code": 0,
+        "channels": {
+          "rule:n4-t2-kill1-r2": true,
+          "tolerance:n4-t2-kill1-r2": true,
+          "rule:n4-t3-kill1-r2": true,
+          "tolerance:n4-t3-kill1-r2": true,
+          "rule:n4-t2-kill2-r2": true,
+          "tolerance:n4-t2-kill2-r2": true,
+          "rule:n4-t3-kill2-r2": true,
+          "rule:n3-t2-kill1-r2": true,
+          "tolerance:n3-t2-kill1-r2": true,
+          "n4_full_participation_equivalence": true,
+          "n4_one_round_bound": true,
+          "replicate:baseline": true,
+          "replicate:rep1": true,
+          "replicate:rep2": true,
+          "replicate:rep3": true
+        },
+        "scenario_report_fields": {
+          "n4-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 0,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n4-t3-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 0,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n4-t2-kill2-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 0,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n4-t3-kill2-r2": {
+            "protocol_outcome": "HALTED",
+            "results_per_round": [
+              4
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 1,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n3-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              3,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 0,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          }
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t2-kill1-r2/server/final_model.pt",
+            "what": "n4-t2-kill1-r2: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "fccdd0559761eba6968966ef66be1ec01fc5fdae897090a31b1714a5732ebf5f",
+            "sha256_after": "33ef0f19f265aa3bd158dfc024e7f34908a7ce7bb083c5385ca31b3eaa6c6991"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t2-kill1-r2/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "892a2ef07c6c6b4bd8a01d9ecccb64a914c7e07c9ba45208a062d2da3b20d664",
+            "sha256_after": "3a8a02aa14f507d81508bbbeec89fb5725c75bea9f88c72ec17dce442c207241"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t2-kill1-r2/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "3861f2c13257afa5b060dd4b4768cd0670ecb8fb7541f41fb0052b0c683104a8",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t3-kill1-r2/server/final_model.pt",
+            "what": "n4-t3-kill1-r2: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "9cccc17b97527a4a62dc841036ce58cb3cbf7aa1ce2de7eb10b209285fb7d921",
+            "sha256_after": "33ef0f19f265aa3bd158dfc024e7f34908a7ce7bb083c5385ca31b3eaa6c6991"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t3-kill1-r2/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "025ecfe353100e98ef2549a38ddaa701861f941fa6e81fb3ad292b52d4fdfc6f",
+            "sha256_after": "a58d388b0c20d6d5a05cb72402674d05564e20b9615c733b699ffca96f44004d"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t3-kill1-r2/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "b66ea10fdd0f411da47d3f37372e7e830e08aeeed2e8e5b952918ec049479139",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t2-kill2-r2/server/final_model.pt",
+            "what": "n4-t2-kill2-r2: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "71212968344974c4dbb9f5c28a0072c00c51be7b46f9fdd5b9df4d42dd8baecf",
+            "sha256_after": "b50b89f35f896f91716f9d1fa07a226c10ac38e6e8dcc0acbabe08e59374d927"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t2-kill2-r2/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "0f851a608b6d91da7933713ed8348ebaa5aea506d131afbb8aa4593c51e0d2c6",
+            "sha256_after": "e186b1e74a32eaeb0b744626cd4f49fdb1073c13f7b4c8a40b2cfa9cce118d4c"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-t2-kill2-r2/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "3861f2c13257afa5b060dd4b4768cd0670ecb8fb7541f41fb0052b0c683104a8",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n3-t2-kill1-r2/server/final_model.pt",
+            "what": "n3-t2-kill1-r2: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "c5be9d87785d61ecba6c3e989414ecac986d4e6787f0b3e9dbc9e407c69def6d",
+            "sha256_after": "3e069676fc3712c5aacaac7120bece8aff8098ed03fc4a400787b2a6293f5731"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n3-t2-kill1-r2/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "59a55d4d3212273b8036289f311b79726942895a126e8c74c42fcd76263b039f",
+            "sha256_after": "e112823fd1cec7b59e7aaf91a1ff31aca20ba2e8dd541f510a6575bd4c4dd0ac"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n3-t2-kill1-r2/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "724730c2d3c2f415821ccdf37f6e90de30f9d05a7cdb99934a38e06b129488d5",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-1round-secagg/server/final_model.pt",
+            "what": "n4-1round-secagg: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "001349f8e49ebf1bdb512328fe29eb16938198fe24a746ec0e605cad61dea4e8",
+            "sha256_after": "bbe462d4c1f5ca40850b7b7b2ae736b069bf7d52ebe5a539ea23f3aab2ab645b"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-1round-secagg/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "fddb90ebd61a0c33d02283966fc18a6e7e5e40d3943c0e62bb78adc7a10337ef",
+            "sha256_after": "ef10001b90afac64f5948f6071a0646f78e8ab3a8c7efe8acf6a35d4d5d182f3"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_dropout_matrix/n4-1round-secagg/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "f5e1340474524cb6bfd7b23041346f9c311638445aa2329d05879a4e29eecf55",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4/n4-t2-baseline/server/final_model.pt",
+            "what": "baseline: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "5d939ba81dd70e6626ea711371876586339466d2bc97962b1b033f8b79757edc",
+            "sha256_after": "3cebb7ecccbb5b6de4eb1a3706bade9eafcb5aef05d5e15ae747b964ec512073"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4/n4-t2-baseline/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "8eb71158656005af9e3cd4405dd3c67350fabd2fe846ee5247001b6134e6fc56",
+            "sha256_after": "4e412a35ed10c108affc4a7aa1c8b163cd2a5befa7be020947ee1ac1e997df54"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4/n4-t2-baseline/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "3861f2c13257afa5b060dd4b4768cd0670ecb8fb7541f41fb0052b0c683104a8",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep1/server/final_model.pt",
+            "what": "rep1: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "070585cdff9c9e60ace9e3b5d6f09a4e7e53fa96e6b1dccb72cf3ec9137dd09d",
+            "sha256_after": "3cebb7ecccbb5b6de4eb1a3706bade9eafcb5aef05d5e15ae747b964ec512073"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep1/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "1487d847ee37f31262c79de44e66e92036e5591b6e463c1f18f4d645cd824747",
+            "sha256_after": "212fbdef0c9b52a79795a31f5e4f61e8ada7a0ccec81f19839752c3149f1f941"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep1/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "3861f2c13257afa5b060dd4b4768cd0670ecb8fb7541f41fb0052b0c683104a8",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep2/server/final_model.pt",
+            "what": "rep2: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "27aafac1237bc14d73e68d7f1e1bf013a2c180f0d42352772abc2421a92a89db",
+            "sha256_after": "3cebb7ecccbb5b6de4eb1a3706bade9eafcb5aef05d5e15ae747b964ec512073"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep2/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "0cf058a5073a13ba63dd8914b0e7859b639ef4ec74d9340cc65fd60344475c48",
+            "sha256_after": "74f1649492812cd63ec0c3f84eb16a2b7142f1d7cf3449653e2123d24cce9c89"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep2/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "3861f2c13257afa5b060dd4b4768cd0670ecb8fb7541f41fb0052b0c683104a8",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep3/server/final_model.pt",
+            "what": "rep3: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "d12a66c1c31047f787dad34ddd092c8eb1ec0f39ef93b97cce95c1b7609da323",
+            "sha256_after": "3cebb7ecccbb5b6de4eb1a3706bade9eafcb5aef05d5e15ae747b964ec512073"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep3/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "4d3ae76344d2181434a5cd789a5194592c1d3c55cfdb74142bf034b32b28a198",
+            "sha256_after": "e9108e7d8d6a93ccc22e64945b4566ad3d0ec07d1801dfe8ae8012a9d998790e"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/matrix/v014_n4_replicates/rep3/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "3861f2c13257afa5b060dd4b4768cd0670ecb8fb7541f41fb0052b0c683104a8",
+            "sha256_after": null
+          }
+        ],
+        "max_abs_diffs": {
+          "n4-t2-kill1-r2": 2.9802322387695312e-08,
+          "n4-t3-kill1-r2": 2.9802322387695312e-08,
+          "n4-t2-kill2-r2": 2.2351741790771484e-08,
+          "n3-t2-kill1-r2": 2.9802322387695312e-08
+        },
+        "n4_full": {
+          "secagg_vs_plaintext_control_max_abs_diff": 2.9802322387695312e-08,
+          "secagg_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 7.947285970052083e-05,
+          "within_tolerance": true,
+          "secagg_run_certified_native": true
+        },
+        "one_round": {
+          "max_abs_diff": 1.4901161193847656e-08,
+          "bound": 3.9736429850260414e-05,
+          "within_bound": true,
+          "note": "Single round, so the derived worst-case quantisation bound applies directly."
+        },
+        "verdict": {
+          "flagged": false,
+          "newly_failing_channels": [],
+          "channels_failing_on_honest_evidence": [
+            "n4_full_participation_equivalence",
+            "replicate:baseline"
+          ]
+        }
+      },
+      "native": {
+        "script": "verify_secagg_native.py",
+        "channels": {
+          "equivalence_2_rounds": true,
+          "single_round:max_weight_1000": true,
+          "single_round:max_weight_200": true
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-on-t2-n3/server/final_model.pt",
+            "what": "secagg-on-t2-n3: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "ecb7bb68e71e508fa3bfa034797522e5318e949fb53259181948b89da0295201",
+            "sha256_after": "bb6e523d2f42283eff3f385a8a9b1a3ed79d78a1fd9c426952ffc82c0459c260"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-on-t2-n3/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "b1ca17bdad6bf0473e9b929cbd16e93c87628ed7c2f9d1f40b9ea1572441cff1",
+            "sha256_after": "11561e40789e9ec4377fc6f1d63227c3055f6affe3f50f6050deecf5685c0025"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-on-t2-n3/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "724730c2d3c2f415821ccdf37f6e90de30f9d05a7cdb99934a38e06b129488d5",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-1round-collusion/server/final_model.pt",
+            "what": "secagg-1round-collusion: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "0b696e702559cea41ef7b71f6b17afeb979fb3d2a19c3fc6105c1639a1c438ba",
+            "sha256_after": "52d7b4bef272ac95370bd89763ede313d505060677038bafe56cd6bf36f6dca0"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-1round-collusion/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "6f77c36fae1661386d1352ad2b4e17c82757433697cc785c13340a6ac74651d0",
+            "sha256_after": "c9a69c7a7342e99f39027cd46393a33df3c2667d58bad7dcda1f7f07fa393d31"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-1round-collusion/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "2b899bda70c1392e9f57e5813da5c4772aaa441d0a76201685f6e6404a9a8f10",
+            "sha256_after": null
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-1round-maxweight200/server/final_model.pt",
+            "what": "secagg-1round-maxweight200: final model replaced by the plaintext_fallback_no_markers result",
+            "sha256_before": "9bb00078703dc09d0178357f9f69faccbc70869a04aadfc67e1fd2fcff9727b4",
+            "sha256_after": "52d7b4bef272ac95370bd89763ede313d505060677038bafe56cd6bf36f6dca0"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-1round-maxweight200/flower_cli_stdout.log",
+            "what": "removed the Secure aggregation lines, as a run that never entered the workflow",
+            "sha256_before": "55399ba4b2016f9e8beba91022dce27d3c0fb4d73d7402b457a4fbc4d3f3a35f",
+            "sha256_after": "ad863eed5bee35bc5b1669dc5dee8af9b84c796121917c531f9c5e5c67c60fa0"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/plaintext_fallback_no_markers/native/v014/secagg-1round-maxweight200/server/secagg_workflow_returned.json",
+            "what": "deleted, the workflow never ran",
+            "sha256_before": "2b899bda70c1392e9f57e5813da5c4772aaa441d0a76201685f6e6404a9a8f10",
+            "sha256_after": null
+          }
+        ],
+        "report_fields_for_secagg_on_t2_n3": {
+          "secagg-on-t2-n3": {
+            "secure_aggregation_enabled": null,
+            "secure_aggregation_completed_lines": 0,
+            "workflow_engine": null
+          }
+        },
+        "equivalence_2_rounds": {
+          "secagg_vs_plaintext_control_max_abs_diff": 2.9802322387695312e-08,
+          "secagg_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 5.9604644775390625e-05,
+          "within_tolerance": true
+        },
+        "verdict": {
+          "flagged": false,
+          "newly_failing_channels": [],
+          "channels_failing_on_honest_evidence": []
+        }
+      },
+      "parity": null,
+      "any_existing_gate_flags": false
+    },
+    "stale_model": {
+      "matrix": {
+        "script": "verify_secagg_dropout_matrix.py",
+        "exit_code": 0,
+        "channels": {
+          "rule:n4-t2-kill1-r2": true,
+          "tolerance:n4-t2-kill1-r2": false,
+          "rule:n4-t3-kill1-r2": true,
+          "tolerance:n4-t3-kill1-r2": false,
+          "rule:n4-t2-kill2-r2": true,
+          "tolerance:n4-t2-kill2-r2": false,
+          "rule:n4-t3-kill2-r2": true,
+          "rule:n3-t2-kill1-r2": true,
+          "tolerance:n3-t2-kill1-r2": false,
+          "n4_full_participation_equivalence": false,
+          "n4_one_round_bound": true,
+          "replicate:baseline": false,
+          "replicate:rep1": false,
+          "replicate:rep2": false,
+          "replicate:rep3": false
+        },
+        "scenario_report_fields": {
+          "n4-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t2-kill2-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill2-r2": {
+            "protocol_outcome": "HALTED",
+            "results_per_round": [
+              4
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 1,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n3-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              3,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          }
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/matrix/v014_dropout_matrix/n4-t2-kill1-r2/server/final_model.pt",
+            "what": "n4-t2-kill1-r2: final model replaced by the stale_model result",
+            "sha256_before": "fccdd0559761eba6968966ef66be1ec01fc5fdae897090a31b1714a5732ebf5f",
+            "sha256_after": "89eadcd654e27aa0b0af76e60a45d963ccbf4ea9bb0d5dfe899bf6807418171c"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/matrix/v014_dropout_matrix/n4-t3-kill1-r2/server/final_model.pt",
+            "what": "n4-t3-kill1-r2: final model replaced by the stale_model result",
+            "sha256_before": "9cccc17b97527a4a62dc841036ce58cb3cbf7aa1ce2de7eb10b209285fb7d921",
+            "sha256_after": "89eadcd654e27aa0b0af76e60a45d963ccbf4ea9bb0d5dfe899bf6807418171c"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/matrix/v014_dropout_matrix/n4-t2-kill2-r2/server/final_model.pt",
+            "what": "n4-t2-kill2-r2: final model replaced by the stale_model result",
+            "sha256_before": "71212968344974c4dbb9f5c28a0072c00c51be7b46f9fdd5b9df4d42dd8baecf",
+            "sha256_after": "555f7dd7df62ff3abe4a5f251b8fe8df60102d603a5dbc86cfe01eafcb3b6c4a"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/matrix/v014_dropout_matrix/n3-t2-kill1-r2/server/final_model.pt",
+            "what": "n3-t2-kill1-r2: final model replaced by the stale_model result",
+            "sha256_before": "c5be9d87785d61ecba6c3e989414ecac986d4e6787f0b3e9dbc9e407c69def6d",
+            "sha256_after": "bed8f1bfbea47407e17c2a6b319e5eed7a94eba454bb754ef9f72b73667c0114"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/matrix/v014_n4/n4-t2-baseline/server/final_model.pt",
+            "what": "baseline: final model replaced by the stale_model result",
+            "sha256_before": "5d939ba81dd70e6626ea711371876586339466d2bc97962b1b033f8b79757edc",
+            "sha256_after": "a57a8619f73eb285edc669933c3f01a8489cb674e66fb41d04e89418b9b32335"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/matrix/v014_n4_replicates/rep1/server/final_model.pt",
+            "what": "rep1: final model replaced by the stale_model result",
+            "sha256_before": "070585cdff9c9e60ace9e3b5d6f09a4e7e53fa96e6b1dccb72cf3ec9137dd09d",
+            "sha256_after": "a57a8619f73eb285edc669933c3f01a8489cb674e66fb41d04e89418b9b32335"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/matrix/v014_n4_replicates/rep2/server/final_model.pt",
+            "what": "rep2: final model replaced by the stale_model result",
+            "sha256_before": "27aafac1237bc14d73e68d7f1e1bf013a2c180f0d42352772abc2421a92a89db",
+            "sha256_after": "a57a8619f73eb285edc669933c3f01a8489cb674e66fb41d04e89418b9b32335"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/matrix/v014_n4_replicates/rep3/server/final_model.pt",
+            "what": "rep3: final model replaced by the stale_model result",
+            "sha256_before": "d12a66c1c31047f787dad34ddd092c8eb1ec0f39ef93b97cce95c1b7609da323",
+            "sha256_after": "a57a8619f73eb285edc669933c3f01a8489cb674e66fb41d04e89418b9b32335"
+          }
+        ],
+        "max_abs_diffs": {
+          "n4-t2-kill1-r2": 0.004309371113777161,
+          "n4-t3-kill1-r2": 0.004309371113777161,
+          "n4-t2-kill2-r2": 0.006462767720222473,
+          "n3-t2-kill1-r2": 0.008440107107162476
+        },
+        "n4_full": {
+          "secagg_vs_plaintext_control_max_abs_diff": 0.003233104944229126,
+          "secagg_vs_independent_pytorch_max_abs_diff": 0.003233090043067932,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 7.947285970052083e-05,
+          "within_tolerance": false,
+          "secagg_run_certified_native": true
+        },
+        "one_round": {
+          "max_abs_diff": 3.2218191441807376e-05,
+          "bound": 3.9736429850260414e-05,
+          "within_bound": true,
+          "note": "Single round, so the derived worst-case quantisation bound applies directly."
+        },
+        "verdict": {
+          "flagged": true,
+          "newly_failing_channels": [
+            "replicate:rep1",
+            "replicate:rep2",
+            "replicate:rep3",
+            "tolerance:n3-t2-kill1-r2",
+            "tolerance:n4-t2-kill1-r2",
+            "tolerance:n4-t2-kill2-r2",
+            "tolerance:n4-t3-kill1-r2"
+          ],
+          "channels_failing_on_honest_evidence": [
+            "n4_full_participation_equivalence",
+            "replicate:baseline"
+          ]
+        }
+      },
+      "native": {
+        "script": "verify_secagg_native.py",
+        "channels": {
+          "equivalence_2_rounds": false,
+          "single_round:max_weight_1000": true,
+          "single_round:max_weight_200": true
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/native/v014/secagg-on-t2-n3/server/final_model.pt",
+            "what": "secagg-on-t2-n3: final model replaced by the stale_model result",
+            "sha256_before": "ecb7bb68e71e508fa3bfa034797522e5318e949fb53259181948b89da0295201",
+            "sha256_after": "c2388212735db3ddbac43c1abc2e892207b972c298d3cbef7e1be81c78a0f4e3"
+          }
+        ],
+        "report_fields_for_secagg_on_t2_n3": {
+          "secagg-on-t2-n3": {
+            "secure_aggregation_enabled": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow"
+          }
+        },
+        "equivalence_2_rounds": {
+          "secagg_vs_plaintext_control_max_abs_diff": 0.005620419979095459,
+          "secagg_vs_independent_pytorch_max_abs_diff": 0.005620434880256653,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 5.9604644775390625e-05,
+          "within_tolerance": false
+        },
+        "verdict": {
+          "flagged": true,
+          "newly_failing_channels": [
+            "equivalence_2_rounds"
+          ],
+          "channels_failing_on_honest_evidence": []
+        }
+      },
+      "parity": {
+        "script": "verify_flower_parity.py",
+        "channels": {
+          "numerical_parity": false
+        },
+        "max_abs_diff": 0.005630657076835632,
+        "error": null,
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/stale_model/parity/run-iid-d/server/final_model.pt",
+            "what": "final model of a run where client 1 trained from a stale global model in round 2",
+            "sha256_before": "f54ae5ead1f00c657b6ed65c3d82aaa6dc8c4c8582b5d21e12c9622f689f4290",
+            "sha256_after": "9c7feb63638f95442e94512b62efb720de913522dbd6294038a9b0e026050fc8"
+          }
+        ],
+        "verdict": {
+          "flagged": true,
+          "newly_failing_channels": [
+            "numerical_parity"
+          ],
+          "channels_failing_on_honest_evidence": []
+        }
+      },
+      "any_existing_gate_flags": true
+    },
+    "wrong_threshold_low": {
+      "matrix": {
+        "script": "verify_secagg_dropout_matrix.py",
+        "exit_code": 0,
+        "channels": {
+          "rule:n4-t2-kill1-r2": true,
+          "tolerance:n4-t2-kill1-r2": true,
+          "rule:n4-t3-kill1-r2": true,
+          "tolerance:n4-t3-kill1-r2": true,
+          "rule:n4-t2-kill2-r2": true,
+          "tolerance:n4-t2-kill2-r2": true,
+          "rule:n4-t3-kill2-r2": false,
+          "tolerance:n4-t3-kill2-r2": true,
+          "rule:n3-t2-kill1-r2": true,
+          "tolerance:n3-t2-kill1-r2": true,
+          "n4_full_participation_equivalence": false,
+          "n4_one_round_bound": true,
+          "replicate:baseline": false,
+          "replicate:rep1": true,
+          "replicate:rep2": true,
+          "replicate:rep3": true
+        },
+        "scenario_report_fields": {
+          "n4-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t2-kill2-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill2-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              2
+            ],
+            "prediction_matches_outcome": false,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n3-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              3,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          }
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_low/matrix/v014_dropout_matrix/n4-t3-kill2-r2/flower_cli_stdout.log",
+            "what": "log of a run that tolerated the loss of 2 of 4 clients at threshold 3",
+            "sha256_before": "f751f9ee712cf78997bc3d90edb516c5dcbf30e56ce4615cbcf6758268ebf153",
+            "sha256_after": "0f851a608b6d91da7933713ed8348ebaa5aea506d131afbb8aa4593c51e0d2c6"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_low/matrix/v014_dropout_matrix/n4-t3-kill2-r2/server/final_model.pt",
+            "what": "copied from a tolerated run",
+            "sha256_before": null,
+            "sha256_after": "71212968344974c4dbb9f5c28a0072c00c51be7b46f9fdd5b9df4d42dd8baecf"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_low/matrix/v014_dropout_matrix/n4-t3-kill2-r2/server/flower_summary.json",
+            "what": "copied from a tolerated run",
+            "sha256_before": null,
+            "sha256_after": "caca4314779e70e4d2ec6332b4e974486c4ee5cca3974839f277fdd421d0663e"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_low/matrix/v014_dropout_matrix/n4-t3-kill2-r2/server/secagg_workflow_returned.json",
+            "what": "copied from a tolerated run",
+            "sha256_before": null,
+            "sha256_after": "3861f2c13257afa5b060dd4b4768cd0670ecb8fb7541f41fb0052b0c683104a8"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_low/matrix/v014_dropout_matrix/n4-t3-kill2-r2/server/flower_run.json",
+            "what": "final_model_exists and summary_exists set",
+            "sha256_before": null,
+            "sha256_after": "86473bf6a396f06be7e279b0a488095587e1bae7f7adeb5c1790f3124d7cf16c"
+          }
+        ],
+        "max_abs_diffs": {
+          "n4-t2-kill1-r2": 3.776123373039342e-05,
+          "n4-t3-kill1-r2": 4.248803946549362e-05,
+          "n4-t2-kill2-r2": 4.604584535237641e-05,
+          "n4-t3-kill2-r2": 4.604584535237641e-05,
+          "n3-t2-kill1-r2": 3.353791511004345e-05
+        },
+        "n4_full": {
+          "secagg_vs_plaintext_control_max_abs_diff": 0.00018877285325542836,
+          "secagg_vs_independent_pytorch_max_abs_diff": 0.00018877285325542836,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 7.947285970052083e-05,
+          "within_tolerance": false,
+          "secagg_run_certified_native": true
+        },
+        "one_round": {
+          "max_abs_diff": 3.2218191441807376e-05,
+          "bound": 3.9736429850260414e-05,
+          "within_bound": true,
+          "note": "Single round, so the derived worst-case quantisation bound applies directly."
+        },
+        "verdict": {
+          "flagged": true,
+          "newly_failing_channels": [
+            "rule:n4-t3-kill2-r2"
+          ],
+          "channels_failing_on_honest_evidence": [
+            "n4_full_participation_equivalence",
+            "replicate:baseline"
+          ]
+        }
+      },
+      "native": null,
+      "parity": null,
+      "any_existing_gate_flags": true
+    },
+    "wrong_threshold_strict": {
+      "matrix": {
+        "script": "verify_secagg_dropout_matrix.py",
+        "exit_code": 0,
+        "channels": {
+          "rule:n4-t2-kill1-r2": true,
+          "tolerance:n4-t2-kill1-r2": true,
+          "rule:n4-t3-kill1-r2": false,
+          "rule:n4-t2-kill2-r2": false,
+          "rule:n4-t3-kill2-r2": true,
+          "rule:n3-t2-kill1-r2": true,
+          "tolerance:n3-t2-kill1-r2": true,
+          "n4_full_participation_equivalence": false,
+          "n4_one_round_bound": true,
+          "replicate:baseline": false,
+          "replicate:rep1": true,
+          "replicate:rep2": true,
+          "replicate:rep3": true
+        },
+        "scenario_report_fields": {
+          "n4-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill1-r2": {
+            "protocol_outcome": "HALTED",
+            "results_per_round": [
+              4
+            ],
+            "prediction_matches_outcome": false,
+            "secure_aggregation_completed_lines": 1,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t2-kill2-r2": {
+            "protocol_outcome": "HALTED",
+            "results_per_round": [
+              4
+            ],
+            "prediction_matches_outcome": false,
+            "secure_aggregation_completed_lines": 1,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill2-r2": {
+            "protocol_outcome": "HALTED",
+            "results_per_round": [
+              4
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 1,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n3-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              3,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          }
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_strict/matrix/v014_dropout_matrix/n4-t2-kill2-r2/flower_cli_stdout.log",
+            "what": "log of a halted run (survivors equal the threshold)",
+            "sha256_before": "0f851a608b6d91da7933713ed8348ebaa5aea506d131afbb8aa4593c51e0d2c6",
+            "sha256_after": "f751f9ee712cf78997bc3d90edb516c5dcbf30e56ce4615cbcf6758268ebf153"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_strict/matrix/v014_dropout_matrix/n4-t2-kill2-r2/server/flower_run.json",
+            "what": "no final model, as after a halt",
+            "sha256_before": null,
+            "sha256_after": "52fda278c047ad6d2d91fee881b9fc32117e5b4068aa752f27ef3e91f5c7799e"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_strict/matrix/v014_dropout_matrix/n4-t3-kill1-r2/flower_cli_stdout.log",
+            "what": "log of a halted run (survivors equal the threshold)",
+            "sha256_before": "025ecfe353100e98ef2549a38ddaa701861f941fa6e81fb3ad292b52d4fdfc6f",
+            "sha256_after": "f751f9ee712cf78997bc3d90edb516c5dcbf30e56ce4615cbcf6758268ebf153"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/wrong_threshold_strict/matrix/v014_dropout_matrix/n4-t3-kill1-r2/server/flower_run.json",
+            "what": "no final model, as after a halt",
+            "sha256_before": null,
+            "sha256_after": "eeb0e7780b2ca178e6fc3f30306a0a788a2f1d01ae99d8619fb33cb4f0ffc68e"
+          }
+        ],
+        "max_abs_diffs": {
+          "n4-t2-kill1-r2": 3.776123373039342e-05,
+          "n3-t2-kill1-r2": 3.353791511004345e-05
+        },
+        "n4_full": {
+          "secagg_vs_plaintext_control_max_abs_diff": 0.00018877285325542836,
+          "secagg_vs_independent_pytorch_max_abs_diff": 0.00018877285325542836,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 7.947285970052083e-05,
+          "within_tolerance": false,
+          "secagg_run_certified_native": true
+        },
+        "one_round": {
+          "max_abs_diff": 3.2218191441807376e-05,
+          "bound": 3.9736429850260414e-05,
+          "within_bound": true,
+          "note": "Single round, so the derived worst-case quantisation bound applies directly."
+        },
+        "verdict": {
+          "flagged": true,
+          "newly_failing_channels": [
+            "rule:n4-t2-kill2-r2",
+            "rule:n4-t3-kill1-r2"
+          ],
+          "channels_failing_on_honest_evidence": [
+            "n4_full_participation_equivalence",
+            "replicate:baseline"
+          ]
+        }
+      },
+      "native": null,
+      "parity": null,
+      "any_existing_gate_flags": true
+    },
+    "dropout_cached_update": {
+      "matrix": {
+        "script": "verify_secagg_dropout_matrix.py",
+        "exit_code": 0,
+        "channels": {
+          "rule:n4-t2-kill1-r2": true,
+          "tolerance:n4-t2-kill1-r2": false,
+          "rule:n4-t3-kill1-r2": true,
+          "tolerance:n4-t3-kill1-r2": false,
+          "rule:n4-t2-kill2-r2": true,
+          "tolerance:n4-t2-kill2-r2": false,
+          "rule:n4-t3-kill2-r2": true,
+          "rule:n3-t2-kill1-r2": true,
+          "tolerance:n3-t2-kill1-r2": false,
+          "n4_full_participation_equivalence": false,
+          "n4_one_round_bound": true,
+          "replicate:baseline": false,
+          "replicate:rep1": true,
+          "replicate:rep2": true,
+          "replicate:rep3": true
+        },
+        "scenario_report_fields": {
+          "n4-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              3
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t2-kill2-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              4,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          },
+          "n4-t3-kill2-r2": {
+            "protocol_outcome": "HALTED",
+            "results_per_round": [
+              4
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 1,
+            "workflow_engine": null,
+            "secure_aggregation_enabled": null
+          },
+          "n3-t2-kill1-r2": {
+            "protocol_outcome": "TOLERATED",
+            "results_per_round": [
+              3,
+              2
+            ],
+            "prediction_matches_outcome": true,
+            "secure_aggregation_completed_lines": 2,
+            "workflow_engine": "native_flower_upstream_SecAggPlusWorkflow",
+            "secure_aggregation_enabled": true
+          }
+        },
+        "tamper_log": [
+          {
+            "file": "/tmp/fault_matrix_evidence/dropout_cached_update/matrix/v014_dropout_matrix/n4-t2-kill1-r2/server/final_model.pt",
+            "what": "n4-t2-kill1-r2: final model replaced by the dropout_cached_update result",
+            "sha256_before": "fccdd0559761eba6968966ef66be1ec01fc5fdae897090a31b1714a5732ebf5f",
+            "sha256_after": "670e6d4c832a21792576c96f62b80be73c779fbeccf5e79dc0972b4c2f8a8c79"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/dropout_cached_update/matrix/v014_dropout_matrix/n4-t3-kill1-r2/server/final_model.pt",
+            "what": "n4-t3-kill1-r2: final model replaced by the dropout_cached_update result",
+            "sha256_before": "9cccc17b97527a4a62dc841036ce58cb3cbf7aa1ce2de7eb10b209285fb7d921",
+            "sha256_after": "670e6d4c832a21792576c96f62b80be73c779fbeccf5e79dc0972b4c2f8a8c79"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/dropout_cached_update/matrix/v014_dropout_matrix/n4-t2-kill2-r2/server/final_model.pt",
+            "what": "n4-t2-kill2-r2: final model replaced by the dropout_cached_update result",
+            "sha256_before": "71212968344974c4dbb9f5c28a0072c00c51be7b46f9fdd5b9df4d42dd8baecf",
+            "sha256_after": "6c0d890ae6b07ef990251379ea4802890635471dbd7086f2795d31ecd3b19b6d"
+          },
+          {
+            "file": "/tmp/fault_matrix_evidence/dropout_cached_update/matrix/v014_dropout_matrix/n3-t2-kill1-r2/server/final_model.pt",
+            "what": "n3-t2-kill1-r2: final model replaced by the dropout_cached_update result",
+            "sha256_before": "c5be9d87785d61ecba6c3e989414ecac986d4e6787f0b3e9dbc9e407c69def6d",
+            "sha256_after": "fbcff592b4ffa7704cb77315731d2013c485cb24934ba5866ba796bc37bf7b45"
+          }
+        ],
+        "max_abs_diffs": {
+          "n4-t2-kill1-r2": 0.0034705400466918945,
+          "n4-t3-kill1-r2": 0.0034705400466918945,
+          "n4-t2-kill2-r2": 0.01712866872549057,
+          "n3-t2-kill1-r2": 0.008347824215888977
+        },
+        "n4_full": {
+          "secagg_vs_plaintext_control_max_abs_diff": 0.00018877285325542836,
+          "secagg_vs_independent_pytorch_max_abs_diff": 0.00018877285325542836,
+          "plaintext_control_vs_independent_pytorch_max_abs_diff": 2.9802322387695312e-08,
+          "tolerance": 7.947285970052083e-05,
+          "within_tolerance": false,
+          "secagg_run_certified_native": true
+        },
+        "one_round": {
+          "max_abs_diff": 3.2218191441807376e-05,
+          "bound": 3.9736429850260414e-05,
+          "within_bound": true,
+          "note": "Single round, so the derived worst-case quantisation bound applies directly."
+        },
+        "verdict": {
+          "flagged": true,
+          "newly_failing_channels": [
+            "tolerance:n3-t2-kill1-r2",
+            "tolerance:n4-t2-kill1-r2",
+            "tolerance:n4-t2-kill2-r2",
+            "tolerance:n4-t3-kill1-r2"
+          ],
+          "channels_failing_on_honest_evidence": [
+            "n4_full_participation_equivalence",
+            "replicate:baseline"
+          ]
+        }
+      },
+      "native": null,
+      "parity": null,
+      "any_existing_gate_flags": true
+    }
+  },
+  "topology_static_gate": {
+    "compose.flower.yaml": true,
+    "compose.flower.n4.yaml": true
+  },
+  "saved_evidence_unchanged": true,
+  "saved_evidence_digest_before": {
+    "secagg": "1ff5c6f1a72a7d88414057ec18c6f7796c1756b00b7d331461426dfc662cb528",
+    "native_flower_v014": "b95d67a5ceea4f86e90f33040d77a372b6bef6c763c0f121dd5931efb71c71f4",
+    "data_4c": "b6b4c364d16a98ddaf3914b08f18a592f9e2f6bcd122982c894b3aacd0b6fac2",
+    "data_3c": "23e11c5c86b2fbc9e797ef2251c684f9690f763ef2d67399158f7611d75d0f82"
+  },
+  "saved_evidence_digest_after": {
+    "secagg": "1ff5c6f1a72a7d88414057ec18c6f7796c1756b00b7d331461426dfc662cb528",
+    "native_flower_v014": "b95d67a5ceea4f86e90f33040d77a372b6bef6c763c0f121dd5931efb71c71f4",
+    "data_4c": "b6b4c364d16a98ddaf3914b08f18a592f9e2f6bcd122982c894b3aacd0b6fac2",
+    "data_3c": "23e11c5c86b2fbc9e797ef2251c684f9690f763ef2d67399158f7611d75d0f82"
+  },
+  "work_dir": "/tmp/fault_matrix_evidence",
+  "note": "Tampered copies were written under the work directory only. Saved evidence digests before and after are equal."
+}
