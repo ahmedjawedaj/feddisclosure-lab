@@ -72,6 +72,12 @@ def main():
     (output / "flower_run.json").write_text(json.dumps(evidence, indent=2) + "\n")
     print(json.dumps(evidence, indent=2))
     if exit_code or not evidence["final_model_exists"] or not evidence["summary_exists"]:
+        # Show the tail of Flower's own output in the log. Without it a hosted failure
+        # is invisible because the full logs only exist in the uploaded artifact.
+        for name, text in (("stderr", stderr), ("stdout", stdout)):
+            tail = "\n".join(text.strip().splitlines()[-40:])
+            if tail:
+                print(f"--- last lines of Flower {name} ---\n{tail}\n--- end {name} ---", file=sys.stderr)
         raise SystemExit("Flower experiment failed. Inspect evidence logs. It is not a verified run.")
 
 
