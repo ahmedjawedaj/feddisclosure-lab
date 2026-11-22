@@ -1,4 +1,4 @@
-"""Run the `flwr run` CLI and retry ONLY when it could not reach the local SuperLink.
+"""Run the `flwr run` CLI and retry ONLY on known local SuperLink start-up races.
 
 `flwr run` starts a local SuperLink and connects to it straight away. On a slow host
 the CLI can lose the connection and exits with "Connection to the SuperLink is
@@ -11,6 +11,7 @@ can never hide a real failure.
 """
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 import time
@@ -18,6 +19,15 @@ import tomllib
 from pathlib import Path
 
 UNAVAILABLE = "Connection to the SuperLink is unavailable"
+# Signatures of local SuperLink / simulation START-UP races. Each one happens before any
+# application code runs. Anything else (a training error, a failed assertion, a timeout)
+# is final and never retried.
+STARTUP_RACES = {
+    "superlink_unavailable": UNAVAILABLE,
+    "sqlite_table_exists": "table node already exists",
+    "ray_startup_timeout": "The current node timed out during startup",
+}
+_ANSI = re.compile(r"\x1b\[[0-9;]*m")
 LOCAL_SUPERLINK_STATE = Path.home() / ".flwr" / "local-superlink"
 
 
@@ -52,6 +62,19 @@ def reset_local_superlink(state_dir: Path = LOCAL_SUPERLINK_STATE) -> None:
     shutil.rmtree(state_dir, ignore_errors=True)
 
 
+def startup_race(text: str):
+    """Name of the known start-up race in a CLI's output, or None.
+
+    The CLI draws errors in a wrapped, coloured box, so colour codes and box characters
+    are removed and whitespace is collapsed before matching.
+    """
+    plain = " ".join(_ANSI.sub("", text).replace("\u2502", " ").split())
+    for name, signature in STARTUP_RACES.items():
+        if signature in plain:
+            return name
+    return None
+
+
 def _tail(text: str, lines: int = 20) -> str:
     return "\n".join(text.strip().splitlines()[-lines:])[-3000:]
 
@@ -74,10 +97,11 @@ def run_flwr_cli(command, *, cwd, timeout: float, attempts: int = 6, wait: float
             log.append({"attempt": attempt, "exit_code": 124, "superlink_unavailable": False,
                         "output_tail": _tail(err + "\n" + out)})
             return 124, out, err, True, log
-        unavailable = done.returncode != 0 and UNAVAILABLE in (done.stdout + done.stderr)
-        log.append({"attempt": attempt, "exit_code": done.returncode, "superlink_unavailable": unavailable,
+        race = startup_race(done.stdout + "\n" + done.stderr) if done.returncode != 0 else None
+        log.append({"attempt": attempt, "exit_code": done.returncode,
+                    "superlink_unavailable": race == "superlink_unavailable", "startup_race": race,
                     "output_tail": _tail(done.stderr + "\n" + done.stdout)})
-        if not unavailable or attempt == attempts:
+        if race is None or attempt == attempts:
             return done.returncode, done.stdout, done.stderr, False, log
         reset()
         time.sleep(wait)

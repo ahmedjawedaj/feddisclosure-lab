@@ -78,3 +78,32 @@ def test_conflicting_supernode_count_is_an_error(tmp_path):
     with pytest.raises(RuntimeError, match="different supernode count"):
         ensure_simulation_connection(path)
     assert "= 5" in path.read_text()
+
+
+def test_wrapped_coloured_sqlite_race_is_recognised():
+    from feddisclosure.training.flwr_cli import startup_race
+    boxed = ("\x1b[31m\u2502\x1b[0m Exception calling application: (sqlite3.OperationalError) table node already "
+             "\x1b[31m\u2502\x1b[0m\n\x1b[31m\u2502\x1b[0m exists \x1b[31m\u2502\x1b[0m")
+    assert startup_race(boxed) == "sqlite_table_exists"
+    assert startup_race("The current node timed out during startup.") == "ray_startup_timeout"
+    assert startup_race(UNAVAILABLE) == "superlink_unavailable"
+
+
+def test_training_errors_are_not_start_up_races():
+    from feddisclosure.training.flwr_cli import startup_race
+    assert startup_race("RuntimeError: Only 0 of 1 rounds produced an aggregate") is None
+    assert startup_race("AssertionError: loss is nan") is None
+
+
+def test_sqlite_race_is_retried_then_succeeds(tmp_path):
+    marker = tmp_path / "n"
+    body = (
+        "import pathlib,sys\n"
+        f"m=pathlib.Path({str(marker)!r})\n"
+        "n=int(m.read_text()) if m.exists() else 0\n"
+        "m.write_text(str(n+1))\n"
+        "if n<1: print('table node already\\nexists', file=sys.stderr); sys.exit(1)\n"
+        "print('ok')\n"
+    )
+    code, out, _, _, log = run_flwr_cli(_script(tmp_path, body), cwd=tmp_path, timeout=60, wait=0.01, reset=lambda: None)
+    assert code == 0 and [a["startup_race"] for a in log] == ["sqlite_table_exists", None]
