@@ -26,6 +26,8 @@ STARTUP_RACES = {
     "superlink_unavailable": UNAVAILABLE,
     "sqlite_table_exists": "table node already exists",
     "ray_startup_timeout": "The current node timed out during startup",
+    # SuperLink-side gRPC error while it initialises its state database on a clean host.
+    "state_init_keyerror": "Exception calling application: 'config'",
 }
 _ANSI = re.compile(r"\x1b\[[0-9;]*m")
 LOCAL_SUPERLINK_STATE = Path.home() / ".flwr" / "local-superlink"

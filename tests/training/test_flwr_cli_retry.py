@@ -87,12 +87,14 @@ def test_wrapped_coloured_sqlite_race_is_recognised():
     assert startup_race(boxed) == "sqlite_table_exists"
     assert startup_race("The current node timed out during startup.") == "ray_startup_timeout"
     assert startup_race(UNAVAILABLE) == "superlink_unavailable"
+    assert startup_race("\x1b[31m\u2502\x1b[0m Exception calling application: 'config' \x1b[31m\u2502\x1b[0m") == "state_init_keyerror"
 
 
 def test_training_errors_are_not_start_up_races():
     from feddisclosure.training.flwr_cli import startup_race
     assert startup_race("RuntimeError: Only 0 of 1 rounds produced an aggregate") is None
     assert startup_race("AssertionError: loss is nan") is None
+    assert startup_race("KeyError: 'config'") is None  # only the SuperLink-side gRPC form is a start-up race
 
 
 def test_sqlite_race_is_retried_then_succeeds(tmp_path):
