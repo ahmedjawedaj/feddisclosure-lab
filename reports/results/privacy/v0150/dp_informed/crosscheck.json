@@ -1,0 +1,40 @@
+{
+  "description": "Real Opacus 1.6.0 output minus hand-computed clipped sum, divided by sigma*clip. Standard normal expected (mean 0, variance 1). sigma 0 must equal the clipped sum.",
+  "results": [
+    {
+      "sigma": 0.0,
+      "max_abs_difference": 5.781446848832084e-07,
+      "trials": 300
+    },
+    {
+      "sigma": 0.2,
+      "trials": 300,
+      "coordinates": 2410,
+      "mean": -0.0007381760837752206,
+      "variance": 1.0022870337061214,
+      "ks_statistic": 0.0010008771614238021,
+      "ks_pvalue": 0.46344365009832433,
+      "mean_standard_error": 0.0011760637161538762
+    },
+    {
+      "sigma": 1.0,
+      "trials": 300,
+      "coordinates": 2410,
+      "mean": -0.0006847611917898214,
+      "variance": 0.9977893927894029,
+      "ks_statistic": 0.0006829789410477405,
+      "ks_pvalue": 0.8884830627427088,
+      "mean_standard_error": 0.0011760637161538762
+    },
+    {
+      "sigma": 4.0,
+      "trials": 300,
+      "coordinates": 2410,
+      "mean": -0.0003046507462646512,
+      "variance": 1.0010507522950798,
+      "ks_statistic": 0.0006913641253206426,
+      "ks_pvalue": 0.8796883137169149,
+      "mean_standard_error": 0.0011760637161538762
+    }
+  ]
+}
