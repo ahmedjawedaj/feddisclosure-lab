@@ -24,7 +24,7 @@
   "sites": [
     {
       "site_id": 0,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-labelskew-v014/institution-00",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/mnist-full-docker-labelskew-v014/institution-00",
       "train_sha256": "709ca3cbb2c0838854870157617b32986d030da3da517864d7cd7408977935fd",
       "val_sha256": "e354d6c74fd3aa358f0ad17721b9eaf4d8cd47761a0db06fff8360b6fa0736e2",
       "train_records": 12800,
@@ -32,7 +32,7 @@
     },
     {
       "site_id": 1,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-labelskew-v014/institution-01",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/mnist-full-docker-labelskew-v014/institution-01",
       "train_sha256": "b780116dede243ebc4d5c0a00be184b215a343b6ea87bacde1d1cfb88768db95",
       "val_sha256": "61674bb6e35c3bb1766fe6932ae1b996f91de710209030bbc9772926600dfadb",
       "train_records": 12800,
@@ -40,15 +40,15 @@
     },
     {
       "site_id": 2,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-labelskew-v014/institution-02",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/mnist-full-docker-labelskew-v014/institution-02",
       "train_sha256": "24cead15ae66ede4a919ec5352260fb2ef9cffe2d78aa7429db98109ebc0930a",
       "val_sha256": "84d7a1f70003d1614a79d69daecdda7f4e8343652a828e4fbd6b5af59a199518",
       "train_records": 12800,
       "val_records": 3200
     }
   ],
-  "run_dir": "/home/claude/work/feddisclosure-lab/reports/results/native_flower/v014/run-mnist-full-labelskew",
-  "env_file": "/home/claude/runs/run-mnist-full-labelskew.env",
+  "run_dir": "/home/fedlab/work/feddisclosure-lab/reports/results/native_flower/v014/run-mnist-full-labelskew",
+  "env_file": "/home/fedlab/runs/run-mnist-full-labelskew.env",
   "evaluator_not_mounted": true,
   "native_execution_verified": false
 }

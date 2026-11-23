@@ -16,7 +16,7 @@ def generate(source: str, clients: int) -> str:
     if clients < 3:
         raise ValueError("At least three institutions are required")
     node = re.search(r"  supernode-2:\n(?:    .*\n)+", source).group(0)
-    execu = re.search(r"  clientexec-2:\n(?:    .*\n|      .*\n)+?    depends_on: \[supernode-2\]\n", source).group(0)
+    execu = re.search(r"  clientexec-2:\n(?:    .*\n)+?    depends_on: \[supernode-2\]\n", source).group(0)
 
     def clone(block: str, i: int) -> str:
         return (block.replace("-2", f"-{i}").replace("_2_", f"_{i}_")

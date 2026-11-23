@@ -24,7 +24,7 @@
   "sites": [
     {
       "site_id": 0,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed2-v014/institution-00",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed2-v014/institution-00",
       "train_sha256": "402710067e8b4f53b6f7e02a1472b1de5797107d0d455f6ca5700442496cf68b",
       "val_sha256": "6629b5b908c802a61f3a9409a35f3bd64db8898047ea924ac4195e72ec943369",
       "train_records": 12800,
@@ -32,7 +32,7 @@
     },
     {
       "site_id": 1,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed2-v014/institution-01",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed2-v014/institution-01",
       "train_sha256": "2153341e1685ab45a818297e7fbf501fdc1ad2a133c7f0f1887cc3ed45ef0dbb",
       "val_sha256": "564b8c8f02d5673f96c97215b563607da41cc1c59b1cd701d93727a58fdf47b0",
       "train_records": 12800,
@@ -40,15 +40,15 @@
     },
     {
       "site_id": 2,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed2-v014/institution-02",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/mnist-full-docker-iid-seed2-v014/institution-02",
       "train_sha256": "20fcd813eaa148d4bd11c1feacc8f97f71aa631c6f887a1ae6952347cfb9b242",
       "val_sha256": "71eb1ddf3ad94c37d27630927ae77e10dbf2559a9a605a109bee2d2cf11d0090",
       "train_records": 12800,
       "val_records": 3200
     }
   ],
-  "run_dir": "/home/claude/work/feddisclosure-lab/reports/results/native_flower/v014/run-mnist-full-iid-seed2",
-  "env_file": "/home/claude/runs/run-mnist-full-iid-seed2.env",
+  "run_dir": "/home/fedlab/work/feddisclosure-lab/reports/results/native_flower/v014/run-mnist-full-iid-seed2",
+  "env_file": "/home/fedlab/runs/run-mnist-full-iid-seed2.env",
   "evaluator_not_mounted": true,
   "native_execution_verified": false
 }
