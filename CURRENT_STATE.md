@@ -2,13 +2,14 @@
 
 No attack was rerun and no saved v0.14.2 evidence changed. The v0.14.2 claims that the SecAgg+ aggregate "still leaves 55 to 59% of
 victim images recognisable" and that DP "stopped this attack" are withdrawn. The attacker knows the labels, so the baseline is the
-label-only floor (class-average image of a 1765-image labelled public pool): MSE 0.046 and 67.5% recognisable (54 of 80 images, Wilson 57% to 77%).
+label-only floor (class-average image of a 1765-image labelled public pool): MSE 0.046 and 67.5% recognisable on seeds 0 to 9 (54 of 80 images, Wilson 57% to 77%).
 Plaintext (94%) and n-1 collusion (91%) stay 26 and 24 points above it. The aggregate attack with max weight 1000 (55%) does not beat it.
 With max weight 16 (58.8%) it cannot be told apart from it. The floor uses public images and the attack uses none, so a
 prior-initialised attacker could do better, and the floor depends on the pool size (31% at 20 images, 57% at 100, 67.5% at 1765).
 The DP rows only show that a naive attacker fails. New files: `reports/results/privacy/v0143/` (`label_floor.json`, `view_intervals.json`,
 `prereg_check_corrections.json`, `fast_suite.txt`). `python scripts/verify_readme_claims.py` checks the README numbers and verdict words against them.
 Still open: DP-aware inversion attacker, prior-initialised aggregate attacker, inversion on captured multi-step Docker traffic.
+Later note (v0.15): the 67.5% floor and the 24 to 26 point gaps are for seeds 0 to 9. On 30 seeds the floor is 75.0% (seeds 10 to 29 are easier) and the gaps are plaintext +20.0, collusion +15.4 at 4 clients and +16.3 at 8, aggregate only -28.8 and -39.6, see `docs/v0.15-scaling.md`.
 
 ## 2026-11-22 v0.14 remaining items executed (see `docs/v0.14-privacy-secagg-results.md` sections 1, 2, 6, 7)
 

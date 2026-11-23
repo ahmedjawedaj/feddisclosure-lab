@@ -44,7 +44,8 @@
       "aggregate_within_floor_plus_5": true
     },
     "pass": false,
-    "operationalisation": "Plaintext and n-1 collusion must each be at least floor plus 10 points and the aggregate view at most floor plus 5 points. All three parts must hold. The same rule at max_weight 16 is reported as X1_secondary_max_weight_16 and does not change the verdict."
+    "operationalisation": "Plaintext and n-1 collusion must each be at least floor plus 10 points and the aggregate view at most floor plus 5 points. All three parts must hold. The same rule at max_weight 16 is reported as X1_secondary_max_weight_16 and does not change the verdict.",
+    "verdict_effect": "decides the X1 verdict"
   },
   "X1_secondary_max_weight_16": {
     "id": "X1",
@@ -87,6 +88,8 @@
       "collusion_at_least_floor_plus_10": true,
       "aggregate_within_floor_plus_5": true
     },
-    "pass": true
+    "pass": true,
+    "verdict_effect": "none",
+    "note": "Reported for context only. The X1 verdict is the primary row at max_weight 1000. Passing here does not change it."
   }
 }

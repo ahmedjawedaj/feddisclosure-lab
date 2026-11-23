@@ -35,8 +35,14 @@ jobs:
           python-version: '3.12'
       - name: Check the inputs
         run: |
-          [[ "$N8_SHARES" =~ ^[0-9]+$ ]] && [ "$N8_SHARES" -ge 3 ] && [ "$N8_SHARES" -le 8 ]
-          [[ "$N8_THRESHOLD" =~ ^[0-9]+$ ]] && [ "$N8_THRESHOLD" -ge 2 ] && [ "$N8_THRESHOLD" -le 8 ]
+          if ! { [[ "$N8_SHARES" =~ ^[0-9]+$ ]] && [ "$N8_SHARES" -ge 3 ] && [ "$N8_SHARES" -le 8 ]; }; then
+            echo "num_shares must be an integer from 3 to 8" >&2
+            exit 1
+          fi
+          if ! { [[ "$N8_THRESHOLD" =~ ^[0-9]+$ ]] && [ "$N8_THRESHOLD" -ge 2 ] && [ "$N8_THRESHOLD" -le 8 ]; }; then
+            echo "threshold must be an integer from 2 to 8" >&2
+            exit 1
+          fi
       - name: Install dependencies (CPU only)
         run: |
           python -m pip install -e '.[test]'

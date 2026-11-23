@@ -21,10 +21,11 @@
       "gap": -0.39583333333333337,
       "aggregate_mean_mse": 0.07297473664705952,
       "floor_mean_mse": 0.0414516800052856,
-      "gap_upper_limit_is_conservative_check": true
+      "aggregate_wilson_upper_limit_within_floor_plus_5": true
     },
     "pass": true,
-    "operationalisation": "Floor is the class-average label floor on the same victim images. The aggregate view is the SecAgg+ aggregate with joint-oracle labels. Pass uses point estimates. The aggregate is far BELOW the floor, so S1 passes because the attack is weak on 64 joint images, not because of any guarantee."
+    "verdict_label": "PASS (vacuous, by the one-sided rule)",
+    "operationalisation": "Floor is the class-average label floor on the same victim images. The aggregate view is the SecAgg+ aggregate with joint-oracle labels. Pass uses point estimates. The rule is one-sided (at most floor plus 5 points) and the aggregate is far BELOW the floor, so S1 passes because this attack is weak on 64 joint images. A two-sided reading (within 5 points of the floor) would FAIL. The pass is not privacy evidence and any aggregate-at-floor claim is conditional on this weaker attack."
   },
   "S2": {
     "id": "S2",
@@ -73,7 +74,7 @@
       "gap": -0.2875,
       "aggregate_mean_mse": 0.06616587260505184,
       "floor_mean_mse": 0.04141826388907617,
-      "gap_upper_limit_is_conservative_check": true
+      "aggregate_wilson_upper_limit_within_floor_plus_5": true
     },
     "pass": true
   },

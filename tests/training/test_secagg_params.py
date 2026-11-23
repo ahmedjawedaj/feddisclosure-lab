@@ -41,11 +41,11 @@ def test_valid_neighbourhood_settings_are_accepted(clients, shares, threshold):
 
 
 @pytest.mark.parametrize("clients,shares,threshold,why", [
-    (8, 4, 2, "odd"),           # even share count, upstream would silently raise it to 5
+    (8, 4, 2, "odd"),           # even share count when shares < clients
     (8, 6, 3, "odd"),
     (8, 2, 2, "at least 3"),
     (8, 1, 1, "2 <= threshold"),
-    (8, 7, 7, "below num-shares"),   # threshold equal to shares, upstream refuses it
+    (8, 7, 7, "below num-shares"),   # threshold equal to shares when shares < clients
     (8, 5, 5, "below num-shares"),
     (8, 7, 1, "2 <= threshold"),
     (8, 9, 4, "2 <= threshold"),     # more shares than clients
@@ -70,12 +70,22 @@ def test_validator_agrees_with_the_upstream_constructor_for_fewer_shares_than_cl
 
     clients = 8
     for shares, threshold in itertools.product(range(3, clients), range(1, 9)):
-        # Upstream accepts an even share count at construction and adjusts it later, so only the
-        # cases upstream refuses outright must also be refused here, and every valid one accepted.
+        # Everything this check accepts must build the upstream workflow, and everything the
+        # workflow constructor refuses must be refused here.
         if _accepts(clients, shares, threshold):
             assert upstream_ok(shares, threshold), (shares, threshold)
         if not upstream_ok(shares, threshold):
             assert not _accepts(clients, shares, threshold), (shares, threshold)
+
+
+def test_threshold_equal_to_shares_is_accepted_only_when_shares_equal_clients():
+    """Kept for backwards compatibility with the old rule. The upstream workflow is not built with it."""
+    assert _accepts(4, 4, 4) and _accepts(8, 8, 8)
+    assert not _accepts(8, 7, 7)
+    pytest.importorskip("flwr")
+    from flwr.server.workflow import SecAggPlusWorkflow
+    with pytest.raises(ValueError, match="less than"):
+        SecAggPlusWorkflow(num_shares=4, reconstruction_threshold=4, max_weight=1000.0, timeout=10.0)
 
 
 def _context(**overrides):

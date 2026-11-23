@@ -93,3 +93,48 @@ def test_sampler_collects_polls_and_records_a_failed_poll_without_stopping():
     s.stop()
     assert tracker.samples >= 3 and any("docker busy" in e for e in s.errors)
     assert not s.is_alive()
+
+
+def test_the_expected_names_are_the_18_containers_of_an_8_client_project():
+    names = sm.expected_container_names(8)
+    assert len(names) == 18
+    assert {"feddisclosure-flower-serverexec-1", "feddisclosure-flower-superlink-1",
+            "feddisclosure-flower-clientexec-7-1", "feddisclosure-flower-supernode-0-1"} <= names
+
+
+def _named_sample(names, each=100_000_000):
+    return {n: each for n in names}
+
+
+def test_an_extra_cli_container_is_allowed_when_every_expected_container_is_present():
+    names = sm.expected_container_names(8)
+    t = sm.PeakTracker()
+    t.add(_named_sample(names | {"feddisclosure-flower-flwr-cli-run-abc"}))
+    r = t.report(run_completed=True, expected_names=names, poll_seconds=2)
+    assert r["pass"] is True and r["containers_seen"] == 19 and r["expected_containers_missing"] == []
+    assert r["extra_containers_seen"] == ["feddisclosure-flower-flwr-cli-run-abc"]
+
+
+def test_19_containers_seen_with_one_expected_missing_is_not_a_pass():
+    names = sm.expected_container_names(8)
+    missing = "feddisclosure-flower-supernode-3-1"
+    seen = (names - {missing}) | {"feddisclosure-flower-flwr-cli-run-abc", "feddisclosure-flower-extra-1"}
+    assert len(seen) == 19            # the same count as a good run, but the wrong set
+    t = sm.PeakTracker()
+    t.add(_named_sample(seen))
+    r = t.report(run_completed=True, expected_names=names, poll_seconds=2)
+    assert r["containers_seen"] == 19 and r["expected_containers_missing"] == [missing]
+    assert r["outcome"] == "containers_missing" and r["pass"] is False
+
+
+def test_names_seen_in_different_polls_together_count_as_seen():
+    names = sorted(sm.expected_container_names(8))
+    t = sm.PeakTracker()
+    t.add(_named_sample(names[:9]))
+    t.add(_named_sample(names[9:]))
+    assert t.report(run_completed=True, expected_names=names, poll_seconds=2)["pass"] is True
+
+
+def test_report_needs_names_or_a_count():
+    with pytest.raises(ValueError):
+        sm.PeakTracker().report(run_completed=True, poll_seconds=2)

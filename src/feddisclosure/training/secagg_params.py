@@ -12,12 +12,14 @@ Rules, checked before the workflow is built:
 * at least 3 clients
 * `2 <= threshold <= shares <= clients`
 * shares of 3 or more (upstream rejects smaller integers)
-* when `shares < clients`, shares must be odd and `threshold < shares`. Upstream silently raises an
-  even share count by one and refuses a threshold equal to the share count, so both would otherwise
-  run a different configuration from the one written down.
+* when `shares < clients`, this repository requires shares to be odd and `threshold < shares`, so the
+  numbers written down are the numbers used.
 
 When `shares == clients` the rule is exactly the one this repository always had, so existing
-four-client and three-client runs behave as before.
+four-client and three-client runs behave as before. That legacy rule accepts `threshold == shares`.
+The check is kept that way for backwards compatibility, but the upstream SecAgg+ workflow is not
+built with `threshold == shares` (it is rejected at workflow construction, as the n4-t4 run in
+`reports/results/secagg/v014_dropout_matrix/` recorded). Use `threshold < shares` in practice.
 
 Security note, not enforced here: for the neighbourhood construction to resist a malicious server,
 the threshold should exceed half the neighbourhood size. Small thresholds favour dropout tolerance.
@@ -34,7 +36,7 @@ def validate_secagg_params(clients: int, shares: int, threshold: int) -> None:
             raise ValueError(f"num-shares must be at least 3 (got {shares})")
         if shares % 2 == 0:
             raise ValueError(f"num-shares below the client count must be odd (got {shares}), "
-                             "because the upstream workflow would silently raise it by one")
+                             "in this repository")
         if threshold >= shares:
             raise ValueError(f"reconstruction-threshold must be below num-shares when num-shares < clients "
                              f"(got {threshold} and {shares})")
