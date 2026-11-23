@@ -16,7 +16,9 @@ README = """# Title
 | Beta view | 0.057 | 67.5% |
 
 ```bash
-# fast test suite (12 pass and 3 skip, no Docker needed)
+# fast test suite, no Docker needed. The counts depend on what is installed:
+#   every extra installed: 12 pass and 3 skip, 4 deselected
+#   without flwr and opacus: 9 pass and 6 skip, 4 deselected
 ```
 """
 CLAIMS = [v.Claim("alpha.mse", "Alpha view", 1, "ev/a.json", "views/x/mse/0"),
@@ -72,28 +74,142 @@ def test_missing_readme_fails_closed(tmp_path):
     assert v.verify(tmp_path / "README.md", tmp_path, CLAIMS)[0][1] == "MISSING"
 
 
-def test_fast_suite_count_line(repo):
-    ev = repo / "reports/results/privacy/v0143"
-    assert statuses(repo, [], suite=True)["tests.fast_suite_count"] == "MISSING"
-    ev.mkdir(parents=True)
-    (ev / "fast_suite.txt").write_text("date: 2026-11-23\n12 passed, 3 skipped, 8 deselected in 90.00s\n")
-    assert statuses(repo, [], suite=True)["tests.fast_suite_count"] == "OK"
-    (ev / "fast_suite.txt").write_text("13 passed, 3 skipped in 90.00s\n")
-    assert statuses(repo, [], suite=True)["tests.fast_suite_count"] == "MISMATCH"
+FULL_PKGS = "torch 2.15.0+cpu, flwr 1.27.0, opacus 1.6.0, hypothesis 6.170.17"
+CI_PKGS = "torch 2.15.0+cpu, flwr absent, opacus absent, hypothesis 6.170.17"
+
+
+def git_repo(path):
+    """A real git repository with one code file. Returns the commit hash. Skips the test if git is unavailable."""
+    import shutil
+    import subprocess
+    if shutil.which("git") is None:
+        pytest.skip("git is not installed")
+    run = lambda *a: subprocess.run(["git", "-C", str(path), "-c", "user.name=t", "-c", "user.email=t@t", *a],   # noqa: E731
+                                    capture_output=True, text=True, check=True).stdout.strip()
+    run("init", "-q")
+    (path / "src").mkdir(exist_ok=True)
+    (path / "src/code.py").write_text("x = 1\n")
+    run("add", "src/code.py")
+    run("commit", "-q", "-m", "code")
+    return run("rev-parse", "HEAD")
+
+
+def write_record(repo, kind, line, commit, dirty="no", packages=None, tree=None, version="v0150", drop=()):
+    name = v.SUITE_FILES[kind]
+    d = repo / "reports/results/privacy" / version
+    d.mkdir(parents=True, exist_ok=True)
+    fields = {"date": "2026-11-23", "commit": commit, "code_dirty": dirty,
+              "tree": tree or ("clean checkout of " + commit if kind == "ci" else "working copy"),
+              "python": "3.12.3", "packages": packages or (CI_PKGS if kind == "ci" else FULL_PKGS)}
+    text = "".join(f"{k}: {x}\n" for k, x in fields.items() if k not in drop) + line + "\n"
+    (d / name).write_text(text)
+
+
+def suite(repo, kind="full"):
+    return statuses(repo, [], suite=True)[f"tests.fast_suite_count.{kind}"]
+
+
+def both(repo):
+    return {k: suite(repo, k) for k in ("full", "ci")}
+
+
+def test_fast_suite_records_are_required_for_both_environments(repo):
+    assert both(repo) == {"full": "MISSING", "ci": "MISSING"}
+
+
+def test_fast_suite_counts_must_match_and_the_record_must_be_current(repo):
+    commit = git_repo(repo)
+    write_record(repo, "full", "12 passed, 3 skipped, 4 deselected in 90.00s", commit)
+    write_record(repo, "ci", "9 passed, 6 skipped, 4 deselected in 9.00s", commit)
+    assert both(repo) == {"full": "OK", "ci": "OK"}
+    write_record(repo, "full", "13 passed, 3 skipped, 4 deselected in 90.00s", commit)
+    assert both(repo) == {"full": "MISMATCH", "ci": "OK"}            # README counts differ from the record
+
+
+def test_a_record_older_than_the_code_is_flagged(repo):
+    commit = git_repo(repo)
+    write_record(repo, "full", "12 passed, 3 skipped, 4 deselected in 90.00s", commit)
+    write_record(repo, "ci", "9 passed, 6 skipped, 4 deselected in 9.00s", commit)
+    (repo / "src/code.py").write_text("x = 2\n")                       # code changed after the record, even uncommitted
+    res = statuses(repo, [], suite=True)
+    assert res["tests.fast_suite_count.full"] == "MISMATCH" and res["tests.fast_suite_count.ci"] == "MISMATCH"
+    detail = {c: d for c, _, d in v.verify(repo / "README.md", repo, [], suite=True, prose=[], verdicts=[], phrases=[])}
+    assert "code changed after the record" in detail["tests.fast_suite_count.full"] and "src/code.py" in detail["tests.fast_suite_count.full"]
+    (repo / "src/code.py").write_text("x = 1\n")                       # back to the recorded state
+    assert both(repo) == {"full": "OK", "ci": "OK"}
+
+
+def test_changes_outside_the_code_paths_do_not_make_a_record_stale(repo):
+    commit = git_repo(repo)
+    write_record(repo, "full", "12 passed, 3 skipped, 4 deselected in 90.00s", commit)
+    write_record(repo, "ci", "9 passed, 6 skipped, 4 deselected in 9.00s", commit)
+    (repo / "README.md").write_text(README + "\nmore prose\n")
+    assert both(repo) == {"full": "OK", "ci": "OK"}
+
+
+def test_a_record_without_a_usable_commit_fails_closed(repo):
+    commit = git_repo(repo)
+    line = "12 passed, 3 skipped, 4 deselected in 90.00s"
+    write_record(repo, "full", line, commit, drop=("commit",))
+    assert suite(repo) == "MISSING"                                      # no commit, cannot compare with the code
+    write_record(repo, "full", line, "f" * 40)
+    assert suite(repo) == "MISSING"                                      # a hash git does not know
+    write_record(repo, "full", line, "not-a-hash")
+    assert suite(repo) == "MISSING"
+    write_record(repo, "full", line, commit, dirty="yes")
+    assert suite(repo) == "MISMATCH"                                     # recorded with uncommitted code changes
+
+
+def test_a_record_outside_a_git_repository_fails_closed(repo):
+    write_record(repo, "full", "12 passed, 3 skipped, 4 deselected in 90.00s", "a" * 40)
+    assert suite(repo) == "MISSING"
+
+
+def test_the_newest_record_directory_wins(repo):
+    commit = git_repo(repo)
+    line = "12 passed, 3 skipped, 4 deselected in 90.00s"
+    write_record(repo, "full", "99 passed, 3 skipped, 4 deselected in 90.00s", commit, version="v0143")
+    assert suite(repo) == "MISMATCH"                                     # only the old record exists and it disagrees
+    write_record(repo, "full", line, commit, version="v0150")
+    assert suite(repo) == "OK"                                           # v0150 is newer than v0143
+    write_record(repo, "full", "5 passed, 3 skipped, 4 deselected in 90.00s", commit, version="v0160")
+    assert suite(repo) == "MISMATCH"                                     # a still newer record takes over
+    write_record(repo, "full", "5 passed, 3 skipped, 4 deselected in 90.00s", commit, version="v0.9")
+    assert v.newest_record(repo, v.SUITE_FILES["full"]).parent.name == "v0160"
+
+
+def test_each_record_must_describe_the_environment_the_readme_names(repo):
+    commit = git_repo(repo)
+    full, ci = "12 passed, 3 skipped, 4 deselected in 90.00s", "9 passed, 6 skipped, 4 deselected in 9.00s"
+    write_record(repo, "ci", ci, commit, packages=FULL_PKGS)
+    assert suite(repo, "ci") == "MISMATCH"                               # flwr and opacus were installed
+    write_record(repo, "ci", ci, commit, tree="working copy")
+    assert suite(repo, "ci") == "MISMATCH"                               # not a clean checkout
+    write_record(repo, "full", full, commit, packages=CI_PKGS)
+    assert suite(repo, "full") == "MISMATCH"                             # the "every extra installed" count needs flwr and opacus
 
 
 def test_fast_suite_line_must_be_a_real_pytest_closing_line_without_failures(repo):
-    ev = repo / "reports/results/privacy/v0143"
-    ev.mkdir(parents=True)
-    suite = lambda: statuses(repo, [], suite=True)["tests.fast_suite_count"]        # noqa: E731
-    (ev / "fast_suite.txt").write_text("I ran 12 passed, 3 skipped by hand\n")      # prose is not a pytest line
-    assert suite() == "MISSING"
-    (ev / "fast_suite.txt").write_text("= 12 passed, 3 skipped in 1.00s =\nnote: 99 passed in 1s later\n")
-    assert suite() == "OK"
-    (ev / "fast_suite.txt").write_text("1 failed, 11 passed, 3 skipped in 90.00s\n")
-    assert suite() == "MISMATCH"                                                  # same counts but a failure
-    (ev / "fast_suite.txt").write_text("12 passed, 3 skipped, 1 error in 90.00s\n")
-    assert suite() == "MISMATCH"
+    commit = git_repo(repo)
+    ev = repo / "reports/results/privacy/v0150"
+
+    def put(text):
+        write_record(repo, "full", "PLACEHOLDER", commit)
+        f = ev / v.SUITE_FILES["full"]
+        f.write_text(f.read_text().replace("PLACEHOLDER\n", text))
+    put("I ran 12 passed, 3 skipped by hand\n")                          # prose is not a pytest line
+    assert suite(repo) == "MISSING"
+    put("= 12 passed, 3 skipped in 1.00s =\nnote: 99 passed in 1s later\n")
+    assert suite(repo) == "OK"
+    put("1 failed, 11 passed, 3 skipped in 90.00s\n")
+    assert suite(repo) == "MISMATCH"                                     # same counts but a failure
+    put("12 passed, 3 skipped, 1 error in 90.00s\n")
+    assert suite(repo) == "MISMATCH"
+
+
+def test_readme_without_the_two_count_lines_fails_closed(repo):
+    (repo / "README.md").write_text(README.replace("every extra installed", "somewhere"))
+    assert both(repo)["full"] == "MISSING"
 
 
 def test_nan_and_infinity_in_the_evidence_never_pass(repo):
@@ -213,6 +329,15 @@ def test_the_real_readme_matches_the_saved_evidence():
     assert [(cid, st, d) for cid, st, d in res if st != "OK"] == []
     ids = {cid for cid, _, _ in res}
     assert {"prose.aggregate_against_floor", "verdict.aggregate", "inversion.plaintext_individual.points_above_floor"} <= ids
+
+
+def test_record_text_has_the_commit_and_the_environment():
+    import record_fast_suite as rec
+    text = rec.record_text("5 passed in 1.00s", "a" * 40, False, "working copy", today="2026-11-23")
+    fields = v.record_fields(text)
+    assert fields["commit"] == "a" * 40 and fields["code_dirty"] == "no" and fields["tree"] == "working copy"
+    assert fields["date"] == "2026-11-23" and "torch" in fields["packages"] and "flwr" in fields["packages"]
+    assert v.parse_suite_line(text)["passed"] == 5
 
 
 def test_record_fast_suite_keeps_only_the_closing_line():

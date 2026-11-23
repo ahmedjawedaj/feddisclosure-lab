@@ -6,7 +6,9 @@ the number stored in the evidence file it points to (within the rounding the REA
 It checks table cells, numbers quoted in the prose under the table, and the verdict words
 (for example "26 points above" or "does not beat the floor"), which are derived from the saved
 intervals so a stale verdict is caught when the evidence changes. The test-suite count is read from
-`fast_suite.txt`, which `scripts/record_fast_suite.py` writes from a real pytest run.
+the newest fast suite records (one per environment), which `scripts/record_fast_suite.py` writes from a real pytest
+run. A record is flagged when the code changed after the commit it names, or when its package line does not fit
+the environment the README says the count is for.
 It fails closed: a missing README row, a missing evidence file, a missing JSON path, a value that is
 not a finite number or a mismatch gives exit code 1.
 """
@@ -18,6 +20,7 @@ import json
 import math
 from pathlib import Path
 import re
+import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,7 +28,11 @@ VIEWS = "reports/results/privacy/v014/view_comparison/summary.json"
 FLOOR = "reports/results/privacy/v0143/label_floor.json"
 INTERVALS = "reports/results/privacy/v0143/view_intervals.json"
 LIRA = "reports/results/privacy/v014/lira/{}/summary.json"
-SUITE = "reports/results/privacy/v0143/fast_suite.txt"
+# Fast suite records live in reports/results/privacy/v*/. The newest version directory that holds the file wins.
+RECORD_DIR = "reports/results/privacy/v0150"
+SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
+# A record is stale when any of these changed between the commit it names and the working tree.
+CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
 
 
 @dataclass(frozen=True)
@@ -146,7 +153,9 @@ CLAIMS: list[Claim] = _view_claims() + _lira_claims()
 PROSE: list[ProseClaim] = _prose_claims()
 VERDICTS: list[Verdict] = _verdicts()
 PHRASES: list[Phrase] = _phrases()
-SUITE_README = re.compile(r"\((\d+) pass and (\d+) skip")
+# The README states one count per environment, for example "every extra installed: 506 pass and 8 skip".
+SUITE_README = {"full": re.compile(r"every extra installed: (\d+) pass and (\d+) skip"),
+                "ci": re.compile(r"without flwr and opacus: (\d+) pass and (\d+) skip")}
 # The closing line of a pytest run, for example "195 passed, 4 skipped, 4 deselected, 2 warnings in 20.30s".
 SUITE_EVIDENCE = re.compile(r"^(?:=+ )?((?:\d+ (?:passed|failed|skipped|deselected|xfailed|xpassed|errors?|warnings?)(?:, )?)+) in [\d.]+s")
 SUITE_PART = re.compile(r"(\d+) (passed|failed|skipped|errors?)")
@@ -283,21 +292,74 @@ def parse_suite_line(text: str) -> dict | None:
     return last
 
 
-def check_suite_line(readme: str, root: Path) -> tuple[str, str]:
-    m = SUITE_README.search(readme)
+def _version_key(path: Path) -> tuple:
+    return tuple(int(n) for n in re.findall(r"\d+", path.parent.name))
+
+
+def newest_record(root: Path, name: str) -> Path | None:
+    """The record `name` in the newest reports/results/privacy/v* directory that has one."""
+    found = sorted((root / "reports/results/privacy").glob(f"v*/{name}"), key=_version_key)
+    return found[-1] if found else None
+
+
+def record_fields(text: str) -> dict[str, str]:
+    fields = {}
+    for ln in text.splitlines():
+        m = re.match(r"^(date|commit|code_dirty|tree|python|packages): (.*)$", ln.strip())
+        if m:
+            fields[m.group(1)] = m.group(2).strip()
+    return fields
+
+
+def _git(root: Path, *args: str) -> str:
+    return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, check=True).stdout.strip()
+
+
+def staleness(root: Path, fields: dict[str, str]) -> tuple[str, str]:
+    """OK when no code path changed since the recorded commit. MISMATCH when one did, or when the record was
+    made with uncommitted code changes. MISSING when the commit is absent or git cannot answer (fail closed)."""
+    commit = fields.get("commit", "")
+    if not re.fullmatch(r"[0-9a-f]{40}", commit):
+        return "MISSING", "record has no git commit line, so it cannot be compared with the code (rerun scripts/record_fast_suite.py)"
+    if fields.get("code_dirty") != "no":
+        return "MISMATCH", "record was made with uncommitted code changes"
+    try:
+        changed = _git(root, "diff", "--name-only", commit, "--", *CODE_PATHS).splitlines()
+    except (subprocess.CalledProcessError, FileNotFoundError, OSError) as e:
+        return "MISSING", f"git cannot compare {commit[:10]} with the working tree: {e!r}"
+    if changed:
+        more = "" if len(changed) <= 3 else f" and {len(changed) - 3} more"
+        return "MISMATCH", f"code changed after the record (commit {commit[:10]}): {', '.join(changed[:3])}{more}. Rerun scripts/record_fast_suite.py"
+    return "OK", f"no code change since {commit[:10]}"
+
+
+def check_suite_line(readme: str, root: Path, kind: str = "full") -> tuple[str, str]:
+    m = SUITE_README[kind].search(readme)
     if not m:
-        return "MISSING", "README quick start has no '(N pass and M skip' line"
-    f = root / SUITE
-    if not f.is_file():
-        return "MISSING", f"evidence file {SUITE} (write it with scripts/record_fast_suite.py)"
-    got = parse_suite_line(f.read_text())
+        return "MISSING", f"README quick start has no '{SUITE_README[kind].pattern}' line"
+    f = newest_record(root, SUITE_FILES[kind])
+    if f is None:
+        return "MISSING", f"no {SUITE_FILES[kind]} under reports/results/privacy/v* (write it with scripts/record_fast_suite.py --kind {kind})"
+    text = f.read_text()
+    got = parse_suite_line(text)
     if got is None:
-        return "MISSING", f"no pytest closing line in {SUITE}"
+        return "MISSING", f"no pytest closing line in {f.relative_to(root)}"
     if got["failed"] or got["error"]:
         return "MISMATCH", f"saved pytest line has failures or errors: {got}"
     want = (int(m.group(1)), int(m.group(2)))
     have = (got["passed"], got["skipped"])
-    return ("OK", f"{want}") if have == want else ("MISMATCH", f"README {want} but saved pytest line {have}")
+    if have != want:
+        return "MISMATCH", f"README {want} but saved pytest line {have} in {f.relative_to(root)}"
+    fields = record_fields(text)
+    pk = fields.get("packages", "")
+    absent = {n: re.search(rf"\b{n} absent\b", pk) is not None for n in ("flwr", "opacus")}
+    present = {n: re.search(rf"\b{n} \d", pk) is not None for n in ("flwr", "opacus")}
+    if kind == "ci" and not (all(absent.values()) and fields.get("tree", "").startswith("clean checkout")):
+        return "MISMATCH", f"the record is not a clean checkout without flwr and opacus (tree '{fields.get('tree')}', packages '{pk}')"
+    if kind == "full" and not all(present.values()):
+        return "MISMATCH", f"the record was not made with flwr and opacus installed (packages '{pk}')"
+    status, detail = staleness(root, fields)
+    return (status, detail) if status != "OK" else ("OK", f"{want} in {f.relative_to(root)}, {detail}")
 
 
 def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, suite: bool = True,
@@ -311,7 +373,7 @@ def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, sui
     results += [(c.id, *check_verdict(readme, root, c)) for c in (VERDICTS if verdicts is None else verdicts)]
     results += [(c.id, *check_phrase(readme, c)) for c in (PHRASES if phrases is None else phrases)]
     if suite:
-        results.append(("tests.fast_suite_count", *check_suite_line(readme, root)))
+        results += [(f"tests.fast_suite_count.{k}", *check_suite_line(readme, root, k)) for k in SUITE_FILES]
     return results
 
 
