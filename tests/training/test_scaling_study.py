@@ -129,7 +129,9 @@ def test_run_seed_is_deterministic_and_shaped_for_both_client_counts():
     assert out[4]["views"]["plaintext_individual"] == out[8]["views"]["plaintext_individual"]
 
 
-def test_legacy_seeds_change_the_client_steps_but_not_the_data():
+def test_client_seeds_have_no_effect_without_dp_noise():
+    """The local step is plain SGD from a shared initial model. The client seed only feeds a random number
+    generator that plain SGD never uses, so the legacy and the collision-free schemes give identical results."""
     pytest.importorskip("flwr")      # the SecAgg+ quantiser comes from Flower
     from sklearn.datasets import load_digits
     x, y = load_digits(return_X_y=True)
@@ -137,6 +139,7 @@ def test_legacy_seeds_change_the_client_steps_but_not_the_data():
     new = ss.run_seed(x, y, 1, 4, iterations=3, legacy_seeds=False)
     old = ss.run_seed(x, y, 1, 4, iterations=3, legacy_seeds=True)
     assert new["label_floor_per_image_mse"] == old["label_floor_per_image_mse"]
+    assert new["views"] == old["views"]
 
 
 def test_saved_summary_matches_a_recomputation_from_the_per_seed_files():

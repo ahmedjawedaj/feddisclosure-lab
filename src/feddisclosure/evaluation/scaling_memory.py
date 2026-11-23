@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 import threading
 import time
-from typing import Callable
+from typing import Callable, Iterable
 
 GB = 10 ** 9
 LIMIT_GB = 6.0          # pre-registered, S3
@@ -21,6 +21,15 @@ STATS_FORMAT = "{{.Name}}\t{{.MemUsage}}"
 _UNITS = {"b": 1, "kb": 10 ** 3, "mb": 10 ** 6, "gb": 10 ** 9, "tb": 10 ** 12,
           "kib": 2 ** 10, "mib": 2 ** 20, "gib": 2 ** 30, "tib": 2 ** 40}
 _SIZE = re.compile(r"^\s*([0-9]*\.?[0-9]+)\s*([A-Za-z]+)\s*$")
+
+
+def expected_container_names(clients: int, prefix: str = PROJECT_PREFIX) -> set[str]:
+    """The 2 + 2 * clients containers of the SecAgg+ compose project: a ClientApp executor and a SuperNode per
+    client, plus the server executor and the SuperLink. Other containers (such as the Flower CLI one) are extra."""
+    names = {f"{prefix}serverexec-1", f"{prefix}superlink-1"}
+    for i in range(clients):
+        names |= {f"{prefix}clientexec-{i}-1", f"{prefix}supernode-{i}-1"}
+    return names
 
 
 def parse_size(text: str) -> int:
@@ -50,6 +59,7 @@ class PeakTracker:
         self.peak_total = 0
         self.per_container: dict[str, int] = {}
         self.max_containers = 0
+        self.names_seen: set[str] = set()
         self.timeline: list[list[float]] = []        # [seconds since start, total bytes]
         self._t0 = time.monotonic()
 
@@ -60,20 +70,36 @@ class PeakTracker:
         total = sum(sample.values())
         self.peak_total = max(self.peak_total, total)
         self.max_containers = max(self.max_containers, len(sample))
+        self.names_seen |= set(sample)
         for name, used in sample.items():
             self.per_container[name] = max(self.per_container.get(name, 0), used)
         self.timeline.append([round(time.monotonic() - self._t0, 1), total])
 
-    def report(self, *, limit_gb: float = LIMIT_GB, run_completed: bool, expected_containers: int,
-               poll_seconds: float) -> dict:
-        """The S3 record. pass needs a finished run, every expected container seen and a peak below the limit."""
+    def report(self, *, limit_gb: float = LIMIT_GB, run_completed: bool, expected_containers: int | None = None,
+               poll_seconds: float, expected_names: Iterable[str] | None = None) -> dict:
+        """The S3 record. pass needs a finished run, every expected container seen and a peak below the limit.
+
+        With `expected_names` the exact set of expected containers must have been seen, and extra containers
+        (such as the CLI one) are allowed. A count alone cannot tell an extra container from a missing one, so it
+        is used only when no names are given."""
         peak_single = max(self.per_container.values(), default=0)
-        complete_view = self.max_containers >= expected_containers
+        if expected_names is not None:
+            names = set(expected_names)
+            expected_containers = len(names)
+            missing = sorted(names - self.names_seen)
+            extra = sorted(self.names_seen - names)
+            complete_view = not missing
+        else:
+            if expected_containers is None:
+                raise ValueError("give expected_names or expected_containers")
+            missing, extra = None, None
+            complete_view = self.max_containers >= expected_containers
         within = self.samples > 0 and self.peak_total < limit_gb * GB
         outcome = ("run_incomplete" if not run_completed else "no_samples" if self.samples == 0
                    else "containers_missing" if not complete_view else "pass" if within else "fail_memory")
         return {"schema_version": 1, "samples": self.samples, "poll_interval_seconds": poll_seconds,
                 "containers_expected": expected_containers, "containers_seen": self.max_containers,
+                "expected_containers_missing": missing, "extra_containers_seen": extra,
                 "peak_total_bytes": self.peak_total, "peak_total_gb": round(self.peak_total / GB, 3),
                 "peak_single_container_gb": round(peak_single / GB, 3),
                 "per_container_peak_gb": {k: round(v / GB, 3) for k, v in sorted(self.per_container.items())},

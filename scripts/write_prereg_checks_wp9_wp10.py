@@ -17,6 +17,20 @@ V = ROOT / "reports/results/privacy/v0150"
 PREREG = "docs/preregistration/v0.15.md"
 
 
+OLD_KEY = "gap_upper_limit_is_conservative_check"
+NEW_KEY = "aggregate_wilson_upper_limit_within_floor_plus_5"
+
+
+def _plain_names(check: dict) -> dict:
+    """The saved study summary calls this flag `gap_upper_limit_is_conservative_check`. Here it gets a plain name.
+    It is true when the upper Wilson limit of the aggregate rate is at most the floor rate plus 5 points."""
+    out = json.loads(json.dumps(check))
+    obs = out["observed"]
+    if OLD_KEY in obs:
+        obs[NEW_KEY] = obs.pop(OLD_KEY)
+    return out
+
+
 def scaling() -> dict:
     study = json.loads((V / "scaling/runs/summary.json").read_text())
     out = {"schema_version": 1, "preregistration": PREREG,
@@ -24,13 +38,16 @@ def scaling() -> dict:
                    "point estimates of pooled recognisable rates. Intervals are reported next to them. The primary SecAgg+ "
                    "setting is max_weight 1000 (the upstream default, fixed before the 8-client run). 30 evaluation seeds "
                    "(0 to 29), 8 victim images per seed.",
-           "S1": {**study["S1"], "operationalisation":
+           "S1": {**_plain_names(study["S1"]), "verdict_label": "PASS (vacuous, by the one-sided rule)",
+                  "operationalisation":
                   "Floor is the class-average label floor on the same victim images. The aggregate view is the SecAgg+ "
-                  "aggregate with joint-oracle labels. Pass uses point estimates. The aggregate is far BELOW the floor, "
-                  "so S1 passes because the attack is weak on 64 joint images, not because of any guarantee."},
+                  "aggregate with joint-oracle labels. Pass uses point estimates. The rule is one-sided (at most floor plus "
+                  "5 points) and the aggregate is far BELOW the floor, so S1 passes because this attack is weak on 64 joint "
+                  "images. A two-sided reading (within 5 points of the floor) would FAIL. The pass is not privacy evidence "
+                  "and any aggregate-at-floor claim is conditional on this weaker attack."},
            "S2": {**study["S2"], "operationalisation":
                   "n-1 collusion on the primary max_weight 1000 view at 4 and 8 clients. Both counts must reach 85 percent."},
-           "S1_at_4_clients_for_reference": study["S1_at_4_clients_for_reference"]}
+           "S1_at_4_clients_for_reference": _plain_names(study["S1_at_4_clients_for_reference"])}
     mem = V / "scaling/docker_n8/scaling_n8_memory.json"
     if mem.is_file():
         m = json.loads(mem.read_text())
@@ -57,8 +74,11 @@ def fashion() -> dict:
             "X1": {**study["X1"], "operationalisation":
                    "Plaintext and n-1 collusion must each be at least floor plus 10 points and the aggregate view at most "
                    "floor plus 5 points. All three parts must hold. The same rule at max_weight 16 is reported as "
-                   "X1_secondary_max_weight_16 and does not change the verdict."},
-            "X1_secondary_max_weight_16": study["X1_secondary_max_weight_16"]}
+                   "X1_secondary_max_weight_16 and does not change the verdict.",
+                   "verdict_effect": "decides the X1 verdict"},
+            "X1_secondary_max_weight_16": {**study["X1_secondary_max_weight_16"], "verdict_effect": "none",
+                   "note": "Reported for context only. The X1 verdict is the primary row at max_weight 1000. "
+                           "Passing here does not change it."}}
 
 
 def main():

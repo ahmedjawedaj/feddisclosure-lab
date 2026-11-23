@@ -26,7 +26,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(ROOT / "src"))
 
 from feddisclosure.evaluation.scaling_memory import (LIMIT_GB, PROJECT_PREFIX, STATS_FORMAT, PeakTracker,
-                                                      StatsSampler)
+                                                      StatsSampler, expected_container_names)
 from feddisclosure.training.datasets import prepare_partitions
 from feddisclosure.training.secagg_params import validate_secagg_params
 
@@ -169,7 +169,7 @@ def main(argv=None) -> int:
     record = run_dir / "server" / "flower_run.json"
     verified = bool(record.is_file() and json.loads(record.read_text()).get("native_flower_verified"))
     report = tracker.report(limit_gb=a.limit_gb, run_completed=verified and code == 0,
-                            expected_containers=2 + 2 * CLIENTS, poll_seconds=a.poll_seconds)
+                            expected_names=expected_container_names(CLIENTS), poll_seconds=a.poll_seconds)
     report.update({"row": "S3", "clients": CLIENTS, "num_shares": a.num_shares, "reconstruction_threshold": a.threshold,
                    "runner_exit_code": code, "poll_errors": sampler.errors[:5], "host": host_info()})
     (out / "scaling_n8_memory.json").write_text(json.dumps(report, indent=2) + "\n")
