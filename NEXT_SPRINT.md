@@ -1,3 +1,12 @@
+## After v0.16.0 (2026-11-23)
+
+Done in v0.16.0: measured privacy of Flower's DP mechanisms (plan item P1, first framework).
+
+- [ ] Run `scripts/audit_flower_dp.py` style measurements on two more frameworks. Check each framework's release history and tracker before writing predictions.
+- [ ] Stronger inversion attack as the primary attack, on CIFAR-10 (plan item P3).
+- [ ] Inventory of what the server sees with protections on (plan item P2).
+- [ ] Composition and sampling amplification, which v0.16.0 did not measure.
+
 ## After v0.15.0 (2026-11-23)
 
 Done in v0.15.0 (see `CHANGELOG.md`, `docs/preregistration/v0.15.md` and `docs/v0.15-*.md`):
