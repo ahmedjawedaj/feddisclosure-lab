@@ -31,7 +31,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = ["pytest>=8,<10", "pytest-cov>=5,<8"]
+test = ["pytest>=8,<10", "pytest-cov>=5,<8", "hypothesis>=6.100,<7"]
 research = ["torch>=2.3,<3", "torchvision>=0.18,<1", "scikit-learn>=1.4,<2", "scipy>=1.11,<2", "scikit-image>=0.22,<1", "matplotlib>=3.8,<4"]
 ml = ["torch>=2.3,<3", "torchvision>=0.18,<1", "scikit-learn>=1.4,<2", "scipy>=1.11,<2", "scikit-image>=0.22,<1", "flwr[simulation]>=1.27,<1.28"]
 privacy = ["opendp>=0.12,<1", "opacus>=1.4,<2"]

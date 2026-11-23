@@ -43,6 +43,7 @@ def test_collusion_recovers_victim_to_quantisation_precision():
 
 
 def test_dp_step_adds_noise_that_grows_with_sigma():
+    pytest.importorskip("opacus")
     torch.manual_seed(0)
     init = DigitMLP(64, 10).state_dict()
     x = np.random.default_rng(0).random((8, 64)).astype(np.float32); y = np.arange(8) % 10
