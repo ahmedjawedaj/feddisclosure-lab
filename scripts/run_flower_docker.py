@@ -114,7 +114,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, default=ROOT / "configs/training/fedavg_digits_iid.yaml")
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data/training/digits-docker-iid-v012")
-    parser.add_argument("--run-dir", type=Path, default=ROOT / "reports/results/native_flower/v012")
+    parser.add_argument("--run-dir", type=Path, default=None,
+                        help="Where the run evidence goes. The default is a new directory "
+                             "reports/results/native_flower/local/<UTC time>, never the saved v012 evidence. "
+                             "Pass the directory explicitly to write somewhere else.")
     parser.add_argument("--env-file", type=Path, default=ROOT / ".env.flower.generated")
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--keep-running", action="store_true")
@@ -135,6 +138,9 @@ def main():
     parser.add_argument("--fault-when", choices=["before-run", "after-first-train", "during-round-2"],
                         default="before-run")
     a = parser.parse_args()
+    if a.run_dir is None:
+        a.run_dir = ROOT / "reports/results/native_flower/local" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        print(f"no --run-dir given, writing to {a.run_dir}")
     run_dir = a.run_dir.resolve()
     prep = prepare(a.config.resolve(), a.data_dir.resolve(), run_dir, a.env_file)
     config = yaml.safe_load(a.config.read_text())

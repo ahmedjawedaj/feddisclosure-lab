@@ -61,3 +61,6 @@ reports/results/sprint1/docker_*.txt
 /reports/results/native_flower/**/*.pt
 /reports/results/native_flower/**/*.npz
 /reports/results/native_flower/**/*.env
+
+# Local, unreviewed native runs made with the default --run-dir of scripts/run_flower_docker.py
+/reports/results/native_flower/local/
