@@ -17,7 +17,7 @@ README = """# Title
 
 ```bash
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   every extra installed: 12 pass and 3 skip, 4 deselected
+#   with flwr and opacus: 12 pass and 3 skip, 4 deselected
 #   without flwr and opacus: 9 pass and 6 skip, 4 deselected
 ```
 """
@@ -186,7 +186,7 @@ def test_each_record_must_describe_the_environment_the_readme_names(repo):
     write_record(repo, "ci", ci, commit, tree="working copy")
     assert suite(repo, "ci") == "MISMATCH"                               # not a clean checkout
     write_record(repo, "full", full, commit, packages=CI_PKGS)
-    assert suite(repo, "full") == "MISMATCH"                             # the "every extra installed" count needs flwr and opacus
+    assert suite(repo, "full") == "MISMATCH"                             # the "with flwr and opacus" count needs flwr and opacus
 
 
 def test_fast_suite_line_must_be_a_real_pytest_closing_line_without_failures(repo):
@@ -208,7 +208,7 @@ def test_fast_suite_line_must_be_a_real_pytest_closing_line_without_failures(rep
 
 
 def test_readme_without_the_two_count_lines_fails_closed(repo):
-    (repo / "README.md").write_text(README.replace("every extra installed", "somewhere"))
+    (repo / "README.md").write_text(README.replace("with flwr and opacus", "somewhere"))
     assert both(repo)["full"] == "MISSING"
 
 

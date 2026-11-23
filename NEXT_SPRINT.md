@@ -5,7 +5,7 @@ Done in v0.15.0 (see `CHANGELOG.md`, `docs/preregistration/v0.15.md` and `docs/v
 - [x] One-round SecAgg+ error proof, property tests and a convex multi-round L2 test (E1, E3, M1 pass, E2 fails).
 - [x] DP bound against an informed attacker for one full-batch step (D3 fails, the rest pass).
 - [x] Wire-level validation on a deployed Flower 1.27.0 stack, 4 clients, one round (W1 to W6 pass, with the caveats listed).
-- [x] Seeded-fault matrix (F1 and F2 pass, the plaintext fallback evades the specified detectors).
+- [x] Seeded-fault matrix (F1 and F2 pass, F2 on the white-box audit only, and the plaintext fallback evades the specified detectors).
 - [x] External baselines (B1 fails, B2 passes).
 - [x] Reply-order study and opt-in `DeterministicFedAvg` (P1 replay only, P2 fails, P3 cannot fail), six live hosted runs.
 - [x] Scaling to 8 clients (S1 vacuous, S2 and S3 pass) and Fashion-MNIST (X1 fails by 0.6 points).

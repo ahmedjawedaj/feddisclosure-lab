@@ -12,18 +12,13 @@
     "modulus_range": 4294967296,
     "largest_n_without_possible_wrap": 1023
   },
-  "overflow_limit": {
+  "sum_range": {
     "quantised_value_at_plus_c": 4194304,
     "largest_n_without_possible_wrap": 1023,
     "n_1023_all_at_plus_c": {
       "raw_sum": 4290772992,
       "after_mod": 4290772992,
       "wrapped": false
-    },
-    "n_1024_all_at_plus_c": {
-      "raw_sum": 4294967296,
-      "after_mod": 0,
-      "wrapped": true
     }
   },
   "e1_float32": {

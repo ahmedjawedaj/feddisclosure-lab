@@ -4,7 +4,7 @@ set -u
 cd "$(dirname "$0")/.."
 export PYTHONPATH=src:.
 V=${1:-reports/results/secagg/v014_n4_replicates}
-ENVD=${ENV_DIR:-/home/claude/runs}
+ENVD=${ENV_DIR:-$HOME/runs}
 mkdir -p "$V" "$ENVD"
 for i in 1 2 3; do
   name=rep$i; [ -f "$V/$name.exit" ] && continue

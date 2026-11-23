@@ -36,7 +36,7 @@ Only synthetic or public data are used: scikit-learn Digits, plus optional Fashi
 
 ## Headline results (v0.15.0)
 
-All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
+All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, P1 and F2 readings were fixed. W3 and F2 would fail under the other reading. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
 ### What v0.15 tested
 
@@ -60,10 +60,10 @@ Failures are listed on purpose and none was reworded.
 - **E2.** The float32 client path does add a bias, but it never breaks the float64 error bound.
 - **D3.** Same-label candidates at sigma 4 are 0.055 below the bound, outside the 0.05 limit. Any-label candidates pass (0.022).
 - **B1.** The repository inversion attack is weaker than a tuned `breaching` run (ratio 1.86 against a limit of 1.5). The repository attack was not tuned, so the comparison favours `breaching`. Every aggregate-view statement in this repository is conditional on the weaker attack.
-- **P2.** The shipped 4-client config does not show reply-order dependence in replay. An exploratory 4-client MNIST setup does (83.3% of orders pass), and two of the seven 3-client native replays do (MNIST seed 3 and MNIST label skew, where none of 6 orders pass). The other five pass for all 6 orders.
-- **X1.** Fashion-MNIST collusion misses the +10 point rule by 0.6 points, The 20-seed bootstrap interval (+0.6 to +18.8) is too wide to say whether another seed set would pass or fail. The max weight 16 row was not registered and is context only.
+- **P2.** The shipped 4-client config does not show reply-order dependence in replay. An exploratory 4-client MNIST setup does (83.3% of orders pass). Two of the seven 3-client native replays fail the gate (MNIST seed 3 and MNIST label skew), but they fail for all 6 orders, so that failure does not depend on the order. The other five pass for all 6 orders.
+- **X1.** Fashion-MNIST collusion misses the +10 point rule by 0.6 points. The 20-seed bootstrap interval (+0.6 to +18.8) is too wide to say whether another seed set would pass or fail. The registration names no max weight. The verdict is read at 1000 (the upstream default), and at 16 the same rule would pass, which is context only.
 
-F1 passes by its numeric rule, but the plaintext fallback evades the specified detectors. Several passes are weak and are labelled that way above: W1 and S1 are vacuous, W3 has low power, P3 cannot fail, P1 holds in replay only and W5 covers counts only.
+F1 passes by its numeric rule, but the plaintext fallback evades the specified detectors. Several passes are weak and are labelled that way above: W1 and S1 are vacuous, W3 has low power, P3 cannot fail, P1 holds in replay only, W5 covers counts only and F2 holds on the white-box audit only.
 
 ### Update inversion and membership inference (v0.14.3 reading, still current)
 
@@ -101,7 +101,7 @@ DP at epsilon near 2 brings the attack to chance, but held-out accuracy collapse
 
 **SecAgg+ dropout.** Five mid-round dropout scenarios matched the share-count rule: four tolerated, one halted. An earlier claim that three-client dropout halts was wrong and is withdrawn in the docs.
 
-**Determinism.** Bitwise float32 replay reproduces 7 of 7 native Flower runs. The stricter float64 reference parity gate (1e-5) passes only 5 of 7, because Flower's `FedAvg` sums float32 updates in reply order and float addition is not associative. The gate was not relaxed. Reply-order effects in Flower have been discussed publicly before (a thread on the Flower forum about non-determinism, and the BlazeFL project), so this repository does not claim to have found them. It only measures how they interact with its own gate. `DeterministicFedAvg` is an opt-in workaround that sorts replies by site id. With it on, the gate tests transport and client determinism and no longer tests Flower's own aggregation arithmetic.
+**Determinism.** Bitwise float32 replay reproduces 7 of 7 native Flower runs. The stricter float64 reference parity gate (1e-5) passes only 5 of 7. The two failing runs fail for every reply order in replay, so the cause is float32 accumulation over 10 rounds against a float64 reference, and reply order only changes the last bits. The gate was not relaxed. Reply-order effects in Flower have been discussed publicly before (a thread on the Flower forum about non-determinism, and the BlazeFL project), so this repository does not claim to have found them. It only measures how they interact with its own gate. `DeterministicFedAvg` is an opt-in workaround that sorts replies by site id and uses the float64 reference arithmetic. With it on, the gate tests transport and client determinism and no longer tests Flower's own aggregation arithmetic.
 
 ## Quick start
 
@@ -115,7 +115,7 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build
 pip install -e '.[test,research,ml,privacy]'
 
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   every extra installed: 551 pass and 8 skip, 4 deselected
+#   with flwr and opacus (no opendp, no torchvision): 551 pass and 8 skip, 4 deselected
 #   without flwr and opacus: 399 pass and 48 skip, 4 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
@@ -166,7 +166,7 @@ Project status files at the repo root (`CURRENT_STATE.md`, `NEXT_SPRINT.md`, `PR
 - **Inversion study is mostly an observation-model study.** The SecAgg+ view uses the upstream quantiser arithmetic on single-step updates. Wire capture on a deployed Flower stack checked that model at 4 clients, one round and one local step only, and the 8-client attack results are not checked against captured traffic. The attacker is naive and not DP aware. The aggregate-view results are conditional on that attacker, because a tuned external attack was stronger on the plaintext view (B1).
 - **Faults are simulated.** The fault matrix injects faults into real components or into copies of saved evidence. No faulty stack was deployed.
 - **Multi-round SecAgg+ error.** A proof exists only for convex losses (an L2 bound, [`docs/proofs/multi-round-note.md`](docs/proofs/multi-round-note.md)). For the non-convex model used here, two-round error is bimodal because of ReLU flips, and only an empirical tolerance limit is offered. The one-round bound is proven in [`docs/proofs/one-round-secagg-error.md`](docs/proofs/one-round-secagg-error.md).
-- **Scale.** Docker topologies were tested at 3 and 4 clients on a 2 CPU machine, and hosted 8-client rounds on a 4 CPU runner (memory only, two rounds). The attack studies at 8 clients are in-process.
+- **Scale.** Docker topologies were tested at 3 and 4 clients on a 2 CPU machine, and hosted 8-client rounds on a 4 CPU runner (memory only, two one-round runs). The attack studies at 8 clients are in-process.
 - **Data.** Digits, plus optional Fashion-MNIST (MIT licence, loaded at run time) and optional MNIST. Neither is redistributed, and a small Digits subset is committed as wire evidence. The MNIST originators publish no licence text, so redistribution terms are treated as unverified.
 - **Hosted CI.** Workflows have run on GitHub-hosted runners since 2026-11-22. The first runs failed in several ways, all recorded in [`CHANGELOG.md`](CHANGELOG.md). The push and pull request workflows are shown by the badges above. The Docker based workflows are dispatch only. `parity-live`, `wire-capture` and `scaling-n8` each ran on a hosted runner for v0.15 and their evidence is committed. `fashion-mnist-study` has not been run on a hosted runner.
 

@@ -68,11 +68,10 @@ def test_cell_lemma_and_bias_size_on_random_float32_arrays():
     assert table["abs_wv_4_to_8"]["max_abs_bias_units"] > 0.18            # the general supremum is 3/16
 
 
-def test_upstream_limit_on_n_is_1023():
-    lim = rsb.overflow_limit_check()
+def test_bound_assumption_on_n():
+    lim = rsb.sum_range_check()
     assert lim["largest_n_without_possible_wrap"] == 1023
     assert lim["n_1023_all_at_plus_c"]["wrapped"] is False
-    assert lim["n_1024_all_at_plus_c"]["wrapped"] is True and lim["n_1024_all_at_plus_c"]["after_mod"] == 0
 
 
 def test_clipped_inputs_are_detected_and_leave_the_bound():

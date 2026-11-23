@@ -5,7 +5,7 @@ set -u
 cd "$(dirname "$0")/.."
 export PYTHONPATH=src:.
 V=${1:-reports/results/native_flower/v014}
-ENVD=${ENV_DIR:-/home/claude/runs}
+ENVD=${ENV_DIR:-$HOME/runs}
 mkdir -p "$ENVD"
 run() { # name config datadir [extra args...]
   local name=$1 cfg=$2 data=$3; shift 3
