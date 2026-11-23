@@ -25,7 +25,7 @@ Wording and housekeeping corrections after a further review pass (R6) of the 0.1
 - **X1.** The README now says that the registration names no max weight and that the verdict is read at 1000.
 - **Readings fixed after the fact.** The README now says that the deviation log gives no time for the D5, W3, P1 and F2 readings, and that W3 and F2 would fail under the other reading.
 - **Scaling.** `docs/v0.15-scaling.md` said the fewer-shares check was not run in a native 8-client round. It was run once (7 shares, threshold 4).
-- **Quick start.** The 551 pass count is for an environment without `opendp` and `torchvision`.
+- **Quick start.** The full-environment pass count (551 at that release) is for an environment without `opendp` and `torchvision`.
 - **Authorship and timing statements.** `docs/preregistration/v0.15.md` now gives the exact commit range for convention 7, notes that merge commits made on GitHub use the account's noreply address, and says that the order of local runs relative to the registration rests on commit order.
 - **Reviews.** R2 to R4 are now described as separate review passes.
 
