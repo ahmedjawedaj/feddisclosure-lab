@@ -28,6 +28,10 @@ VIEWS = "reports/results/privacy/v014/view_comparison/summary.json"
 FLOOR = "reports/results/privacy/v0143/label_floor.json"
 INTERVALS = "reports/results/privacy/v0143/view_intervals.json"
 LIRA = "reports/results/privacy/v014/lira/{}/summary.json"
+V15 = "reports/results/privacy/v0150/"
+PROOFS, DP, WIRE, FAULTS = (V15 + f"prereg_check_{n}.json" for n in ("proofs", "dp", "wire", "faults"))
+EXTERNAL, PARITY, SCALING, FASHION = (V15 + f"prereg_check_{n}.json" for n in ("external", "parity", "scaling", "fashion"))
+FASHION_BOOT = V15 + "fashion_mnist/seed_bootstrap.json"
 # Fast suite records live in reports/results/privacy/v*/. The newest version directory that holds the file wins.
 RECORD_DIR = "reports/results/privacy/v0150"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
@@ -74,6 +78,15 @@ class Verdict:
     col: int
     file: str
     low_path: str
+
+
+@dataclass(frozen=True)
+class VerdictWord:
+    """The README must say `<token> PASS` or `<token> FAIL` as the saved pre-registration check says, and never the
+    opposite. The saved value is a boolean `pass` or a string "PASS" or "FAIL"."""
+    token: str
+    file: str
+    path: str
 
 
 @dataclass(frozen=True)
@@ -130,6 +143,76 @@ def _prose_claims() -> list[ProseClaim]:
     ]
 
 
+def _v15_prose() -> list[ProseClaim]:
+    """Numbers quoted in the v0.15 section of the README. Each one is read from a prereg_check file (or the seed
+    bootstrap file) that the work package scripts write. A sentence that is reworded or removed fails closed."""
+    R = Ref
+    b1, b2 = "checks/B1/headline/", "checks/B2/headline/"
+    x1, x16 = "X1/observed/secagg_collusion_maxw1000/rate_minus_floor", "X1_secondary_max_weight_16/observed/secagg_collusion_maxw16/rate_minus_floor"
+    gap = "rows/secagg_collusion_maxw1000/gap_seed_bootstrap/"
+    return [
+        ProseClaim("v15.E1", r"E1 PASS: zero counterexamples in ([\d,]+) float32 cases, largest error ([\d.]+) of the bound",
+                   (R(1, PROOFS, "E1/observed/cases_float32"), R(2, PROOFS, "E1/observed/max_error_over_stated_bound"))),
+        ProseClaim("v15.E2", r"bias of up to 3/16 of a quantisation unit \(([\d.]+) measured\)",
+                   (R(1, PROOFS, "E2/observed/float32_bias_max_abs_units_measured"),)),
+        ProseClaim("v15.E3", r"99th percentile error is ([\d.]+) to ([\d.]+) of the Hoeffding bound, and with one shared seed it breaks the bound at 256 clients \(([\d.]+) times the bound\)",
+                   (R(1, PROOFS, "E3/observed/4/independent_p99_over_bound"), R(2, PROOFS, "E3/observed/256/independent_p99_over_bound"),
+                    R(3, PROOFS, "E3/observed/256/shared_identical_p99_over_bound"))),
+        ProseClaim("v15.M1", r"the convex L2 bound has (\d+) violations in ([\d,]+) trials",
+                   (R(1, PROOFS, "M1/observed/l2_bound_violations"), R(2, PROOFS, "M1/observed/convex_trials"))),
+        ProseClaim("v15.D2", r"Wilson lower limit ([\d.]+) same-label and ([\d.]+) any-label at sigma 0.2",
+                   (R(1, DP, "D2/observed/wilson_lower_by_candidate_mode/same_u10"), R(2, DP, "D2/observed/wilson_lower_by_candidate_mode/any_u10"))),
+        ProseClaim("v15.D3_same_label", r"at sigma 4 the same-label attack is ([\d.]+) below the bound",
+                   (R(1, DP, "D3/observed/same_u10/gap"),)),
+        ProseClaim("v15.D3_any_label", r"Any-label candidates pass \(([\d.]+)\)", (R(1, DP, "D3/observed/any_u10/gap"),)),
+        ProseClaim("v15.W1", r"\((\d+) of \d+ victim images recognisable from one masked vector, label floor ([\d.]+)%\)",
+                   (R(1, WIRE, "W1/observed/attack_rate", 40), R(2, WIRE, "W1/observed/floor_rate", 100))),
+        ProseClaim("v15.W2", r"worst coordinate error is (\d+)% of the proven bound",
+                   (R(1, WIRE, "W2/observed/worst_error_over_bound", 100),)),
+        ProseClaim("v15.W3", r"captured ([\d.]+)% against simulated ([\d.]+)% recognisable",
+                   (R(1, WIRE, "W3/observed/captured_rate", 100), R(2, WIRE, "W3/observed/simulated_rate", 100))),
+        ProseClaim("v15.W4", r"W4: plaintext mode ([\d.]+)% recognisable", (R(1, WIRE, "W4/observed/recognisable_rate", 100),)),
+        ProseClaim("v15.W5", r"visible in (\d+) of (\d+) replies",
+                   (R(1, WIRE, "W5/observed/counts_visible"), R(2, WIRE, "W5/observed/replies"))),
+        ProseClaim("v15.W6", r"W6: (\d+) of (\d+) objects found",
+                   (R(1, WIRE, "W6/observed/found_in_relay"), R(2, WIRE, "W6/observed/objects"))),
+        ProseClaim("v15.F1", r"F1 PASS: (\d+) of 5 faults caught by the detectors as specified",
+                   (R(1, FAULTS, "F1/observed/strict_detectors_A_B_C_D1/n_detected"),)),
+        ProseClaim("v15.F2", r"has power ([\d.]+) at noise factors 0.25, 0.5 and 2 with a false positive rate of ([\d.]+)",
+                   (R(1, FAULTS, "F2/observed/power_by_noise_factor/noise_x0.5/power"), R(2, FAULTS, "F2/observed/false_positive_rate/rate"))),
+        ProseClaim("v15.B1", r"ratio ([\d.]+) \(bootstrap 95% interval ([\d.]+) to ([\d.]+), limit 1.5\)",
+                   (R(1, EXTERNAL, b1 + "ratio"), R(2, EXTERNAL, b1 + "ratio_bootstrap_ci95/0"), R(3, EXTERNAL, b1 + "ratio_bootstrap_ci95/1"))),
+        ProseClaim("v15.B1_shipped", r"\(ratios ([\d.]+) and ([\d.]+)\)",
+                   (R(1, EXTERNAL, "checks/B1/all_configurations/ig_library_default/ratio"),
+                    R(2, EXTERNAL, "checks/B1/all_configurations/dlg_known_labels/ratio"))),
+        ProseClaim("v15.B2", r"AUC ([\d.]+) against ([\d.]+) for the strongest reference",
+                   (R(1, EXTERNAL, b2 + "repo_auc"), R(2, EXTERNAL, b2 + "reference_auc"))),
+        ProseClaim("v15.P1", r"passes the unchanged 1e-5 float64 gate on (\d+) of (\d+) native runs",
+                   (R(1, PARITY, "P1/observed/passing_with_deterministic"), R(2, PARITY, "P1/observed/native_runs_replayed"))),
+        ProseClaim("v15.P2", r"\(([\d.]+)% of orders pass\)",
+                   (R(1, PARITY, "P2/observed/exploratory_4_client_configs/c4-mnist-iid-10round/upstream_pass_rate", 100),)),
+        ProseClaim("v15.S1", r"aggregate-only is ([\d.]+)% against a ([\d.]+)% floor at 8 clients",
+                   (R(1, SCALING, "S1/observed/aggregate_rate", 100), R(2, SCALING, "S1/observed/floor_rate", 100))),
+        ProseClaim("v15.S2", r"n-1 collusion is ([\d.]+)% at 4 clients and ([\d.]+)% at 8",
+                   (R(1, SCALING, "S2/observed/by_clients/4/rate", 100), R(2, SCALING, "S2/observed/by_clients/8/rate", 100))),
+        ProseClaim("v15.S3", r"peaked at ([\d.]+) GB against the 6 GB rule", (R(1, SCALING, "S3/observed/peak_total_gb"),)),
+        ProseClaim("v15.X1", r"n-1 collusion is \+([\d.]+) points over the floor against a \+10 rule \(20 seeds, seed bootstrap interval \+([\d.]+) to \+([\d.]+)\)",
+                   (R(1, FASHION, x1, 100), R(2, FASHION_BOOT, gap + "0", 100), R(3, FASHION_BOOT, gap + "1", 100))),
+        ProseClaim("v15.X1_secondary", r"the same rule would pass \(\+([\d.]+)\)", (R(1, FASHION, x16, 100),)),
+    ]
+
+
+def _verdict_words() -> list[VerdictWord]:
+    out = [VerdictWord(t, PROOFS, f"{t}/pass") for t in ("E1", "E2", "E3", "M1")]
+    out += [VerdictWord(t, DP, f"{t}/pass") for t in ("D1", "D2", "D3", "D4", "D5")]
+    out += [VerdictWord(t, FAULTS, f"{t}/pass") for t in ("F1", "F2")]
+    out += [VerdictWord(t, EXTERNAL, f"checks/{t}/verdict") for t in ("B1", "B2")]
+    out += [VerdictWord(t, PARITY, f"{t}/pass") for t in ("P1", "P2")]
+    out += [VerdictWord(t, SCALING, f"{t}/pass") for t in ("S1", "S2", "S3")]
+    out += [VerdictWord("X1", FASHION, "X1/pass")]
+    return out
+
+
 def _verdicts() -> list[Verdict]:
     key = "paired_rate_minus_label_floor_bootstrap95/1"
     return [Verdict("verdict.plaintext", "Plaintext update", 3, INTERVALS, f"views/plaintext_individual/{key}"),
@@ -150,9 +233,10 @@ def _lira_claims() -> list[Claim]:
 
 
 CLAIMS: list[Claim] = _view_claims() + _lira_claims()
-PROSE: list[ProseClaim] = _prose_claims()
+PROSE: list[ProseClaim] = _prose_claims() + _v15_prose()
 VERDICTS: list[Verdict] = _verdicts()
 PHRASES: list[Phrase] = _phrases()
+WORDS: list[VerdictWord] = _verdict_words()
 # The README states one count per environment, for example "every extra installed: 506 pass and 8 skip".
 SUITE_README = {"full": re.compile(r"every extra installed: (\d+) pass and (\d+) skip"),
                 "ci": re.compile(r"without flwr and opacus: (\d+) pass and (\d+) skip")}
@@ -237,7 +321,7 @@ def check_prose(readme: str, root: Path, c: ProseClaim) -> tuple[str, str]:
         return "MISSING", f"README prose does not match /{c.pattern}/"
     details = []
     for ref in c.refs:
-        printed, decimals = parse_number(m.group(ref.group))
+        printed, decimals = parse_number(m.group(ref.group).replace(",", ""))     # "20,000" prints 20000
         try:
             value = evidence_value(root, ref.file, ref.path, ref.scale, ref.minus_file, ref.minus_path)
         except FileNotFoundError as e:
@@ -270,6 +354,30 @@ def check_verdict(readme: str, root: Path, v: Verdict) -> tuple[str, str]:
         ok, want = says_not_beat and not says_above, "does not beat the floor"
     return ("OK", f"'{cell}' agrees with evidence ({want})") if ok else \
         ("MISMATCH", f"cell says '{cell}' but the paired interval (lower end {low:.4g}) means '{want}'")
+
+
+def check_word(readme: str, root: Path, w: VerdictWord) -> tuple[str, str]:
+    fp = root / w.file
+    if not fp.is_file():
+        return "MISSING", f"evidence file {w.file}"
+    try:
+        data = json.loads(fp.read_text())
+        for part in w.path.split("/"):
+            data = data[int(part)] if isinstance(data, list) else data[part]
+    except (KeyError, IndexError, ValueError, TypeError) as e:
+        return "MISSING", f"evidence path {w.path} in {w.file}: {e!r}"
+    if isinstance(data, bool):
+        passed = data
+    elif data in ("PASS", "FAIL"):
+        passed = data == "PASS"
+    else:
+        return "MISSING", f"value at {w.path} in {w.file} is neither a boolean nor PASS or FAIL: {data!r}"
+    want, other = ("PASS", "FAIL") if passed else ("FAIL", "PASS")
+    says_want = re.search(rf"\b{w.token} {want}\b", readme) is not None
+    says_other = re.search(rf"\b{w.token} {other}\b", readme) is not None
+    if says_want and not says_other:
+        return "OK", f"README says '{w.token} {want}' as the evidence does"
+    return "MISMATCH", f"evidence says {want} but README {'says ' + w.token + ' ' + other if says_other else 'does not say ' + w.token + ' ' + want}"
 
 
 def check_phrase(readme: str, p: Phrase) -> tuple[str, str]:
@@ -364,7 +472,7 @@ def check_suite_line(readme: str, root: Path, kind: str = "full") -> tuple[str, 
 
 def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, suite: bool = True,
            prose: list[ProseClaim] | None = None, verdicts: list[Verdict] | None = None,
-           phrases: list[Phrase] | None = None) -> list[tuple[str, str, str]]:
+           phrases: list[Phrase] | None = None, words: list[VerdictWord] | None = None) -> list[tuple[str, str, str]]:
     if not readme_path.is_file():
         return [("README", "MISSING", str(readme_path))]
     readme = readme_path.read_text()
@@ -372,6 +480,7 @@ def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, sui
     results += [(c.id, *check_prose(readme, root, c)) for c in (PROSE if prose is None else prose)]
     results += [(c.id, *check_verdict(readme, root, c)) for c in (VERDICTS if verdicts is None else verdicts)]
     results += [(c.id, *check_phrase(readme, c)) for c in (PHRASES if phrases is None else phrases)]
+    results += [(f"word.{w.token}", *check_word(readme, root, w)) for w in (WORDS if words is None else words)]
     if suite:
         results += [(f"tests.fast_suite_count.{k}", *check_suite_line(readme, root, k)) for k in SUITE_FILES]
     return results

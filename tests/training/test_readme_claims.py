@@ -35,9 +35,9 @@ def repo(tmp_path):
     return tmp_path
 
 
-def statuses(repo, claims=CLAIMS, suite=False, prose=(), verdicts=(), phrases=()):
+def statuses(repo, claims=CLAIMS, suite=False, prose=(), verdicts=(), phrases=(), words=()):
     res = v.verify(repo / "README.md", repo, list(claims), suite=suite, prose=list(prose), verdicts=list(verdicts),
-                   phrases=list(phrases))
+                   phrases=list(phrases), words=list(words))
     return {cid: st for cid, st, _ in res}
 
 
@@ -345,3 +345,65 @@ def test_record_fast_suite_keeps_only_the_closing_line():
     out = "..F.\n= 2 passed, 1 skipped, 4 deselected, 2 warnings in 20.30s =\n"
     assert rec.closing_line(out) == "2 passed, 1 skipped, 4 deselected, 2 warnings in 20.30s"
     assert rec.closing_line("2 passed by hand\nno summary") is None
+
+
+# ---------------------------------------------------------------- v0.15 numbers and verdict words in the real README
+REAL = (ROOT / "README.md").read_text()
+V15_IDS = [c.id for c in v.PROSE if c.id.startswith("v15.")]
+
+
+def test_every_v15_work_package_has_quoted_numbers_checked():
+    assert {"v15.E1", "v15.D3_same_label", "v15.W2", "v15.F1", "v15.B1", "v15.P1", "v15.S3", "v15.X1"} <= set(V15_IDS)
+    assert {w.token for w in v.WORDS} >= {"E2", "D3", "B1", "P2", "X1", "S1", "F1"}
+    res = {cid: st for cid, st, _ in v.verify(ROOT / "README.md", ROOT, claims=[], suite=False, verdicts=[], phrases=[])}
+    assert all(res[i] == "OK" for i in V15_IDS) and all(st == "OK" for cid, st in res.items() if cid.startswith("word."))
+
+
+@pytest.mark.parametrize("cid", V15_IDS)
+def test_a_wrong_number_in_a_v15_sentence_is_a_mismatch_and_a_missing_sentence_fails_closed(tmp_path, cid):
+    import re
+    claim = next(c for c in v.PROSE if c.id == cid)
+    m = re.search(claim.pattern, REAL)
+    assert m, f"README no longer matches {cid}"
+    for ref in claim.refs:
+        a, b = m.span(ref.group)
+        wrong = REAL[:a] + "9999" + REAL[b:]
+        (tmp_path / "README.md").write_text(wrong)
+        res = v.verify(tmp_path / "README.md", ROOT, claims=[], suite=False, prose=[claim], verdicts=[], phrases=[], words=[])
+        assert res[0][1] == "MISMATCH", (cid, ref.group, res)
+    (tmp_path / "README.md").write_text(REAL[:m.start()] + REAL[m.end():])
+    res = v.verify(tmp_path / "README.md", ROOT, claims=[], suite=False, prose=[claim], verdicts=[], phrases=[], words=[])
+    assert res[0][1] == "MISSING"
+
+
+def test_numbers_with_thousands_separators_are_read(repo):
+    (repo / "ev/c.json").write_text(json.dumps({"n": 20000}))
+    (repo / "README.md").write_text("It ran 20,000 cases.")
+    c = v.ProseClaim("t", r"ran ([\d,]+) cases", (v.Ref(1, "ev/c.json", "n"),))
+    assert statuses(repo, [], prose=[c])["t"] == "OK"
+    (repo / "README.md").write_text("It ran 20,001 cases.")
+    assert statuses(repo, [], prose=[c])["t"] == "MISMATCH"
+
+
+@pytest.mark.parametrize("passed", [True, False])
+def test_verdict_words_follow_the_saved_check(repo, passed):
+    (repo / "ev/p.json").write_text(json.dumps({"E9": {"pass": passed}, "B9": {"verdict": "PASS" if passed else "FAIL"}}))
+    ws = [v.VerdictWord("E9", "ev/p.json", "E9/pass"), v.VerdictWord("B9", "ev/p.json", "B9/verdict")]
+    right, wrong = ("PASS", "FAIL") if passed else ("FAIL", "PASS")
+    (repo / "README.md").write_text(f"E9 {right} and B9 {right}")
+    assert set(statuses(repo, [], words=ws).values()) == {"OK"}
+    (repo / "README.md").write_text(f"E9 {wrong} and B9 {right}")
+    assert statuses(repo, [], words=ws)["word.E9"] == "MISMATCH"
+    (repo / "README.md").write_text(f"E9 {right} and B9 {right} but also E9 {wrong}")
+    assert statuses(repo, [], words=ws)["word.E9"] == "MISMATCH"        # contradicting mention
+    (repo / "README.md").write_text("E9 is not mentioned. B9 " + right)
+    assert statuses(repo, [], words=ws)["word.E9"] == "MISMATCH"        # missing word
+
+
+def test_verdict_word_fails_closed_on_bad_evidence(repo):
+    (repo / "README.md").write_text("E9 PASS")
+    w = v.VerdictWord("E9", "ev/nope.json", "E9/pass")
+    assert statuses(repo, [], words=[w])["word.E9"] == "MISSING"
+    (repo / "ev/p.json").write_text(json.dumps({"E9": {"pass": None}}))
+    assert statuses(repo, [], words=[v.VerdictWord("E9", "ev/p.json", "E9/pass")])["word.E9"] == "MISSING"
+    assert statuses(repo, [], words=[v.VerdictWord("E9", "ev/p.json", "E9/gone")])["word.E9"] == "MISSING"
