@@ -8,7 +8,7 @@
 
 **A reproducible laboratory for measuring how much a federated learning system actually discloses, and how much common defenses really help.**
 
-FedDisclosure Lab trains real federated models with [Flower](https://flower.ai) in Docker, applies real privacy mechanisms ([Opacus](https://opacus.ai) DP-SGD, [OpenDP](https://opendp.org) releases, Flower SecAgg+), and then attacks the result with membership inference and update inversion. Every claim is tied to saved evidence, and negative results are kept next to the positive ones.
+FedDisclosure Lab trains real federated models with [Flower](https://flower.ai) in Docker, applies real privacy mechanisms ([Opacus](https://opacus.ai) DP-SGD, [OpenDP](https://opendp.org) releases, Flower SecAgg+), and then attacks the result with membership inference and update inversion. Every claim is tied to saved evidence, and negative results are kept next to the positive ones. Release 0.15.0 adds a proof and property tests for one SecAgg+ round, a DP bound against an informed attacker, a wire-level check on a deployed stack, a seeded-fault matrix, external baselines, a reply-order study and a scaling study. Five of its pre-registered predictions failed and are listed below.
 
 > **This is a research benchmark, not a privacy product.** It makes no formal security or privacy certification claim. Read [Status and honest limits](#status-and-honest-limits) before you cite or reuse any number.
 
@@ -20,20 +20,54 @@ Federated learning is often described as private because raw data never leaves t
 
 | Area | What is implemented | Where |
 |---|---|---|
-| Native federated training | Flower 1.27 Deployment Runtime in Docker Compose (SuperLink, SuperNodes, isolated client containers) on 3 and 4 clients, with per-client execution receipts and a fail-fast watchdog | `compose.flower*.yaml`, `scripts/run_flower_docker.py` |
+| Native federated training | Flower 1.27 Deployment Runtime in Docker Compose (SuperLink, SuperNodes, isolated client containers) on 3 and 4 clients, plus one 8-client round for memory, with per-client execution receipts and a fail-fast watchdog | `compose.flower*.yaml`, `scripts/run_flower_docker.py` |
 | Secure aggregation | Upstream Flower SecAgg+ runs, a dropout matrix, an error-propagation study and a multi-round acceptance rule | `scripts/run_secagg_*`, `scripts/verify_secagg_dropout_matrix.py` |
-| Differential privacy | Opacus DP-FedAvg with an RDP accountant, OpenDP counting releases with a persistent budget ledger | `src/feddisclosure/defenses/` |
+| Proofs and property tests | A proven one-round SecAgg+ quantisation error bound with property tests, and an L2 bound for convex losses over two rounds | [`docs/proofs/`](docs/proofs/one-round-secagg-error.md) |
+| Differential privacy | Opacus DP-FedAvg with an RDP accountant, OpenDP counting releases with a persistent budget ledger, and a closed-form bound checked against an informed attacker for one step | `src/feddisclosure/defenses/`, [`docs/v0.15-dp-informed-attack.md`](docs/v0.15-dp-informed-attack.md) |
 | Membership inference | LiRA shadow-model attack, 64 shadows and 16 targets, on Digits and full MNIST | `scripts/run_lira_study.py` |
-| Update inversion | Gradient-matching reconstruction against plaintext, SecAgg+ aggregate, n-1 collusion and DP views | `src/feddisclosure/attacks/view_study.py`, `scripts/run_view_comparison.py` |
-| Determinism gates | Bitwise float32 replay of Flower aggregation and a strict float64 parity gate (kept strict even where it fails) | `scripts/reproduce_flower_bitwise.py`, `scripts/verify_flower_replay_gate.py` |
+| Update inversion | Gradient-matching reconstruction against plaintext, SecAgg+ aggregate, n-1 collusion and DP views, checked on captured traffic from a 4-client Flower stack | `src/feddisclosure/attacks/view_study.py`, `scripts/run_view_comparison.py`, [`docs/v0.15-wire-validation.md`](docs/v0.15-wire-validation.md) |
+| External baselines | The repository's inversion attack and LiRA compared with `breaching` and `mialibrary` on matched setups | [`docs/v0.15-external-baselines.md`](docs/v0.15-external-baselines.md) |
+| Fault matrix | Five seeded faults (wrong DP noise, skipped clipping, plaintext fallback, wrong dropout handling, stale model) and the detectors that do or do not catch them | [`docs/v0.15-fault-matrix.md`](docs/v0.15-fault-matrix.md) |
+| Determinism gates | Bitwise float32 replay of Flower aggregation, a strict float64 parity gate (kept strict even where it fails) and an opt-in `DeterministicFedAvg` | `scripts/reproduce_flower_bitwise.py`, [`docs/v0.15-reply-order.md`](docs/v0.15-reply-order.md) |
 | Federated analytics | Three-site gateway with disclosure controls and a persistent principal-wide query history policy | `services/`, `src/feddisclosure/analytics/` |
 | Evidence dashboard | Offline HTML explorer that reads only allowlisted scalar summaries | `dashboard/` |
 
-Only synthetic or public data are used (scikit-learn Digits and the MNIST training split). See [`docs/data-provenance.md`](docs/data-provenance.md).
+Only synthetic or public data are used: scikit-learn Digits, plus optional Fashion-MNIST and optional MNIST, which are loaded at run time and never redistributed. See [`docs/data-provenance.md`](docs/data-provenance.md).
 
-## Headline results (v0.14.3)
+## Headline results (v0.15.0)
 
-All numbers come from saved runs under `reports/results/`. Context and caveats are in [`docs/v0.14-privacy-secagg-results.md`](docs/v0.14-privacy-secagg-results.md). Release 0.14.3 corrects two rows of the v0.14.2 table. The old numbers are kept visible and the change is listed in [`CHANGELOG.md`](CHANGELOG.md).
+All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
+
+### What v0.15 tested
+
+Read these as results for the setups named, not as properties of deployed systems. Most attack results come from an observation model with the real SecAgg+ quantiser arithmetic. Wire capture checked that model on a real Flower stack at 4 clients, one round and one local step only.
+
+| Work package | Result | Details |
+|---|---|---|
+| One-round SecAgg+ error, proof and property tests | E1 PASS: zero counterexamples in 20,000 float32 cases, largest error 0.91 of the bound. E2 FAIL: the float32 path adds a bias of up to 3/16 of a quantisation unit (0.1875 measured) but never breaks the float64 bound. E3 PASS: with independent client randomness the 99th percentile error is 0.67 to 0.73 of the Hoeffding bound, and with one shared seed it breaks the bound at 256 clients (7.2 times the bound). M1 PASS: a two-round ReLU counterexample is reproduced and the convex L2 bound has 0 violations in 1,000 trials | [`docs/proofs/one-round-secagg-error.md`](docs/proofs/one-round-secagg-error.md) |
+| DP against an informed attacker | One full-batch Opacus step, the attacker knows the other records and a candidate list. D1 PASS (no cell exceeds the closed-form bound), D2 PASS (Wilson lower limit 0.632 same-label and 0.926 any-label at sigma 0.2 with 10 candidates), D4 PASS (success falls as sigma grows), D5 PASS (the exact optimum lies between attack and bound). D3 FAIL: at sigma 4 the same-label attack is 0.055 below the bound and the limit is 0.05. Record-level, one step, no accountant, so no epsilon claim | [`docs/v0.15-dp-informed-attack.md`](docs/v0.15-dp-informed-attack.md) |
+| Wire-level validation | Real Flower 1.27.0 SecAgg+ in Docker on a hosted runner, 4 clients, one round, 5 seeds. W1 to W6 all PASS, with caveats. W1 is vacuous (0 of 40 victim images recognisable from one masked vector, label floor 72.5%). W2: worst coordinate error is 78% of the proven bound. W3 is pooled with low power (captured 60.0% against simulated 57.5% recognisable, and some per-seed gaps exceed the tolerance). W4: plaintext mode 97.5% recognisable. W5 covers sample counts only (visible in 20 of 20 replies, the client returns no metrics). W6: 100 of 100 objects found in the relay stream | [`docs/v0.15-wire-validation.md`](docs/v0.15-wire-validation.md) |
+| Seeded-fault matrix | Five faults injected one at a time and every detector asked. F1 PASS: 4 of 5 faults caught by the detectors as specified (the strict count). The plaintext fallback (F3) evades the specified detectors and only an added distribution test sees it, so the prediction text is partly falsified. F2 PASS: the DP noise audit has power 1.000 at noise factors 0.25, 0.5 and 2 with a false positive rate of 0.010. All five faults are simulated or written into copies of saved evidence, none was deployed | [`docs/v0.15-fault-matrix.md`](docs/v0.15-fault-matrix.md) |
+| External baselines | B1 FAIL: tuned `breaching` beats the repository inversion attack in mean MSE, ratio 1.86 (bootstrap 95% interval 1.47 to 2.51, limit 1.5). Against the two shipped library configurations B1 would pass (ratios 0.24 and 0.47). B2 PASS: repository LiRA AUC 0.7416 against 0.7401 for the strongest reference | [`docs/v0.15-external-baselines.md`](docs/v0.15-external-baselines.md) |
+| Reply order and deterministic aggregation | P1 PASS in replay only: `DeterministicFedAvg` passes the unchanged 1e-5 float64 gate on 7 of 7 native runs. P2 FAIL: the shipped 4-client config passes for all 24 reply orders. P3 passes but the metric cannot fail on this setup. Six live hosted runs (strategy on and off) all pass the unchanged gate, and none of them is a config that fails upstream | [`docs/v0.15-reply-order.md`](docs/v0.15-reply-order.md) |
+| Scaling to 8 clients | S1 PASS, vacuous: aggregate-only is 35.0% against a 74.6% floor at 8 clients, because this attack is weak. S2 PASS: n-1 collusion is 90.4% at 4 clients and 90.8% at 8. S3 PASS: one native 8-client round peaked at 3.25 GB against the 6 GB rule (sampled about every 4 seconds, so a lower bound). 30 seeds, observation model | [`docs/v0.15-scaling.md`](docs/v0.15-scaling.md) |
+| Fashion-MNIST | X1 FAIL by 0.6 points: n-1 collusion is +9.4 points over the floor against a +10 rule (20 seeds, seed bootstrap interval +0.6 to +18.8). At the secondary max weight of 16 the same rule would pass (+13.7), and the verdict stays FAIL. Small CNN, local run. The hosted workflow has not been run | [`docs/v0.15-fashion-mnist.md`](docs/v0.15-fashion-mnist.md) |
+
+### Failed predictions
+
+Failures are listed on purpose and none was reworded.
+
+- **E2.** The float32 client path does add a bias, but it never breaks the float64 error bound.
+- **D3.** Same-label candidates at sigma 4 are 0.055 below the bound, outside the 0.05 limit. Any-label candidates pass (0.022).
+- **B1.** The repository inversion attack is weaker than a tuned `breaching` run (ratio 1.86 against a limit of 1.5). The repository attack was not tuned, so the comparison favours `breaching`. Every aggregate-view statement in this repository is conditional on the weaker attack.
+- **P2.** The shipped 4-client config does not show reply-order dependence in replay. An exploratory 4-client MNIST setup does (83.3% of orders pass), and the 3-client native runs do.
+- **X1.** Fashion-MNIST collusion misses the +10 point rule by 0.6 points, which the data cannot separate from a pass.
+
+F1 passes by its numeric rule, but the plaintext fallback evades the specified detectors. Several passes are weak and are labelled that way above: W1 and S1 are vacuous, W3 has low power, P3 cannot fail, P1 holds in replay only and W5 covers counts only.
+
+### Update inversion and membership inference (v0.14.3 reading, still current)
+
+Release 0.14.3 corrected two rows of the v0.14.2 table. The old numbers are kept visible and the change is listed in [`CHANGELOG.md`](CHANGELOG.md). Context and caveats are in [`docs/v0.14-privacy-secagg-results.md`](docs/v0.14-privacy-secagg-results.md).
 
 **Update inversion, 4 clients, 10 seeds, 80 victim images, labels known to the attacker.** Lower error means a better reconstruction. "Recognisable" means per-image MSE below 0.05.
 
@@ -52,7 +86,7 @@ The 67.5% floor and the 24 to 26 point gaps above are for seeds 0 to 9 (10 seeds
 
 - **Plaintext and collusion.** An individual update, and an update recovered by n-1 colluders, stay clearly above the floor. These two rows still show leakage.
 - **SecAgg+ aggregate only, max weight 1000.** This attack does not beat the label-only floor, on both error (0.057 against 0.046) and recognisable share (55% against 67.5%). The aggregate row is below the floor only for a pool of roughly 100 or more labelled public images. With a pool of 50 or fewer, the floor is lower than the attack on recognisable share. This attack uses no public images, so an attacker that starts from public images could do better than shown. With max weight 16 the share is 58.8% and the paired difference to the floor is -8.8 points with an interval of -23.8 to +5.0, so it cannot be told apart from the floor. This is a statement about this attack with one local step, 4 clients and 8 records each. It is not a proof that the aggregate is safe, and the v0.14.2 reading that the aggregate still leaks is withdrawn.
-- **DP sigma 0.2.** Only a naive attacker was tested, one that matches gradients without modelling clipping or noise. It fails (0.179 is worse than the mean image at 0.073). That shows this attacker fails. It makes no claim about how well DP protects against anything stronger. The v0.14.2 reading that DP "stops inversion" is withdrawn.
+- **DP sigma 0.2.** Only a naive attacker was tested, one that matches gradients without modelling clipping or noise. It fails (0.179 is worse than the mean image at 0.073). That shows this attacker fails. It makes no claim about how well DP protects against anything stronger. The informed-attacker study above covers one full-batch step only. The v0.14.2 reading that DP "stops inversion" is withdrawn.
 - **Intervals.** Recognisable shares use Wilson intervals pooled over the 80 images, not t-intervals, which could leave the range 0 to 1. Both interval types are in `reports/results/privacy/v0143/view_intervals.json`.
 
 **Membership inference (LiRA AUC, 64 shadows, 16 targets).** 0.5 is chance.
@@ -67,7 +101,7 @@ DP at epsilon near 2 brings the attack to chance, but held-out accuracy collapse
 
 **SecAgg+ dropout.** Five mid-round dropout scenarios matched the share-count rule: four tolerated, one halted. An earlier claim that three-client dropout halts was wrong and is withdrawn in the docs.
 
-**Determinism.** Bitwise float32 replay reproduces 7 of 7 native Flower runs. The stricter float64 reference parity gate (1e-5) passes only 5 of 7, because Flower averages float32 updates in reply order. The gate was not relaxed.
+**Determinism.** Bitwise float32 replay reproduces 7 of 7 native Flower runs. The stricter float64 reference parity gate (1e-5) passes only 5 of 7, because Flower's `FedAvg` sums float32 updates in reply order and float addition is not associative. The gate was not relaxed. Reply-order effects in Flower have been discussed publicly before (a thread on the Flower forum about non-determinism, and the BlazeFL project), so this repository does not claim to have found them. It only measures how they interact with its own gate. `DeterministicFedAvg` is an opt-in workaround that sorts replies by site id. With it on, the gate tests transport and client determinism and no longer tests Flower's own aggregation arithmetic.
 
 ## Quick start
 
@@ -77,16 +111,21 @@ Requirements: Python 3.11 to 3.13. Docker Engine with Compose v2 is needed only 
 git clone https://github.com/ahmedjawedaj/feddisclosure-lab.git
 cd feddisclosure-lab
 python -m venv .venv && source .venv/bin/activate
+pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build first, avoids CUDA wheels
 pip install -e '.[test,research]'
 
-# fast test suite (234 pass and 4 skip, no Docker needed)
+# fast test suite, no Docker needed. The counts depend on what is installed:
+#   every extra installed: 0 pass and 0 skip, 4 deselected
+#   without flwr and opacus: 0 pass and 0 skip, 4 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard
 python -m dashboard.build_dashboard
 ```
 
-The three-site analytics demo and the native Flower runs have their own steps. See [`docs/v0.14-reproduce.md`](docs/v0.14-reproduce.md) for the pinned versions (Flower 1.27.0, torch 2.5.1 CPU, Opacus 1.6.0, OpenDP 0.16.0) and the exact commands behind every table above.
+The first count is for an environment with `flwr`, `opacus`, `hypothesis` and the research extras, run in a working copy that has the git-ignored `data/` and checkpoint files. The second is for the hosted CI unit job environment (torch only, clean checkout), where the modules that need `flwr` or `opacus` skip. Both are recorded with the commit they ran on in `reports/results/privacy/v0150/`, and `scripts/verify_readme_claims.py` checks them. See [`docs/reproducibility-v0.15.md`](docs/reproducibility-v0.15.md) for the inputs a fresh checkout does not have.
+
+The three-site analytics demo and the native Flower runs have their own steps. See [`docs/v0.14-reproduce.md`](docs/v0.14-reproduce.md) for the versions (Flower 1.27.0, torch 2.5.1 CPU for the Docker runs, Opacus 1.6.0 which needs torch 2.6.0 or newer, OpenDP 0.16.0) and the exact commands behind every table above. [`docs/reproducibility-v0.15.md`](docs/reproducibility-v0.15.md) says which torch produced which evidence.
 
 ## How an experiment is organised
 
@@ -123,12 +162,13 @@ Project status files at the repo root (`CURRENT_STATE.md`, `NEXT_SPRINT.md`, `PR
 
 ## Status and honest limits
 
-- **Not a privacy product.** No differential privacy, secure aggregation or security certification is claimed. Epsilons are accountant outputs for specific runs.
-- **Inversion study is an observation-model study.** The SecAgg+ view uses the upstream quantiser arithmetic on single-step updates, not captured Docker traffic. The attacker is naive and not DP-aware.
+- **Not a privacy product.** No differential privacy, secure aggregation or security certification is claimed. Epsilons are accountant outputs for specific runs, and the informed-attacker bound is for one full-batch step at record level.
+- **Inversion study is mostly an observation-model study.** The SecAgg+ view uses the upstream quantiser arithmetic on single-step updates. Wire capture on a deployed Flower stack checked that model at 4 clients, one round and one local step only, and the 8-client attack results are not checked against captured traffic. The attacker is naive and not DP aware. The aggregate-view results are conditional on that attacker, because a tuned external attack was stronger on the plaintext view (B1).
+- **Faults are simulated.** The fault matrix injects faults into real components or into copies of saved evidence. No faulty stack was deployed.
 - **Multi-round SecAgg+ error.** A proof exists only for convex losses (an L2 bound, [`docs/proofs/multi-round-note.md`](docs/proofs/multi-round-note.md)). For the non-convex model used here, two-round error is bimodal because of ReLU flips, and only an empirical tolerance limit is offered. The one-round bound is proven in [`docs/proofs/one-round-secagg-error.md`](docs/proofs/one-round-secagg-error.md).
-- **Scale.** Docker topologies were tested at 3 and 4 clients on a 2 CPU machine.
-- **Data.** Digits and MNIST only. The MNIST originators publish no licence text, so redistribution terms are treated as unverified and the raw files are not in this repo.
-- **Hosted CI.** The workflows had not run on GitHub-hosted runners before this repository was published. Their status is shown by the badges above and discussed in [`CHANGELOG.md`](CHANGELOG.md).
+- **Scale.** Docker topologies were tested at 3 and 4 clients on a 2 CPU machine, and hosted 8-client rounds on a 4 CPU runner (memory only, one round). The attack studies at 8 clients are in-process.
+- **Data.** Digits, plus optional Fashion-MNIST (MIT licence, loaded at run time) and optional MNIST. Neither is redistributed, and a small Digits subset is committed as wire evidence. The MNIST originators publish no licence text, so redistribution terms are treated as unverified.
+- **Hosted CI.** Workflows have run on GitHub-hosted runners since 2026-11-22. The first runs failed in several ways, all recorded in [`CHANGELOG.md`](CHANGELOG.md). The push and pull request workflows are shown by the badges above. The Docker based workflows are dispatch only. `parity-live`, `wire-capture` and `scaling-n8` each ran on a hosted runner for v0.15 and their evidence is committed. `fashion-mnist-study` has not been run on a hosted runner.
 
 ## Contributing
 
