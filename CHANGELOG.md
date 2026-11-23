@@ -2,6 +2,19 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.15.2] - 2026-11-23
+
+Follow-ups after 0.15.1. No verdict or threshold changed.
+
+### Added
+- **Hosted Fashion-MNIST rerun.** The `fashion-mnist-study` workflow ran once on a hosted runner (run 45153504593, the same 20 evaluation seeds, its own tuning, torch 2.5.1). n-1 collusion is +12.5 points over the floor (seed bootstrap +4.4 to +21.3) against +9.4 locally, so the X1 rule would pass on that run. The run was declared a robustness check before it ran, so X1 stays FAIL on the local result. Evidence in `reports/results/privacy/v0150/fashion_mnist/hosted/`, write-up in `docs/v0.15-fashion-mnist.md`. `scripts/recompute_fashion_seed_bootstrap.py` takes `--dir`.
+
+### Changed
+- **References checked.** The reference list of `docs/v0.15-technical-report.md` now gives the full author list and pages for Bonawitz et al. (CCS 2017), pages for Bell et al. (CCS 2020) and Carlini et al. (IEEE S&P 2022), and the NeurIPS 2023 venue for Hayes, Mahloujifar and Balle. `docs/v0.15-dp-informed-attack.md` says that the attack is Algorithm 2 of that paper and that the paper states its bound through a blow-up function estimated by Monte Carlo, which reduces to the closed form used here for one Gaussian step. Two statements about `mialibrary` that could not be confirmed (its authors' affiliation and its first release date) were removed from `docs/v0.15-external-baselines.md`.
+- **Host paths redacted in v0.14 evidence.** The home directory of the execution host was replaced by `/home/fedlab` in 156 saved v0.14 evidence files, and one log line that listed proxy host names was replaced by a marker. No number or verdict changed. Three file hashes in `dashboard/dist/evidence_snapshot.json` were regenerated. Details in `docs/data-provenance.md`. This supersedes the sentence in the 0.15.0 notes that no v0.14 evidence was changed.
+- `scripts/gen_compose_clients.py` uses a simpler regular expression with the same output (an alternation with two overlapping branches was reported by code scanning).
+- Package version is 0.15.2.
+
 ## [0.15.1] - 2026-11-23
 
 Wording and housekeeping corrections after a further review pass (R6) of the 0.15.0 release. No result number, verdict or threshold changed. The 0.15.0 section below carries the corrected wording.

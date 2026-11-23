@@ -1,0 +1,636 @@
+{
+ "tuning_seeds": [
+  9000,
+  9001,
+  9002
+ ],
+ "criterion": "lowest mean victim MSE on the tuning seeds, per view type",
+ "grid": {
+  "individual": {
+   "lr": [
+    0.1,
+    0.2,
+    0.3
+   ],
+   "tv": [
+    0.005,
+    0.01,
+    0.02
+   ],
+   "iterations": [
+    2000,
+    3000
+   ],
+   "tv_extensions": [
+    [
+     0.05,
+     0.1
+    ],
+    [
+     0.2,
+     0.5
+    ]
+   ]
+  },
+  "collusion": {
+   "lr": [
+    0.1,
+    0.2,
+    0.3
+   ],
+   "tv": [
+    0.005,
+    0.01,
+    0.02
+   ],
+   "iterations": [
+    2000,
+    3000
+   ],
+   "tv_extensions": [
+    [
+     0.05,
+     0.1
+    ],
+    [
+     0.2,
+     0.5
+    ]
+   ]
+  },
+  "aggregate": {
+   "lr": [
+    0.1,
+    0.3
+   ],
+   "tv": [
+    0.005,
+    0.02
+   ],
+   "iterations": [
+    2000,
+    3000
+   ],
+   "tv_extensions": [
+    [
+     0.05,
+     0.1
+    ],
+    [
+     0.2,
+     0.5
+    ]
+   ]
+  }
+ },
+ "rows": {
+  "individual": [
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.005
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.049725410218040146,
+    "rate": 0.5833333333333334
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.01
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.044655397068709135,
+    "rate": 0.5833333333333334
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.04029561757730941,
+    "rate": 0.6666666666666666
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.005
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.04587387200444937,
+    "rate": 0.7083333333333334
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.01
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.045924846548587084,
+    "rate": 0.625
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.04151545243803412,
+    "rate": 0.75
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.3,
+     "tv_weight": 0.005
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.050473297480493784,
+    "rate": 0.5416666666666666
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.3,
+     "tv_weight": 0.01
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.047726571559906006,
+    "rate": 0.5833333333333334
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.3,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.04378142937396964,
+    "rate": 0.6666666666666666
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.03717852915481975,
+    "rate": 0.7083333333333334
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.05
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.032969825862285994,
+    "rate": 0.7916666666666666
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.1
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.03245062751617903,
+    "rate": 0.7916666666666666
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.2
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.029301404720172286,
+    "rate": 0.7916666666666666
+   },
+   {
+    "view": "individual",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.5
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.0370302820034946,
+    "rate": 0.6666666666666666
+   }
+  ],
+  "collusion": [
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.005
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.0755322091281414,
+    "rate": 0.16666666666666666
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.01
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.07195015096416076,
+    "rate": 0.16666666666666666
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.06758157404450078,
+    "rate": 0.20833333333333334
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.005
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.07115620809296767,
+    "rate": 0.20833333333333334
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.01
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.0693892678245902,
+    "rate": 0.20833333333333334
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.06748905265703797,
+    "rate": 0.16666666666666666
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.3,
+     "tv_weight": 0.005
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.07351816135148208,
+    "rate": 0.16666666666666666
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.3,
+     "tv_weight": 0.01
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.07176204941545923,
+    "rate": 0.20833333333333334
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.3,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.06796688695127766,
+    "rate": 0.20833333333333334
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.06517870879421632,
+    "rate": 0.20833333333333334
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.05
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.0572294145822525,
+    "rate": 0.375
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.1
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.04403306396367649,
+    "rate": 0.7916666666666666
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.2
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.03971670967681954,
+    "rate": 0.6666666666666666
+   },
+   {
+    "view": "collusion",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.2,
+     "tv_weight": 0.5
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.0390369271626696,
+    "rate": 0.6666666666666666
+   }
+  ],
+  "aggregate": [
+   {
+    "view": "aggregate",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.005
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.09716212470084429,
+    "rate": 0.08333333333333333
+   },
+   {
+    "view": "aggregate",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.07527601470549901,
+    "rate": 0.20833333333333334
+   },
+   {
+    "view": "aggregate",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.3,
+     "tv_weight": 0.005
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.11969506895790498,
+    "rate": 0.0
+   },
+   {
+    "view": "aggregate",
+    "setting": {
+     "iterations": 2000,
+     "attack_lr": 0.3,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.09099234718208511,
+    "rate": 0.08333333333333333
+   },
+   {
+    "view": "aggregate",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.02
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.07126796152442694,
+    "rate": 0.2916666666666667
+   },
+   {
+    "view": "aggregate",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.05
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.061704382145156465,
+    "rate": 0.375
+   },
+   {
+    "view": "aggregate",
+    "setting": {
+     "iterations": 3000,
+     "attack_lr": 0.1,
+     "tv_weight": 0.1
+    },
+    "seeds": [
+     9000,
+     9001,
+     9002
+    ],
+    "mean_mse": 0.06258150523838897,
+    "rate": 0.3333333333333333
+   }
+  ]
+ },
+ "chosen": {
+  "individual": {
+   "iterations": 3000,
+   "attack_lr": 0.1,
+   "tv_weight": 0.2
+  },
+  "collusion": {
+   "iterations": 3000,
+   "attack_lr": 0.2,
+   "tv_weight": 0.5
+  },
+  "aggregate": {
+   "iterations": 3000,
+   "attack_lr": 0.1,
+   "tv_weight": 0.05
+  }
+ }
+}

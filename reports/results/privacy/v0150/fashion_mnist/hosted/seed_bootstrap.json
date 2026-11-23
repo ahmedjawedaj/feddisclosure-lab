@@ -1,0 +1,124 @@
+{
+  "seeds": 20,
+  "images_per_seed": 8,
+  "resamples": 10000,
+  "resampling_seed": 9100,
+  "unit_resampled": "evaluation seed",
+  "rows": {
+    "label_floor": {
+      "rate": 0.58125,
+      "wilson": [
+        0.5037778324249305,
+        0.6549121608596999
+      ],
+      "seed_bootstrap": [
+        0.5125,
+        0.65
+      ]
+    },
+    "mean_image": {
+      "rate": 0.1125,
+      "wilson": [
+        0.07235633854421358,
+        0.17081446271370296
+      ],
+      "seed_bootstrap": [
+        0.06875,
+        0.15625
+      ]
+    },
+    "plaintext_individual": {
+      "rate": 0.825,
+      "wilson": [
+        0.7587019750779815,
+        0.8760579980605401
+      ],
+      "seed_bootstrap": [
+        0.725,
+        0.9125
+      ],
+      "gap_to_floor": 0.2437499999999999,
+      "gap_seed_bootstrap": [
+        0.15625,
+        0.325
+      ]
+    },
+    "secagg_collusion_maxw1000": {
+      "rate": 0.70625,
+      "wilson": [
+        0.6315031760687836,
+        0.7713252684229707
+      ],
+      "seed_bootstrap": [
+        0.625,
+        0.7875
+      ],
+      "gap_to_floor": 0.125,
+      "gap_seed_bootstrap": [
+        0.04375,
+        0.2125
+      ]
+    },
+    "secagg_aggregate_maxw1000": {
+      "rate": 0.45,
+      "wilson": [
+        0.3749863030702235,
+        0.5273583164469271
+      ],
+      "seed_bootstrap": [
+        0.35625,
+        0.54375
+      ],
+      "gap_to_floor": -0.13125000000000003,
+      "gap_seed_bootstrap": [
+        -0.225,
+        -0.0375
+      ]
+    },
+    "secagg_collusion_maxw16": {
+      "rate": 0.78125,
+      "wilson": [
+        0.7110129877684279,
+        0.8382985274476005
+      ],
+      "seed_bootstrap": [
+        0.68125,
+        0.86875
+      ],
+      "gap_to_floor": 0.19999999999999996,
+      "gap_seed_bootstrap": [
+        0.11875,
+        0.28125
+      ]
+    },
+    "secagg_aggregate_maxw16": {
+      "rate": 0.5125,
+      "wilson": [
+        0.43566953810500403,
+        0.5887443070157083
+      ],
+      "seed_bootstrap": [
+        0.425,
+        0.6
+      ],
+      "gap_to_floor": -0.06875000000000009,
+      "gap_seed_bootstrap": [
+        -0.14375,
+        0.0125
+      ]
+    }
+  },
+  "x1_collusion_gap_vs_10_points": {
+    "gap": 0.125,
+    "share_of_resamples_with_gap_at_least_10_points": 0.7394,
+    "lower_limit": 0.04375,
+    "upper_limit": 0.2125
+  },
+  "paired_collusion_maxw16_minus_maxw1000": {
+    "mean": 0.075,
+    "seed_bootstrap": [
+      0.01875,
+      0.125
+    ]
+  }
+}
