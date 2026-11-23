@@ -15,6 +15,21 @@ pytest.importorskip("opacus")
 pytest.importorskip("flwr")
 
 
+def _skip_if_missing(paths, what):
+    """The prepared partitions under data/ and the saved model checkpoints (*.pt) are git ignored, so a fresh
+    checkout does not have them. Skip with the reason instead of failing on a missing file."""
+    missing = [str(p.relative_to(fm.ROOT)) for p in paths if not p.is_file()]
+    return pytest.mark.skipif(bool(missing), reason=f"{what} needs inputs that are git ignored and absent in this "
+                              f"checkout: {', '.join(missing)}. Regenerate them as described in docs/v0.14-reproduce.md")
+
+
+MATRIX_INPUTS = [fm.DATA4 / "manifest.json", fm.DATA3 / "manifest.json",
+                 fm.SECAGG_SAVED / "v014_n4" / "n4-t2-baseline" / "server" / "final_model.pt",
+                 fm.SECAGG_SAVED / "v014_dropout_matrix" / "n4-t2-kill1-r2" / "server" / "final_model.pt"]
+PARITY_INPUTS = [fm.DATA3 / "manifest.json", fm.NATIVE_SAVED / "run-iid-d" / "server" / "final_model.pt",
+                 fm.NATIVE_SAVED / "run-iid-d" / "checkpoints" / "digits-iid-smoke-v1_final.pt"]
+
+
 @pytest.fixture(scope="module")
 def digits():
     return dpi.load_public_digits()
@@ -153,6 +168,7 @@ def test_tampered_copies_are_refused_inside_saved_evidence(tmp_path):
     assert not target.exists()
 
 
+@_skip_if_missing(MATRIX_INPUTS, "the matrix gate test")
 def test_gates_flag_the_intended_faults_and_saved_evidence_is_untouched(tmp_path):
     before = fm.saved_evidence_digest()
     ctl = fm.run_matrix_gate("control", tmp_path)
@@ -172,6 +188,7 @@ def test_gates_flag_the_intended_faults_and_saved_evidence_is_untouched(tmp_path
     assert fm.saved_evidence_digest() == before
 
 
+@_skip_if_missing(PARITY_INPUTS, "the parity gate test")
 def test_parity_gate_flags_a_stale_client_and_passes_the_honest_copy(tmp_path):
     assert fm.run_parity_gate("control", tmp_path)["channels"]["numerical_parity"] is True
     stale = fm.run_parity_gate("stale_model", tmp_path)

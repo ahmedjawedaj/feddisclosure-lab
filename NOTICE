@@ -11,11 +11,20 @@ It is not redistributed in this repository. Main dependencies:
   PyTorch            BSD-3-Clause
   scikit-learn       BSD-3-Clause
 
-Data. This repository does not contain raw datasets.
+Data. This repository does not redistribute raw datasets, with one small exception.
   scikit-learn Digits: the UCI optical recognition of handwritten digits set,
-    bundled with scikit-learn.
+    bundled with scikit-learn. A small subset is committed as wire-level validation
+    evidence under reports/results/privacy/v0150/wire/live/data/ (per seed, 8 training
+    and 1 validation record for each of 4 institutions and 16 evaluator test records,
+    each 8 by 8 pixels). Other saved evidence holds arrays derived from the data (captured
+    model updates under wire/live/runs/, LiRA score files under v014/lira/). They are
+    evidence, not copies of a dataset. No raw MNIST or Fashion-MNIST file is in Git.
   MNIST: Y. LeCun, C. Cortes and C. J. C. Burges. The originators publish no
     formal licence text and secondary sources disagree, so redistribution terms
     are treated as unverified. Users must obtain the files themselves. The
     expected SHA-256 values are pinned in src/feddisclosure/training/datasets.py
     and listed in docs/data-provenance.md.
+  Fashion-MNIST: H. Xiao, K. Rasul and R. Vollgraf, Zalando Research. MIT licence, checked
+    against the dataset repository on 2026-11-23. It is loaded at run time from the canonical
+    host, checked against pinned SHA-256 values in
+    src/feddisclosure/training/fashion_mnist.py, and is not redistributed here.

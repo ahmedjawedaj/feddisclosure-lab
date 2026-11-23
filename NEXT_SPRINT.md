@@ -1,3 +1,32 @@
+## After v0.15.0 (2026-11-23)
+
+Done in v0.15.0 (see `CHANGELOG.md`, `docs/preregistration/v0.15.md` and `docs/v0.15-*.md`):
+
+- [x] One-round SecAgg+ error proof, property tests and a convex multi-round L2 test (E1, E3, M1 pass, E2 fails).
+- [x] DP bound against an informed attacker for one full-batch step (D3 fails, the rest pass).
+- [x] Wire-level validation on a deployed Flower 1.27.0 stack, 4 clients, one round (W1 to W6 pass, with the caveats listed).
+- [x] Seeded-fault matrix (F1 and F2 pass, the plaintext fallback evades the specified detectors).
+- [x] External baselines (B1 fails, B2 passes).
+- [x] Reply-order study and opt-in `DeterministicFedAvg` (P1 replay only, P2 fails, P3 cannot fail), six live hosted runs.
+- [x] Scaling to 8 clients (S1 vacuous, S2 and S3 pass) and Fashion-MNIST (X1 fails by 0.6 points).
+- [x] Two hosted 8-client Docker rounds for memory. This closes the old item "Docker topologies beyond 4 clients" for memory only.
+- [x] Hosted CI has run since 2026-11-22. The old hosted CI items below are superseded.
+
+Open, in the order they would change a conclusion:
+
+- [ ] **Native 8-client attack capture.** The 8-client attack results (S1, S2) are in-process and the hosted 8-client rounds measured memory only. Run the wire capture at 8 clients and judge the same rules.
+- [ ] **Informed attacker with a public prior against aggregate views.** Every statement that the aggregate sits at or below the label floor is conditional on a weak attack, and S1 passed vacuously. The attacker should start from labelled public images and model the quantiser.
+- [ ] **Stronger inversion on protected views.** B1 failed (ratio 1.86 against a tuned `breaching` run). Tune the repository attack on tuning seeds, equalise iterations and rerun the aggregate, collusion and DP views, then reread S1, S2, X1 and the wire results.
+- [ ] **Live MNIST reply-order configs for P2.** The configs that fail upstream in replay (4-client MNIST 10 rounds) and in the saved native runs (3-client MNIST seed 3 and label skew) have not been run live, with or without the strategy.
+- [ ] **A CI job with the full environment** (`flwr`, `opacus`, `hypothesis`, research extras). The hosted unit job skips every module that needs `flwr` or `opacus`, so most of the v0.15 tests run only locally.
+- [ ] **Tune and rerun X1 on a hosted runner.** The `fashion-mnist-study` workflow has never run. Judge it as a second observation, and also tune on the recognisable rate, because the MSE criterion disagreed with it for the collusion view.
+- [ ] **E2 float32 term.** The float32 client path adds a bias of up to 3/16 of a quantisation unit that the float64 statement leaves out. State the bound with the term, or show it stays inside for other clipping and quantisation ranges.
+- [ ] A gate that requires the SecAgg+ workflow marker and the expected log lines, because the plaintext fallback evades the current gates (F3).
+- [ ] Seed a mask-reuse fault in the fault matrix, and inject partial faults (one client or one round).
+- [ ] DP informed attack over several local steps, with Poisson sampling and an accountant.
+- [ ] Inversion on captured multi-step traffic, and wire capture over several rounds.
+- [ ] MNIST licence stays unresolved.
+
 ## After v0.14 Phase 1
 
 - [x] Native Docker/Flower run, parity, repeat, non-IID and fault scenarios (smoke scale).
@@ -13,9 +42,9 @@
 - [x] LiRA at 64 shadows and 16 targets on Digits and MNIST.
 - [ ] DP-aware inversion attacker, and inversion on captured multi-step Docker traffic.
 - [ ] Prior-initialised aggregate attacker that uses labelled public images, to compare with the label-only floor (the v0.14.2 attack uses none, so the v0.14.3 aggregate result is not a safety claim).
-- [ ] Docker topologies beyond 4 clients and a second dataset for the SecAgg experiments.
-- [ ] Hosted CI (needs an authorised repository). MNIST licence stays unresolved.
-- [ ] Hosted CI on an authorized private repository.
+- [x] (superseded, see top of file) Docker topologies beyond 4 clients and a second dataset for the SecAgg experiments.
+- [x] (superseded, hosted CI runs) Hosted CI (needs an authorised repository). MNIST licence stays unresolved.
+- [x] (superseded, hosted CI runs) Hosted CI on an authorized private repository.
 
 ## Immediate priority following v0.13.0
 

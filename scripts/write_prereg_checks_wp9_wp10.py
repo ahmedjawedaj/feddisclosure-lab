@@ -6,6 +6,7 @@ S3 is PENDING until `reports/results/privacy/v0150/scaling/docker_n8/scaling_n8_
 """
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 import sys
@@ -81,7 +82,10 @@ def fashion() -> dict:
                            "Passing here does not change it."}}
 
 
-def main():
+def main(argv=None):
+    argparse.ArgumentParser(
+        description="Rewrite prereg_check_scaling.json and prereg_check_fashion.json from the saved study summaries "
+                    "under reports/results/privacy/v0150/. Takes no options. Running it with --help writes nothing.").parse_args(argv)
     (V / "prereg_check_scaling.json").write_text(json.dumps(scaling(), indent=2) + "\n")
     print("wrote prereg_check_scaling.json")
     if (V / "fashion_mnist/summary.json").is_file():

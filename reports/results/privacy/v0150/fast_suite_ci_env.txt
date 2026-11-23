@@ -1,0 +1,7 @@
+date: 2026-11-23
+commit: 658e5686720d8e8c8a68125c56cd82a04e80f423
+code_dirty: no
+tree: clean checkout of 658e5686720d8e8c8a68125c56cd82a04e80f423
+python: 3.13.18
+packages: torch 2.15.0+cpu, flwr absent, opacus absent, hypothesis 6.170.17
+399 passed, 48 skipped, 4 deselected in 19.02s

@@ -1,3 +1,13 @@
+## 2026-11-23 v0.15.0 attack-phase release (see `CHANGELOG.md`, `docs/preregistration/v0.15.md`, `docs/v0.15-*.md` and `docs/v0.15-technical-report.md`)
+
+Eight work packages ran against pre-registered numeric rules, and no threshold was changed. Verdicts live in `reports/results/privacy/v0150/prereg_check_*.json`.
+Pass: E1, E3, M1 (one-round SecAgg+ error proof and property tests), D1, D2, D4, D5 (DP bound against an informed attacker), W1 to W6 (wire-level validation, W1 vacuous, W3 pooled with low power, W5 counts only), F1 and F2 (fault matrix, F2 on the white-box audit only), B2 (LiRA against a reference), P1 (replay only) and P3 (the metric cannot fail), S1 (vacuous), S2 and S3 (8 clients).
+Fail, kept as written: E2, D3, B1 (ratio 1.86, bootstrap 1.47 to 2.51, so every aggregate-view statement is conditional on the weaker attack), P2 and X1 (+9.4 points against +10).
+What is deployed and what is not: the wire capture and the live parity runs used a real Flower 1.27.0 stack in Docker on hosted runners (4 clients, and parity at 3 and 4). Everything else is simulation with real components. The 8-client attack results are in-process, and the hosted 8-client rounds measured memory only (peak 3.25 GB of the 6 GB rule). The fault matrix injects into real components or copies of saved evidence and deployed no faulty stack. The Fashion-MNIST hosted workflow was never run.
+Reply order: Flower's `FedAvg` sums in reply order, which was already discussed publicly. `DeterministicFedAvg` is an opt-in workaround, and with it on the float64 parity gate no longer tests Flower's aggregation.
+Reproducibility: `docs/reproducibility-v0.15.md` says which torch produced which evidence and what review R4 reproduced. The fast suite count depends on the environment, so the README gives one count per environment, recorded by `scripts/record_fast_suite.py` with the commit, and `scripts/verify_readme_claims.py` checks them, the v0.15 numbers and the PASS or FAIL words of the README.
+Open items are in `NEXT_SPRINT.md` (native 8-client capture, informed attacker with a public prior, stronger inversion on protected views, live MNIST reply-order configs, a full-environment CI job, X1 on a hosted runner, the E2 float32 term).
+
 ## 2026-11-23 v0.14.3 corrections to the update-inversion reading (see `CHANGELOG.md` and `docs/v0.14-privacy-secagg-results.md`)
 
 No attack was rerun and no saved v0.14.2 evidence changed. The v0.14.2 claims that the SecAgg+ aggregate "still leaves 55 to 59% of
