@@ -36,7 +36,7 @@ Only synthetic or public data are used: scikit-learn Digits, plus optional Fashi
 
 ## Headline results (v0.15.0)
 
-Current release: 0.15.2. Releases 0.15.1 and 0.15.2 correct wording and add a hosted Fashion-MNIST rerun. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+Current release: 0.15.3. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
 
 All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 

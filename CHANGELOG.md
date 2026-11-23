@@ -2,6 +2,14 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.15.3] - 2026-11-23
+
+Documentation only. No code, result number, verdict or threshold changed.
+
+### Added
+- **Related work.** `docs/v0.15-technical-report.md` and `docs/v0.15-wire-validation.md` now point to an open upstream issue and pull request on the mask generator of SecAgg+ (flwrlabs/flower #7522 and #7570). This repository does not analyse mask generation. The wire-level check W1 treats a masked vector as opaque and runs only the gradient-matching attack on it, so W1 says nothing about that question.
+- Package version is 0.15.3.
+
 ## [0.15.2] - 2026-11-23
 
 Follow-ups after 0.15.1. No verdict or threshold changed.
