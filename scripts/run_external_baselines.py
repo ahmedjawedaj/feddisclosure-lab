@@ -33,6 +33,13 @@ LR, B, N = 0.15, 8, 4
 REPO_ITERATIONS = 300     # the saved v0.14.2 view study setting
 LIRA_SHADOWS = 64
 
+# Sentence added to the B1 headline block after review R2. It used to be written into prereg_check_external.json by
+# hand and `check` then overwrote it. It is kept here so that a rerun of `check` on the saved stage outputs reproduces
+# the committed file (tests/training/test_external_baselines.py compares the two). It states the 20 seed run.
+RATIO_NOTE = ("Percentile bootstrap over the 20 seeds of the ratio of mean MSE, 10000 resamples, seed 0, recomputed from "
+              "external/inversion/seed*.json. Per-seed ratios are dominated by three seeds near 10 times. Added after review "
+              "R2, the verdict and ratio are unchanged.")
+
 # Configurations run on the evaluation seeds. Library names refer to breaching.config.attack.
 # `ig_library_default` is the shipped invertinggradients yaml (24000 iterations). `dlg_known_labels` is
 # the shipped deepleakage yaml (Euclidean objective, L-BFGS, 1200 iterations) with the joint label
@@ -228,12 +235,30 @@ def pick_b2_reference(lira: dict) -> tuple[str, str]:
     return best, "mialibrary_mean_perexample_var"
 
 
-def stage_check(a) -> None:
+def merge_versions(current: dict, saved: dict | None) -> tuple[dict, list[str]]:
+    """Installed versions win. A package that is not installed here keeps the version recorded in the saved file
+    instead of being set to null, so a rerun in the main environment does not erase what the isolated one recorded.
+    Returns the merged block and the names that were kept from the saved file."""
+    saved = saved or {}
+    merged, kept = {}, []
+    for name, value in current.items():
+        if value is None and saved.get(name) is not None:
+            merged[name], kept = saved[name], kept + [name]
+        else:
+            merged[name] = value
+    return merged, kept
+
+
+def build_check(out_dir: Path = OUT, saved: dict | None = None, versions: dict | None = None) -> dict:
+    """The content of prereg_check_external.json, from the saved stage outputs in `out_dir`."""
     from feddisclosure.evaluation.external_baselines import b2_verdict, external_versions
-    res = {"schema_version": 1, "work_package": "WP11", "versions": external_versions(), "checks": {}}
-    inv_dir = OUT / "inversion_summary.json"
-    lira_file = OUT / "lira_summary.json"
-    sel = OUT / "tuning/selection.json"
+    merged, kept = merge_versions(external_versions() if versions is None else versions, (saved or {}).get("versions"))
+    res = {"schema_version": 1, "work_package": "WP11", "versions": merged, "checks": {}}
+    if kept:
+        res["versions_note"] = "Not installed in the environment that wrote this file, version kept from the saved file: " + ", ".join(kept)
+    inv_dir = out_dir / "inversion_summary.json"
+    lira_file = out_dir / "lira_summary.json"
+    sel = out_dir / "tuning/selection.json"
     if inv_dir.is_file() and sel.is_file():
         inv = json.loads(inv_dir.read_text())
         selected = json.loads(sel.read_text())["selected"]
@@ -243,7 +268,7 @@ def stage_check(a) -> None:
             "rule": "Our mean MSE at most 1.5 times the external baseline MSE",
             "headline_external_configuration": tuned,
             "headline_rule": "the breaching configuration selected on tuning seeds (strongest available)",
-            "verdict": inv["b1"][tuned]["verdict"], "headline": inv["b1"][tuned],
+            "verdict": inv["b1"][tuned]["verdict"], "headline": {**inv["b1"][tuned], "ratio_bootstrap_note": RATIO_NOTE},
             "all_configurations": {k: {"ratio": v["ratio"], "verdict": v["verdict"]} for k, v in inv["b1"].items()},
             "seeds": inv["seeds"]}
     else:
@@ -265,6 +290,12 @@ def stage_check(a) -> None:
                                for k, v in lira["attacks"].items() if k != "repo"}}
     else:
         res["checks"]["B2"] = {"verdict": "NOT RUN", "reason": "lira summary missing"}
+    return res
+
+
+def stage_check(a) -> None:
+    saved = json.loads(PREREG_OUT.read_text()) if PREREG_OUT.is_file() else None
+    res = build_check(OUT, saved)
     PREREG_OUT.write_text(json.dumps(res, indent=2) + "\n")
     for k, v in res["checks"].items():
         print(k, v["verdict"])

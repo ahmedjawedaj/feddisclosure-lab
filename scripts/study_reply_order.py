@@ -49,6 +49,7 @@ from feddisclosure.training.task import DigitMLP, fedavg_weighted, train_local  
 
 OUT = ROOT / "reports/results/native_flower/v0150/reply_order"
 PARITY_JSON = ROOT / "reports/results/privacy/v0150/prereg_check_parity.json"
+LIVE_DIR = ROOT / "reports/results/native_flower/v0150/live_parity"
 NATIVE = ROOT / "reports/results/native_flower/v014"
 ATOL = RTOL = 1e-5
 
@@ -61,6 +62,38 @@ REPLAY_ONLY = {
     "c4-digits-iid-2round": ("configs/training/fedavg_digits_iid_4clients.yaml", "data/training/digits-docker-iid-4c-v014", True),
     "c4-digits-iid-10round": ("configs/training/fedavg_digits_iid_4clients_10round.yaml", "data/training/digits-docker-iid-4c-v014", False),
     "c4-mnist-iid-10round": ("configs/training/fedavg_mnist_iid_4clients_10round.yaml", "data/training/mnist-full-iid-4c-v015", False),
+}
+
+
+# ---------------------------------------------------------------- annotations kept in code
+# These sentences used to be added to prereg_check_parity.json by hand after a run, and `summarize` then overwrote
+# them. They live here so that rerunning `summarize` on the saved inputs reproduces the committed file
+# (tests/training/test_reply_order_study.py compares the two). Editing a sentence is a visible code change.
+# No threshold and no result number is stored here, only wording.
+NOTE = ("Thresholds are copied verbatim from the pre-registration and were not changed. P1 to P3 are judged in replay in "
+        "plain PyTorch. Live hosted runs are in live_hosted_run. Wording fixes added after review R2, no threshold and no "
+        "result number changed.")
+P1_SCOPE = ("Judged in replay on the 7 native runs plus 3 live Digits configs (6 hosted runs, strategy on and off). The live "
+            "configs do not include a config that fails upstream, because the MNIST configs that failed upstream were not run "
+            "live. The strategy is the reference arithmetic by construction.")
+P1_LABEL = "PASS in replay only. Live runs confirm transport and client determinism but exercise no config that fails upstream"
+P2_NOTE = ("The primary config was fixed before the results were seen. Live run 45076810526 has a native 4-client Digits iid "
+           "10-round run in each mode with one reply order each. It passes upstream and cannot show order dependence.")
+P3_SENSITIVITY_NOTE = ("In the Gaussian perturbation control the order-effect analogue stays below the seed SD even at a "
+                       "perturbation scale of 1e-2, so this metric could not exceed the seed SD on this setup.")
+P3_LABEL = "PASS, metric insensitive on this setup, cannot fail"
+LIVE_RUNS = ("iid3-upstream", "iid3-deterministic", "noniid3-upstream", "noniid3-deterministic",
+             "iid4-10r-upstream", "iid4-10r-deterministic")
+LIVE_TEXT = {
+    "workflow": ".github/workflows/parity-live.yml",
+    "run_id": 45076810526,
+    "gate": "unchanged 1e-5 absolute and relative tolerance",
+    "reading": ("All six live runs pass the unchanged gate. With the strategy on, all three configs are bit for bit equal to the "
+                "reference. Upstream passes at about 1e-8. The shipped Digits configs do not trigger the reply order effect, so "
+                "this live run neither confirms nor refutes P2. The MNIST configs that failed upstream in earlier native runs "
+                "were not run live."),
+    "earlier_attempt": ("Run 45074469691 passed both 3 client configs and failed the 4 client config in both modes at the "
+                        "evidence check, because the check hardcoded 8 containers. Fixed in PR 7 before any numeric comparison."),
 }
 
 
@@ -265,6 +298,28 @@ def replay_run(name: str, cfg_path: str, data_path: str, *, native: bool, primar
     return result
 
 
+def missing_replay_inputs(name: str, data_path: str, native: bool) -> list[str]:
+    """Inputs that `replay` needs and that Git does not hold. The prepared partitions under data/ and every *.pt
+    (native final models and reference checkpoints) are git ignored, so they are absent in a fresh checkout."""
+    need = [ROOT / data_path / "manifest.json"]
+    if native:
+        run = NATIVE / name
+        need += [run / "server/final_model.pt", run / "bitwise_replay.json", run / "flower_parity.json"]
+        if not list((run / "checkpoints").glob("*_final.pt")):
+            need.append(run / "checkpoints/<id>_final.pt")
+    return [str(p.relative_to(ROOT)) for p in need if "<id>" in str(p) or not p.is_file()]
+
+
+def require_replay_inputs(name: str, data_path: str, native: bool) -> None:
+    missing = missing_replay_inputs(name, data_path, native)
+    if missing:
+        raise SystemExit(
+            f"checkpoints not in checkout: {name} cannot be replayed because these inputs are missing: "
+            + ", ".join(missing) + ". The prepared partitions (data/) and the native checkpoints (*.pt) are git ignored. "
+            "Produce them with the Docker runs in docs/v0.14-reproduce.md, or copy them from a full evidence bundle. "
+            "`summarize` needs only the saved replay_*.json files and works in a fresh checkout.")
+
+
 def validate_native(name: str, rp: Replay, ref: list[dict], cfg: dict) -> dict:
     """Anchor the replay to the saved native evidence: observed orders, saved models, saved gate."""
     run = NATIVE / name
@@ -379,9 +434,9 @@ def p3_study(seeds: int, iterations: int, batch: int, stress_rounds: int, contro
 
 # ---------------------------------------------------------------- summary and CLI
 
-def summarize() -> dict:
+def summarize(out_dir: Path = OUT) -> dict:
     rows, parity = {}, {}
-    for path in sorted(OUT.glob("replay_*.json")):
+    for path in sorted(out_dir.glob("replay_*.json")):
         r = json.loads(path.read_text())
         up, de = r["trajectory"]["upstream"]["final"], r["trajectory"]["deterministic"]["final"]
         row = {"clients": r["clients"], "rounds": r["rounds"], "native_run": r["native_run"],
@@ -415,7 +470,7 @@ def summarize() -> dict:
                       "result": "PASS" if primary and all(p2_primary.values()) else "FAIL",
                       "exploratory_4_client_runs_below_100_percent": {k: v["upstream_final_pass_rate"] < 1.0 for k, v in c4.items() if not v["primary_for_p2"]}},
                "baseline_upstream_float64_gate_native": {k: {"saved_pass": v["native_gate_saved_pass"], "saved_max_abs_diff": v["native_gate_saved_max_abs_diff"]} for k, v in native.items()}}
-    p3 = OUT / "p3_victim_mse.json"
+    p3 = out_dir / "p3_victim_mse.json"
     if p3.is_file():
         d = json.loads(p3.read_text())
         summary["P3"] = {"rule": d["prediction"], "main_after_round_1": {k: d["main_after_round_1"][k] for k in (
@@ -424,12 +479,27 @@ def summarize() -> dict:
     return summary
 
 
-def prereg_check(s: dict) -> dict:
-    """Same layout as the other prereg_check_*.json files. Thresholds are copied, never changed."""
+def live_hosted_run(live_dir: Path = LIVE_DIR) -> dict:
+    """The six hosted runs of parity-live.yml, read from their saved flower_parity.json files."""
+    runs = {}
+    for name in LIVE_RUNS:
+        f = live_dir / name / "flower_parity.json"
+        if not f.is_file():
+            raise FileNotFoundError(f"live parity evidence missing: {f}")
+        d = json.loads(f.read_text())
+        runs[name] = {"verified_numerical_parity": d["verified_numerical_parity"],
+                      "worst_max_abs_diff": max(v["max_abs_diff"] for v in d["layers"].values())}
+    return {"workflow": LIVE_TEXT["workflow"], "run_id": LIVE_TEXT["run_id"], "gate": LIVE_TEXT["gate"], "runs": runs,
+            "reading": LIVE_TEXT["reading"], "earlier_attempt": LIVE_TEXT["earlier_attempt"]}
+
+
+def prereg_check(s: dict, out_dir: Path = OUT, live_dir: Path = LIVE_DIR) -> dict:
+    """Same layout as the other prereg_check_*.json files. Thresholds are copied, never changed.
+    Everything in the committed file comes from the saved inputs or from the constants at the top of this file."""
     rows = s["runs"]
     c4 = {k: v for k, v in rows.items() if v["clients"] == 4}
     out = {"schema_version": 1, "preregistration": "docs/preregistration/v0.15.md",
-           "note": "Thresholds are copied verbatim from the pre-registration and were not changed. Replay in plain PyTorch, no live Docker run.",
+           "note": NOTE,
            "P1": {"prediction": "DeterministicFedAvg (replies ordered by site id) closes the float64 parity gap",
                   "pass_rule": "7 of 7 native runs pass the unchanged 1e-5 gate",
                   "observed": {"native_runs_replayed": s["P1"]["native_runs_in_study"], "passing_with_deterministic": s["P1"]["passing"],
@@ -438,7 +508,7 @@ def prereg_check(s: dict) -> dict:
                                "replay_reproduces_saved_native_final_model_bitwise": sum(bool(v["replay_with_observed_orders_equals_native_final_bitwise"]) for v in rows.values() if v["native_run"]),
                                "per_run": s["P1"]["per_run"]},
                   "pass": s["P1"]["result"] == "PASS",
-                  "scope": "replay only. The live confirmation with the strategy enabled is pending"},
+                  "scope": P1_SCOPE, "label": P1_LABEL},
            "P2": {"prediction": "Upstream FedAvg parity depends on reply order",
                   "pass_rule": "In the bitwise replay, the pass rate over reply orders is strictly below 100% for 4 clients",
                   "observed": {"primary_shipped_4_client_config": {k: {"upstream_pass_rate": c4[k]["upstream_final_pass_rate"],
@@ -446,17 +516,18 @@ def prereg_check(s: dict) -> dict:
                                "exploratory_4_client_configs": {k: {"upstream_pass_rate": c4[k]["upstream_final_pass_rate"],
                                                                    "worst_max_abs_diff": c4[k]["upstream_final_worst_diff"]}
                                                                 for k in c4 if not c4[k]["primary_for_p2"]},
-                               "note": "No saved native run has 4 clients. The primary config was fixed before the results were seen"},
+                               "note": P2_NOTE},
                   "pass": s["P2"]["result"] == "PASS"},
            "baseline_float64_gate_native_runs": s["baseline_upstream_float64_gate_native"]}
     if "P3" in s:
-        p3 = json.loads((OUT / "p3_victim_mse.json").read_text())["main_after_round_1"]
+        p3 = json.loads((out_dir / "p3_victim_mse.json").read_text())["main_after_round_1"]
         out["P3"] = {"prediction": "Reply order does not move privacy metrics beyond seed noise",
                      "pass_rule": "Difference in mean victim MSE between reply orders is below the seed standard deviation",
                      "observed": {k: p3[k] for k in ("orders", "seeds", "distinct_starting_models",
                                                      "order_effect_max_minus_min_of_seed_mean_mse", "seed_sd_mean_over_orders",
-                                                     "ratio_effect_to_seed_sd")},
-                     "pass": s["P3"]["result"] == "PASS"}
+                                                     "ratio_effect_to_seed_sd")} | {"sensitivity_note": P3_SENSITIVITY_NOTE},
+                     "pass": s["P3"]["result"] == "PASS", "label": P3_LABEL}
+    out["live_hosted_run"] = live_hosted_run(live_dir)
     return out
 
 
@@ -477,9 +548,11 @@ def main() -> None:
     if a.cmd == "replay":
         if a.run in NATIVE_RUNS:
             cfg, data = NATIVE_RUNS[a.run]
+            require_replay_inputs(a.run, data, True)
             res = replay_run(a.run, cfg, data, native=True)
         elif a.run in REPLAY_ONLY:
             cfg, data, primary = REPLAY_ONLY[a.run]
+            require_replay_inputs(a.run, data, False)
             res = replay_run(a.run, cfg, data, native=False, primary=primary)
         else:
             raise SystemExit(f"unknown run {a.run}")
@@ -487,13 +560,14 @@ def main() -> None:
         print(a.run, "upstream final", res["trajectory"]["upstream"]["final"]["pass_rate"],
               "deterministic final", res["trajectory"]["deterministic"]["final"]["pass_rate"], res["seconds"], "s")
     elif a.cmd == "p3":
+        require_replay_inputs("p3", "data/training/digits-docker-iid-4c-v014", False)
         res = p3_study(a.seeds, a.iterations, a.batch, a.stress_rounds, not a.no_controls)
         (OUT / "p3_victim_mse.json").write_text(json.dumps(res, indent=1) + "\n")
         print(json.dumps(res["main_after_round_1"] | {"per_seed_mse_by_order": "..."}, indent=1, default=str)[:1500])
     else:
         s = summarize()
         PARITY_JSON.parent.mkdir(parents=True, exist_ok=True)
-        PARITY_JSON.write_text(json.dumps(prereg_check(s), indent=1) + "\n")
+        PARITY_JSON.write_text(json.dumps(prereg_check(s), indent=2) + "\n")
         (OUT / "summary.json").write_text(json.dumps(s, indent=1) + "\n")
         print(json.dumps({k: s[k] for k in ("P1", "P2", "P3") if k in s}, indent=1)[:2500])
 

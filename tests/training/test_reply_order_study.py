@@ -1,5 +1,6 @@
 """Helper units of scripts/study_reply_order.py on tiny synthetic input."""
 import importlib.util
+import json
 import itertools
 from pathlib import Path
 
@@ -93,3 +94,52 @@ def test_upstream_aggregate_depends_on_order_but_deterministic_does_not():
     up = {study.state_digest(study.aggregate_upstream(states, sizes, o)) for o in itertools.permutations(range(4))}
     de = {study.state_digest(study.aggregate_deterministic(states, sizes, o)) for o in itertools.permutations(range(4))}
     assert len(up) > 1 and len(de) == 1
+
+
+# ---------------------------------------------------------------- annotations live in code, rerun reproduces the committed file
+def _saved_inputs_present():
+    out = study.OUT
+    names = list(study.NATIVE_RUNS) + list(study.REPLAY_ONLY)
+    needed = [out / f"replay_{n}.json" for n in names] + [out / "p3_victim_mse.json"]
+    needed += [study.LIVE_DIR / r / "flower_parity.json" for r in study.LIVE_RUNS] + [study.PARITY_JSON]
+    return [str(p) for p in needed if not p.is_file()]
+
+
+def test_summarize_regenerates_the_committed_parity_json_byte_for_byte():
+    missing = _saved_inputs_present()
+    if missing:
+        pytest.skip("saved replay, P3 or live parity inputs absent: " + ", ".join(missing[:3]))
+    regenerated = json.dumps(study.prereg_check(study.summarize()), indent=2) + "\n"
+    assert regenerated == study.PARITY_JSON.read_text(), \
+        "prereg_check_parity.json differs from what `summarize` writes. Wording belongs in the constants of study_reply_order.py"
+
+
+def test_hand_written_annotations_are_in_the_regenerated_file():
+    missing = _saved_inputs_present()
+    if missing:
+        pytest.skip("saved inputs absent")
+    d = study.prereg_check(study.summarize())
+    assert d["P1"]["label"] == study.P1_LABEL and d["P1"]["scope"] == study.P1_SCOPE
+    assert d["P3"]["label"] == study.P3_LABEL and d["P3"]["observed"]["sensitivity_note"] == study.P3_SENSITIVITY_NOTE
+    assert d["P2"]["observed"]["note"] == study.P2_NOTE
+    assert list(d["live_hosted_run"]["runs"]) == list(study.LIVE_RUNS)
+    assert all(r["verified_numerical_parity"] for r in d["live_hosted_run"]["runs"].values())
+
+
+def test_live_block_refuses_to_run_without_the_live_evidence(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        study.live_hosted_run(tmp_path)
+
+
+def test_replay_without_checkpoints_says_so_instead_of_a_file_not_found(monkeypatch, tmp_path):
+    monkeypatch.setattr(study, "ROOT", tmp_path)
+    monkeypatch.setattr(study, "NATIVE", tmp_path / "native")
+    with pytest.raises(SystemExit) as e:
+        study.require_replay_inputs("run-iid-d", "data/training/digits-docker-iid-v012", True)
+    msg = str(e.value)
+    assert "checkpoints not in checkout" in msg and "final_model.pt" in msg and "manifest.json" in msg
+    assert "summarize" in msg
+    # the replay-only runs need only the prepared partitions
+    with pytest.raises(SystemExit) as e2:
+        study.require_replay_inputs("c4-digits-iid-2round", "data/training/digits-docker-iid-4c-v014", False)
+    assert "final_model.pt" not in str(e2.value) and "manifest.json" in str(e2.value)

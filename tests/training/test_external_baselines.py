@@ -176,3 +176,36 @@ def test_independent_lira_agrees_with_mialibrary(fix, med):
     a = eb.independent_lira_scores(t, phi, mem, fix_variance=fix, use_median=med)
     b = eb.mialibrary_scores(t, phi, mem, fix_variance=fix, use_median=med)
     assert np.allclose(a, b, atol=1e-8)
+
+
+# ---------------------------------------------------------------- the check file is reproducible from the saved stage outputs
+def _runner():
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location("run_external_baselines", Path(__file__).parents[2] / "scripts/run_external_baselines.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_check_regenerates_the_committed_prereg_file_apart_from_installed_versions():
+    import json
+    run = _runner()
+    needed = [run.OUT / "inversion_summary.json", run.OUT / "lira_summary.json", run.OUT / "tuning/selection.json", run.PREREG_OUT]
+    missing = [str(p) for p in needed if not p.is_file()]
+    if missing:
+        pytest.skip("saved external baseline outputs absent: " + ", ".join(missing))
+    saved = json.loads(run.PREREG_OUT.read_text())
+    rebuilt = run.build_check(run.OUT, saved, versions={k: None for k in saved["versions"]})
+    assert rebuilt["checks"] == saved["checks"], "a hand edit of prereg_check_external.json is not reproduced by `check`"
+    assert rebuilt["checks"]["B1"]["headline"]["ratio_bootstrap_note"] == run.RATIO_NOTE
+    assert rebuilt["versions"] == saved["versions"]          # nothing installed here, so every saved version is kept
+
+
+def test_versions_of_packages_that_are_not_installed_are_kept_not_nulled():
+    run = _runner()
+    saved = {"breaching": {"version": "0.1.2", "license": "MIT"}, "torch": {"version": "1", "license": None}}
+    merged, kept = run.merge_versions({"breaching": None, "torch": {"version": "2", "license": None}, "jax": None}, saved)
+    assert merged["breaching"] == saved["breaching"] and merged["torch"]["version"] == "2" and merged["jax"] is None
+    assert kept == ["breaching"]
+    res = run.build_check(run.OUT, {"versions": saved}, versions={"breaching": None})
+    assert res["versions"]["breaching"] == saved["breaching"] and "breaching" in res["versions_note"]
