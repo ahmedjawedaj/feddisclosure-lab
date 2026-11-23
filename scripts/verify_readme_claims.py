@@ -205,10 +205,10 @@ def _v15_prose() -> list[ProseClaim]:
                     R(3, V15 + "fashion_mnist/hosted/seed_bootstrap.json", gap + "1", 100))),
         ProseClaim("v15.X1_secondary", r"the same rule would pass \(\+([\d.]+)\)", (R(1, FASHION, x16, 100),)),
         ProseClaim("v16.C1", r"multiplier 1 is epsilon ([\d.]+) at delta 1e-5", (R(1, FLOWER_DP, "rows/0/measured/eps_at_delta_zero_out"),)),
-        ProseClaim("v16.C3_C4", r"exact value is epsilon ([\d.]+), and with 2 of 10 clients responding it is epsilon ([\d.]+)\. Empirical 95% lower bounds are ([\d.]+) and ([\d.]+)",
+        ProseClaim("v16.C3_C4", r"exact value is epsilon ([\d.]+), and with `num_sampled_clients` set to 10 while 2 results are aggregated it is epsilon ([\d.]+)\. A reported[^.]*\. Empirical 95% lower bounds are ([\d.]+) and ([\d.]+)",
                    (R(1, FLOWER_DP, "rows/1/measured/eps_at_delta_zero_out"), R(2, FLOWER_DP, "rows/2/measured/eps_at_delta_zero_out"),
                     R(3, FLOWER_DP, "rows/1/empirical/eps_lower_bound"), R(4, FLOWER_DP, "rows/2/empirical/eps_lower_bound"))),
-        ProseClaim("v16.A", r"noise scale is ([\d.]+) of the reference algorithm at the default learning rate and ([\d.]+) at learning rate 1\.0",
+        ProseClaim("v16.A", r"update noise scale is ([\d.]+) of the reference algorithm at the default learning rate and ([\d.]+) at learning rate 1\.0",
                    (R(1, FLOWER_DP, "rows/9/measured/sigma_ratio_to_reference"), R(2, FLOWER_DP, "rows/10/measured/sigma_ratio_to_reference"))),
         ProseClaim("v16.L1", r"exact delta is ([\d.]+) times the configured delta", (R(1, FLOWER_DP, "rows/16/exact_from_formula_sigma/delta_ratio_to_configured"),)),
     ]

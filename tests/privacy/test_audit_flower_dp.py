@@ -76,3 +76,16 @@ def test_quick_run_reproduces_the_headline_rows(tmp_path):
     assert by["A1"]["measured"]["sigma_ratio_to_reference"] == pytest.approx(0.905, rel=0.05)
     local = [r for r in rows if r["row"] == "L1"]
     assert [r["meets_configured_guarantee"] for r in local] == [True] * 4 + [False] * 2
+
+
+def test_reported_failure_releases_nothing(audit):
+    # Row C4 is not reached through a client failure: the wrapper returns no aggregate.
+    import numpy as np
+
+    api = audit.OldApi(audit.DifferentialPrivacyServerSideFixedClipping, audit.N, audit.Z)
+    glob = [np.zeros(audit.DIM, dtype=np.float32)]
+    api.strategy.configure_fit(1, audit.ndarrays_to_parameters(glob), api.manager)
+    res = audit.FitRes(audit.OK, audit.ndarrays_to_parameters([glob[0] + audit.e1()]), 1, {})
+    results = [(api.proxies[0], res), (api.proxies[1], res)]
+    params, _ = api.strategy.aggregate_fit(1, results, [RuntimeError("client failed")])
+    assert params is None

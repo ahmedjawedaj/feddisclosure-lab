@@ -13,7 +13,8 @@ First phase of the v0.16 plan. No v0.15 result number, verdict or threshold chan
 
 ### Recorded on purpose
 - Prediction C6 named the wrong mechanism. No privacy mismatch was measured in that row.
-- The prior-art check for this phase covered the literature and not Flower's release history. The optional accountant in newer Flower releases, which rejects two of the measured configurations, was found only during the re-check on 1.44.0.
+- The prior-art check for this phase covered the literature and not Flower's release history. The optional accountant in `flwr` 1.44.0, which raises an error on one measured configuration and releases nothing on another, was found only during the re-check on 1.44.0.
+- Review R9 found that row C4 is not reached by a client failure, that the release which introduced the accountant was not checked, and that the adaptive rows compare update noise with the reference algorithm only. The text was corrected before release. No number changed.
 - Package version is 0.16.0.
 
 ## [0.15.3] - 2026-11-23

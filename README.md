@@ -38,16 +38,16 @@ Only synthetic or public data are used: scikit-learn Digits, plus optional Fashi
 
 `scripts/audit_flower_dp.py` runs Flower's own differential privacy classes in process and compares the Gaussian mechanism that executes with the one implied by the configured parameters. Predictions were written in [`docs/preregistration/v0.16-p1.md`](docs/preregistration/v0.16-p1.md) before any run. Full tables and limits are in [`docs/v0.16-p1-flower-dp-audit.md`](docs/v0.16-p1-flower-dp-audit.md). The numbers are the same on `flwr` 1.27.0 and 1.44.0.
 
-Read these as measurements under the stated configurations. Flower labels differential privacy as a preview feature, logs a warning in the dropout configuration, and from 1.44.0 offers an optional accountant that rejects the two fixed clipping configurations below.
+Read these as measurements under the stated configurations. Flower's how-to guide labels differential privacy as a preview feature, and Flower logs a warning in the second configuration below. `flwr` 1.44.0 has an optional accountant on the Message API fixed clipping strategies. With it enabled the first configuration below raises an error and the second releases nothing.
 
 - With equal client weights and all sampled clients responding, the fixed clipping strategies deliver the configured noise multiplier. One round at multiplier 1 is epsilon 4.38 at delta 1e-5.
-- With one client holding a 0.91 weight share the exact value is epsilon 79.4, and with 2 of 10 clients responding it is epsilon 33.1. Empirical 95% lower bounds are 10.90 and 10.49.
-- With adaptive clipping and every client clipped, the noise scale is 0.903 of the reference algorithm at the default learning rate and 0.607 at learning rate 1.0.
+- With one client holding a 0.91 weight share the exact value is epsilon 79.4, and with `num_sampled_clients` set to 10 while 2 results are aggregated it is epsilon 33.1. A reported client failure does not lead to the second case, because the wrapper then releases nothing. Empirical 95% lower bounds are 10.90 and 10.49.
+- With adaptive clipping and every client clipped, the update noise scale is 0.903 of the reference algorithm at the default learning rate and 0.607 at learning rate 1.0.
 - `LocalDpMod` meets its configured (epsilon, delta) for epsilon up to 5 on the tested grid. At configured epsilon 20 the exact delta is 153 times the configured delta.
 
 ## Headline results (v0.15.0)
 
-Current release: 0.16.0. Release 0.16.0 adds the Flower DP measurement described in the next section and changes no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+Current release: 0.16.0. Release 0.16.0 adds the Flower DP measurement described in the section above and changes no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
 
 All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
