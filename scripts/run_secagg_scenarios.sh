@@ -6,7 +6,7 @@ set -u
 cd "$(dirname "$0")/.."
 export PYTHONPATH=src:.
 V=${1:-reports/results/secagg/v014}
-ENVD=${ENV_DIR:-/home/claude/runs}
+ENVD=${ENV_DIR:-$HOME/runs}
 mkdir -p "$V" "$ENVD"
 IID=configs/training/fedavg_digits_iid.yaml
 IDATA=data/training/digits-docker-iid-v012

@@ -392,18 +392,16 @@ def run_e3(ns, trials, d, seed, delta=0.01):
 
 
 # ---------------------------------------------------------------------------------------
-# Upstream limit on n
+# Assumption on n (the modular sum equals the integer sum)
 # ---------------------------------------------------------------------------------------
-def overflow_limit_check():
+def sum_range_check():
     def total(n):
         k = qz.quantize([np.array([C])], C, Q)[0].astype(np.int64)
         return int(parameters_mod([k * n], MOD)[0][0]), int(k[0]) * n
     wrapped_1023, raw_1023 = total(1023)
-    wrapped_1024, raw_1024 = total(1024)
     return {"quantised_value_at_plus_c": int(qz.quantize([np.array([C])], C, Q)[0][0]),
             "largest_n_without_possible_wrap": MAX_N,
-            "n_1023_all_at_plus_c": {"raw_sum": raw_1023, "after_mod": wrapped_1023, "wrapped": wrapped_1023 != raw_1023},
-            "n_1024_all_at_plus_c": {"raw_sum": raw_1024, "after_mod": wrapped_1024, "wrapped": wrapped_1024 != raw_1024}}
+            "n_1023_all_at_plus_c": {"raw_sum": raw_1023, "after_mod": wrapped_1023, "wrapped": wrapped_1023 != raw_1023}}
 
 
 # ---------------------------------------------------------------------------------------
@@ -600,7 +598,7 @@ def main():
     e1_64 = timed("e1_float64_control", run_e1, a.e1_float64_cases, 20261124, np.float64)
     e2 = timed("e2", run_e2, a.bias_batches, 1_000_000, 20261125)
     e3 = timed("e3", run_e3, (4, 16, 64, 256), a.e3_trials, a.e3_d, 20261126)
-    limit = overflow_limit_check()
+    limit = sum_range_check()
     m1 = timed("m1_convex", run_m1_convex, a.m1_trials, 20261127)
     m1_neg = timed("m1_negative_control", run_m1_negative_control, 100, 20261128)
     relu = relu_counterexample(range(200))
@@ -614,7 +612,7 @@ def main():
               "versions": {"flwr": flwr.__version__, "numpy": np.__version__, "python": platform.python_version()},
               "constants": {"clipping_range": C, "quantization_range": Q, "modulus_range": MOD,
                             "largest_n_without_possible_wrap": MAX_N},
-              "overflow_limit": limit, "e1_float32": e1, "e1_float64_control": e1_64, "e2_float32_path": e2,
+              "sum_range": limit, "e1_float32": e1, "e1_float64_control": e1_64, "e2_float32_path": e2,
               "e3_hoeffding": e3, "m1_convex": m1, "m1_negative_control_step_above_2_over_beta": m1_neg,
               "relu_counterexample_tiny": relu, "relu_digits_reproduction": relu_digits,
               "relu_digits_saved_evidence": {"file": "reports/results/secagg/v014_dropout_matrix/error_propagation.json",

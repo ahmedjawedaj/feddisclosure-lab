@@ -237,8 +237,8 @@ PROSE: list[ProseClaim] = _prose_claims() + _v15_prose()
 VERDICTS: list[Verdict] = _verdicts()
 PHRASES: list[Phrase] = _phrases()
 WORDS: list[VerdictWord] = _verdict_words()
-# The README states one count per environment, for example "every extra installed: 506 pass and 8 skip".
-SUITE_README = {"full": re.compile(r"every extra installed: (\d+) pass and (\d+) skip"),
+# The README states one count per environment, for example "with flwr and opacus: 506 pass and 8 skip".
+SUITE_README = {"full": re.compile(r"with flwr and opacus[^:\n]*: (\d+) pass and (\d+) skip"),
                 "ci": re.compile(r"without flwr and opacus: (\d+) pass and (\d+) skip")}
 # The closing line of a pytest run, for example "195 passed, 4 skipped, 4 deselected, 2 warnings in 20.30s".
 SUITE_EVIDENCE = re.compile(r"^(?:=+ )?((?:\d+ (?:passed|failed|skipped|deselected|xfailed|xpassed|errors?|warnings?)(?:, )?)+) in [\d.]+s")

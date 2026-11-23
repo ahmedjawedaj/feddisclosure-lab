@@ -28,8 +28,8 @@ Client i holds a vector v_i and a sample count m_i.
 
 Upstream-specific facts used later.
 
-* **F1.** The quantised values lie in {0, 1, ..., Q} inclusive. The value `+c` maps to Q exactly. The workflow docstring says the range is `[0, Q-1]`, which is not what the code does. This matters for overflow in F2.
-* **F2. Limit on n.** The sum S is reduced modulo 2^32. Each term is at most Q = 2^22, so no wrap is possible when n * 2^22 < 2^32, that is n <= 1023. At n = 1024 with every client at `+c` the sum is exactly 2^32 and wraps to zero. The upstream constructor warns only for `num_shares` above 1024. This is checked in `overflow_limit_check` (executed, n = 1023 does not wrap, n = 1024 wraps to 0). The sum T of weight ratios obeys the same limit when every m_i <= M.
+* **F1.** The quantised values lie in {0, 1, ..., Q} inclusive. The value `+c` maps to Q exactly.
+* **F2. Assumption on n.** The sum S is reduced modulo 2^32. Each term is at most Q = 2^22, so this note assumes n * 2^22 < 2^32, that is n <= 1023. Then the modular sum equals the integer sum. This is checked in `sum_range_check` (executed, n = 1023 with every client at `+c` does not wrap). Larger n is outside this note. The sum T of weight ratios obeys the same limit when every m_i <= M.
 * **F3.** Only the survivors' vectors are summed, and the offset uses the number of active clients. So n below means the number of clients whose vectors were summed.
 * **F4.** Weights are applied before quantisation. The final division by `T / Q` happens in float64 after dequantisation. This is why the error is amplified by `Q / T`, which is about `M / N` where N is the total sample count.
 
@@ -42,7 +42,7 @@ Quantisation unit: one step of the integer grid. In weighted-value space it equa
 * **A2.** Each m_i is a positive integer with m_i <= M, so w_i <= 1, and each q_i >= 1. Write T = sum of q_i.
 * **A3. No clipping.** |fl(w_i v_ij)| <= c for every i and j, where fl is the product in the dtype of v. A sufficient condition independent of the weights is |v_ij| <= c for all entries, because w_i <= 1. To check it exactly, compute `np.abs(v * (q_i / Q)).max() <= c` in the dtype of v. The repository function `no_clipping` in `scripts/run_secagg_bound_search.py` does this and is called for every search case. If clipping is active, the output contains the clipped values and the bound below does not apply (a test shows an error above 100 times the bound for inputs of 9 with c = 8).
 * **A4.** Default parameters c = 8 and Q = 2^22 for the float32 lemma in section 4.2. With another c and Q the bounds (a) and (b) still hold when `Q/(2c)` is a power of two. Otherwise add the rounding of that multiplication, which this note does not do.
-* **A5 (for part b only).** The rounding draws of different clients are independent of each other and of the data. In upstream the draws come from numpy's global random state of the process that quantises, so independence means different clients have different, independently seeded states.
+* **A5 (for part b only).** The rounding draws of different clients are independent of each other and of the data. Independence means different clients use different, independently seeded random states.
 
 Targets. Define two means of the client vectors.
 
@@ -142,7 +142,7 @@ Given fractional parts f_i and one shared uniform u, the upstream rule gives Y_i
 | Unbiased stochastic rounding, Hoeffding inequality, union bound, floating-point model with relative error 2^-53 | Textbook |
 | Minkowski inequality for the standard deviation of a sum | Textbook |
 | Identity A - mu = (2c/T) sum Y | Upstream-specific (offset n c, division by T/Q, ratio carried as an integer) |
-| Quantised levels 0 to Q inclusive, limit n <= 1023 | Upstream-specific, executed |
+| Quantised levels 0 to Q inclusive, assumption n <= 1023 | Executed |
 | Per client error range exactly 1 | Upstream-specific (the rounding rule) |
 | Cell lemma, offsets up to 3/16, grid of 1/8 | Upstream-specific, proved by cases and checked on 24 million elements |
 | Weight rounding term | Elementary, specific to `round(ratio * Q)` |
@@ -178,7 +178,7 @@ For the Docker 4 client run (sizes 96 each, M = 1000), T = 1,610,612 and 2cn/T =
 
 * **E1 PASS.** 20,000 float32 cases, zero counterexamples.
 * **E2 FAIL.** Neither clause held. The float32 path does add a deterministic offset of up to 3/16 unit per client (so the second clause, a term below 1e-6 of the bound, is false). But no counterexample to the float64-only bound exists (no case, no element and no adversarial rounding choice reaches an error of 1 unit per client), so the first clause is false. The prediction that the float64 bound misses the float32 bias is wrong for part (a). It is right for part (b), where an extra term is needed.
-* **E3 PASS.** Independent draws are below the bound at n = 4, 16, 64 and 256, and shared draws on identical data violate it at n = 256 (7.2 times the bound).
+* **E3 PASS.** Independent draws are below the bound at n = 4, 16, 64 and 256, and shared draws violate it at n = 256 (3.9 times the bound with different data, 7.2 times with identical data).
 
 ## 9. Not proved, and conjectures
 

@@ -4,7 +4,7 @@ set -u
 cd "$(dirname "$0")/.."
 export PYTHONPATH=src:.
 V=${1:-reports/results/native_flower/v014/fail_fast}
-ENVD=${ENV_DIR:-/home/claude/runs}
+ENVD=${ENV_DIR:-$HOME/runs}
 mkdir -p "$V" "$ENVD"
 run() { # name target when
   local name=$1 target=$2 when=$3

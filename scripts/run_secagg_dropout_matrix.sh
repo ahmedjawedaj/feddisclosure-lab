@@ -9,7 +9,7 @@ set -u
 cd "$(dirname "$0")/.."
 export PYTHONPATH=src:.
 V=${1:-reports/results/secagg/v014_dropout_matrix}
-ENVD=${ENV_DIR:-/home/claude/runs}
+ENVD=${ENV_DIR:-$HOME/runs}
 mkdir -p "$V" "$ENVD"
 APP=experiments/flower_secagg
 run() { # name cfg data n t victim-args...

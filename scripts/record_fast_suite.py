@@ -8,7 +8,7 @@ no closing line, or exits non-zero, nothing is written and the exit code is 1.
 
 The counts depend on what is installed, so there is one record per environment:
 
-    python scripts/record_fast_suite.py --kind full                      # every extra installed, working copy
+    python scripts/record_fast_suite.py --kind full                      # flwr and opacus installed, working copy
     /tmp/venv/bin/python scripts/record_fast_suite.py --kind ci --clean-checkout   # torch only, no flwr or opacus
 
 `--clean-checkout` runs pytest in a `git archive` of HEAD, so git-ignored files under `data/` and `*.pt` are

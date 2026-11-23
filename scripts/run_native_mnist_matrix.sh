@@ -3,10 +3,10 @@
 # PyTorch reference and strict parity. Fail-fast is on, so a lost participant stops the run at once.
 set -u
 cd "$(dirname "$0")/.."
-source ${VENV:-/home/claude/venv}/bin/activate
+source ${VENV:-$HOME/venv}/bin/activate
 export PYTHONPATH=src:.
 V=reports/results/native_flower/v014
-ENVD=${ENV_DIR:-/home/claude/runs}
+ENVD=${ENV_DIR:-$HOME/runs}
 run() { # name config-file data-dir
   local N=$1 CFG=$2 DATA=$3 ID
   ID=$(python -c "import yaml;print(yaml.safe_load(open('$CFG'))['id'])")

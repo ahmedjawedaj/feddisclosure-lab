@@ -75,7 +75,7 @@ def secagg_aggregate(vectors: list[np.ndarray], sizes: list[int], *, max_weight:
     """Weighted mean as the server recovers it from upstream SecAgg+ (masks cancel, so only the
     quantisation arithmetic of secaggplus_mod and the unmask stage remains)."""
     from flwr.common.secure_aggregation.quantization import dequantize, quantize
-    np.random.seed(rng_seed)    # upstream stochastic rounding uses numpy's global RNG
+    np.random.seed(rng_seed)    # seeds the stochastic rounding
     total_q, summed = 0, None
     for v, n in zip(vectors, sizes):
         q_ratio = round(n / max_weight * QUANT_RANGE)
