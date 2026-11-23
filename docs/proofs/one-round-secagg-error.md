@@ -38,7 +38,7 @@ Upstream-specific facts used later.
 Quantisation unit: one step of the integer grid. In weighted-value space it equals `2c/Q = 2^-18`.
 
 * n clients, indexed by i. Coordinates indexed by j, d coordinates.
-* **A1.** 2 <= n <= 1023, from F2.
+* **A1.** 2 <= n <= 1023 (the assumption stated in F2).
 * **A2.** Each m_i is a positive integer with m_i <= M, so w_i <= 1, and each q_i >= 1. Write T = sum of q_i.
 * **A3. No clipping.** |fl(w_i v_ij)| <= c for every i and j, where fl is the product in the dtype of v. A sufficient condition independent of the weights is |v_ij| <= c for all entries, because w_i <= 1. To check it exactly, compute `np.abs(v * (q_i / Q)).max() <= c` in the dtype of v. The repository function `no_clipping` in `scripts/run_secagg_bound_search.py` does this and is called for every search case. If clipping is active, the output contains the clipped values and the bound below does not apply (a test shows an error above 100 times the bound for inputs of 9 with c = 8).
 * **A4.** Default parameters c = 8 and Q = 2^22 for the float32 lemma in section 4.2. With another c and Q the bounds (a) and (b) still hold when `Q/(2c)` is a power of two. Otherwise add the rounding of that multiplication, which this note does not do.
@@ -142,7 +142,7 @@ Given fractional parts f_i and one shared uniform u, the upstream rule gives Y_i
 | Unbiased stochastic rounding, Hoeffding inequality, union bound, floating-point model with relative error 2^-53 | Textbook |
 | Minkowski inequality for the standard deviation of a sum | Textbook |
 | Identity A - mu = (2c/T) sum Y | Upstream-specific (offset n c, division by T/Q, ratio carried as an integer) |
-| Quantised levels 0 to Q inclusive, assumption n <= 1023 | Executed |
+| Quantised levels 0 to Q inclusive (executed), assumption n <= 1023 (n = 1023 does not wrap, executed) | Executed |
 | Per client error range exactly 1 | Upstream-specific (the rounding rule) |
 | Cell lemma, offsets up to 3/16, grid of 1/8 | Upstream-specific, proved by cases and checked on 24 million elements |
 | Weight rounding term | Elementary, specific to `round(ratio * Q)` |

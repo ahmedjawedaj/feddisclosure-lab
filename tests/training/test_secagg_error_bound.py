@@ -52,7 +52,7 @@ def test_float32_inputs_stay_float32_until_rounding_and_land_on_a_grid_of_one_ei
 def test_quantised_levels_include_the_upper_end_Q():
     import flwr.common.secure_aggregation.quantization as qz
     k = qz.quantize([np.array([8.0, -8.0, 0.0])], C, Q)[0]
-    assert k.tolist() == [Q, 0, Q // 2]                              # the upstream docstring says Q - 1
+    assert k.tolist() == [Q, 0, Q // 2]                              # +c maps to Q, so the levels include the upper end
 
 
 def test_cell_lemma_and_bias_size_on_random_float32_arrays():
