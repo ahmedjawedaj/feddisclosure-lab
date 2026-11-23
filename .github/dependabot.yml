@@ -1,5 +1,5 @@
 # Dependabot is deliberately conservative here. The evidence in reports/results was
-# produced with pinned versions (Flower 1.27, torch 2.5.1 CPU, Opacus 1.6, OpenDP 0.16,
+# produced with pinned versions (Flower 1.27, torch 2.5.1 CPU in the Docker image, Opacus 1.6, which needs torch 2.6 or newer, OpenDP 0.16,
 # python 3.12 base image). Bumping those would invalidate saved evidence, so they are
 # ignored and must be upgraded by hand together with a re-run of the affected gates.
 version: 2
