@@ -1,0 +1,863 @@
+{
+  "schema": "feddisclosure.flower_dp_audit.v1",
+  "quick": false,
+  "environment": {
+    "flwr": "1.27.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "python": "3.13.18"
+  },
+  "parameters": {
+    "dim": 16,
+    "clipping_norm": 1.0,
+    "noise_multiplier": 1.0,
+    "num_sampled_clients": 10,
+    "delta": 1e-05,
+    "noise_runs": 20000,
+    "trials_per_world": 200000
+  },
+  "script_sha256": "eb8f793e2ca643a7a758af59f7f7e8107d0e586865ee8d2b42da0eb6190d48a0",
+  "rows": [
+    {
+      "row": "C1",
+      "api": "flwr.server.strategy",
+      "note": "equal weights, all sampled clients respond. C2 is the replace-one column of this row.",
+      "configured": {
+        "noise_multiplier": 1.0,
+        "clipping_norm": 1.0,
+        "num_sampled_clients": 10,
+        "results_received": 10,
+        "weights": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target_weight_share": 0.1
+      },
+      "claimed": {
+        "sigma": 0.1,
+        "mu": 1.0,
+        "eps_at_delta": 4.377178095681235
+      },
+      "measured": {
+        "sensitivity_zero_out": 0.09999999403958611,
+        "sensitivity_replace_one": 0.19999999552965164,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.09996316908093247,
+          "sigma_min_coord": 0.09883594661175438,
+          "sigma_max_coord": 0.10121682466545993,
+          "ks_pvalue": 0.7234910014677178
+        },
+        "mu_zero_out": 1.0003683852662155,
+        "mu_replace_one": 2.0007368450646763,
+        "effective_noise_multiplier": 0.9996317503915145,
+        "eps_at_delta_zero_out": 4.37904506962471,
+        "eps_at_delta_replace_one": 10.001793293256462
+      },
+      "delta": 1e-05,
+      "mu_ratio_measured_over_claimed": 1.0003683852662155,
+      "matches_claim_within_2pct": true
+    },
+    {
+      "row": "C3",
+      "api": "flwr.server.strategy",
+      "note": "target client reports num_examples 91, the other nine report 1.",
+      "configured": {
+        "noise_multiplier": 1.0,
+        "clipping_norm": 1.0,
+        "num_sampled_clients": 10,
+        "results_received": 10,
+        "weights": [
+          91,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target_weight_share": 0.91
+      },
+      "claimed": {
+        "sigma": 0.1,
+        "mu": 1.0,
+        "eps_at_delta": 4.377178095681235
+      },
+      "measured": {
+        "sensitivity_zero_out": 0.9099999638278861,
+        "sensitivity_replace_one": 1.8200000524520874,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.09996316907295122,
+          "sigma_min_coord": 0.09883594619690649,
+          "sigma_max_coord": 0.10121682463588215,
+          "ks_pvalue": 0.7234920385217674
+        },
+        "mu_zero_out": 9.103352487392485,
+        "mu_replace_one": 18.20670622320793,
+        "effective_noise_multiplier": 0.10984964071037906,
+        "eps_at_delta_zero_out": 79.44157189071026,
+        "eps_at_delta_replace_one": 242.49380344693884
+      },
+      "delta": 1e-05,
+      "mu_ratio_measured_over_claimed": 9.103352487392485,
+      "matches_claim_within_2pct": false,
+      "empirical": {
+        "threshold": 0.45727500000000004,
+        "trials_per_world": 200000,
+        "false_positives": 0,
+        "true_positives": 200000,
+        "fpr_upper": 1.8444227173720117e-05,
+        "tpr_lower": 0.9999815557728263,
+        "eps_lower_bound": 10.90073068211968,
+        "confidence": 0.95,
+        "threshold_in_claimed_sigma": 4.57275,
+        "exceeds_claimed_eps": true
+      }
+    },
+    {
+      "row": "C4",
+      "api": "flwr.server.strategy",
+      "note": "2 of the 10 configured clients return results. Flower logs a warning in this configuration.",
+      "configured": {
+        "noise_multiplier": 1.0,
+        "clipping_norm": 1.0,
+        "num_sampled_clients": 10,
+        "results_received": 2,
+        "weights": [
+          1,
+          1
+        ],
+        "target_weight_share": 0.5
+      },
+      "claimed": {
+        "sigma": 0.1,
+        "mu": 1.0,
+        "eps_at_delta": 4.377178095681235
+      },
+      "measured": {
+        "sensitivity_zero_out": 0.5000000000002567,
+        "sensitivity_replace_one": 1.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.09996316905483586,
+          "sigma_min_coord": 0.09883594586852743,
+          "sigma_max_coord": 0.10121682470788457,
+          "ks_pvalue": 0.7234940049864227
+        },
+        "mu_zero_out": 5.001842225769937,
+        "mu_replace_one": 10.003684451534738,
+        "effective_noise_multiplier": 0.19992633810956909,
+        "eps_at_delta_zero_out": 33.1207339182988,
+        "eps_at_delta_replace_one": 91.86980560081335
+      },
+      "delta": 1e-05,
+      "mu_ratio_measured_over_claimed": 5.001842225769937,
+      "matches_claim_within_2pct": false,
+      "empirical": {
+        "threshold": 0.4575,
+        "trials_per_world": 200000,
+        "false_positives": 0,
+        "true_positives": 132911,
+        "fpr_upper": 1.8444227173720117e-05,
+        "tpr_lower": 0.6624808944215935,
+        "eps_lower_bound": 10.48898047171602,
+        "confidence": 0.95,
+        "threshold_in_claimed_sigma": 4.575,
+        "exceeds_claimed_eps": true
+      }
+    },
+    {
+      "row": "C1-msg",
+      "api": "flwr.serverapp.strategy",
+      "note": "equal weights, all sampled clients respond. C2 is the replace-one column of this row.",
+      "configured": {
+        "noise_multiplier": 1.0,
+        "clipping_norm": 1.0,
+        "num_sampled_clients": 10,
+        "results_received": 10,
+        "weights": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target_weight_share": 0.1
+      },
+      "claimed": {
+        "sigma": 0.1,
+        "mu": 1.0,
+        "eps_at_delta": 4.377178095681235
+      },
+      "measured": {
+        "sensitivity_zero_out": 0.09999999403958611,
+        "sensitivity_replace_one": 0.19999999552965164,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.09996316905269478,
+          "sigma_min_coord": 0.09883594633702682,
+          "sigma_max_coord": 0.10121682466545993,
+          "ks_pvalue": 0.7234910014677178
+        },
+        "mu_zero_out": 1.0003683855488006,
+        "mu_replace_one": 2.0007368456298464,
+        "effective_noise_multiplier": 0.9996317501091375,
+        "eps_at_delta_zero_out": 4.379045071056911,
+        "eps_at_delta_replace_one": 10.001793296736741
+      },
+      "delta": 1e-05,
+      "mu_ratio_measured_over_claimed": 1.0003683855488006,
+      "matches_claim_within_2pct": true
+    },
+    {
+      "row": "C3-msg",
+      "api": "flwr.serverapp.strategy",
+      "note": "target client reports num_examples 91, the other nine report 1.",
+      "configured": {
+        "noise_multiplier": 1.0,
+        "clipping_norm": 1.0,
+        "num_sampled_clients": 10,
+        "results_received": 10,
+        "weights": [
+          91,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "target_weight_share": 0.91
+      },
+      "claimed": {
+        "sigma": 0.1,
+        "mu": 1.0,
+        "eps_at_delta": 4.377178095681235
+      },
+      "measured": {
+        "sensitivity_zero_out": 0.9099999647592086,
+        "sensitivity_replace_one": 1.8200000524520874,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.09996316908529244,
+          "sigma_min_coord": 0.09883594619690649,
+          "sigma_max_coord": 0.10121682463588215,
+          "ks_pvalue": 0.7234920385217674
+        },
+        "mu_zero_out": 9.103352495585263,
+        "mu_replace_one": 18.20670622096017,
+        "effective_noise_multiplier": 0.10984964061151728,
+        "eps_at_delta_zero_out": 79.44157200010669,
+        "eps_at_delta_replace_one": 242.49380339643923
+      },
+      "delta": 1e-05,
+      "mu_ratio_measured_over_claimed": 9.103352495585263,
+      "matches_claim_within_2pct": false,
+      "empirical": {
+        "threshold": 0.45727500000000004,
+        "trials_per_world": 200000,
+        "false_positives": 0,
+        "true_positives": 200000,
+        "fpr_upper": 1.8444227173720117e-05,
+        "tpr_lower": 0.9999815557728263,
+        "eps_lower_bound": 10.90073068211968,
+        "confidence": 0.95,
+        "threshold_in_claimed_sigma": 4.57275,
+        "exceeds_claimed_eps": true
+      }
+    },
+    {
+      "row": "C4-msg",
+      "api": "flwr.serverapp.strategy",
+      "note": "2 of the 10 configured clients return results. Flower logs a warning in this configuration.",
+      "configured": {
+        "noise_multiplier": 1.0,
+        "clipping_norm": 1.0,
+        "num_sampled_clients": 10,
+        "results_received": 2,
+        "weights": [
+          1,
+          1
+        ],
+        "target_weight_share": 0.5
+      },
+      "claimed": {
+        "sigma": 0.1,
+        "mu": 1.0,
+        "eps_at_delta": 4.377178095681235
+      },
+      "measured": {
+        "sensitivity_zero_out": 0.5000000000002567,
+        "sensitivity_replace_one": 1.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.09996316905483586,
+          "sigma_min_coord": 0.09883594586852743,
+          "sigma_max_coord": 0.10121682470788457,
+          "ks_pvalue": 0.7234940049864227
+        },
+        "mu_zero_out": 5.001842225769937,
+        "mu_replace_one": 10.003684451534738,
+        "effective_noise_multiplier": 0.19992633810956909,
+        "eps_at_delta_zero_out": 33.1207339182988,
+        "eps_at_delta_replace_one": 91.86980560081335
+      },
+      "delta": 1e-05,
+      "mu_ratio_measured_over_claimed": 5.001842225769937,
+      "matches_claim_within_2pct": false,
+      "empirical": {
+        "threshold": 0.4575,
+        "trials_per_world": 200000,
+        "false_positives": 0,
+        "true_positives": 132911,
+        "fpr_upper": 1.8444227173720117e-05,
+        "tpr_lower": 0.6624808944215935,
+        "eps_lower_bound": 10.48898047171602,
+        "confidence": 0.95,
+        "threshold_in_claimed_sigma": 4.575,
+        "exceeds_claimed_eps": true
+      }
+    },
+    {
+      "row": "C0",
+      "api": "flwr.server.strategy",
+      "note": "not pre-registered. One client returns parameters identical to the global model. Found while building the zero-out world.",
+      "exception": "ZeroDivisionError: float division by zero"
+    },
+    {
+      "row": "C5",
+      "api": "flwr.server.strategy",
+      "note": "client-side clipping wrapper, target client sends an update of norm 5C without clipping. The server does not clip in this variant.",
+      "claimed": {
+        "mu": 1.0
+      },
+      "measured": {
+        "sensitivity_zero_out": 0.5000000000000101,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.09997789220740039,
+          "sigma_min_coord": 0.09949297498200985,
+          "sigma_max_coord": 0.10066656462740746,
+          "ks_pvalue": 0.996672997513176
+        },
+        "mu_zero_out": 5.001105634061367,
+        "sensitivity_scales_with_update_norm": true
+      }
+    },
+    {
+      "row": "C6",
+      "api": "flwr.server.strategy",
+      "unclipped_case": {
+        "runs": 2000,
+        "float_array_sigma_claimed": 0.1,
+        "integer_array_dtype_after_aggregation": "int64",
+        "integer_array_noise_sigma": 0.0,
+        "integer_array_fraction_of_runs_changed": 0.0,
+        "integer_array_value": [
+          0.0,
+          0.0
+        ]
+      },
+      "unclipped_case_fedavg_inplace_false": {
+        "runs": 2000,
+        "integer_array_dtype_after_aggregation": "float64",
+        "integer_array_noise_sigma": 0.09899550498432026,
+        "integer_array_mean": 7.001801809806369
+      },
+      "note": "every client sends the integer array [7, 7]. With the default FedAvg(inplace=True) the integer array is aggregated to 0 before any noise step, so it carries no client information. With inplace=False it is averaged as float64 and receives the configured noise.",
+      "clipped_case": {
+        "exception": "UFuncTypeError: Cannot cast ufunc 'multiply' output from dtype('float64') to dtype('int64') with casting rule 'same_kind'"
+      }
+    },
+    {
+      "row": "A1",
+      "api": "flwr.server.strategy",
+      "note": "all N updates are clipped with the round's norm C_t = C. The reference algorithm (Andrew et al. 2021) scales noise with C_t.",
+      "configured": {
+        "noise_multiplier": 0.5,
+        "internal_update_noise_multiplier": 0.5773502691896257,
+        "clipped_count_stddev": 0.5,
+        "clip_norm_lr": 0.2,
+        "target_clipped_quantile": 0.5,
+        "num_sampled_clients": 10,
+        "clipping_norm_used_for_clipping": 1.0
+      },
+      "predicted_ratio": 0.9048374180359595,
+      "measured": {
+        "runs": 20000,
+        "sensitivity_zero_out": 0.09999999403958243,
+        "reference_sigma": 0.057735026918962574,
+        "sigma": 0.05215793715750661,
+        "sigma_ratio_to_reference": 0.9034019717478609,
+        "mean_updated_norm_over_clip_norm": 0.9048589399040842,
+        "min_updated_norm_over_clip_norm": 0.8697847566671889,
+        "noise_std_in_units_of_updated_norm_sigma": 0.9983295099791761,
+        "mu_zero_out": 1.917253624076472,
+        "mu_reference": 1.7320507043314166
+      }
+    },
+    {
+      "row": "A2",
+      "api": "flwr.server.strategy",
+      "note": "all N updates are clipped with the round's norm C_t = C. The reference algorithm (Andrew et al. 2021) scales noise with C_t.",
+      "configured": {
+        "noise_multiplier": 0.5,
+        "internal_update_noise_multiplier": 0.5773502691896257,
+        "clipped_count_stddev": 0.5,
+        "clip_norm_lr": 1.0,
+        "target_clipped_quantile": 0.5,
+        "num_sampled_clients": 10,
+        "clipping_norm_used_for_clipping": 1.0
+      },
+      "predicted_ratio": 0.6065306597126334,
+      "measured": {
+        "runs": 20000,
+        "sensitivity_zero_out": 0.09999999403958243,
+        "reference_sigma": 0.057735026918962574,
+        "sigma": 0.03504544187881939,
+        "sigma_ratio_to_reference": 0.6070048590781728,
+        "mean_updated_norm_over_clip_norm": 0.6072164756921654,
+        "min_updated_norm_over_clip_norm": 0.49780466375226445,
+        "noise_std_in_units_of_updated_norm_sigma": 0.9983295103167346,
+        "mu_zero_out": 2.8534379559362892,
+        "mu_reference": 1.7320507043314166
+      }
+    },
+    {
+      "row": "L1",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 2.0,
+        "epsilon": 0.5,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 19.37804944493883,
+          "sigma_min_coord": 19.181425941411558,
+          "sigma_max_coord": 19.515322516007263,
+          "ks_pvalue": 0.9932188481667031
+        },
+        "sigma_formula": 19.379221050421556,
+        "sigma_ratio_measured_over_formula": 0.9999395432107577,
+        "mu": 0.10320956222569455
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 1.607853993087218e-08,
+        "delta_ratio_to_configured": 0.0016078539930872177,
+        "eps_at_configured_delta": 0.35257249186660894
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 1.6104094503814423e-08,
+        "eps_at_configured_delta": 0.3525957106925345
+      },
+      "meets_configured_guarantee": true
+    },
+    {
+      "row": "L1",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 2.0,
+        "epsilon": 1,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 9.674539881747139,
+          "sigma_min_coord": 9.553497390945532,
+          "sigma_max_coord": 9.756032219175601,
+          "ks_pvalue": 0.892313898349056
+        },
+        "sigma_formula": 9.689610525210778,
+        "sigma_ratio_measured_over_formula": 0.9984446595222348,
+        "mu": 0.20672817771658378
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 4.1136919538184515e-08,
+        "delta_ratio_to_configured": 0.004113691953818451,
+        "eps_at_configured_delta": 0.7509769568672022
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 4.2850906480267305e-08,
+        "eps_at_configured_delta": 0.7522567097524242
+      },
+      "meets_configured_guarantee": true
+    },
+    {
+      "row": "L1",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 2.0,
+        "epsilon": 2,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 4.836657861741847,
+          "sigma_min_coord": 4.77772626729849,
+          "sigma_max_coord": 4.867427256961734,
+          "ks_pvalue": 0.9533593273013468
+        },
+        "sigma_formula": 4.844805262605389,
+        "sigma_ratio_measured_over_formula": 0.9983183223221731,
+        "mu": 0.4135086783417281
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 1.3363967796999578e-07,
+        "delta_ratio_to_configured": 0.013363967796999577,
+        "eps_at_configured_delta": 1.6103160667035303
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 1.3966325484653195e-07,
+        "eps_at_configured_delta": 1.6133260221759211
+      },
+      "meets_configured_guarantee": true
+    },
+    {
+      "row": "L1",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 2.0,
+        "epsilon": 5,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 1.9407400317412975,
+          "sigma_min_coord": 1.9281753846295056,
+          "sigma_max_coord": 1.960762970701156,
+          "ks_pvalue": 0.16700651047802784
+        },
+        "sigma_formula": 1.9379221050421556,
+        "sigma_ratio_measured_over_formula": 1.0014540969896624,
+        "mu": 1.0305347276242518
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 1.3490037186028006e-06,
+        "delta_ratio_to_configured": 0.13490037186028006,
+        "eps_at_configured_delta": 4.540104401564501
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 1.2988544119085922e-06,
+        "eps_at_configured_delta": 4.532456580016044
+      },
+      "meets_configured_guarantee": true
+    },
+    {
+      "row": "L1",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 2.0,
+        "epsilon": 10,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.9696725579774527,
+          "sigma_min_coord": 0.9573295321222175,
+          "sigma_max_coord": 0.9797180669558596,
+          "ks_pvalue": 0.4434073889977713
+        },
+        "sigma_formula": 0.9689610525210778,
+        "sigma_ratio_measured_over_formula": 1.000734297270797,
+        "mu": 2.062551923890276
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 2.2653743647934208e-05,
+        "delta_ratio_to_configured": 2.265374364793421,
+        "eps_at_configured_delta": 10.393882381222282
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 2.2236010179650412e-05,
+        "eps_at_configured_delta": 10.384456353974247
+      },
+      "meets_configured_guarantee": false
+    },
+    {
+      "row": "L1",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 2.0,
+        "epsilon": 20,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.48529649966028865,
+          "sigma_min_coord": 0.48052864393620404,
+          "sigma_max_coord": 0.48917195129231045,
+          "ks_pvalue": 0.7377198097135005
+        },
+        "sigma_formula": 0.4844805262605389,
+        "sigma_ratio_measured_over_formula": 1.0016842233186292,
+        "mu": 4.121191892791346
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 0.0015266946955248553,
+        "delta_ratio_to_configured": 152.6694695524855,
+        "eps_at_configured_delta": 25.442610566667007
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.0014696481925178158,
+        "eps_at_configured_delta": 25.384708925968827
+      },
+      "meets_configured_guarantee": false
+    },
+    {
+      "row": "L2",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 1.0,
+        "epsilon": 0.5,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 9.689024722450261,
+          "sigma_min_coord": 9.590712970705779,
+          "sigma_max_coord": 9.757661258003631,
+          "ks_pvalue": 0.9932188481667031
+        },
+        "sigma_formula": 9.689610525210778,
+        "sigma_ratio_measured_over_formula": 0.999939543208781,
+        "mu": 0.20641912445179716
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 0.0006708373803563615,
+        "delta_ratio_to_configured": 67.08373803563615,
+        "eps_at_configured_delta": 0.7509769568672022
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.0006711756128182055,
+        "eps_at_configured_delta": 0.7510266231375797
+      },
+      "meets_configured_guarantee": false
+    },
+    {
+      "row": "L2",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 1.0,
+        "epsilon": 1,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 4.837269940896262,
+          "sigma_min_coord": 4.77674869584047,
+          "sigma_max_coord": 4.878016109587801,
+          "ks_pvalue": 0.892313898349056
+        },
+        "sigma_formula": 4.844805262605389,
+        "sigma_ratio_measured_over_formula": 0.9984446595269189,
+        "mu": 0.41345635543122794
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 0.001700170911510866,
+        "delta_ratio_to_configured": 170.0170911510866,
+        "eps_at_configured_delta": 1.6103160667035303
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.001722291801417723,
+        "eps_at_configured_delta": 1.6130995202783374
+      },
+      "meets_configured_guarantee": false
+    },
+    {
+      "row": "L2",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 1.0,
+        "epsilon": 2,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 2.4183289308955693,
+          "sigma_min_coord": 2.388863133649245,
+          "sigma_max_coord": 2.433713628480867,
+          "ks_pvalue": 0.9533593273013468
+        },
+        "sigma_formula": 2.4224026313026945,
+        "sigma_ratio_measured_over_formula": 0.9983183223323472,
+        "mu": 0.827017356675028
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 0.005318346357497349,
+        "delta_ratio_to_configured": 531.8346357497348,
+        "eps_at_configured_delta": 3.511178396660722
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.005392359943548829,
+        "eps_at_configured_delta": 3.5179437816753234
+      },
+      "meets_configured_guarantee": false
+    },
+    {
+      "row": "L2",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 1.0,
+        "epsilon": 5,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.9703700158437403,
+          "sigma_min_coord": 0.9640876923147528,
+          "sigma_max_coord": 0.980381485350578,
+          "ks_pvalue": 0.16700651047802784
+        },
+        "sigma_formula": 0.9689610525210778,
+        "sigma_ratio_measured_over_formula": 1.001454096961892,
+        "mu": 2.0610694553056574
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 0.04128749069405947,
+        "delta_ratio_to_configured": 4128.749069405947,
+        "eps_at_configured_delta": 10.393882381222282
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.040834273333586836,
+        "eps_at_configured_delta": 10.37523217971537
+      },
+      "meets_configured_guarantee": false
+    },
+    {
+      "row": "L2",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 1.0,
+        "epsilon": 10,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.48483627897032716,
+          "sigma_min_coord": 0.47866476606110875,
+          "sigma_max_coord": 0.4898590334779298,
+          "ks_pvalue": 0.4434073889977713
+        },
+        "sigma_formula": 0.4844805262605389,
+        "sigma_ratio_measured_over_formula": 1.00073429723282,
+        "mu": 4.125103847937096
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 0.2802955066006921,
+        "delta_ratio_to_configured": 28029.550660069206,
+        "eps_at_configured_delta": 25.442610566667007
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.2791629051608068,
+        "eps_at_configured_delta": 25.417336306794226
+      },
+      "meets_configured_guarantee": false
+    },
+    {
+      "row": "L2",
+      "api": "flwr.client.mod.LocalDpMod",
+      "configured": {
+        "clipping_norm": 1.0,
+        "sensitivity": 1.0,
+        "epsilon": 20,
+        "delta": 1e-05
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 0.24264824983062833,
+          "sigma_min_coord": 0.24026432196810202,
+          "sigma_max_coord": 0.24458597564615522,
+          "ks_pvalue": 0.7377198097135005
+        },
+        "sigma_formula": 0.24224026313026945,
+        "sigma_ratio_measured_over_formula": 1.0016842233206273,
+        "mu": 8.242383785566252
+      },
+      "exact_from_formula_sigma": {
+        "delta_at_configured_eps": 0.9420633139474714,
+        "delta_ratio_to_configured": 94206.33139474713,
+        "eps_at_configured_delta": 68.49040955822365
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.9407582011543913,
+        "eps_at_configured_delta": 68.31693688954903
+      },
+      "meets_configured_guarantee": false
+    },
+    {
+      "row": "ACC",
+      "available": false,
+      "note": "this flwr version has no accountant option on the fixed clipping strategy (ModuleNotFoundError)."
+    },
+    {
+      "row": "R1",
+      "statement": "the installed flwr package ships no privacy accountant",
+      "search_terms": [
+        "accountant",
+        "renyi",
+        "privacy_spent",
+        "get_epsilon",
+        "rdp_"
+      ],
+      "hit_count": 0,
+      "hit_files": [],
+      "true": true
+    }
+  ],
+  "runtime_seconds": 1994.7
+}

@@ -34,9 +34,20 @@ Federated learning is often described as private because raw data never leaves t
 
 Only synthetic or public data are used: scikit-learn Digits, plus optional Fashion-MNIST and optional MNIST, which are loaded at run time and never redistributed. See [`docs/data-provenance.md`](docs/data-provenance.md).
 
+## Measured privacy of Flower's DP mechanisms (v0.16.0)
+
+`scripts/audit_flower_dp.py` runs Flower's own differential privacy classes in process and compares the Gaussian mechanism that executes with the one implied by the configured parameters. Predictions were written in [`docs/preregistration/v0.16-p1.md`](docs/preregistration/v0.16-p1.md) before any run. Full tables and limits are in [`docs/v0.16-p1-flower-dp-audit.md`](docs/v0.16-p1-flower-dp-audit.md). The numbers are the same on `flwr` 1.27.0 and 1.44.0.
+
+Read these as measurements under the stated configurations. Flower's how-to guide labels differential privacy as a preview feature, and Flower logs a warning in the second configuration below. `flwr` 1.44.0 has an optional accountant on the Message API fixed clipping strategies. With it enabled the first configuration below raises an error and the second releases nothing.
+
+- With equal client weights and all sampled clients responding, the fixed clipping strategies deliver the configured noise multiplier. One round at multiplier 1 is epsilon 4.38 at delta 1e-5.
+- With one client holding a 0.91 weight share the exact value is epsilon 79.4, and with `num_sampled_clients` set to 10 while 2 results are aggregated it is epsilon 33.1. A reported client failure does not lead to the second case, because the wrapper then releases nothing. Empirical 95% lower bounds are 10.90 and 10.49.
+- With adaptive clipping and every client clipped, the update noise scale is 0.903 of the reference algorithm at the default learning rate and 0.607 at learning rate 1.0.
+- `LocalDpMod` meets its configured (epsilon, delta) for epsilon up to 5 on the tested grid. At configured epsilon 20 the exact delta is 153 times the configured delta.
+
 ## Headline results (v0.15.0)
 
-Current release: 0.15.3. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+Current release: 0.16.0. Release 0.16.0 adds the Flower DP measurement described in the section above and changes no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
 
 All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
@@ -117,15 +128,15 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build
 pip install -e '.[test,research,ml,privacy]'
 
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   with flwr and opacus (no opendp, no torchvision): 552 pass and 8 skip, 4 deselected
-#   without flwr and opacus: 400 pass and 48 skip, 4 deselected
+#   with flwr and opacus (no opendp, no torchvision): 558 pass and 8 skip, 5 deselected
+#   without flwr and opacus: 400 pass and 49 skip, 4 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard
 python -m dashboard.build_dashboard
 ```
 
-The first count is for an environment with `flwr`, `opacus`, `hypothesis` and the research extras, run in a working copy that has the git-ignored `data/` and checkpoint files. In a clean checkout with the same packages it is 548 pass and 12 skip (derived by subtracting those four tests, not recorded separately), because the four tests that need those files skip (two fault matrix gate tests, one Fashion-MNIST test and one multi-round note test). The second is for the hosted CI unit job environment (torch only, clean checkout), where the modules that need `flwr` or `opacus` skip. Both are recorded with the commit they ran on in `reports/results/privacy/v0150/`, and `scripts/verify_readme_claims.py` checks them. See [`docs/reproducibility-v0.15.md`](docs/reproducibility-v0.15.md) for the inputs a fresh checkout does not have.
+The first count is for an environment with `flwr`, `opacus`, `hypothesis` and the research extras, run in a working copy that has the git-ignored `data/` and checkpoint files. In a clean checkout with the same packages it is 554 pass and 12 skip (derived by subtracting those four tests, not recorded separately), because the four tests that need those files skip (two fault matrix gate tests, one Fashion-MNIST test and one multi-round note test). The second is for the hosted CI unit job environment (torch only, clean checkout), where the modules that need `flwr` or `opacus` skip. Both are recorded with the commit they ran on in `reports/results/privacy/v0150/`, and `scripts/verify_readme_claims.py` checks them. See [`docs/reproducibility-v0.15.md`](docs/reproducibility-v0.15.md) for the inputs a fresh checkout does not have.
 
 The three-site analytics demo and the native Flower runs have their own steps. See [`docs/v0.14-reproduce.md`](docs/v0.14-reproduce.md) for the versions (Flower 1.27.0, torch 2.5.1 CPU for the Docker runs, Opacus 1.6.0 which needs torch 2.6.0 or newer, OpenDP 0.16.0) and the exact commands behind every table above. [`docs/reproducibility-v0.15.md`](docs/reproducibility-v0.15.md) says which torch produced which evidence.
 

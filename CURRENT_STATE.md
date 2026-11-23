@@ -1,3 +1,8 @@
+## 2026-11-23 v0.16.0 first phase of the v0.16 plan (see `CHANGELOG.md`, `docs/preregistration/v0.16-p1.md` and `docs/v0.16-p1-flower-dp-audit.md`)
+
+Measured privacy of Flower's DP mechanisms on `flwr` 1.27.0 and 1.44.0 with `scripts/audit_flower_dp.py`. Equal weights and full participation match the configured multiplier. Unequal weights, `num_sampled_clients` set higher than the number of aggregated results, and `LocalDpMod` at large epsilon or with `sensitivity` equal to `clipping_norm` do not. With adaptive clipping and all clients clipped the update noise is below the reference algorithm's. In 1.44.0 an optional accountant on the Message API raises an error on the first and releases nothing on the second. All predictions held except the mechanism named in C6.
+Next: run the same harness on two more federated learning frameworks, then the stronger inversion attack on CIFAR-10. See `NEXT_SPRINT.md`.
+
 ## 2026-11-23 v0.15.0 attack-phase release (see `CHANGELOG.md`, `docs/preregistration/v0.15.md`, `docs/v0.15-*.md` and `docs/v0.15-technical-report.md`)
 
 Eight work packages ran against pre-registered numeric rules, and no threshold was changed. Verdicts live in `reports/results/privacy/v0150/prereg_check_*.json`.

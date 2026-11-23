@@ -2,6 +2,21 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.0] - 2026-11-23
+
+First phase of the v0.16 plan. No v0.15 result number, verdict or threshold changed.
+
+### Added
+- **Measured privacy of Flower's DP mechanisms.** `scripts/audit_flower_dp.py` runs the real `flwr` strategy and mod classes in process, measures sensitivity and noise scale, and reports exact (epsilon, delta) next to the configured values, with a Clopper-Pearson empirical lower bound where it has power. Evidence for `flwr` 1.27.0 and 1.44.0 is under `reports/results/privacy/v0160/flower_dp_audit/`. Results and limits are in `docs/v0.16-p1-flower-dp-audit.md`.
+- **Pre-registration** `docs/preregistration/v0.16-p1.md`, committed before any run, with a deviation log.
+- Tests in `tests/privacy/test_audit_flower_dp.py`.
+
+### Recorded on purpose
+- Prediction C6 named the wrong mechanism. No privacy mismatch was measured in that row.
+- The prior-art check for this phase covered the literature and not Flower's release history. The optional accountant in `flwr` 1.44.0, which raises an error on one measured configuration and releases nothing on another, was found only during the re-check on 1.44.0.
+- Review R9 found that row C4 is not reached by a client failure, that the release which introduced the accountant was not checked, and that the adaptive rows compare update noise with the reference algorithm only. The text was corrected before release. No number changed.
+- Package version is 0.16.0.
+
 ## [0.15.3] - 2026-11-23
 
 Documentation only. No code, result number, verdict or threshold changed.
