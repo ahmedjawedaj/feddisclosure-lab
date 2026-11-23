@@ -24,7 +24,7 @@
   "sites": [
     {
       "site_id": 0,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-noniid-v014/institution-00",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/digits-docker-noniid-v014/institution-00",
       "train_sha256": "c1409c127e1ff7a99903922ef712fa8be65d6337536cf631c5781547d6f1da80",
       "val_sha256": "eaa70141d0c4c9316ab2e8f329588892478ddc47126ba2833bedc1c34f09d3ff",
       "train_records": 128,
@@ -32,7 +32,7 @@
     },
     {
       "site_id": 1,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-noniid-v014/institution-01",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/digits-docker-noniid-v014/institution-01",
       "train_sha256": "a0c0b394c604809f2cd31936ea2b53b8e1c2cdb3517c0828d567bb7ca6b2117d",
       "val_sha256": "5813f074a45156fedb374470d6a449a22c056c0368a913ea627381f96ed53af6",
       "train_records": 128,
@@ -40,15 +40,15 @@
     },
     {
       "site_id": 2,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-noniid-v014/institution-02",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/digits-docker-noniid-v014/institution-02",
       "train_sha256": "ece2033a1fb5aa513bb101f24fb8d35e36caa19c767098fd6ae748dd7d631587",
       "val_sha256": "9f5c0abeaf713eec5a5e44a6a5ff94171c39d7a119055e071060358b9af29c9b",
       "train_records": 128,
       "val_records": 32
     }
   ],
-  "run_dir": "/home/claude/work/feddisclosure-lab/reports/results/native_flower/v014/run-noniid-labelskew",
-  "env_file": "/home/claude/runs/run-noniid-labelskew.env",
+  "run_dir": "/home/fedlab/work/feddisclosure-lab/reports/results/native_flower/v014/run-noniid-labelskew",
+  "env_file": "/home/fedlab/runs/run-noniid-labelskew.env",
   "evaluator_not_mounted": true,
   "native_execution_verified": false
 }

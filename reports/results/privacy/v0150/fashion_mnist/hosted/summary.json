@@ -1,0 +1,305 @@
+{
+  "schema_version": 1,
+  "dataset": "fashion_mnist",
+  "provenance": "Fashion-MNIST train split (60,000), SHA-256-verified local copy, MIT licence, Zalando Research",
+  "sha256": {
+    "train-images-idx3-ubyte.gz": "3aede38d61863908ad78613f6a32ed271626dd12800ba2636569512369268a84",
+    "train-labels-idx1-ubyte.gz": "a04f17134ac03560a47e3764e11b92fc97de4d1bfaf8ba1a3aa29af54cc90845"
+  },
+  "model": "SmallCNN, two 3x3 conv with max pooling and one linear layer",
+  "clients": 4,
+  "records_per_client": 8,
+  "lr": 0.15,
+  "seeds": 20,
+  "evaluation_seeds": "0 to 19",
+  "attack_settings_from_tuning_seeds": {
+    "individual": {
+      "iterations": 3000,
+      "attack_lr": 0.1,
+      "tv_weight": 0.2
+    },
+    "collusion": {
+      "iterations": 3000,
+      "attack_lr": 0.2,
+      "tv_weight": 0.5
+    },
+    "aggregate": {
+      "iterations": 3000,
+      "attack_lr": 0.1,
+      "tv_weight": 0.05
+    }
+  },
+  "labels_known_to_attacker": true,
+  "secagg": "upstream Flower SecAgg+ quantiser arithmetic, clipping_range 8, quantization_range 2**22",
+  "summary": {
+    "clients": 4,
+    "seeds": 20,
+    "label_floor": {
+      "successes": 93,
+      "images": 160,
+      "rate": 0.58125,
+      "wilson": [
+        0.5037778324249305,
+        0.6549121608596999
+      ],
+      "seed_bootstrap": [
+        0.58125,
+        0.5125,
+        0.65
+      ],
+      "mean_mse": 0.052123981272317724,
+      "mse_seed_bootstrap": [
+        0.052123981272317724,
+        0.0479901394583079,
+        0.05623715184954931
+      ]
+    },
+    "mean_image_floor": {
+      "successes": 18,
+      "images": 160,
+      "rate": 0.1125,
+      "wilson": [
+        0.07235633854421358,
+        0.17081446271370296
+      ],
+      "seed_bootstrap": [
+        0.1125,
+        0.06875,
+        0.15625
+      ],
+      "mean_mse": 0.08953864903887734,
+      "mse_seed_bootstrap": [
+        0.08953864903887734,
+        0.08347471866174601,
+        0.09552054756641155
+      ]
+    },
+    "views": {
+      "plaintext_individual": {
+        "successes": 132,
+        "images": 160,
+        "rate": 0.825,
+        "wilson": [
+          0.7587019750779815,
+          0.8760579980605401
+        ],
+        "seed_bootstrap": [
+          0.825,
+          0.725,
+          0.9125
+        ],
+        "mean_mse": 0.03176742607029155,
+        "mse_seed_bootstrap": [
+          0.03176742607029155,
+          0.027577609399595533,
+          0.03621381000921247
+        ],
+        "rate_minus_floor": 0.2437499999999999,
+        "paired_rate_minus_floor_bootstrap": [
+          0.24375,
+          0.1625,
+          0.325
+        ]
+      },
+      "secagg_collusion_maxw1000": {
+        "successes": 113,
+        "images": 160,
+        "rate": 0.70625,
+        "wilson": [
+          0.6315031760687836,
+          0.7713252684229707
+        ],
+        "seed_bootstrap": [
+          0.70625,
+          0.625,
+          0.7875
+        ],
+        "mean_mse": 0.03807311540585943,
+        "mse_seed_bootstrap": [
+          0.03807311540585943,
+          0.033512374561032635,
+          0.042757052427477904
+        ],
+        "rate_minus_floor": 0.125,
+        "paired_rate_minus_floor_bootstrap": [
+          0.125,
+          0.04375,
+          0.2125
+        ]
+      },
+      "secagg_aggregate_maxw1000": {
+        "successes": 72,
+        "images": 160,
+        "rate": 0.45,
+        "wilson": [
+          0.3749863030702235,
+          0.5273583164469271
+        ],
+        "seed_bootstrap": [
+          0.45,
+          0.3560937500000006,
+          0.54375
+        ],
+        "mean_mse": 0.060594305919948965,
+        "mse_seed_bootstrap": [
+          0.060594305919948965,
+          0.055323362735507545,
+          0.0660321187003865
+        ],
+        "rate_minus_floor": -0.13125000000000003,
+        "paired_rate_minus_floor_bootstrap": [
+          -0.13125,
+          -0.21875,
+          -0.0375
+        ]
+      },
+      "secagg_collusion_maxw16": {
+        "successes": 125,
+        "images": 160,
+        "rate": 0.78125,
+        "wilson": [
+          0.7110129877684279,
+          0.8382985274476005
+        ],
+        "seed_bootstrap": [
+          0.78125,
+          0.68125,
+          0.86875
+        ],
+        "mean_mse": 0.03409642289334443,
+        "mse_seed_bootstrap": [
+          0.03409642289334443,
+          0.02929072217695648,
+          0.03938238639755582
+        ],
+        "rate_minus_floor": 0.19999999999999996,
+        "paired_rate_minus_floor_bootstrap": [
+          0.2,
+          0.11875,
+          0.28125
+        ]
+      },
+      "secagg_aggregate_maxw16": {
+        "successes": 82,
+        "images": 160,
+        "rate": 0.5125,
+        "wilson": [
+          0.43566953810500403,
+          0.5887443070157083
+        ],
+        "seed_bootstrap": [
+          0.5125,
+          0.425,
+          0.6
+        ],
+        "mean_mse": 0.0528514577599708,
+        "mse_seed_bootstrap": [
+          0.0528514577599708,
+          0.048570038289472,
+          0.05770423114576261
+        ],
+        "rate_minus_floor": -0.06875000000000009,
+        "paired_rate_minus_floor_bootstrap": [
+          -0.06875,
+          -0.14375,
+          0.0125
+        ]
+      }
+    }
+  },
+  "X1": {
+    "id": "X1",
+    "prediction": "The second dataset (Fashion-MNIST, small CNN) shows the same ordering",
+    "pass_rule": "Plaintext and n-1 collusion at least floor plus 10 points, aggregate-only within floor plus 5 points",
+    "observed": {
+      "floor_rate": 0.58125,
+      "floor_wilson": [
+        0.5037778324249305,
+        0.6549121608596999
+      ],
+      "max_weight": 1000.0,
+      "plaintext_individual": {
+        "rate": 0.825,
+        "wilson": [
+          0.7587019750779815,
+          0.8760579980605401
+        ],
+        "rate_minus_floor": 0.2437499999999999
+      },
+      "secagg_collusion_maxw1000": {
+        "rate": 0.70625,
+        "wilson": [
+          0.6315031760687836,
+          0.7713252684229707
+        ],
+        "rate_minus_floor": 0.125
+      },
+      "secagg_aggregate_maxw1000": {
+        "rate": 0.45,
+        "wilson": [
+          0.3749863030702235,
+          0.5273583164469271
+        ],
+        "rate_minus_floor": -0.13125000000000003
+      }
+    },
+    "parts": {
+      "plaintext_at_least_floor_plus_10": true,
+      "collusion_at_least_floor_plus_10": true,
+      "aggregate_within_floor_plus_5": true
+    },
+    "pass": true
+  },
+  "X1_secondary_max_weight_16": {
+    "id": "X1",
+    "prediction": "The second dataset (Fashion-MNIST, small CNN) shows the same ordering",
+    "pass_rule": "Plaintext and n-1 collusion at least floor plus 10 points, aggregate-only within floor plus 5 points",
+    "observed": {
+      "floor_rate": 0.58125,
+      "floor_wilson": [
+        0.5037778324249305,
+        0.6549121608596999
+      ],
+      "max_weight": 16.0,
+      "plaintext_individual": {
+        "rate": 0.825,
+        "wilson": [
+          0.7587019750779815,
+          0.8760579980605401
+        ],
+        "rate_minus_floor": 0.2437499999999999
+      },
+      "secagg_collusion_maxw16": {
+        "rate": 0.78125,
+        "wilson": [
+          0.7110129877684279,
+          0.8382985274476005
+        ],
+        "rate_minus_floor": 0.19999999999999996
+      },
+      "secagg_aggregate_maxw16": {
+        "rate": 0.5125,
+        "wilson": [
+          0.43566953810500403,
+          0.5887443070157083
+        ],
+        "rate_minus_floor": -0.06875000000000009
+      }
+    },
+    "parts": {
+      "plaintext_at_least_floor_plus_10": true,
+      "collusion_at_least_floor_plus_10": true,
+      "aggregate_within_floor_plus_5": true
+    },
+    "pass": true
+  },
+  "primary_max_weight": 1000.0,
+  "limitations": [
+    "Observation-model study with the real quantiser arithmetic, not an attack on captured Docker traffic",
+    "One local SGD step on 8 distinct records per client, known labels, known learning rate and initial model",
+    "One small CNN with ReLU and max pooling. Other architectures can be easier or harder to invert",
+    "Attack settings were tuned on 3 tuning seeds, a stronger attack could do better",
+    "Rate intervals are Wilson intervals pooled over victim images, plus a seed-level bootstrap",
+    "A failed reconstruction is evidence about this attack only, not a privacy guarantee"
+  ]
+}

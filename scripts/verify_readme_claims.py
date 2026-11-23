@@ -198,6 +198,10 @@ def _v15_prose() -> list[ProseClaim]:
         ProseClaim("v15.S3", r"peaked at ([\d.]+) GB and ([\d.]+) GB against the 6 GB rule", (R(1, SCALING, "S3/observed/peak_total_gb"), R(2, V15 + "scaling/docker_n8/scaling_n8_memory_7_4.json", "peak_total_gb"))),
         ProseClaim("v15.X1", r"n-1 collusion is \+([\d.]+) points over the floor against a \+10 rule \(20 seeds, seed bootstrap interval \+([\d.]+) to \+([\d.]+)\)",
                    (R(1, FASHION, x1, 100), R(2, FASHION_BOOT, gap + "0", 100), R(3, FASHION_BOOT, gap + "1", 100))),
+        ProseClaim("v15.X1_hosted", r"gives \+([\d.]+) points \(seed bootstrap \+([\d.]+) to \+([\d.]+)\) and would pass",
+                   (R(1, V15 + "fashion_mnist/hosted/seed_bootstrap.json", "rows/secagg_collusion_maxw1000/gap_to_floor", 100),
+                    R(2, V15 + "fashion_mnist/hosted/seed_bootstrap.json", gap + "0", 100),
+                    R(3, V15 + "fashion_mnist/hosted/seed_bootstrap.json", gap + "1", 100))),
         ProseClaim("v15.X1_secondary", r"the same rule would pass \(\+([\d.]+)\)", (R(1, FASHION, x16, 100),)),
     ]
 

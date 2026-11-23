@@ -36,7 +36,9 @@ Only synthetic or public data are used: scikit-learn Digits, plus optional Fashi
 
 ## Headline results (v0.15.0)
 
-All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, P1 and F2 readings were fixed. W3 and F2 would fail under the other reading. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
+Current release: 0.15.2. Releases 0.15.1 and 0.15.2 correct wording and add a hosted Fashion-MNIST rerun. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+
+All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
 ### What v0.15 tested
 
@@ -51,7 +53,7 @@ Read these as results for the setups named, not as properties of deployed system
 | External baselines | B1 FAIL: tuned `breaching` beats the repository inversion attack in mean MSE, ratio 1.86 (bootstrap 95% interval 1.47 to 2.51, limit 1.5). Against the two shipped library configurations B1 would pass (ratios 0.24 and 0.47). B2 PASS (one no-DP Digits setting): repository LiRA AUC 0.7416 against 0.7401 for the strongest reference | [`docs/v0.15-external-baselines.md`](docs/v0.15-external-baselines.md) |
 | Reply order and deterministic aggregation | P1 PASS in replay only: `DeterministicFedAvg` passes the unchanged 1e-5 float64 gate on 7 of 7 native runs. P2 FAIL: the shipped 4-client config passes for all 24 reply orders. P3 passes but the metric cannot fail on this setup. Six live hosted runs (strategy on and off) all pass the unchanged gate, and none of them is a config that fails upstream | [`docs/v0.15-reply-order.md`](docs/v0.15-reply-order.md) |
 | Scaling to 8 clients | S1 PASS, vacuous: aggregate-only is 35.0% against a 74.6% floor at 8 clients, because this attack is weak. S2 PASS: n-1 collusion is 90.4% at 4 clients and 90.8% at 8. S3 PASS: two native 8-client rounds peaked at 3.25 GB and 3.16 GB against the 6 GB rule (sampled about every 4 seconds, so a lower bound). 30 seeds, observation model | [`docs/v0.15-scaling.md`](docs/v0.15-scaling.md) |
-| Fashion-MNIST | X1 FAIL by 0.6 points: n-1 collusion is +9.4 points over the floor against a +10 rule (20 seeds, seed bootstrap interval +0.6 to +18.8). At the secondary max weight of 16 the same rule would pass (+13.7), and the verdict stays FAIL. Small CNN, local run. The hosted workflow has not been run | [`docs/v0.15-fashion-mnist.md`](docs/v0.15-fashion-mnist.md) |
+| Fashion-MNIST | X1 FAIL by 0.6 points: n-1 collusion is +9.4 points over the floor against a +10 rule (20 seeds, seed bootstrap interval +0.6 to +18.8). At the secondary max weight of 16 the same rule would pass (+13.7), and the verdict stays FAIL. Small CNN, local run. A hosted rerun (run 45153504593, same 20 seeds, its own tuning, torch 2.5.1) gives +12.5 points (seed bootstrap +4.4 to +21.3) and would pass. It is a second observation and does not change the verdict | [`docs/v0.15-fashion-mnist.md`](docs/v0.15-fashion-mnist.md) |
 
 ### Failed predictions
 
@@ -101,7 +103,7 @@ DP at epsilon near 2 brings the attack to chance, but held-out accuracy collapse
 
 **SecAgg+ dropout.** Five mid-round dropout scenarios matched the share-count rule: four tolerated, one halted. An earlier claim that three-client dropout halts was wrong and is withdrawn in the docs.
 
-**Determinism.** Bitwise float32 replay reproduces 7 of 7 native Flower runs. The stricter float64 reference parity gate (1e-5) passes only 5 of 7. The two failing runs fail for every reply order in replay, so the cause is float32 accumulation over 10 rounds against a float64 reference, and reply order only changes the last bits. The gate was not relaxed. Reply-order effects in Flower have been discussed publicly before (a thread on the Flower forum about non-determinism, and the BlazeFL project), so this repository does not claim to have found them. It only measures how they interact with its own gate. `DeterministicFedAvg` is an opt-in workaround that sorts replies by site id and uses the float64 reference arithmetic. With it on, the gate tests transport and client determinism and no longer tests Flower's own aggregation arithmetic.
+**Determinism.** Bitwise float32 replay reproduces 7 of 7 native Flower runs. The stricter float64 reference parity gate (1e-5) passes only 5 of 7. The two failing runs (both 10-round MNIST runs) fail for every one of the 6 reply orders in replay, from round 2 on, so the failure is not one unlucky order. A single round's aggregate never fails the gate. The gap appears when the float32 trajectory is compared with the float64 reference after further rounds of training. The likely cause is float32 server arithmetic amplified by training. That cause is inferred and was not isolated by a separate test, and two other 10-round MNIST runs pass. Reply order does change the size of the final gap (0.0029 to 0.0069 across orders for the label skew run) but not the verdict. The gate was not relaxed. Reply-order effects in Flower have been discussed publicly before (a thread on the Flower forum about non-determinism, and the BlazeFL project), so this repository does not claim to have found them. It only measures how they interact with its own gate. `DeterministicFedAvg` is an opt-in workaround that sorts replies by site id and uses the float64 reference arithmetic. With it on, the gate tests transport and client determinism and no longer tests Flower's own aggregation arithmetic.
 
 ## Quick start
 
@@ -115,15 +117,15 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build
 pip install -e '.[test,research,ml,privacy]'
 
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   with flwr and opacus (no opendp, no torchvision): 551 pass and 8 skip, 4 deselected
-#   without flwr and opacus: 399 pass and 48 skip, 4 deselected
+#   with flwr and opacus (no opendp, no torchvision): 552 pass and 8 skip, 4 deselected
+#   without flwr and opacus: 400 pass and 48 skip, 4 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard
 python -m dashboard.build_dashboard
 ```
 
-The first count is for an environment with `flwr`, `opacus`, `hypothesis` and the research extras, run in a working copy that has the git-ignored `data/` and checkpoint files. In a clean checkout with the same packages it is 547 pass and 12 skip (derived by subtracting those four tests, not recorded separately), because the four tests that need those files skip (two fault matrix gate tests, one Fashion-MNIST test and one multi-round note test). The second is for the hosted CI unit job environment (torch only, clean checkout), where the modules that need `flwr` or `opacus` skip. Both are recorded with the commit they ran on in `reports/results/privacy/v0150/`, and `scripts/verify_readme_claims.py` checks them. See [`docs/reproducibility-v0.15.md`](docs/reproducibility-v0.15.md) for the inputs a fresh checkout does not have.
+The first count is for an environment with `flwr`, `opacus`, `hypothesis` and the research extras, run in a working copy that has the git-ignored `data/` and checkpoint files. In a clean checkout with the same packages it is 548 pass and 12 skip (derived by subtracting those four tests, not recorded separately), because the four tests that need those files skip (two fault matrix gate tests, one Fashion-MNIST test and one multi-round note test). The second is for the hosted CI unit job environment (torch only, clean checkout), where the modules that need `flwr` or `opacus` skip. Both are recorded with the commit they ran on in `reports/results/privacy/v0150/`, and `scripts/verify_readme_claims.py` checks them. See [`docs/reproducibility-v0.15.md`](docs/reproducibility-v0.15.md) for the inputs a fresh checkout does not have.
 
 The three-site analytics demo and the native Flower runs have their own steps. See [`docs/v0.14-reproduce.md`](docs/v0.14-reproduce.md) for the versions (Flower 1.27.0, torch 2.5.1 CPU for the Docker runs, Opacus 1.6.0 which needs torch 2.6.0 or newer, OpenDP 0.16.0) and the exact commands behind every table above. [`docs/reproducibility-v0.15.md`](docs/reproducibility-v0.15.md) says which torch produced which evidence.
 
@@ -168,7 +170,7 @@ Project status files at the repo root (`CURRENT_STATE.md`, `NEXT_SPRINT.md`, `PR
 - **Multi-round SecAgg+ error.** A proof exists only for convex losses (an L2 bound, [`docs/proofs/multi-round-note.md`](docs/proofs/multi-round-note.md)). For the non-convex model used here, two-round error is bimodal because of ReLU flips, and only an empirical tolerance limit is offered. The one-round bound is proven in [`docs/proofs/one-round-secagg-error.md`](docs/proofs/one-round-secagg-error.md).
 - **Scale.** Docker topologies were tested at 3 and 4 clients on a 2 CPU machine, and hosted 8-client rounds on a 4 CPU runner (memory only, two one-round runs). The attack studies at 8 clients are in-process.
 - **Data.** Digits, plus optional Fashion-MNIST (MIT licence, loaded at run time) and optional MNIST. Neither is redistributed, and a small Digits subset is committed as wire evidence. The MNIST originators publish no licence text, so redistribution terms are treated as unverified.
-- **Hosted CI.** Workflows have run on GitHub-hosted runners since 2026-11-22. The first runs failed in several ways, all recorded in [`CHANGELOG.md`](CHANGELOG.md). The push and pull request workflows are shown by the badges above. The Docker based workflows are dispatch only. `parity-live`, `wire-capture` and `scaling-n8` each ran on a hosted runner for v0.15 and their evidence is committed. `fashion-mnist-study` has not been run on a hosted runner.
+- **Hosted CI.** Workflows have run on GitHub-hosted runners since 2026-11-22. The first runs failed in several ways, all recorded in [`CHANGELOG.md`](CHANGELOG.md). The push and pull request workflows are shown by the badges above. The Docker based workflows are dispatch only. `parity-live`, `wire-capture`, `scaling-n8` and `fashion-mnist-study` each ran on a hosted runner for v0.15 and their evidence is committed.
 
 ## Contributing
 

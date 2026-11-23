@@ -24,7 +24,7 @@
   "sites": [
     {
       "site_id": 0,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-iid-4c-v014/institution-00",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/digits-docker-iid-4c-v014/institution-00",
       "train_sha256": "bb44dc94395ddc35a0ca41ae5dc6fcd0d21bee02c8a775db25892fc1763e0c99",
       "val_sha256": "f3925028fe7cbda0751179d67b71034b300d7dfe79c9c9ec4f541108c9ec4b03",
       "train_records": 96,
@@ -32,7 +32,7 @@
     },
     {
       "site_id": 1,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-iid-4c-v014/institution-01",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/digits-docker-iid-4c-v014/institution-01",
       "train_sha256": "5cb47aa65ae2845579007f71572d3356686f49a40b0f2cbdb433605e8eabda03",
       "val_sha256": "91f178f37c77c54232247fdaf65c660c1eb152e8a443c1b8578c42f3392af1e7",
       "train_records": 96,
@@ -40,7 +40,7 @@
     },
     {
       "site_id": 2,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-iid-4c-v014/institution-02",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/digits-docker-iid-4c-v014/institution-02",
       "train_sha256": "0dd14907a92ca3e5ead99cc9f0d22609d7d905db06ef012638f08a83ab8052bb",
       "val_sha256": "1e0e7de13e4ccfb4b34332e098c0ffa5b588d5e9d6a9bdc8eea11814298f9200",
       "train_records": 96,
@@ -48,15 +48,15 @@
     },
     {
       "site_id": 3,
-      "path": "/home/claude/work/feddisclosure-lab/data/training/digits-docker-iid-4c-v014/institution-03",
+      "path": "/home/fedlab/work/feddisclosure-lab/data/training/digits-docker-iid-4c-v014/institution-03",
       "train_sha256": "f53a14b63608c9e28d7fdd974d9b9e7264fe704ffdf620c3ee3619df5dfdc2f5",
       "val_sha256": "5bf95ede282e61db2fbca4b68d4906bdcffc456d9d78dda30b3b747d66486f2b",
       "train_records": 96,
       "val_records": 24
     }
   ],
-  "run_dir": "/home/claude/work/feddisclosure-lab/reports/results/secagg/v014_dropout_matrix/n4-t3-kill1-r2",
-  "env_file": "/home/claude/runs/secagg-dm-n4-t3-kill1-r2.env",
+  "run_dir": "/home/fedlab/work/feddisclosure-lab/reports/results/secagg/v014_dropout_matrix/n4-t3-kill1-r2",
+  "env_file": "/home/fedlab/runs/secagg-dm-n4-t3-kill1-r2.env",
   "evaluator_not_mounted": true,
   "native_execution_verified": false
 }

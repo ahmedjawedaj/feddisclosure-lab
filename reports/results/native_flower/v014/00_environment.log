@@ -92,7 +92,7 @@ Server:
  Docker Root Dir: /var/lib/docker
  Debug Mode: false
  HTTPS Proxy: http://127.0.0.1:43325
- No Proxy: localhost,127.0.0.1,::1,127.0.0.0/8,0.0.0.0/8,::,169.254.0.0/16,api.anthropic.com,api-staging.anthropic.com,api-pr-preview.anthropic.com,mcp-proxy.anthropic.com,mcp-proxy-staging.anthropic.com,registry.npmjs.org,jsr.io,npm.jsr.io,pypi.org,files.pythonhosted.org,index.crates.io,proxy.golang.org,host.docker.internal,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,100.64.0.0/10,.svc.cluster.local,*.svc.cluster.local
+ No Proxy: [host list redacted]
  Experimental: false
  Insecure Registries:
   127.0.0.0/8

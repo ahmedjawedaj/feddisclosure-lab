@@ -29,8 +29,8 @@ def seed_rates(runs: list[dict], key) -> np.ndarray:
     return np.array([np.mean(np.asarray(key(r)) < RECOGNISABLE) for r in runs])
 
 
-def main():
-    files = sorted((DIR / "runs").glob("seed*.json"), key=lambda f: int(f.stem[4:]))
+def main(directory: Path = DIR):
+    files = sorted((directory / "runs").glob("seed*.json"), key=lambda f: int(f.stem[4:]))
     runs = [json.loads(f.read_text()) for f in files]
     floor = seed_rates(runs, lambda r: r["label_floor_per_image_mse"])
     rows = {"label_floor": ("label_floor_per_image_mse", None),
@@ -60,9 +60,12 @@ def main():
     diff = seed_rates(runs, names["secagg_collusion_maxw16"]) - seed_rates(runs, names[col])
     out["paired_collusion_maxw16_minus_maxw1000"] = {"mean": float(diff.mean()),
                                                       "seed_bootstrap": bootstrap_ci(diff, RESAMPLES)[1:]}
-    (DIR / "seed_bootstrap.json").write_text(json.dumps(out, indent=2) + "\n")
+    (directory / "seed_bootstrap.json").write_text(json.dumps(out, indent=2) + "\n")
     print(json.dumps(out, indent=1))
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--dir", type=Path, default=DIR, help="folder that holds runs/seed*.json")
+    main(ap.parse_args().dir)
