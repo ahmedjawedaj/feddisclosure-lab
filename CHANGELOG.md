@@ -11,7 +11,7 @@ The release gate now runs in CI. No result number, verdict or threshold changed.
 - `tests/test_release_gate_workflow.py` pins the trigger, the checkout of the head commit and the base commit argument.
 
 ### Recorded on purpose
-- A pull request that changes `scripts/release_gate.py` or the hooks fails the gate integrity check in CI, because the pins differ and `GATE_REPIN=1` is not set there. That is intended. A reviewer reads the diff and the owner decides.
+- A pull request that changes `scripts/release_gate.py` or the hooks without changing `scripts/gate_pins.json` fails the gate integrity check in CI. That is intended. A pull request that changes the gate and the pins file together passes the integrity check, and the pins file, the workflow file and `scripts/check_commit_attribution.sh` are not pinned, so a reviewer has to read those files and the owner decides.
 - The workflow checks the pull request only. Pushes to main are not gated.
 - Package version is 0.16.7.
 

@@ -1,6 +1,6 @@
 ## 2026-11-26 v0.16.7 release gate in CI (see `CHANGELOG.md`)
 
-`.github/workflows/release-gate.yml` runs the release gate on every pull request. No result changed. A pull request that edits the gate fails its integrity check on purpose.
+`.github/workflows/release-gate.yml` runs the release gate on every pull request. No result changed. A pull request that edits the gate without its pins file fails the integrity check on purpose, one that edits both passes it, and pushes to main are not gated.
 
 ## 2026-11-26 v0.16.6 adaptive clipping whole mechanism measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-adaptive-guarantee.md` and `docs/v0.16-adaptive-guarantee-audit.md`)
 
