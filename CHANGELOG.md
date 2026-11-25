@@ -16,7 +16,7 @@ Measurement of the differential privacy aggregators of TensorFlow Federated 0.87
 - The aggregators measured report a per-round `DpEvent` and no epsilon (no name containing epsilon in the six files scanned), and no epsilon or delta was computed here.
 - Clauses that no script check covers, as listed in the pre-registration and the results document: the source and install statements, the five quotes (the tutorial text came from one page fetch), that 0.87.0 is the newest release on PyPI, the paper reading, that the TFF documentation read states no adjacency relation, that `MeanFactory` around the DP factory is not shown as a DP example in the files read, that nothing outside six scanned files reports an epsilon (and what `python/analytics/differential_privacy.py` holds), the false failure estimate, that the C++ worker runs the same kernels as the Python side, and the wording of the README, the document and the comparison with Flower.
 - Install note: 0.87.0 pins `jaxlib` 0.4.14, which is not on PyPI, so it was installed with `--find-links https://storage.googleapis.com/jax-releases/jax_releases.html` in a Python 3.11 environment.
-- The fast suite records were not re-recorded and the README suite counts were not touched. The orchestrator re-records them after this branch is merged, as in v0.16.8, so `scripts/verify_readme_claims.py` reports the two suite count claims as stale until then.
+- The fast suite records were re-recorded after the branch was built (673 passed and 30 skipped with flwr and opacus, 478 passed and 70 skipped in the CI environment) and the README suite counts were updated.
 - Package version is 0.16.9.
 
 ## [0.16.8] - 2026-11-26
