@@ -2,6 +2,18 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.2] - 2026-11-25
+
+Second framework for the v0.16 DP measurements. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Measured privacy of FedML's DP mechanisms** (plan item P1, second framework). `scripts/audit_fedml_dp.py` runs the classes under `fedml/core/dp` of `fedml` 0.9.6 in process, with 130 checks that encode the pre-registered predictions. Evidence `reports/results/privacy/v0160/fedml_dp_audit/fedml-0.9.6/fedml_dp_audit.json`, results `docs/v0.16-fedml-dp-audit.md`, pre-registration `docs/preregistration/v0.16-fedml.md` (committed before any mechanism ran, with a prior art gate). Tests in `tests/privacy/test_audit_fedml_dp.py`.
+- `docs/novelty-status.md` and `docs/v0.16-p2-server-view-inventory.md` (scope only, nothing measured).
+
+### Recorded on purpose
+- 128 of 130 checks held. The two that did not concern the error an accountant path raises (a `NameError` where a `TypeError` was predicted, and an error before the first step where none was predicted).
+- Package version is 0.16.2.
+
 ## [0.16.1] - 2026-11-25
 
 Second phase of the v0.16 plan, inversion attack part. No earlier result number, verdict or threshold changed.
