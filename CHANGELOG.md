@@ -2,6 +2,23 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.9] - 2026-11-26
+
+Measurement of the differential privacy aggregators of TensorFlow Federated 0.87.0. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Measured noise of TFF's DP aggregators against their configuration.** `scripts/audit_tff_dp.py` runs the real `DifferentiallyPrivateFactory.gaussian_fixed` and `gaussian_adaptive`, a `MeanFactory` around the fixed one and `tff.learning.dp_aggregator` through TFF's runtime, with 14 pre-registered rows plus an environment row and a timing row, and 127 checks. Pre-registration `docs/preregistration/v0.16-tff-dp.md` (commit `7a22b12`, committed alone before the script was written), results `docs/v0.16-tff-dp-audit.md`, evidence `reports/results/privacy/v0160/tff_dp/tff-0.87.0/tff_dp_audit.json`, tests `tests/privacy/test_audit_tff_dp.py`. The tests that call TFF skip when `tensorflow_federated` is not importable, as in CI.
+- A README section and claim checks in `scripts/verify_readme_claims.py` for the new numbers, including a check that the evidence has exactly one failed check and that it sits in row F5.
+
+### Recorded on purpose
+- 15 of 16 rows and 126 of 127 checks held. The one failed check is a pre-registered number that was an arithmetic slip (output norm 0.0035714 with a weight sum of 14, where the weights sent sum to 10 and the arithmetic gives 0.005). It is kept as written, and the deviation log of the pre-registration says so. No statistical check failed, so no replication ran.
+- No delivered value differed from its configured value outside the stated tolerance. Fixed clipping noise equals the noise multiplier times the clip over `clients_per_round` (ratios 1.0021, 1.0003 and 0.9983), and stays so when 5 or 20 clients report against 10. The adaptive clip falls when more clients are below it, the noise uses the clip that the clients used, and the composed delivered multiplier is 0.9989 and 1.0049 of the configured one. The counted fraction is computed against the configured number of clients. The default zeroing step of `dp_aggregator` counts a zeroed client as below the clip. The Python global seed does not control the noise.
+- The aggregators measured report a per-round `DpEvent` and no epsilon (no name containing epsilon in the six files scanned), and no epsilon or delta was computed here.
+- Clauses that no script check covers, as listed in the pre-registration and the results document: the source and install statements, the five quotes (the tutorial text came from one page fetch), that 0.87.0 is the newest release on PyPI, the paper reading, that the TFF documentation read states no adjacency relation, that `MeanFactory` around the DP factory is not shown as a DP example in the files read, that nothing outside six scanned files reports an epsilon (and what `python/analytics/differential_privacy.py` holds), the false failure estimate, that the C++ worker runs the same kernels as the Python side, and the wording of the README, the document and the comparison with Flower.
+- Install note: 0.87.0 pins `jaxlib` 0.4.14, which is not on PyPI, so it was installed with `--find-links https://storage.googleapis.com/jax-releases/jax_releases.html` in a Python 3.11 environment.
+- The fast suite records were not re-recorded and the README suite counts were not touched. The orchestrator re-records them after this branch is merged, as in v0.16.8, so `scripts/verify_readme_claims.py` reports the two suite count claims as stale until then.
+- Package version is 0.16.9.
+
 ## [0.16.8] - 2026-11-26
 
 Events check of the NVFlare SVTPrivacy filter: other events, larger sizes, input values between 0 and gamma and the release values. No earlier result number, verdict or threshold changed.
