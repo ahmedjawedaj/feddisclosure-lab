@@ -12,6 +12,7 @@ Second framework for the v0.16 DP measurements. No earlier result number, verdic
 
 ### Recorded on purpose
 - 128 of 130 checks held. The two that did not concern the error an accountant path raises (a `NameError` where a `TypeError` was predicted, and an error before the first step where none was predicted).
+- Wording of limit 8 in `docs/v0.16-p1-flower-dp-audit.md` was clarified so that it does not claim more than the history shows.
 - Package version is 0.16.2.
 
 ## [0.16.1] - 2026-11-25
