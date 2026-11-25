@@ -2,6 +2,25 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.4] - 2026-11-25
+
+Fourth framework for the v0.16 DP measurements, plus release tooling. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Measured behaviour of NVIDIA FLARE's SVTPrivacy and PercentilePrivacy** (plan item T10). `scripts/audit_nvflare_dp.py` runs the real classes of `nvflare` 2.9.1 with 63 checks built from 18 pre-registered rows. Evidence `reports/results/privacy/v0160/nvflare_dp_audit/nvflare-2.9.1/nvflare_dp_audit.json`, results `docs/v0.16-nvflare-dp-audit.md`, pre-registration `docs/preregistration/v0.16-nvflare.md` (committed before the harness). Tests in `tests/privacy/test_audit_nvflare_dp.py`.
+- `scripts/release_gate.py`, which runs the mechanical release checks (attribution, pre-registration integrity, prose rules, held back strings, version agreement, README claims). `scripts/hooks/` and `scripts/install_hooks.sh` add a commit-msg hook that rejects AI trailers and a pre-commit hook for the prose rules.
+
+### Changed
+- `CLAUDE.md` was cut to the current rules.
+- The paper's bit definition, update rule, order of operations and defaults were checked against the text of the arXiv PDF (through a summarising fetch), and they match the readings used in 0.16.3. `docs/v0.16-adaptive-clipping-audit.md` limit 6 says so.
+
+### Recorded on purpose
+- All 18 rows and 63 checks held. The notes in the README section are about behaviour to know and not about failed predictions.
+- The selection check (row N6b) has little power at the run count used, and the results document says so.
+- Only `nvflare` 2.9.1 was run. The two filter files are identical by hash in 2.8.3 and 2.9.0 and that was not run.
+- Exploratory runs before the full run and the choice of unnamed input values are listed in the deviation log.
+- Package version is 0.16.4.
+
 ## [0.16.3] - 2026-11-25
 
 Adaptive clipping measurement for Flower. No earlier result number, verdict or threshold changed.

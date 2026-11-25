@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Rejects AI assistant trailers in a commit message. The CI workflow commit-attribution enforces the same rule.
+if grep -Eiq '^(co-authored-by|claude-session):|generated with|noreply@anthropic' "$1"; then
+  echo "commit-msg: remove the AI attribution trailer (see CLAUDE.md)" >&2
+  exit 1
+fi
