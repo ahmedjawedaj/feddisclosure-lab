@@ -7,7 +7,7 @@ All notable changes are listed here, newest first. The format follows [Keep a Ch
 Second framework for the v0.16 DP measurements. No earlier result number, verdict or threshold changed.
 
 ### Added
-- **Measured privacy of FedML's DP mechanisms** (plan item P1, second framework). `scripts/audit_fedml_dp.py` runs the classes under `fedml/core/dp` of `fedml` 0.9.6 in process, with 130 checks that encode the pre-registered predictions. Evidence `reports/results/privacy/v0160/fedml_dp_audit/fedml-0.9.6/fedml_dp_audit.json`, results `docs/v0.16-fedml-dp-audit.md`, pre-registration `docs/preregistration/v0.16-fedml.md` (committed before any mechanism ran, with a prior art gate). Tests in `tests/privacy/test_audit_fedml_dp.py`.
+- **Measured privacy of FedML's DP mechanisms** (plan item P1, second framework). `scripts/audit_fedml_dp.py` calls the classes under `fedml/core/dp` of `fedml` 0.9.6 directly, with 130 checks built from the pre-registered rows (18 were added after the first quick run). Evidence `reports/results/privacy/v0160/fedml_dp_audit/fedml-0.9.6/fedml_dp_audit.json`, results `docs/v0.16-fedml-dp-audit.md`, pre-registration `docs/preregistration/v0.16-fedml.md` (committed before any mechanism ran, with a prior art gate). Tests in `tests/privacy/test_audit_fedml_dp.py`.
 - `docs/novelty-status.md` and `docs/v0.16-p2-server-view-inventory.md` (scope only, nothing measured).
 
 ### Recorded on purpose

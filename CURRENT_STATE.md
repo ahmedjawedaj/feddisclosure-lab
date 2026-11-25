@@ -1,6 +1,6 @@
 ## 2026-11-25 v0.16.2 FedML DP measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-fedml.md` and `docs/v0.16-fedml-dp-audit.md`)
 
-`fedml` 0.9.6 DP classes run in process, 130 pre-registered checks, 128 held. Gaussian and Laplace noise match their formulas within 0.5%. `sensitivity` is one argument for an L2 and an L1 mechanism, so a configuration that is right for one gives epsilon 4.00 instead of 1.00 on the other. `LocalDP` does no clipping. Accountant paths raise errors in the configurations tried.
+`fedml` 0.9.6 DP classes called directly, 130 checks, 128 held. Gaussian and Laplace noise match their formulas within 0.5%. `sensitivity` is one argument for an L2 and an L1 mechanism, so a configuration that is right for one gives epsilon 4.00 instead of 1.00 on the other. `LocalDP` does no clipping. Accountant paths raise errors in the configurations tried.
 Next: see `NEXT_SPRINT.md`.
 
 ## 2026-11-25 v0.16.1 inversion attack on CIFAR-10 (see `CHANGELOG.md`, `docs/preregistration/v0.16-p3.md` and `docs/v0.16-p3-breaching-results.md`)

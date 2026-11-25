@@ -236,3 +236,12 @@ def test_quick_run_reproduces_the_headline_rows(tmp_path):
         assert not failed, (row, failed)
     ld = [r for r in doc["rows"] if r["row"] == "LD1"]
     assert [r["configured"]["update_norm"] for r in ld] == [1.0, 5.0, 25.0]
+
+
+def test_committed_evidence_pins_the_check_counts():
+    import hashlib
+    path = ROOT / "reports" / "results" / "privacy" / "v0160" / "fedml_dp_audit" / "fedml-0.9.6" / "fedml_dp_audit.json"
+    doc = json.loads(path.read_text())
+    assert doc["summary"]["checks_total"] == 130
+    assert [c["row"] for c in doc["summary"]["checks_failed"]] == ["RA1", "RA5"]
+    assert doc["script_sha256"] == hashlib.sha256(SCRIPT.read_bytes()).hexdigest()

@@ -47,14 +47,14 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 
 ## Measured privacy of FedML's DP mechanisms (v0.16.2)
 
-`scripts/audit_fedml_dp.py` runs the classes under `fedml/core/dp` of `fedml` 0.9.6 in process and compares the mechanism that executes with the one implied by the configured parameters. FedML's own `__init__` was never executed. Predictions were written in [`docs/preregistration/v0.16-fedml.md`](docs/preregistration/v0.16-fedml.md) before any run. 130 checks encode them, 128 held and 2 did not (both concern the error an accountant path raises). Tables and limits are in [`docs/v0.16-fedml-dp-audit.md`](docs/v0.16-fedml-dp-audit.md). The DP source files are byte-identical in the seven earlier releases that were compared.
+`scripts/audit_fedml_dp.py` calls the classes under `fedml/core/dp` of `fedml` 0.9.6 directly, with placeholder modules standing in for the rest of the package, and compares the mechanism that executes with the one implied by the configured parameters. FedML's own `__init__` was never executed. Predictions were written in [`docs/preregistration/v0.16-fedml.md`](docs/preregistration/v0.16-fedml.md) before any run. 130 checks were built from them (18 were added after the first quick run, and both failed checks were in the original set), 128 held and 2 did not (both concern the error an accountant path raises). Some rows were partly confirmatory, as the pre-registration states. Only 0.9.6 was run. Tables and limits are in [`docs/v0.16-fedml-dp-audit.md`](docs/v0.16-fedml-dp-audit.md). The DP source files are byte-identical in the seven earlier releases that were compared.
 
 Read these as measurements under the stated configurations and not as statements about intended use. FedML ships no documentation text for these parameters in the wheel, so "claimed" means the reading implied by the class docstrings and the cited papers.
 
 - The Gaussian and Laplace mechanisms deliver the noise scale their formulas give, within 0.5% in all 18 cells measured.
-- `sensitivity` is one argument for both mechanisms. With an update of L2 norm 1 spread over 16 coordinates and `sensitivity` set to 1, the executed Laplace mechanism is epsilon 4.00 where the configuration implies 1.00.
-- `LocalDP` adds noise that does not depend on the input and does no clipping. With `sensitivity` 2, epsilon 1 and an update of norm 25 the exact epsilon is 34.5, and the empirical 95% lower bound is 10.57.
-- The RDP to (epsilon, delta) conversion for one full step at noise multiplier 1 gives epsilon 4.73 where the exact Gaussian value is 4.38.
+- `sensitivity` is one argument for both mechanisms. With an update of L2 norm 1 spread over 16 coordinates and `sensitivity` set to 1, the executed Laplace mechanism is epsilon 4.00 where the configuration implies 1.00. The Laplace class is correct for an L1 bound, so this is a configuration note and not a property of the mechanism.
+- `LocalDP` adds noise that does not depend on the input and does no clipping. With `sensitivity` 2, epsilon 1 and an update of norm 25 the exact epsilon is 34.5, and the empirical 95% lower bound is 10.57. The norm 25 update is a deliberately large toy case and `sensitivity` 2 does not bound it. Real update norms were not measured.
+- The RDP to (epsilon, delta) conversion for one full step at noise multiplier 1 gives epsilon 4.73 where the exact Gaussian value is 4.38, a valid upper bound 8% above exact. Separately, `get_epsilon` raises after the first step in the three configurations tried, so this function is reached only by calling it through the class.
 
 ## Stronger inversion attack on CIFAR-10 (v0.16.1)
 

@@ -220,7 +220,7 @@ def _v15_prose() -> list[ProseClaim]:
                     R(4, P3, "verdicts/R3/mean"), R(5, P3, "verdicts/R3/lo"), R(6, P3, "verdicts/R3/hi"))),
         ProseClaim("v161.R2", r"aggregate view is ([\d.]+) dB below the floor \(interval (-?[\d.]+) to (-?[\d.]+)\)",
                    (R(1, P3, "verdicts/R2/mean", -1), R(2, P3, "verdicts/R2/lo"), R(3, P3, "verdicts/R2/hi"))),
-        ProseClaim("v162.checks", r"(\d+) checks encode them", (R(1, FEDML, "summary/checks_total"),)),
+        ProseClaim("v162.checks", r"(\d+) checks were built from them", (R(1, FEDML, "summary/checks_total"),)),
         ProseClaim("v162.LP2", r"executed Laplace mechanism is epsilon ([\d.]+) where the configuration implies ([\d.]+)",
                    (R(1, FEDML, "rows/3/cases/spread/eps_pure_measured"), R(2, FEDML, "rows/3/cases/spread/eps_pure_claimed"))),
         ProseClaim("v162.LD1", r"the exact epsilon is ([\d.]+), and the empirical 95% lower bound is ([\d.]+)",
