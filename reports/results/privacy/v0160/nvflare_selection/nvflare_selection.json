@@ -1,0 +1,815 @@
+{
+  "schema": "feddisclosure.nvflare_selection.v1",
+  "quick": false,
+  "preregistration": "docs/preregistration/v0.16-nvflare-selection.md",
+  "preregistration_commit": "cdd2ce031f7da61d642f1afe5b20f950a90dab08",
+  "script_sha256": "75bc9804a71ce6ddedde0292ba352052d9c6f78f3365069d203bea44a89cb3aa",
+  "environment": {
+    "nvflare": "2.9.1",
+    "numpy": "2.5.5",
+    "python": "3.13.18",
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39"
+  },
+  "parameters": {
+    "base_seed": 20261126,
+    "blocks": 5,
+    "runs_per_block": 100000,
+    "alpha_tail": 0.0125,
+    "z_tail": 2.2414027276049464,
+    "z_80": 0.8416212335729144
+  },
+  "deviations": [],
+  "rows": [
+    {
+      "id": "S0",
+      "configuration": {
+        "claim": 20.0,
+        "runs_per_input": 200000,
+        "alpha_tail": 0.0125
+      },
+      "measured": {
+        "ceiling_new_tails": 10.728550371042902,
+        "ceiling_v0164_tails": 10.900740682299965,
+        "power_to_find_any_excess_over_20": 0.0
+      },
+      "checks": [
+        {
+          "check": "ceiling at 200,000 runs and 1.25% per tail",
+          "expected": "10.73 +- 0.01",
+          "observed": 10.728550371042902,
+          "held": true
+        },
+        {
+          "check": "ceiling below the claim of 20",
+          "expected": "< 20",
+          "observed": 10.728550371042902,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "S1",
+      "configuration": {
+        "fraction": 0.3,
+        "epsilon": 1.0,
+        "replace": false,
+        "n": 2,
+        "d": 6,
+        "gamma": 1e-05,
+        "world_a": "first n entries gamma, rest 0",
+        "world_c": "first n entries 0, rest gamma",
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261126 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 1.0,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 1.2,
+          "epsilon_threshold": 0.2841036534166501,
+          "epsilon_query": 0.7158963465833499,
+          "epsilon_release": 0.2,
+          "n_upload": 2,
+          "acceptance_passes": 3,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              8243,
+              8324,
+              8377,
+              8570,
+              8372
+            ],
+            "passes": 808176,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              5337,
+              5313,
+              5438,
+              5387,
+              5465
+            ],
+            "passes": 784696,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.083772,
+          "p_hat_c": 0.05388,
+          "lo_a": 0.08289588469542464,
+          "hi_a": 0.08465425598702936,
+          "lo_c": 0.053166604991075214,
+          "hi_c": 0.054599979005682864,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.4175519208773482,
+            "ln(lo_c/hi_a)": -0.46514491126210766,
+            "ln((1-hi_c)/(1-lo_a))": 0.030387135709210995,
+            "ln((1-hi_a)/(1-lo_c))": -0.0338212922550793
+          },
+          "lb": 0.4175519208773482
+        },
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              8243,
+              8324,
+              8377,
+              8570,
+              8372
+            ],
+            "chi2": 7.56163971057934,
+            "df": 4,
+            "p_value": 0.10902175760138065
+          },
+          "c": {
+            "block_counts": [
+              5337,
+              5313,
+              5438,
+              5387,
+              5465
+            ],
+            "chi2": 3.267359353126877,
+            "df": 4,
+            "p_value": 0.5141204555510782
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.08353792567451024,
+          "p_c": 0.05320924839517458,
+          "log_ratio": 0.4510685051806981,
+          "log_ratio_over_claim": 0.4510685051806981,
+          "predicted_lb": 0.4340679904052542
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 1.0211643527472265,
+            "excess": 0.0211643527472265,
+            "excess_over_claim": 0.0211643527472265,
+            "se_at_epsilon_80": 0.006864803197682819
+          },
+          "control_claim": 0.1,
+          "control_power_at_numeric_truth": 1.0,
+          "power_at_claim_numeric_truth": 0.0
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 1.616352,
+          "c": 1.569392
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload equals n and epsilon_threshold + epsilon_query equals epsilon",
+          "expected": [
+            2,
+            1.0
+          ],
+          "observed": [
+            2,
+            1.0
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.0835 +- 0.0016",
+          "observed": 0.083772,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.0532 +- 0.0013",
+          "observed": 0.05388,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table",
+          "expected": "abs diff at most 5e-4 in both worlds",
+          "observed": [
+            0.08353792567451024,
+            0.05320924839517458
+          ],
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.434 +- 0.03",
+          "observed": 0.4175519208773482,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 1.0",
+          "observed": 0.4175519208773482,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.1",
+          "observed": 0.4175519208773482,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.10902175760138065,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.5141204555510782,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "1.021 +- 0.002",
+          "observed": 1.0211643527472265,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.5",
+          "observed": 0.0211643527472265,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "S2",
+      "configuration": {
+        "fraction": 0.3,
+        "epsilon": 1.0,
+        "replace": true,
+        "n": 2,
+        "d": 6,
+        "gamma": 1e-05,
+        "world_a": "first n entries gamma, rest 0",
+        "world_c": "first n entries 0, rest gamma",
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261126 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 1.0,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 1.2,
+          "epsilon_threshold": 0.2841036534166501,
+          "epsilon_query": 0.7158963465833499,
+          "epsilon_release": 0.2,
+          "n_upload": 2,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              5443,
+              5498,
+              5462,
+              5558,
+              5457
+            ],
+            "passes": 826344,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              3643,
+              3705,
+              3743,
+              3771,
+              3776
+            ],
+            "passes": 784194,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.054836,
+          "p_hat_c": 0.037276,
+          "lo_a": 0.05411664149413298,
+          "hi_a": 0.05556192829060974,
+          "lo_c": 0.036677929364955356,
+          "hi_c": 0.037880902164880326,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.3566946603025783,
+            "ln(lo_c/hi_a)": -0.4153230292806145,
+            "ln((1-hi_c)/(1-lo_a))": 0.01701898355306567,
+            "ln((1-hi_a)/(1-lo_c))": -0.019797683470115544
+          },
+          "lb": 0.3566946603025783
+        },
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              5443,
+              5498,
+              5462,
+              5558,
+              5457
+            ],
+            "chi2": 1.652587901454555,
+            "df": 4,
+            "p_value": 0.7993109772800951
+          },
+          "c": {
+            "block_counts": [
+              3643,
+              3705,
+              3743,
+              3771,
+              3776
+            ],
+            "chi2": 3.380435556405798,
+            "df": 4,
+            "p_value": 0.496289611042162
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.055088699221982874,
+          "p_c": 0.036917573614441104,
+          "log_ratio": 0.40025691194463525,
+          "log_ratio_over_claim": 0.40025691194463525,
+          "predicted_lb": 0.37941309239924603
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 1.025720338791032,
+            "excess": 0.025720338791032082,
+            "excess_over_claim": 0.025720338791032082,
+            "se_at_epsilon_80": 0.00834256856738985
+          },
+          "control_claim": 0.1,
+          "control_power_at_numeric_truth": 1.0,
+          "power_at_claim_numeric_truth": 0.0
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 1.652688,
+          "c": 1.568388
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload equals n and epsilon_threshold + epsilon_query equals epsilon",
+          "expected": [
+            2,
+            1.0
+          ],
+          "observed": [
+            2,
+            1.0
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.0551 +- 0.0013",
+          "observed": 0.054836,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.0369 +- 0.0011",
+          "observed": 0.037276,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table",
+          "expected": "abs diff at most 5e-4 in both worlds",
+          "observed": [
+            0.055088699221982874,
+            0.036917573614441104
+          ],
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.379 +- 0.037",
+          "observed": 0.3566946603025783,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 1.0",
+          "observed": 0.3566946603025783,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.1",
+          "observed": 0.3566946603025783,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.7993109772800951,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.496289611042162,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "1.026 +- 0.002",
+          "observed": 1.025720338791032,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.5",
+          "observed": 0.025720338791032082,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "S3",
+      "configuration": {
+        "fraction": 0.5,
+        "epsilon": 0.1,
+        "replace": false,
+        "n": 3,
+        "d": 6,
+        "gamma": 1e-05,
+        "world_a": "first n entries gamma, rest 0",
+        "world_c": "first n entries 0, rest gamma",
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261126 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 0.1,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 0.4,
+          "epsilon_threshold": 0.023245395427292464,
+          "epsilon_query": 0.07675460457270754,
+          "epsilon_release": 0.30000000000000004,
+          "n_upload": 3,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              5039,
+              5205,
+              5096,
+              5117,
+              5133
+            ],
+            "passes": 1007540,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              4836,
+              4873,
+              4921,
+              4982,
+              4914
+            ],
+            "passes": 1012555,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.05118,
+          "p_hat_c": 0.049052,
+          "lo_a": 0.0504837927136501,
+          "hi_a": 0.05188283143961393,
+          "lo_c": 0.04836971784494361,
+          "hi_c": 0.04974093797836697,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.014824052582397947,
+            "ln(lo_c/hi_a)": -0.0701139811147522,
+            "ln((1-hi_c)/(1-lo_a))": 0.0007820448925142833,
+            "ln((1-hi_a)/(1-lo_c))": -0.003698510134067001
+          },
+          "lb": 0.014824052582397947
+        },
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              5039,
+              5205,
+              5096,
+              5117,
+              5133
+            ],
+            "chi2": 2.9900779083332556,
+            "df": 4,
+            "p_value": 0.5594872094377218
+          },
+          "c": {
+            "block_counts": [
+              4836,
+              4873,
+              4921,
+              4982,
+              4914
+            ],
+            "chi2": 2.5834638553834495,
+            "df": 4,
+            "p_value": 0.6297552068417236
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.05111354228745119,
+          "p_c": 0.04890891685078974,
+          "log_ratio": 0.044089748965049635,
+          "log_ratio_over_claim": 0.44089748965049635,
+          "predicted_lb": 0.024546964828567035
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 0.1263290554858829,
+            "excess": 0.026329055485882907,
+            "excess_over_claim": 0.2632905548588291,
+            "se_at_epsilon_80": 0.008540010008817437
+          },
+          "control_claim": 0.010000000000000002,
+          "control_power_at_numeric_truth": 0.9523839859256227,
+          "power_at_claim_numeric_truth": 0.0
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 2.01508,
+          "c": 2.02511
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload equals n and epsilon_threshold + epsilon_query equals epsilon",
+          "expected": [
+            3,
+            0.1
+          ],
+          "observed": [
+            3,
+            0.1
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.0511 +- 0.0012",
+          "observed": 0.05118,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.0489 +- 0.0012",
+          "observed": 0.049052,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table",
+          "expected": "abs diff at most 5e-4 in both worlds",
+          "observed": [
+            0.05111354228745119,
+            0.04890891685078974
+          ],
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.025 +- 0.035",
+          "observed": 0.014824052582397947,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 0.1",
+          "observed": 0.014824052582397947,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.010000000000000002",
+          "observed": 0.014824052582397947,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.5594872094377218,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.6297552068417236,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "0.126 +- 0.002",
+          "observed": 0.1263290554858829,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.05",
+          "observed": 0.026329055485882907,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "C",
+      "configuration": "LB of S1, S2, S3 tested against 0.1 times each claim, no new runs",
+      "measured": {
+        "S1": {
+          "control_claim": 0.1,
+          "power_at_numeric_truth": 1.0
+        },
+        "S2": {
+          "control_claim": 0.1,
+          "power_at_numeric_truth": 1.0
+        },
+        "S3": {
+          "control_claim": 0.010000000000000002,
+          "power_at_numeric_truth": 0.9523839859256227
+        }
+      },
+      "checks": [
+        {
+          "check": "S1: LB above 0.1",
+          "expected": "> 0.1",
+          "observed": 0.4175519208773482,
+          "held": true
+        },
+        {
+          "check": "S2: LB above 0.1",
+          "expected": "> 0.1",
+          "observed": 0.3566946603025783,
+          "held": true
+        },
+        {
+          "check": "S3: LB above 0.010000000000000002",
+          "expected": "> 0.010000000000000002",
+          "observed": 0.014824052582397947,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "V",
+      "configuration": {
+        "versions": [
+          "2.8.3",
+          "2.9.0",
+          "2.9.1"
+        ],
+        "method": "pip download --no-deps, unzip into a temporary directory, run python -I in a child"
+      },
+      "measured": {
+        "2.8.3": {
+          "wheel": "nvflare-2.8.3-py3-none-any.whl",
+          "wheel_bytes": 3264209,
+          "svt_sha256": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+          "pp_sha256": "29bcf457e2c20ff8e5fe92411673b128b0c85a94efd9a0513a102095bdbb58c0",
+          "zip_member_hashes_equal_unpacked": true,
+          "seeded_call": {
+            "nvflare_file": "/tmp/fdl_nvsel_s3i6dnp7/unpacked/2.8.3/nvflare/__init__.py",
+            "numpy": "2.5.5",
+            "svt_digest": "164c02b3d9e5b18542edfaab0e7880ff125cb9a79ea11f33f450fc85a45469d8",
+            "pp_digest": "2cda81ca3b5e53dfbb76595d2c273905dc14b133009a5be848c84577768ed58c"
+          }
+        },
+        "2.9.0": {
+          "wheel": "nvflare-2.9.0-py3-none-any.whl",
+          "wheel_bytes": 3619563,
+          "svt_sha256": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+          "pp_sha256": "29bcf457e2c20ff8e5fe92411673b128b0c85a94efd9a0513a102095bdbb58c0",
+          "zip_member_hashes_equal_unpacked": true,
+          "seeded_call": {
+            "nvflare_file": "/tmp/fdl_nvsel_s3i6dnp7/unpacked/2.9.0/nvflare/__init__.py",
+            "numpy": "2.5.5",
+            "svt_digest": "164c02b3d9e5b18542edfaab0e7880ff125cb9a79ea11f33f450fc85a45469d8",
+            "pp_digest": "2cda81ca3b5e53dfbb76595d2c273905dc14b133009a5be848c84577768ed58c"
+          }
+        },
+        "2.9.1": {
+          "wheel": "nvflare-2.9.1-py3-none-any.whl",
+          "wheel_bytes": 4017289,
+          "svt_sha256": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+          "pp_sha256": "29bcf457e2c20ff8e5fe92411673b128b0c85a94efd9a0513a102095bdbb58c0",
+          "zip_member_hashes_equal_unpacked": true,
+          "seeded_call": {
+            "nvflare_file": "/tmp/fdl_nvsel_s3i6dnp7/unpacked/2.9.1/nvflare/__init__.py",
+            "numpy": "2.5.5",
+            "svt_digest": "164c02b3d9e5b18542edfaab0e7880ff125cb9a79ea11f33f450fc85a45469d8",
+            "pp_digest": "2cda81ca3b5e53dfbb76595d2c273905dc14b133009a5be848c84577768ed58c"
+          }
+        }
+      },
+      "checks": [
+        {
+          "check": "svt_privacy.py equal across the three wheels and equal to the 2.9.1 hash of v0.16.4",
+          "expected": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+          "observed": {
+            "2.8.3": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+            "2.9.0": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+            "2.9.1": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858"
+          },
+          "held": true
+        },
+        {
+          "check": "percentile_privacy.py equal across the three wheels and equal to the 2.9.1 hash of v0.16.4",
+          "expected": "29bcf457e2c20ff8e5fe92411673b128b0c85a94efd9a0513a102095bdbb58c0",
+          "observed": {
+            "2.8.3": "29bcf457e2c20ff8e5fe92411673b128b0c85a94efd9a0513a102095bdbb58c0",
+            "2.9.0": "29bcf457e2c20ff8e5fe92411673b128b0c85a94efd9a0513a102095bdbb58c0",
+            "2.9.1": "29bcf457e2c20ff8e5fe92411673b128b0c85a94efd9a0513a102095bdbb58c0"
+          },
+          "held": true
+        },
+        {
+          "check": "seeded SVTPrivacy call gives one digest in all versions",
+          "expected": "1 distinct",
+          "observed": [
+            "164c02b3d9e5b18542edfaab0e7880ff125cb9a79ea11f33f450fc85a45469d8"
+          ],
+          "held": true
+        },
+        {
+          "check": "seeded PercentilePrivacy call gives one digest in all versions",
+          "expected": "1 distinct",
+          "observed": [
+            "2cda81ca3b5e53dfbb76595d2c273905dc14b133009a5be848c84577768ed58c"
+          ],
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "T",
+      "measured": {
+        "monte_carlo_seconds": 525.7,
+        "total_seconds": 530.1
+      },
+      "checks": [
+        {
+          "check": "whole script under 900 seconds",
+          "expected": "< 900",
+          "observed": 530.1,
+          "held": true
+        },
+        {
+          "check": "Monte Carlo part between 360 and 600 seconds",
+          "expected": "360 to 600",
+          "observed": 525.7,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    }
+  ],
+  "summary": {
+    "rows_total": 7,
+    "rows_held": 7,
+    "rows_failed": [],
+    "checks_total": 44,
+    "checks_held": 44,
+    "checks_failed": [],
+    "excess_found_rows": []
+  },
+  "runtime_seconds": 530.1,
+  "replication": []
+}
