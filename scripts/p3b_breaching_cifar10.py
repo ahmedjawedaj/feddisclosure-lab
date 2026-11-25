@@ -775,7 +775,8 @@ def verdict_upper(ci: dict, margin: float) -> dict:
 def verdict_equiv(ci: dict, margin: float) -> dict:
     """Pass when the whole interval lies inside minus and plus the margin."""
     ok = ci["lo"] >= -margin and ci["hi"] <= margin
-    return {"verdict": "PASS" if ok else "FAIL", "rule": f"interval inside -{margin:.2f} to +{margin:.2f}", "mean": ci["mean"],
+    label = "PASS" if ok else ("FAIL, underpowered" if abs(ci["mean"]) <= margin else "FAIL")
+    return {"verdict": label, "rule": f"interval inside -{margin:.2f} to +{margin:.2f}", "mean": ci["mean"],
             "lo": ci["lo"], "hi": ci["hi"]}
 
 
@@ -817,7 +818,7 @@ def verdicts_for(arrs: dict, first2: dict, idx: np.ndarray) -> tuple[dict, dict]
             tag = f"{arm}{m}"
             gate_ci = boot_ci(pl[m], idx)
             gate = verdict_lower(gate_ci, GATE[m])
-            v["G" + tag] = gate
+            v["G" + tag] = gate if k0["verdict"] == "PASS" else withhold(gate, "K0 did not pass")
             power["G" + tag] = power_entry("G", (arm, m), gate_ci["sd_seed"])
             reason = None
             if k0["verdict"] != "PASS":
@@ -833,7 +834,8 @@ def verdicts_for(arrs: dict, first2: dict, idx: np.ndarray) -> tuple[dict, dict]
                 v[name + tag] = vd if reason is None else withhold(vd, reason)
                 power[name + tag] = power_entry(name, (arm, m), ci["sd_seed"])
     t1_ci = boot_ci(first2["b2/plaintext"] - first2["b4/plaintext"], idx)
-    v["T1"] = verdict_lower(t1_ci, 0.0)
+    t1 = verdict_lower(t1_ci, 0.0)
+    v["T1"] = t1 if k0["verdict"] == "PASS" else withhold(t1, "K0 did not pass")
     power["T1"] = power_entry("T1", "P", t1_ci["sd_seed"])
     return v, power
 

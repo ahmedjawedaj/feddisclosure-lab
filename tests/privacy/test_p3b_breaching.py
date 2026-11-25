@@ -227,7 +227,9 @@ def test_basic_verdict_rules(p3b):
     assert p3b.verdict_upper(ci(0.5, -0.2, 1.4), 1.0)["verdict"] == "FAIL, underpowered"
     assert p3b.verdict_upper(ci(3, 2, 4), 1.0)["verdict"] == "FAIL"
     assert p3b.verdict_equiv(ci(0.1, -0.6, 0.8), 1.0)["verdict"] == "PASS"
-    assert p3b.verdict_equiv(ci(0.1, -0.6, 1.1), 1.0)["verdict"] == "FAIL"
+    assert p3b.verdict_equiv(ci(0.1, -0.6, 1.1), 1.0)["verdict"] == "FAIL, underpowered"     # point estimate inside the margin
+    assert p3b.verdict_equiv(ci(1.4, 0.9, 1.9), 1.0)["verdict"] == "FAIL"                       # point estimate outside the margin
+    assert p3b.verdict_equiv(ci(-1.4, -1.9, -0.9), 1.0)["verdict"] == "FAIL"
     assert p3b.verdict_equiv(ci(0.0, -1.0, 1.0), 1.0)["verdict"] == "PASS"       # boundary is inside
 
 
@@ -313,7 +315,11 @@ def test_a_failed_control_withholds_every_dependent_row(p3b):
     for arm in (4, 2):
         for m in "PS":
             assert all(v[f"{r}{arm}{m}"]["verdict"] == "NOT INTERPRETABLE" and "K0" in v[f"{r}{arm}{m}"]["reason"] for r in "CQAD")
-    assert v["G4P"]["verdict"] == "PASS"                      # the gates themselves are still reported
+    # the gates and T1 sit below K0 as well, so they are withheld too and keep their numbers
+    for key in ("G4P", "G4S", "G2P", "G2S", "T1"):
+        assert v[key]["verdict"] == "NOT INTERPRETABLE" and "K0" in v[key]["reason"], key
+        assert v[key]["mean"] is not None and v[key]["lo"] is not None
+    assert v["K0"]["verdict"].startswith("FAIL")               # K0 itself is the only row that is read
 
 
 def test_a_read_row_can_still_fail(p3b):
