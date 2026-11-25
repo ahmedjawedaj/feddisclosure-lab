@@ -13,7 +13,7 @@ Adaptive clipping measurement for Flower. No earlier result number, verdict or t
 - `docs/v0.16-p1-flower-dp-audit.md`: two sentences about adaptive clipping were corrected (see below). README gains a section for this measurement.
 
 ### Recorded on purpose
-- All 82 rows per version held their pre-registered predictions. The findings are differences from the paper's reading and not failed predictions. The main one is that the clipped bit has the opposite sign to the paper's, so the clip moves away from the target quantile (rows A3, A4, A10, A11).
+- All 82 rows per version held their pre-registered predictions. The findings are differences from the paper's reading and not failed predictions. The main one is that the clipped bit has the opposite sign to the paper's as read once, so the clip moves away from the target quantile (rows A3, A4, A10, A11).
 - Correction: the v0.16.0 Flower document said the client-side adaptive variant adds noise before it updates the norm. Row A6 measured the opposite on both client-side variants. The document also said the direction of the clip movement was not compared with the paper, and it now is.
 - Smoke runs were done before the full runs, one row configuration was changed before any full run (A8), and the paper's ordering was read from one summarising fetch of a web copy. All three are in the deviation log.
 - No privacy guarantee of the whole mechanism was measured and no epsilon is reported.
