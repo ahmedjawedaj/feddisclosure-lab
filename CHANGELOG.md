@@ -2,6 +2,22 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.8] - 2026-11-26
+
+Events check of the NVFlare SVTPrivacy filter: other events, larger sizes, input values between 0 and gamma and the release values. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Events check for SVTPrivacy** (v0.16.5 limit 1). `scripts/audit_nvflare_events.py` runs the real filter 1,000,000 times for each of six configurations (500,000 per input), with 10 pre-registered rows and 83 checks. Pre-registration `docs/preregistration/v0.16-nvflare-events.md` (commit `a1d1ea5`, committed alone before the script was committed), results `docs/v0.16-nvflare-events-audit.md`, evidence `reports/results/privacy/v0160/nvflare_events/nvflare_events.json`, tests `tests/privacy/test_audit_nvflare_events.py`. Each null result has a stated power. The configurations are: d 10 with n 4, d 24 with n 6 and `replace` True, input values 0.2 and 0.8 gamma, d 40 with n 10, the release values (sign flip pair, claim `epsilon_release`) and one event that joins selection and release (claim `epsilon_total`).
+- Claim checks in `scripts/verify_readme_claims.py` for the new README section.
+
+### Recorded on purpose
+- All 10 rows and 83 checks held. Lower bounds were 0.414, 0.206, 0.224 and 0.280 against a claim of 1, 0.272 against 0.3 for the release values and 0.502 against 1.2 for the joint event. No lower bound exceeded its claim and no replication was run.
+- The release row sits closest to its claim, with the event epsilon predicted at 0.976 of `epsilon_release` and measured at 0.962 of it.
+- The pre-registration says which clauses no script check covers and what stays untested (other pairs, the marginal event, explicit release or threshold budgets, `replace` True in the release rows, larger sizes, composition across calls). The script used a ledger tolerance of 1e-9 where the text says 1e-12.
+- The filter files are byte identical in 2.8.3, 2.9.0 and 2.9.1, so only 2.9.1 was run. The run took 1,048.7 seconds.
+- The suite records were re-recorded after main was merged into the branch.
+- Package version is 0.16.8.
+
 ## [0.16.7] - 2026-11-26
 
 The release gate now runs in CI. No result number, verdict or threshold changed.

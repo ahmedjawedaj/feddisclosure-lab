@@ -43,6 +43,7 @@ GUARANTEE_DIR = "reports/results/privacy/v0160/flower_adaptive_guarantee/"
 GUARANTEE = {v: f"{GUARANTEE_DIR}flwr-{v}/flower_adaptive_guarantee.json" for v in ("1.27.0", "1.44.0")}
 ADAPT_G = GUARANTEE["1.27.0"]
 SEL = "reports/results/privacy/v0160/nvflare_selection/nvflare_selection.json"
+EVT = "reports/results/privacy/v0160/nvflare_events/nvflare_events.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -262,6 +263,17 @@ def _v15_prose() -> list[ProseClaim]:
                     R(3, SEL, "rows/3/measured/power/min_detectable/epsilon_80"))),
         ProseClaim("v165.checks", r"All (\d+) rows and (\d+) checks held\. Tables, the one prediction",
                    (R(1, SEL, "summary/rows_total"), R(2, SEL, "summary/checks_held"))),
+        ProseClaim("v168.ceiling", r"largest lower bound that any outcome can give at this run count is ([\d.]+), far above every claim",
+                   (R(1, EVT, "rows/0/measured/ceiling"),)),
+        ProseClaim("v168.LB", r"Lower bounds on the epsilon of the event are ([\d.]+), ([\d.]+), ([\d.]+) and ([\d.]+) against a claim of 1 for the four selection configurations, ([\d.]+) against a claim of 0\.3 for the release values and ([\d.]+) against a claim of 1\.2",
+                   tuple(R(i + 1, EVT, f"rows/{i + 1}/measured/interval_and_lb/lb") for i in range(6))),
+        ProseClaim("v168.MDE", r"would find with 80% power is ([\d.]+), ([\d.]+), ([\d.]+), ([\d.]+), ([\d.]+) and ([\d.]+) against those claims",
+                   tuple(R(i + 1, EVT, f"rows/{i + 1}/measured/power/min_detectable/epsilon_80") for i in range(6))),
+        ProseClaim("v168.release_ratio", r"event epsilon is predicted at ([\d.]+) of `epsilon_release` and measured at ([\d.]+) of it",
+                   (R(1, EVT, "rows/5/measured/numeric_prediction/log_ratio_over_claim"),
+                    R(2, EVT, "rows/5/measured/log_ratio_hat", 1 / 0.30000000000000004))),
+        ProseClaim("v168.checks", r"All (\d+) rows and (\d+) checks held, and no replication was needed",
+                   (R(1, EVT, "summary/rows_total"), R(2, EVT, "summary/checks_held"))),
         ProseClaim("v163.A6", r"the noise standard deviation is ([\d.]+) by the new clip and ([\d.]+) by the old clip",
                    (R(1, ADAPT, "rows/14/measured/std_by_new_clip"), R(2, ADAPT, "rows/14/measured/std_by_old_clip"))),
     ]
