@@ -2,6 +2,22 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.5] - 2026-11-26
+
+Selection check of the NVFlare SVTPrivacy filter with stated power, and release gate hardening. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Selection check with stated power for SVTPrivacy.** `scripts/audit_nvflare_selection.py` runs the real filter 1,000,000 times for each of three small configurations, with 7 pre-registered rows and 44 checks. Pre-registration `docs/preregistration/v0.16-nvflare-selection.md` (commit `cdd2ce0`, committed alone before the script) states predictions and the smallest effect found with 80% power for every null result. Evidence `reports/results/privacy/v0160/nvflare_selection/nvflare_selection.json`, results `docs/v0.16-nvflare-selection-audit.md`, tests `tests/privacy/test_audit_nvflare_selection.py`.
+- Version identity by running. The two filter files from the wheels of `nvflare` 2.8.3, 2.9.0 and 2.9.1 have equal sha256 and one seeded call of each filter gave the same digest in all three.
+- Release gate: a gate integrity check (`scripts/gate_pins.json` pins the sha256 of `scripts/release_gate.py` and the two commit hooks, and a mismatch fails unless `GATE_REPIN=1` is set, which prints the diff against the base), and a pre-registration power check (a changed file with a Predictions heading needs a Power heading). `docs/preregistration/TEMPLATE.md` has the five sections. Tests in `tests/test_release_gate.py`.
+
+### Recorded on purpose
+- All 7 rows and 44 checks held and no lower bound exceeded its claim. One unscripted prediction (the log ratio as a fraction of the claim) held only partly, and the results document says where.
+- The v0.16.4 selection check (row N6b) could not fail at its claim of 20, because its run count caps the lower bound at about 10.9. The v0.16.4 text stays as written.
+- The Monte Carlo ran on 2.9.1 only. Version identity covers the two filter files and one seeded input.
+- Two test runs of the script before the full run are in the deviation log.
+- Package version is 0.16.5.
+
 ## [0.16.4] - 2026-11-25
 
 Fourth framework for the v0.16 DP measurements, plus release tooling. No earlier result number, verdict or threshold changed.

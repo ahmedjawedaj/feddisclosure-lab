@@ -1,3 +1,12 @@
+## After v0.16.5 (2026-11-26)
+
+Done in v0.16.5: selection check with stated power for SVTPrivacy, version identity of the filter files by running, gate integrity pins and a pre-registration power check.
+
+- [ ] Check other events and pairs for the selection step (the release values, larger d and n, values between 0 and gamma).
+- [ ] Run the Monte Carlo on 2.8.3 and 2.9.0 and not only the filter files and one seeded call.
+- [ ] Measure the privacy guarantee of the whole adaptive clipping mechanism in Flower.
+- [ ] Run more `flwr` releases.
+
 ## After v0.16.4 (2026-11-25)
 
 Done in v0.16.4: fourth framework for the DP measurements (NVFlare 2.9.1) and the release gate.

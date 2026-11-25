@@ -39,6 +39,7 @@ P3 = "reports/results/privacy/v0160/p3_breaching/summary.json"
 FEDML = "reports/results/privacy/v0160/fedml_dp_audit/fedml-0.9.6/fedml_dp_audit.json"
 ADAPT = "reports/results/privacy/v0160/flower_adaptive_clipping/flwr-1.27.0/flower_adaptive_clipping.json"
 NVF = "reports/results/privacy/v0160/nvflare_dp_audit/nvflare-2.9.1/nvflare_dp_audit.json"
+SEL = "reports/results/privacy/v0160/nvflare_selection/nvflare_selection.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -241,6 +242,16 @@ def _v15_prose() -> list[ProseClaim]:
                    (R(1, NVF, "rows/3/measured/accepted_before_selection"), R(2, NVF, "rows/3/measured/ratio_to_n_upload"))),
         ProseClaim("v164.N5", r"returned after (\d+) passes at epsilon 1e4", (R(1, NVF, "rows/4/measured/cells/1/acceptance_passes"),)),
         ProseClaim("v164.checks", r"All 18 rows and (\d+) checks held", (R(1, NVF, "summary/checks_held"),)),
+        ProseClaim("v165.ceiling", r"largest 95% lower bound that any outcome can give is ([\d.]+) and its claim was 20",
+                   (R(1, SEL, "rows/0/measured/ceiling_v0164_tails"),)),
+        ProseClaim("v165.LB", r"Lower bounds on the epsilon of the event are ([\d.]+), ([\d.]+) and ([\d.]+) against claims of 1, 1 and 0\.1",
+                   (R(1, SEL, "rows/1/measured/interval_and_lb/lb"), R(2, SEL, "rows/2/measured/interval_and_lb/lb"),
+                    R(3, SEL, "rows/3/measured/interval_and_lb/lb"))),
+        ProseClaim("v165.MDE", r"would find with 80% power is ([\d.]+), ([\d.]+) and ([\d.]+) against those claims",
+                   (R(1, SEL, "rows/1/measured/power/min_detectable/epsilon_80"), R(2, SEL, "rows/2/measured/power/min_detectable/epsilon_80"),
+                    R(3, SEL, "rows/3/measured/power/min_detectable/epsilon_80"))),
+        ProseClaim("v165.checks", r"All (\d+) rows and (\d+) checks held\. Tables, the one prediction",
+                   (R(1, SEL, "summary/rows_total"), R(2, SEL, "summary/checks_held"))),
         ProseClaim("v163.A6", r"the noise standard deviation is ([\d.]+) by the new clip and ([\d.]+) by the old clip",
                    (R(1, ADAPT, "rows/14/measured/std_by_new_clip"), R(2, ADAPT, "rows/14/measured/std_by_old_clip"))),
     ]

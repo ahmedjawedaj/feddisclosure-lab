@@ -45,6 +45,16 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 - With adaptive clipping and every client clipped, the update noise scale is 0.903 of the reference algorithm at the default learning rate and 0.607 at learning rate 1.0. The direction of the clip update was measured later, in the v0.16.3 section below.
 - `LocalDpMod` meets its configured (epsilon, delta) for epsilon up to 5 on the tested grid. At configured epsilon 20 the exact delta is 153 times the configured delta.
 
+## Measured NVIDIA FLARE selection step with stated power (v0.16.5)
+
+The v0.16.4 selection check (row N6b) could not fail. With 200,000 runs per input the largest 95% lower bound that any outcome can give is 10.90 and its claim was 20. `scripts/audit_nvflare_selection.py` replaces it. The pre-registration [`docs/preregistration/v0.16-nvflare-selection.md`](docs/preregistration/v0.16-nvflare-selection.md) was committed alone before the script existed and states, for every null result, the smallest excess that the check would find with 80% power. The script calls the real `SVTPrivacy` 1,000,000 times for each of three small configurations. The event is that the set of nonzero output entries equals the first n entries, for the most adverse pair of inputs under a per-coordinate sensitivity reading. All 7 rows and 44 checks held. Tables, the one prediction that held only partly and limits are in [`docs/v0.16-nvflare-selection-audit.md`](docs/v0.16-nvflare-selection-audit.md).
+
+- Lower bounds on the epsilon of the event are 0.418, 0.357 and 0.015 against claims of 1, 1 and 0.1. None exceeded its claim. The second configuration uses `replace` True, the class default.
+- The smallest event epsilon that the check would find with 80% power is 1.02, 1.03 and 0.126 against those claims, so a pass is informative to about a quarter of the claim or better.
+- The two filter files are byte identical in the wheels of 2.8.3, 2.9.0 and 2.9.1, and one seeded call of each filter returned the same digest from each version.
+
+These are lower bounds for one event and one pair of inputs at small sizes. They do not certify the claim for other events, pairs or sizes, and no NVFlare job or end-to-end guarantee was measured.
+
 ## Measured NVIDIA FLARE privacy filters (v0.16.4)
 
 `scripts/audit_nvflare_dp.py` calls `SVTPrivacy` and `PercentilePrivacy` of `nvflare` 2.9.1 in process on synthetic updates and compares what executes with the parameters and the filter's own accountant. Predictions were written in [`docs/preregistration/v0.16-nvflare.md`](docs/preregistration/v0.16-nvflare.md) before the harness existed. All 18 rows and 63 checks held, so the notes below are about behaviour to know and not about failed predictions. Only 2.9.1 was run (the two files are identical by hash in 2.8.3 and 2.9.0). Tables and limits are in [`docs/v0.16-nvflare-dp-audit.md`](docs/v0.16-nvflare-dp-audit.md).
@@ -52,7 +62,7 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 - The accountant arithmetic and the Laplace scales that are drawn match the documented formulas. With the class defaults on 25,578 parameters one call records epsilon 255.9, of which 255.8 is the release phase, because the default `noise_var` of 0.1 is multiplied by the 2,558 entries released.
 - The acceptance step does not stop once enough entries are accepted. With epsilon 100 and 100 entries wanted, 656 of 1,000 entries were accepted in one pass, 6.56 times the number wanted, and the release samples from them. This is one seeded call and the count varies from run to run.
 - The acceptance loop has no pass limit. A sparse update returned after 30 passes at epsilon 1e4 and had not returned after 10 seconds at epsilon 1e6 in one run (the cause was not investigated).
-- No empirical lower bound exceeded the claimed epsilon. The selection check has little power at the run count used.
+- No empirical lower bound exceeded the claimed epsilon. The selection check had little power at the run count used, and v0.16.5 above replaces it.
 - `PercentilePrivacy` has no randomness and the documentation page, as read through a summary, makes no DP claim for it.
 
 These are measurements on synthetic updates in one version. No NVFlare job, training run or end-to-end guarantee was measured.
@@ -94,7 +104,7 @@ Tuning chose the edge of the total variation grid for `breaching`, and the model
 
 ## Headline results (v0.15.0)
 
-Current release: 0.16.4. Release 0.16.4 adds the NVFlare filter measurement described above and a release gate script with commit hooks. It changes no result number. Release 0.16.3 adds the adaptive clipping measurement described above and corrects two sentences about adaptive clipping in the v0.16.0 Flower document. It changes no result number. Release 0.16.2 adds the FedML DP measurement described above. Release 0.16.1 added the CIFAR-10 inversion study and changed no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+Current release: 0.16.5. Release 0.16.5 adds the NVFlare selection check with stated power described above, a gate integrity check that pins the gate script and the commit hooks, a pre-registration power check and a pre-registration template. It changes no earlier result number. Release 0.16.4 adds the NVFlare filter measurement described above and a release gate script with commit hooks. It changes no result number. Release 0.16.3 adds the adaptive clipping measurement described above and corrects two sentences about adaptive clipping in the v0.16.0 Flower document. It changes no result number. Release 0.16.2 adds the FedML DP measurement described above. Release 0.16.1 added the CIFAR-10 inversion study and changed no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
 
 All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
