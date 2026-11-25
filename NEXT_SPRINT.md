@@ -1,6 +1,6 @@
 ## After v0.16.9 (2026-11-26)
 
-Done in v0.16.9: measurement of TFF's Gaussian fixed and adaptive clipping aggregators on 0.87.0 (fifth framework for the DP measurements).
+Done in v0.16.9: measurement of TFF's Gaussian fixed and adaptive clipping aggregators on 0.87.0 (fourth framework for the DP measurements).
 
 - [ ] Re-record the fast suite records and the README counts after main is merged into the branch (the orchestrator does this).
 - [ ] Measure the tree aggregation constructors (`tree_aggregation`, `tree_adaptive`), distributed DP and secure aggregation records of TFF.
