@@ -1,3 +1,13 @@
+## After v0.16.9 (2026-11-26)
+
+Done in v0.16.9: measurement of TFF's Gaussian fixed and adaptive clipping aggregators on 0.87.0 (fifth framework for the DP measurements).
+
+- [ ] Re-record the fast suite records and the README counts after main is merged into the branch (the orchestrator does this).
+- [ ] Measure the tree aggregation constructors (`tree_aggregation`, `tree_adaptive`), distributed DP and secure aggregation records of TFF.
+- [ ] Run a trained model through `dp_aggregator` so that the clip trajectory responds to the noise, and with client sampling.
+- [ ] Settle which sensitivity convention TFF's documentation intends, and add sampling and a composition accountant before any epsilon is stated.
+- [ ] Check earlier TFF releases and whether the project is maintained, and run the same script if a later release changes `differential_privacy.py` or the TFP queries.
+
 ## After v0.16.8 (2026-11-26)
 
 Done in v0.16.8: events check for SVTPrivacy (larger d and n, `replace` True, values between 0 and gamma, release values and a joint event), 10 rows and 83 checks held.
