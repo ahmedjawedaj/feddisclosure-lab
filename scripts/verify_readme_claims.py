@@ -39,6 +39,9 @@ P3 = "reports/results/privacy/v0160/p3_breaching/summary.json"
 FEDML = "reports/results/privacy/v0160/fedml_dp_audit/fedml-0.9.6/fedml_dp_audit.json"
 ADAPT = "reports/results/privacy/v0160/flower_adaptive_clipping/flwr-1.27.0/flower_adaptive_clipping.json"
 NVF = "reports/results/privacy/v0160/nvflare_dp_audit/nvflare-2.9.1/nvflare_dp_audit.json"
+GUARANTEE_DIR = "reports/results/privacy/v0160/flower_adaptive_guarantee/"
+GUARANTEE = {v: f"{GUARANTEE_DIR}flwr-{v}/flower_adaptive_guarantee.json" for v in ("1.27.0", "1.44.0")}
+ADAPT_G = GUARANTEE["1.27.0"]
 SEL = "reports/results/privacy/v0160/nvflare_selection/nvflare_selection.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
@@ -242,6 +245,13 @@ def _v15_prose() -> list[ProseClaim]:
                    (R(1, NVF, "rows/3/measured/accepted_before_selection"), R(2, NVF, "rows/3/measured/ratio_to_n_upload"))),
         ProseClaim("v164.N5", r"returned after (\d+) passes at epsilon 1e4", (R(1, NVF, "rows/4/measured/cells/1/acceptance_passes"),)),
         ProseClaim("v164.checks", r"All 18 rows and (\d+) checks held", (R(1, NVF, "summary/checks_held"),)),
+        ProseClaim("v166.ratio_default", r"that ratio averages ([\d.]+) and the model sum multiplier is ([\d.]+) of the configured one",
+                   (R(1, ADAPT_G, "cells/14/rho_delta/mean"), R(2, ADAPT_G, "cells/14/rho_z/mean"))),
+        ProseClaim("v166.ratio_lr1", r"At learning rate 1\.0 the ratio is ([\d.]+)\.", (R(1, ADAPT_G, "cells/16/rho_delta/mean"),)),
+        ProseClaim("v166.composed_default", r"composed multiplier in that configuration is ([\d.]+) of the configured one\. With the paper's count sensitivity of 1/2 applied to the same rounds it is ([\d.]+)\.",
+                   (R(1, ADAPT_G, "cells/14/z_flower_over_z/mean"), R(2, ADAPT_G, "cells/14/z_paper_count_over_z/mean"))),
+        ProseClaim("v166.composed_ratio_one", r"composed multiplier with Flower's count is ([\d.]+), ([\d.]+), ([\d.]+) and ([\d.]+) of the configured one",
+                   tuple(R(i + 1, ADAPT_G, f"rows/5/measured/cases/{4 + i}/z_flower_over_z") for i in range(4))),
         ProseClaim("v165.ceiling", r"largest 95% lower bound that any outcome can give is ([\d.]+) and its claim was 20",
                    (R(1, SEL, "rows/0/measured/ceiling_v0164_tails"),)),
         ProseClaim("v165.LB", r"Lower bounds on the epsilon of the event are ([\d.]+), ([\d.]+) and ([\d.]+) against claims of 1, 1 and 0\.1",
@@ -525,6 +535,26 @@ def check_suite_line(readme: str, root: Path, kind: str = "full") -> tuple[str, 
     return (status, detail) if status != "OK" else ("OK", f"{want} in {f.relative_to(root)}, {detail}")
 
 
+def check_guarantee_rows_held(readme: str, root: Path) -> tuple[str, str]:
+    """Every row of the adaptive guarantee evidence held its prediction in both versions, and the README says how many rows."""
+    m = re.search(r"All (\d+) rows per version held their predictions", readme)
+    if not m:
+        return "MISSING", "README does not say how many guarantee rows held"
+    want = int(m.group(1))
+    for version, rel in GUARANTEE.items():
+        fp = root / rel
+        if not fp.is_file():
+            return "MISSING", f"evidence file {rel}"
+        rows = json.loads(fp.read_text())["rows"]
+        failed = [r["row"] for r in rows if not r["prediction_held"]]
+        if len(rows) != want or failed:
+            return "MISMATCH", f"{version}: README says {want} rows held, evidence has {len(rows)} rows and {len(failed)} that did not hold"
+    cp = root / GUARANTEE_DIR / "cross_version" / "cross_version.json"
+    if not cp.is_file() or not json.loads(cp.read_text()).get("prediction_held"):
+        return "MISMATCH", "the cross version comparison is absent or did not hold"
+    return "OK", f"{want} rows held in both versions and the cross version comparison held"
+
+
 def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, suite: bool = True,
            prose: list[ProseClaim] | None = None, verdicts: list[Verdict] | None = None,
            phrases: list[Phrase] | None = None, words: list[VerdictWord] | None = None) -> list[tuple[str, str, str]]:
@@ -536,6 +566,8 @@ def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, sui
     results += [(c.id, *check_verdict(readme, root, c)) for c in (VERDICTS if verdicts is None else verdicts)]
     results += [(c.id, *check_phrase(readme, c)) for c in (PHRASES if phrases is None else phrases)]
     results += [(f"word.{w.token}", *check_word(readme, root, w)) for w in (WORDS if words is None else words)]
+    if prose is None:
+        results.append(("v166.rows_held", *check_guarantee_rows_held(readme, root)))
     if suite:
         results += [(f"tests.fast_suite_count.{k}", *check_suite_line(readme, root, k)) for k in SUITE_FILES]
     return results

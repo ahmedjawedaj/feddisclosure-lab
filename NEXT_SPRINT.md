@@ -1,10 +1,18 @@
+## After v0.16.6 (2026-11-26)
+
+Done in v0.16.6: whole mechanism measurement for Flower adaptive clipping (plan item T8c, effective noise multipliers, no epsilon).
+
+- [x] Re-record the fast suite records and the README counts after main was merged into the branch.
+- [ ] Settle which sensitivity convention Flower intends for the count and the model sum, and rerun the composed rows under it.
+- [ ] Measure the same trajectories with partial participation and unequal weights, and with a trained model whose update norms respond to the noise.
+- [ ] Add subsampling and a composition accountant before any epsilon is stated.
+
 ## After v0.16.5 (2026-11-26)
 
 Done in v0.16.5: selection check with stated power for SVTPrivacy, version identity of the filter files by running, gate integrity pins and a pre-registration power check.
 
 - [ ] Check other events and pairs for the selection step (the release values, larger d and n, values between 0 and gamma).
 - [ ] Run the Monte Carlo on 2.8.3 and 2.9.0 and not only the filter files and one seeded call.
-- [ ] Measure the privacy guarantee of the whole adaptive clipping mechanism in Flower.
 - [ ] Run more `flwr` releases.
 
 ## After v0.16.4 (2026-11-25)
@@ -13,7 +21,6 @@ Done in v0.16.4: fourth framework for the DP measurements (NVFlare 2.9.1) and th
 
 - [ ] A selection-phase check with more power for SVTPrivacy (the row N6b bound is weak at 200,000 runs).
 - [ ] Run NVFlare 2.8.3 and 2.9.0 to confirm the hash identity by running.
-- [ ] Measure the privacy guarantee of the whole adaptive clipping mechanism in Flower.
 - [ ] Run more `flwr` releases.
 
 ## After v0.16.3 (2026-11-25)
