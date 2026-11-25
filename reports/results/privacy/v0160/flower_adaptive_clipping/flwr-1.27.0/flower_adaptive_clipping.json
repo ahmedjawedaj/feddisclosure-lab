@@ -1,0 +1,2436 @@
+{
+  "schema": "feddisclosure.flower_adaptive_clipping.v1",
+  "quick": false,
+  "environment": {
+    "flwr": "1.27.0",
+    "flwr_file": "/usr/local/lib/python3.13/site-packages/flwr/__init__.py",
+    "numpy": "2.5.3",
+    "python": "3.13.18"
+  },
+  "parameters": {
+    "dim": 16,
+    "a5_rounds": 10000,
+    "a6_a7_rounds": 20000,
+    "rel_tol": 1e-09
+  },
+  "script_sha256": "7e78e231184bf787cf4f15a6750b1a6d409bb6c3b395ec8c0e3b9c938a881af8",
+  "rows": [
+    {
+      "row": "A0",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "clipped_count_stddev": null,
+        "stored_stddev_m100": 5.0
+      },
+      "paper_reading": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "stored_stddev_m100": 5.0
+      },
+      "measured": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "clipped_count_stddev": null,
+        "stored_stddev_m100": 5.0
+      },
+      "tolerance": "exact",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1a",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "stddev": 5.0,
+        "multiplier": 1.005037815259212
+      },
+      "paper_reading": {
+        "multiplier": 1.005037815259212
+      },
+      "measured": {
+        "stddev": 5.0,
+        "multiplier": 1.005037815259212,
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1b",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "stddev": 10.0,
+        "multiplier": 1.0012523486435176
+      },
+      "paper_reading": {
+        "multiplier": 1.0012523486435176
+      },
+      "measured": {
+        "stddev": 10.0,
+        "multiplier": 1.0012523486435176,
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": 10.0
+        }
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": "ValueError",
+      "paper_reading": "invalid input",
+      "measured": {
+        "exception": "ValueError",
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": 0.5
+        }
+      },
+      "tolerance": "exception type",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c2",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": "ValueError",
+      "paper_reading": "invalid input",
+      "measured": {
+        "exception": "ValueError",
+        "configured": {
+          "z": 10.0,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "exception type",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c3",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "multiplier": 223.43905770087412
+      },
+      "paper_reading": {
+        "multiplier": 223.43905770087412
+      },
+      "measured": {
+        "multiplier": 223.43905770087412,
+        "exception": null,
+        "configured": {
+          "z": 9.99,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1d",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": "stored multiplier at least z in every case",
+      "paper_reading": "z_delta at least z",
+      "measured": {
+        "cases": [
+          {
+            "z": 0.1,
+            "sigma_b": 0.06,
+            "multiplier": 0.1809068067466582,
+            "at_least_z": true
+          },
+          {
+            "z": 0.1,
+            "sigma_b": 0.5,
+            "multiplier": 0.10050378152592121,
+            "at_least_z": true
+          },
+          {
+            "z": 0.5,
+            "sigma_b": 0.3,
+            "multiplier": 0.904534033733291,
+            "at_least_z": true
+          },
+          {
+            "z": 0.5,
+            "sigma_b": 2.5,
+            "multiplier": 0.502518907629606,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 0.6,
+            "multiplier": 1.809068067466582,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 5.0,
+            "multiplier": 1.005037815259212,
+            "at_least_z": true
+          },
+          {
+            "z": 2.0,
+            "sigma_b": 1.2,
+            "multiplier": 3.618136134933164,
+            "at_least_z": true
+          },
+          {
+            "z": 2.0,
+            "sigma_b": 10.0,
+            "multiplier": 2.010075630518424,
+            "at_least_z": true
+          },
+          {
+            "z": 5.0,
+            "sigma_b": 3.0,
+            "multiplier": 9.045340337332908,
+            "at_least_z": true
+          },
+          {
+            "z": 5.0,
+            "sigma_b": 25.0,
+            "multiplier": 5.02518907629606,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 0.51,
+            "multiplier": 5.07468967007094,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 100.0,
+            "multiplier": 1.0000125002343798,
+            "at_least_z": true
+          }
+        ],
+        "count": 12
+      },
+      "tolerance": "inequality",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1e",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": "(0.0, 0.0), (3.0, 0.0), ValueError",
+      "paper_reading": "not specified",
+      "measured": {
+        "cases": [
+          {
+            "input": "z 0",
+            "stddev": 0.0,
+            "multiplier": 0.0
+          },
+          {
+            "input": "z 0, stddev 3",
+            "stddev": 3.0,
+            "multiplier": 0.0
+          },
+          {
+            "input": "z 1, stddev 0",
+            "exception": "ValueError"
+          }
+        ]
+      },
+      "tolerance": "exact",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A2",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": "recovered z equals configured z",
+      "paper_reading": "recovered z equals z",
+      "measured": {
+        "cases": [
+          {
+            "z": 1.0,
+            "m": 100,
+            "sigma_b": 5.0,
+            "stored_multiplier": 1.005037815259212,
+            "recovered_z": 1.0,
+            "abs_error": 0.0
+          },
+          {
+            "z": 1.0,
+            "m": 100,
+            "sigma_b": 10.0,
+            "stored_multiplier": 1.0012523486435176,
+            "recovered_z": 0.9999999999999999,
+            "abs_error": 1.1102230246251565e-16
+          },
+          {
+            "z": 0.5,
+            "m": 10,
+            "sigma_b": 0.5,
+            "stored_multiplier": 0.5773502691896257,
+            "recovered_z": 0.5,
+            "abs_error": 0.0
+          },
+          {
+            "z": 0.3,
+            "m": 200,
+            "sigma_b": 2.0,
+            "stored_multiplier": 0.3008473263383401,
+            "recovered_z": 0.3,
+            "abs_error": 0.0
+          }
+        ]
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A3",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "0.0": 0.09048374180359596,
+        "0.5": 0.1,
+        "1.0": 0.11051709180756478
+      },
+      "paper_reading": {
+        "0.0": 0.11051709180756478,
+        "0.5": 0.1,
+        "1.0": 0.09048374180359596
+      },
+      "measured": {
+        "scenarios": [
+          {
+            "u": 0.0,
+            "next_clip": 0.09048374180359596,
+            "paper": 0.11051709180756478,
+            "prediction": 0.09048374180359596
+          },
+          {
+            "u": 0.5,
+            "next_clip": 0.1,
+            "paper": 0.1,
+            "prediction": 0.1
+          },
+          {
+            "u": 1.0,
+            "next_clip": 0.11051709180756478,
+            "paper": 0.09048374180359596,
+            "prediction": 0.11051709180756478
+          }
+        ]
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A4",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "fraction": 0.3,
+        "next_clip": 0.10408107741923883
+      },
+      "paper_reading": {
+        "fraction": 0.7,
+        "next_clip": 0.09607894391523232
+      },
+      "measured": {
+        "fraction": 0.30000000000000004,
+        "next_clip": 0.10408107741923883,
+        "inside_clip": 70,
+        "clipped": 30
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A4b",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "next_clip": 1.1051709180756477,
+        "clipped": false
+      },
+      "paper_reading": {
+        "next_clip": 0.9048374180359596,
+        "bit": 1
+      },
+      "measured": {
+        "next_clip": 1.1051709180756477,
+        "counted_fraction": -3.3306690738754696e-16
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A5",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "std": 0.05,
+        "mean": 0.3
+      },
+      "paper_reading": {
+        "std": 0.05
+      },
+      "measured": {
+        "std": 0.05014376706456452,
+        "mean": 0.30039783285189586,
+        "std_error_of_mean": 0.0005014376706456452,
+        "rounds": 10000,
+        "ratio_to_prediction": 1.0028753412912903,
+        "clipped_count_stddev": 5.0
+      },
+      "tolerance": "std within 3 percent, mean within 4 SE",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A5",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "std": 0.1,
+        "mean": 0.3
+      },
+      "paper_reading": {
+        "std": 0.1
+      },
+      "measured": {
+        "std": 0.10028753412912904,
+        "mean": 0.30079566570379174,
+        "std_error_of_mean": 0.0010028753412912904,
+        "rounds": 10000,
+        "ratio_to_prediction": 1.0028753412912903,
+        "clipped_count_stddev": 10.0
+      },
+      "tolerance": "std within 3 percent, mean within 4 SE",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A6",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "std_by_old_clip": "about 0.61, outside 0.9 to 1.1",
+        "std_by_new_clip": 1.0
+      },
+      "paper_reading": {
+        "std_by_old_clip": 1.0,
+        "std_by_new_clip": "about 1.65"
+      },
+      "measured": {
+        "std_by_old_clip": 0.609151630203106,
+        "std_by_new_clip": 1.0013551485607857,
+        "rounds": 20000,
+        "mean_new_over_old_clip": 0.607534892301284,
+        "z_delta": 0.5773502691896257,
+        "noise_uses": "new clip"
+      },
+      "tolerance": "std_by_new_clip within 0.02 of 1, std_by_old_clip outside 0.9 to 1.1",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A7",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "counted_fraction": 0.6,
+        "next_clip": 0.9801986733067553,
+        "std_by_num_sampled": 1.0,
+        "warning_logged": true,
+        "aggregates": true
+      },
+      "paper_reading": "not specified, the paper fixes m",
+      "measured": {
+        "counted_fraction": 0.6000000000000002,
+        "next_clip": 0.9801986733067553,
+        "next_clip_if_divided_by_n": 1.0408107741923882,
+        "std_by_num_sampled": 0.999913395766216,
+        "std_by_reply_count": 0.499956697883108,
+        "rounds": 20000,
+        "warning_messages": [
+          "The number of clients returning parameters (5) differs from the number of sampled clients (10). This could impact the differential privacy guarantees, potentially leading to privacy leakage or inadequate noise calibration."
+        ],
+        "aggregate_returned": true
+      },
+      "tolerance": "next_clip 1e-9 relative, std within 0.02, warning present",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A8",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "seed_parameter": false,
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": true
+      },
+      "paper_reading": "not specified",
+      "measured": {
+        "constructor_parameters": [
+          "self",
+          "strategy",
+          "noise_multiplier",
+          "num_sampled_clients",
+          "initial_clipping_norm",
+          "target_clipped_quantile",
+          "clip_norm_lr",
+          "clipped_count_stddev"
+        ],
+        "seed_like_parameters": [],
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": true,
+        "clip_seed123": 0.9147141252291912,
+        "clip_seed123_again": 0.9147141252291912,
+        "clip_seed124": 0.902230912967742
+      },
+      "tolerance": "exact equality, then inequality",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A10",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "clip_after_23": 0.010025884372280375,
+        "per_round_factor_band": [
+          0.9048,
+          1.1052
+        ]
+      },
+      "paper_reading": {
+        "clip_after_23": 0.9974182454814718
+      },
+      "measured": {
+        "clip_after_23": 0.010025884372280358,
+        "min_factor": 0.9048374180359594,
+        "max_factor": 0.9048374180359596
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A11",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "clip_after_200": 2.061153622438558e-10
+      },
+      "paper_reading": {
+        "clip_after_200": "within 10 percent of 1.0"
+      },
+      "measured": {
+        "clip_after_200": 2.0611536224385326e-10,
+        "start": 0.1
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A11",
+      "variant": "V1",
+      "api": "legacy",
+      "side": "server",
+      "prediction": {
+        "clip_after_200": 4851651954.097902
+      },
+      "paper_reading": {
+        "clip_after_200": "within 10 percent of 1.0"
+      },
+      "measured": {
+        "clip_after_200": 4851651954.097979,
+        "start": 10.0
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A0",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "clipped_count_stddev": null,
+        "stored_stddev_m100": 5.0
+      },
+      "paper_reading": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "stored_stddev_m100": 5.0
+      },
+      "measured": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "clipped_count_stddev": null,
+        "stored_stddev_m100": 5.0
+      },
+      "tolerance": "exact",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1a",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "stddev": 5.0,
+        "multiplier": 1.005037815259212
+      },
+      "paper_reading": {
+        "multiplier": 1.005037815259212
+      },
+      "measured": {
+        "stddev": 5.0,
+        "multiplier": 1.005037815259212,
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1b",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "stddev": 10.0,
+        "multiplier": 1.0012523486435176
+      },
+      "paper_reading": {
+        "multiplier": 1.0012523486435176
+      },
+      "measured": {
+        "stddev": 10.0,
+        "multiplier": 1.0012523486435176,
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": 10.0
+        }
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": "ValueError",
+      "paper_reading": "invalid input",
+      "measured": {
+        "exception": "ValueError",
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": 0.5
+        }
+      },
+      "tolerance": "exception type",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c2",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": "ValueError",
+      "paper_reading": "invalid input",
+      "measured": {
+        "exception": "ValueError",
+        "configured": {
+          "z": 10.0,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "exception type",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c3",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "multiplier": 223.43905770087412
+      },
+      "paper_reading": {
+        "multiplier": 223.43905770087412
+      },
+      "measured": {
+        "multiplier": 223.43905770087412,
+        "exception": null,
+        "configured": {
+          "z": 9.99,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1d",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": "stored multiplier at least z in every case",
+      "paper_reading": "z_delta at least z",
+      "measured": {
+        "cases": [
+          {
+            "z": 0.1,
+            "sigma_b": 0.06,
+            "multiplier": 0.1809068067466582,
+            "at_least_z": true
+          },
+          {
+            "z": 0.1,
+            "sigma_b": 0.5,
+            "multiplier": 0.10050378152592121,
+            "at_least_z": true
+          },
+          {
+            "z": 0.5,
+            "sigma_b": 0.3,
+            "multiplier": 0.904534033733291,
+            "at_least_z": true
+          },
+          {
+            "z": 0.5,
+            "sigma_b": 2.5,
+            "multiplier": 0.502518907629606,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 0.6,
+            "multiplier": 1.809068067466582,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 5.0,
+            "multiplier": 1.005037815259212,
+            "at_least_z": true
+          },
+          {
+            "z": 2.0,
+            "sigma_b": 1.2,
+            "multiplier": 3.618136134933164,
+            "at_least_z": true
+          },
+          {
+            "z": 2.0,
+            "sigma_b": 10.0,
+            "multiplier": 2.010075630518424,
+            "at_least_z": true
+          },
+          {
+            "z": 5.0,
+            "sigma_b": 3.0,
+            "multiplier": 9.045340337332908,
+            "at_least_z": true
+          },
+          {
+            "z": 5.0,
+            "sigma_b": 25.0,
+            "multiplier": 5.02518907629606,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 0.51,
+            "multiplier": 5.07468967007094,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 100.0,
+            "multiplier": 1.0000125002343798,
+            "at_least_z": true
+          }
+        ],
+        "count": 12
+      },
+      "tolerance": "inequality",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1e",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": "(0.0, 0.0), (3.0, 0.0), ValueError",
+      "paper_reading": "not specified",
+      "measured": {
+        "cases": [
+          {
+            "input": "z 0",
+            "stddev": 0.0,
+            "multiplier": 0.0
+          },
+          {
+            "input": "z 0, stddev 3",
+            "stddev": 3.0,
+            "multiplier": 0.0
+          },
+          {
+            "input": "z 1, stddev 0",
+            "exception": "ValueError"
+          }
+        ]
+      },
+      "tolerance": "exact",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A2",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": "recovered z equals configured z",
+      "paper_reading": "recovered z equals z",
+      "measured": {
+        "cases": [
+          {
+            "z": 1.0,
+            "m": 100,
+            "sigma_b": 5.0,
+            "stored_multiplier": 1.005037815259212,
+            "recovered_z": 1.0,
+            "abs_error": 0.0
+          },
+          {
+            "z": 1.0,
+            "m": 100,
+            "sigma_b": 10.0,
+            "stored_multiplier": 1.0012523486435176,
+            "recovered_z": 0.9999999999999999,
+            "abs_error": 1.1102230246251565e-16
+          },
+          {
+            "z": 0.5,
+            "m": 10,
+            "sigma_b": 0.5,
+            "stored_multiplier": 0.5773502691896257,
+            "recovered_z": 0.5,
+            "abs_error": 0.0
+          },
+          {
+            "z": 0.3,
+            "m": 200,
+            "sigma_b": 2.0,
+            "stored_multiplier": 0.3008473263383401,
+            "recovered_z": 0.3,
+            "abs_error": 0.0
+          }
+        ]
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A3",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "0.0": 0.09048374180359596,
+        "0.5": 0.1,
+        "1.0": 0.11051709180756478
+      },
+      "paper_reading": {
+        "0.0": 0.11051709180756478,
+        "0.5": 0.1,
+        "1.0": 0.09048374180359596
+      },
+      "measured": {
+        "scenarios": [
+          {
+            "u": 0.0,
+            "next_clip": 0.09048374180359596,
+            "paper": 0.11051709180756478,
+            "prediction": 0.09048374180359596
+          },
+          {
+            "u": 0.5,
+            "next_clip": 0.1,
+            "paper": 0.1,
+            "prediction": 0.1
+          },
+          {
+            "u": 1.0,
+            "next_clip": 0.11051709180756478,
+            "paper": 0.09048374180359596,
+            "prediction": 0.11051709180756478
+          }
+        ]
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A4",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "fraction": 0.3,
+        "next_clip": 0.10408107741923883
+      },
+      "paper_reading": {
+        "fraction": 0.7,
+        "next_clip": 0.09607894391523232
+      },
+      "measured": {
+        "fraction": 0.30000000000000004,
+        "next_clip": 0.10408107741923883,
+        "inside_clip": 70,
+        "clipped": 30
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A4b",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "next_clip": 1.1051709180756477,
+        "clipped": false
+      },
+      "paper_reading": {
+        "next_clip": 0.9048374180359596,
+        "bit": 1
+      },
+      "measured": {
+        "next_clip": 1.1051709180756477,
+        "counted_fraction": -3.3306690738754696e-16
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A5",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "std": 0.05,
+        "mean": 0.3
+      },
+      "paper_reading": {
+        "std": 0.05
+      },
+      "measured": {
+        "std": 0.05014376706456452,
+        "mean": 0.30039783285189586,
+        "std_error_of_mean": 0.0005014376706456452,
+        "rounds": 10000,
+        "ratio_to_prediction": 1.0028753412912903,
+        "clipped_count_stddev": 5.0
+      },
+      "tolerance": "std within 3 percent, mean within 4 SE",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A5",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "std": 0.1,
+        "mean": 0.3
+      },
+      "paper_reading": {
+        "std": 0.1
+      },
+      "measured": {
+        "std": 0.10028753412912904,
+        "mean": 0.30079566570379174,
+        "std_error_of_mean": 0.0010028753412912904,
+        "rounds": 10000,
+        "ratio_to_prediction": 1.0028753412912903,
+        "clipped_count_stddev": 10.0
+      },
+      "tolerance": "std within 3 percent, mean within 4 SE",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A6",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "std_by_old_clip": "about 0.61, outside 0.9 to 1.1",
+        "std_by_new_clip": 1.0
+      },
+      "paper_reading": {
+        "std_by_old_clip": 1.0,
+        "std_by_new_clip": "about 1.65"
+      },
+      "measured": {
+        "std_by_old_clip": 0.609151630203106,
+        "std_by_new_clip": 1.0013551485607857,
+        "rounds": 20000,
+        "mean_new_over_old_clip": 0.607534892301284,
+        "z_delta": 0.5773502691896257,
+        "noise_uses": "new clip"
+      },
+      "tolerance": "std_by_new_clip within 0.02 of 1, std_by_old_clip outside 0.9 to 1.1",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A7",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "counted_fraction": 0.6,
+        "next_clip": 0.9801986733067553,
+        "std_by_num_sampled": 1.0,
+        "warning_logged": true,
+        "aggregates": true
+      },
+      "paper_reading": "not specified, the paper fixes m",
+      "measured": {
+        "counted_fraction": 0.6000000000000002,
+        "next_clip": 0.9801986733067553,
+        "next_clip_if_divided_by_n": 1.0408107741923882,
+        "std_by_num_sampled": 0.9999133955594544,
+        "std_by_reply_count": 0.4999566977797272,
+        "rounds": 20000,
+        "warning_messages": [
+          "The number of clients returning parameters (5) differs from the number of sampled clients (10). This could impact the differential privacy guarantees, potentially leading to privacy leakage or inadequate noise calibration."
+        ],
+        "aggregate_returned": true
+      },
+      "tolerance": "next_clip 1e-9 relative, std within 0.02, warning present",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A8",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "seed_parameter": false,
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": true
+      },
+      "paper_reading": "not specified",
+      "measured": {
+        "constructor_parameters": [
+          "self",
+          "strategy",
+          "noise_multiplier",
+          "num_sampled_clients",
+          "initial_clipping_norm",
+          "target_clipped_quantile",
+          "clip_norm_lr",
+          "clipped_count_stddev"
+        ],
+        "seed_like_parameters": [],
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": true,
+        "clip_seed123": 1.0313372962910958,
+        "clip_seed123_again": 1.0313372962910958,
+        "clip_seed124": 1.017262513768715
+      },
+      "tolerance": "exact equality, then inequality",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A10",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "clip_after_23": 0.010025884372280375,
+        "per_round_factor_band": [
+          0.9048,
+          1.1052
+        ]
+      },
+      "paper_reading": {
+        "clip_after_23": 0.9974182454814718
+      },
+      "measured": {
+        "clip_after_23": 0.010025884372280358,
+        "min_factor": 0.9048374180359594,
+        "max_factor": 0.9048374180359596
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A11",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "clip_after_200": 2.061153622438558e-10
+      },
+      "paper_reading": {
+        "clip_after_200": "within 10 percent of 1.0"
+      },
+      "measured": {
+        "clip_after_200": 2.0611536224385326e-10,
+        "start": 0.1
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A11",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "prediction": {
+        "clip_after_200": 4851651954.097902
+      },
+      "paper_reading": {
+        "clip_after_200": "within 10 percent of 1.0"
+      },
+      "measured": {
+        "clip_after_200": 4851651954.097979,
+        "start": 10.0
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A0",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "clipped_count_stddev": null,
+        "stored_stddev_m100": 5.0
+      },
+      "paper_reading": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "stored_stddev_m100": 5.0
+      },
+      "measured": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "clipped_count_stddev": null,
+        "stored_stddev_m100": 5.0
+      },
+      "tolerance": "exact",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1a",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "stddev": 5.0,
+        "multiplier": 1.005037815259212
+      },
+      "paper_reading": {
+        "multiplier": 1.005037815259212
+      },
+      "measured": {
+        "stddev": 5.0,
+        "multiplier": 1.005037815259212,
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1b",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "stddev": 10.0,
+        "multiplier": 1.0012523486435176
+      },
+      "paper_reading": {
+        "multiplier": 1.0012523486435176
+      },
+      "measured": {
+        "stddev": 10.0,
+        "multiplier": 1.0012523486435176,
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": 10.0
+        }
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": "ValueError",
+      "paper_reading": "invalid input",
+      "measured": {
+        "exception": "ValueError",
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": 0.5
+        }
+      },
+      "tolerance": "exception type",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c2",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": "ValueError",
+      "paper_reading": "invalid input",
+      "measured": {
+        "exception": "ValueError",
+        "configured": {
+          "z": 10.0,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "exception type",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c3",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "multiplier": 223.43905770087412
+      },
+      "paper_reading": {
+        "multiplier": 223.43905770087412
+      },
+      "measured": {
+        "multiplier": 223.43905770087412,
+        "exception": null,
+        "configured": {
+          "z": 9.99,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1d",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": "stored multiplier at least z in every case",
+      "paper_reading": "z_delta at least z",
+      "measured": {
+        "cases": [
+          {
+            "z": 0.1,
+            "sigma_b": 0.06,
+            "multiplier": 0.1809068067466582,
+            "at_least_z": true
+          },
+          {
+            "z": 0.1,
+            "sigma_b": 0.5,
+            "multiplier": 0.10050378152592121,
+            "at_least_z": true
+          },
+          {
+            "z": 0.5,
+            "sigma_b": 0.3,
+            "multiplier": 0.904534033733291,
+            "at_least_z": true
+          },
+          {
+            "z": 0.5,
+            "sigma_b": 2.5,
+            "multiplier": 0.502518907629606,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 0.6,
+            "multiplier": 1.809068067466582,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 5.0,
+            "multiplier": 1.005037815259212,
+            "at_least_z": true
+          },
+          {
+            "z": 2.0,
+            "sigma_b": 1.2,
+            "multiplier": 3.618136134933164,
+            "at_least_z": true
+          },
+          {
+            "z": 2.0,
+            "sigma_b": 10.0,
+            "multiplier": 2.010075630518424,
+            "at_least_z": true
+          },
+          {
+            "z": 5.0,
+            "sigma_b": 3.0,
+            "multiplier": 9.045340337332908,
+            "at_least_z": true
+          },
+          {
+            "z": 5.0,
+            "sigma_b": 25.0,
+            "multiplier": 5.02518907629606,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 0.51,
+            "multiplier": 5.07468967007094,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 100.0,
+            "multiplier": 1.0000125002343798,
+            "at_least_z": true
+          }
+        ],
+        "count": 12
+      },
+      "tolerance": "inequality",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1e",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": "(0.0, 0.0), (3.0, 0.0), ValueError",
+      "paper_reading": "not specified",
+      "measured": {
+        "cases": [
+          {
+            "input": "z 0",
+            "stddev": 0.0,
+            "multiplier": 0.0
+          },
+          {
+            "input": "z 0, stddev 3",
+            "stddev": 3.0,
+            "multiplier": 0.0
+          },
+          {
+            "input": "z 1, stddev 0",
+            "exception": "ValueError"
+          }
+        ]
+      },
+      "tolerance": "exact",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A2",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": "recovered z equals configured z",
+      "paper_reading": "recovered z equals z",
+      "measured": {
+        "cases": [
+          {
+            "z": 1.0,
+            "m": 100,
+            "sigma_b": 5.0,
+            "stored_multiplier": 1.005037815259212,
+            "recovered_z": 1.0,
+            "abs_error": 0.0
+          },
+          {
+            "z": 1.0,
+            "m": 100,
+            "sigma_b": 10.0,
+            "stored_multiplier": 1.0012523486435176,
+            "recovered_z": 0.9999999999999999,
+            "abs_error": 1.1102230246251565e-16
+          },
+          {
+            "z": 0.5,
+            "m": 10,
+            "sigma_b": 0.5,
+            "stored_multiplier": 0.5773502691896257,
+            "recovered_z": 0.5,
+            "abs_error": 0.0
+          },
+          {
+            "z": 0.3,
+            "m": 200,
+            "sigma_b": 2.0,
+            "stored_multiplier": 0.3008473263383401,
+            "recovered_z": 0.3,
+            "abs_error": 0.0
+          }
+        ]
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A3",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "0.0": 0.09048374180359596,
+        "0.5": 0.1,
+        "1.0": 0.11051709180756478
+      },
+      "paper_reading": {
+        "0.0": 0.11051709180756478,
+        "0.5": 0.1,
+        "1.0": 0.09048374180359596
+      },
+      "measured": {
+        "scenarios": [
+          {
+            "u": 0.0,
+            "next_clip": 0.09048374180359596,
+            "paper": 0.11051709180756478,
+            "prediction": 0.09048374180359596
+          },
+          {
+            "u": 0.5,
+            "next_clip": 0.1,
+            "paper": 0.1,
+            "prediction": 0.1
+          },
+          {
+            "u": 1.0,
+            "next_clip": 0.11051709180756478,
+            "paper": 0.09048374180359596,
+            "prediction": 0.11051709180756478
+          }
+        ]
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A4",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "fraction": 0.3,
+        "next_clip": 0.10408107741923883
+      },
+      "paper_reading": {
+        "fraction": 0.7,
+        "next_clip": 0.09607894391523232
+      },
+      "measured": {
+        "fraction": 0.30000000000000004,
+        "next_clip": 0.10408107741923883,
+        "inside_clip": 70,
+        "clipped": 30
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A4b",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "next_clip": 1.1051709180756477,
+        "clipped": false
+      },
+      "paper_reading": {
+        "next_clip": 0.9048374180359596,
+        "bit": 1
+      },
+      "measured": {
+        "next_clip": 1.1051709180756477,
+        "counted_fraction": -3.3306690738754696e-16
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A5",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "std": 0.05,
+        "mean": 0.3
+      },
+      "paper_reading": {
+        "std": 0.05
+      },
+      "measured": {
+        "std": 0.05014376706456452,
+        "mean": 0.30039783285189586,
+        "std_error_of_mean": 0.0005014376706456452,
+        "rounds": 10000,
+        "ratio_to_prediction": 1.0028753412912903,
+        "clipped_count_stddev": 5.0
+      },
+      "tolerance": "std within 3 percent, mean within 4 SE",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A5",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "std": 0.1,
+        "mean": 0.3
+      },
+      "paper_reading": {
+        "std": 0.1
+      },
+      "measured": {
+        "std": 0.10028753412912904,
+        "mean": 0.30079566570379174,
+        "std_error_of_mean": 0.0010028753412912904,
+        "rounds": 10000,
+        "ratio_to_prediction": 1.0028753412912903,
+        "clipped_count_stddev": 10.0
+      },
+      "tolerance": "std within 3 percent, mean within 4 SE",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A6",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "std_by_old_clip": "about 0.61, outside 0.9 to 1.1",
+        "std_by_new_clip": 1.0
+      },
+      "paper_reading": {
+        "std_by_old_clip": 1.0,
+        "std_by_new_clip": "about 1.65"
+      },
+      "measured": {
+        "std_by_old_clip": 0.609151630203106,
+        "std_by_new_clip": 1.0013551485607857,
+        "rounds": 20000,
+        "mean_new_over_old_clip": 0.607534892301284,
+        "z_delta": 0.5773502691896257,
+        "noise_uses": "new clip"
+      },
+      "tolerance": "std_by_new_clip within 0.02 of 1, std_by_old_clip outside 0.9 to 1.1",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A7",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "counted_fraction": 0.6,
+        "next_clip": 0.9801986733067553,
+        "std_by_num_sampled": 1.0,
+        "warning_logged": true,
+        "aggregates": true
+      },
+      "paper_reading": "not specified, the paper fixes m",
+      "measured": {
+        "counted_fraction": 0.6000000000000002,
+        "next_clip": 0.9801986733067553,
+        "next_clip_if_divided_by_n": 1.0408107741923882,
+        "std_by_num_sampled": 0.999913395766216,
+        "std_by_reply_count": 0.499956697883108,
+        "rounds": 20000,
+        "warning_messages": [
+          "The number of clients returning parameters (5) differs from the number of sampled clients (10). This could impact the differential privacy guarantees, potentially leading to privacy leakage or inadequate noise calibration."
+        ],
+        "aggregate_returned": true
+      },
+      "tolerance": "next_clip 1e-9 relative, std within 0.02, warning present",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A8",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "seed_parameter": false,
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": true
+      },
+      "paper_reading": "not specified",
+      "measured": {
+        "constructor_parameters": [
+          "self",
+          "strategy",
+          "noise_multiplier",
+          "num_sampled_clients",
+          "initial_clipping_norm",
+          "target_clipped_quantile",
+          "clip_norm_lr",
+          "clipped_count_stddev"
+        ],
+        "seed_like_parameters": [],
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": true,
+        "clip_seed123": 0.9147141252291912,
+        "clip_seed123_again": 0.9147141252291912,
+        "clip_seed124": 0.902230912967742
+      },
+      "tolerance": "exact equality, then inequality",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A10",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "clip_after_23": 0.010025884372280375,
+        "per_round_factor_band": [
+          0.9048,
+          1.1052
+        ]
+      },
+      "paper_reading": {
+        "clip_after_23": 0.9974182454814718
+      },
+      "measured": {
+        "clip_after_23": 0.010025884372280358,
+        "min_factor": 0.9048374180359594,
+        "max_factor": 0.9048374180359596
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A11",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "clip_after_200": 2.061153622438558e-10
+      },
+      "paper_reading": {
+        "clip_after_200": "within 10 percent of 1.0"
+      },
+      "measured": {
+        "clip_after_200": 2.0611536224385326e-10,
+        "start": 0.1
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A11",
+      "variant": "V3",
+      "api": "message",
+      "side": "server",
+      "prediction": {
+        "clip_after_200": 4851651954.097902
+      },
+      "paper_reading": {
+        "clip_after_200": "within 10 percent of 1.0"
+      },
+      "measured": {
+        "clip_after_200": 4851651954.097979,
+        "start": 10.0
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A0",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "clipped_count_stddev": null,
+        "stored_stddev_m100": 5.0
+      },
+      "paper_reading": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "stored_stddev_m100": 5.0
+      },
+      "measured": {
+        "initial_clipping_norm": 0.1,
+        "target_clipped_quantile": 0.5,
+        "clip_norm_lr": 0.2,
+        "clipped_count_stddev": null,
+        "stored_stddev_m100": 5.0
+      },
+      "tolerance": "exact",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1a",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "stddev": 5.0,
+        "multiplier": 1.005037815259212
+      },
+      "paper_reading": {
+        "multiplier": 1.005037815259212
+      },
+      "measured": {
+        "stddev": 5.0,
+        "multiplier": 1.005037815259212,
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1b",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "stddev": 10.0,
+        "multiplier": 1.0012523486435176
+      },
+      "paper_reading": {
+        "multiplier": 1.0012523486435176
+      },
+      "measured": {
+        "stddev": 10.0,
+        "multiplier": 1.0012523486435176,
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": 10.0
+        }
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": "ValueError",
+      "paper_reading": "invalid input",
+      "measured": {
+        "exception": "ValueError",
+        "configured": {
+          "z": 1.0,
+          "m": 100,
+          "clipped_count_stddev": 0.5
+        }
+      },
+      "tolerance": "exception type",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c2",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": "ValueError",
+      "paper_reading": "invalid input",
+      "measured": {
+        "exception": "ValueError",
+        "configured": {
+          "z": 10.0,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "exception type",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1c3",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "multiplier": 223.43905770087412
+      },
+      "paper_reading": {
+        "multiplier": 223.43905770087412
+      },
+      "measured": {
+        "multiplier": 223.43905770087412,
+        "exception": null,
+        "configured": {
+          "z": 9.99,
+          "m": 100,
+          "clipped_count_stddev": null
+        }
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1d",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": "stored multiplier at least z in every case",
+      "paper_reading": "z_delta at least z",
+      "measured": {
+        "cases": [
+          {
+            "z": 0.1,
+            "sigma_b": 0.06,
+            "multiplier": 0.1809068067466582,
+            "at_least_z": true
+          },
+          {
+            "z": 0.1,
+            "sigma_b": 0.5,
+            "multiplier": 0.10050378152592121,
+            "at_least_z": true
+          },
+          {
+            "z": 0.5,
+            "sigma_b": 0.3,
+            "multiplier": 0.904534033733291,
+            "at_least_z": true
+          },
+          {
+            "z": 0.5,
+            "sigma_b": 2.5,
+            "multiplier": 0.502518907629606,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 0.6,
+            "multiplier": 1.809068067466582,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 5.0,
+            "multiplier": 1.005037815259212,
+            "at_least_z": true
+          },
+          {
+            "z": 2.0,
+            "sigma_b": 1.2,
+            "multiplier": 3.618136134933164,
+            "at_least_z": true
+          },
+          {
+            "z": 2.0,
+            "sigma_b": 10.0,
+            "multiplier": 2.010075630518424,
+            "at_least_z": true
+          },
+          {
+            "z": 5.0,
+            "sigma_b": 3.0,
+            "multiplier": 9.045340337332908,
+            "at_least_z": true
+          },
+          {
+            "z": 5.0,
+            "sigma_b": 25.0,
+            "multiplier": 5.02518907629606,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 0.51,
+            "multiplier": 5.07468967007094,
+            "at_least_z": true
+          },
+          {
+            "z": 1.0,
+            "sigma_b": 100.0,
+            "multiplier": 1.0000125002343798,
+            "at_least_z": true
+          }
+        ],
+        "count": 12
+      },
+      "tolerance": "inequality",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A1e",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": "(0.0, 0.0), (3.0, 0.0), ValueError",
+      "paper_reading": "not specified",
+      "measured": {
+        "cases": [
+          {
+            "input": "z 0",
+            "stddev": 0.0,
+            "multiplier": 0.0
+          },
+          {
+            "input": "z 0, stddev 3",
+            "stddev": 3.0,
+            "multiplier": 0.0
+          },
+          {
+            "input": "z 1, stddev 0",
+            "exception": "ValueError"
+          }
+        ]
+      },
+      "tolerance": "exact",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A2",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": "recovered z equals configured z",
+      "paper_reading": "recovered z equals z",
+      "measured": {
+        "cases": [
+          {
+            "z": 1.0,
+            "m": 100,
+            "sigma_b": 5.0,
+            "stored_multiplier": 1.005037815259212,
+            "recovered_z": 1.0,
+            "abs_error": 0.0
+          },
+          {
+            "z": 1.0,
+            "m": 100,
+            "sigma_b": 10.0,
+            "stored_multiplier": 1.0012523486435176,
+            "recovered_z": 0.9999999999999999,
+            "abs_error": 1.1102230246251565e-16
+          },
+          {
+            "z": 0.5,
+            "m": 10,
+            "sigma_b": 0.5,
+            "stored_multiplier": 0.5773502691896257,
+            "recovered_z": 0.5,
+            "abs_error": 0.0
+          },
+          {
+            "z": 0.3,
+            "m": 200,
+            "sigma_b": 2.0,
+            "stored_multiplier": 0.3008473263383401,
+            "recovered_z": 0.3,
+            "abs_error": 0.0
+          }
+        ]
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A3",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "0.0": 0.09048374180359596,
+        "0.5": 0.1,
+        "1.0": 0.11051709180756478
+      },
+      "paper_reading": {
+        "0.0": 0.11051709180756478,
+        "0.5": 0.1,
+        "1.0": 0.09048374180359596
+      },
+      "measured": {
+        "scenarios": [
+          {
+            "u": 0.0,
+            "next_clip": 0.09048374180359596,
+            "paper": 0.11051709180756478,
+            "prediction": 0.09048374180359596
+          },
+          {
+            "u": 0.5,
+            "next_clip": 0.1,
+            "paper": 0.1,
+            "prediction": 0.1
+          },
+          {
+            "u": 1.0,
+            "next_clip": 0.11051709180756478,
+            "paper": 0.09048374180359596,
+            "prediction": 0.11051709180756478
+          }
+        ]
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A4",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "fraction": 0.3,
+        "next_clip": 0.10408107741923883
+      },
+      "paper_reading": {
+        "fraction": 0.7,
+        "next_clip": 0.09607894391523232
+      },
+      "measured": {
+        "fraction": 0.30000000000000004,
+        "next_clip": 0.10408107741923883,
+        "inside_clip": 70,
+        "clipped": 30
+      },
+      "tolerance": "1e-9 absolute",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A4b",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "next_clip": 1.1051709180756477,
+        "clipped": false
+      },
+      "paper_reading": {
+        "next_clip": 0.9048374180359596,
+        "bit": 1
+      },
+      "measured": {
+        "next_clip": 1.1051709180756477,
+        "counted_fraction": -3.3306690738754696e-16
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A5",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "std": 0.05,
+        "mean": 0.3
+      },
+      "paper_reading": {
+        "std": 0.05
+      },
+      "measured": {
+        "std": 0.05014376706456452,
+        "mean": 0.30039783285189586,
+        "std_error_of_mean": 0.0005014376706456452,
+        "rounds": 10000,
+        "ratio_to_prediction": 1.0028753412912903,
+        "clipped_count_stddev": 5.0
+      },
+      "tolerance": "std within 3 percent, mean within 4 SE",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A5",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "std": 0.1,
+        "mean": 0.3
+      },
+      "paper_reading": {
+        "std": 0.1
+      },
+      "measured": {
+        "std": 0.10028753412912904,
+        "mean": 0.30079566570379174,
+        "std_error_of_mean": 0.0010028753412912904,
+        "rounds": 10000,
+        "ratio_to_prediction": 1.0028753412912903,
+        "clipped_count_stddev": 10.0
+      },
+      "tolerance": "std within 3 percent, mean within 4 SE",
+      "prediction_held": true,
+      "agrees_with_paper": true
+    },
+    {
+      "row": "A6",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "std_by_old_clip": "about 0.61, outside 0.9 to 1.1",
+        "std_by_new_clip": 1.0
+      },
+      "paper_reading": {
+        "std_by_old_clip": 1.0,
+        "std_by_new_clip": "about 1.65"
+      },
+      "measured": {
+        "std_by_old_clip": 0.609151630203106,
+        "std_by_new_clip": 1.0013551485607857,
+        "rounds": 20000,
+        "mean_new_over_old_clip": 0.607534892301284,
+        "z_delta": 0.5773502691896257,
+        "noise_uses": "new clip"
+      },
+      "tolerance": "std_by_new_clip within 0.02 of 1, std_by_old_clip outside 0.9 to 1.1",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A7",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "counted_fraction": 0.6,
+        "next_clip": 0.9801986733067553,
+        "std_by_num_sampled": 1.0,
+        "warning_logged": true,
+        "aggregates": true
+      },
+      "paper_reading": "not specified, the paper fixes m",
+      "measured": {
+        "counted_fraction": 0.6000000000000002,
+        "next_clip": 0.9801986733067553,
+        "next_clip_if_divided_by_n": 1.0408107741923882,
+        "std_by_num_sampled": 0.9999133955594544,
+        "std_by_reply_count": 0.4999566977797272,
+        "rounds": 20000,
+        "warning_messages": [
+          "The number of clients returning parameters (5) differs from the number of sampled clients (10). This could impact the differential privacy guarantees, potentially leading to privacy leakage or inadequate noise calibration."
+        ],
+        "aggregate_returned": true
+      },
+      "tolerance": "next_clip 1e-9 relative, std within 0.02, warning present",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A8",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "seed_parameter": false,
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": true
+      },
+      "paper_reading": "not specified",
+      "measured": {
+        "constructor_parameters": [
+          "self",
+          "strategy",
+          "noise_multiplier",
+          "num_sampled_clients",
+          "initial_clipping_norm",
+          "target_clipped_quantile",
+          "clip_norm_lr",
+          "clipped_count_stddev"
+        ],
+        "seed_like_parameters": [],
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": true,
+        "clip_seed123": 1.0313372962910958,
+        "clip_seed123_again": 1.0313372962910958,
+        "clip_seed124": 1.017262513768715
+      },
+      "tolerance": "exact equality, then inequality",
+      "prediction_held": true,
+      "agrees_with_paper": null
+    },
+    {
+      "row": "A10",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "clip_after_23": 0.010025884372280375,
+        "per_round_factor_band": [
+          0.9048,
+          1.1052
+        ]
+      },
+      "paper_reading": {
+        "clip_after_23": 0.9974182454814718
+      },
+      "measured": {
+        "clip_after_23": 0.010025884372280358,
+        "min_factor": 0.9048374180359594,
+        "max_factor": 0.9048374180359596
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A11",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "clip_after_200": 2.061153622438558e-10
+      },
+      "paper_reading": {
+        "clip_after_200": "within 10 percent of 1.0"
+      },
+      "measured": {
+        "clip_after_200": 2.0611536224385326e-10,
+        "start": 0.1
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A11",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "prediction": {
+        "clip_after_200": 4851651954.097902
+      },
+      "paper_reading": {
+        "clip_after_200": "within 10 percent of 1.0"
+      },
+      "measured": {
+        "clip_after_200": 4851651954.097979,
+        "start": 10.0
+      },
+      "tolerance": "1e-9 relative",
+      "prediction_held": true,
+      "agrees_with_paper": false
+    },
+    {
+      "row": "A9",
+      "variant": "V2",
+      "api": "legacy",
+      "side": "client",
+      "note": "client-side summary, one entry per row of this variant",
+      "prediction_held_by_row": {
+        "A0:0": true,
+        "A1a:1": true,
+        "A1b:2": true,
+        "A1c:3": true,
+        "A1c2:4": true,
+        "A1c3:5": true,
+        "A1d:6": true,
+        "A1e:7": true,
+        "A2:8": true,
+        "A3:9": true,
+        "A4:10": true,
+        "A4b:11": true,
+        "A5:12": true,
+        "A5:13": true,
+        "A6:14": true,
+        "A7:15": true,
+        "A8:16": true,
+        "A10:17": true,
+        "A11:18": true,
+        "A11:19": true
+      },
+      "prediction_held": true
+    },
+    {
+      "row": "A9",
+      "variant": "V4",
+      "api": "message",
+      "side": "client",
+      "note": "client-side summary, one entry per row of this variant",
+      "prediction_held_by_row": {
+        "A0:0": true,
+        "A1a:1": true,
+        "A1b:2": true,
+        "A1c:3": true,
+        "A1c2:4": true,
+        "A1c3:5": true,
+        "A1d:6": true,
+        "A1e:7": true,
+        "A2:8": true,
+        "A3:9": true,
+        "A4:10": true,
+        "A4b:11": true,
+        "A5:12": true,
+        "A5:13": true,
+        "A6:14": true,
+        "A7:15": true,
+        "A8:16": true,
+        "A10:17": true,
+        "A11:18": true,
+        "A11:19": true
+      },
+      "prediction_held": true
+    }
+  ],
+  "runtime_seconds": 1505.0
+}

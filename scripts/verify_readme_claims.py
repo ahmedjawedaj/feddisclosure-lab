@@ -37,6 +37,7 @@ RECORD_DIR = "reports/results/privacy/v0150"
 FLOWER_DP = "reports/results/privacy/v0160/flower_dp_audit/flwr-1.27.0/flower_dp_audit.json"
 P3 = "reports/results/privacy/v0160/p3_breaching/summary.json"
 FEDML = "reports/results/privacy/v0160/fedml_dp_audit/fedml-0.9.6/fedml_dp_audit.json"
+ADAPT = "reports/results/privacy/v0160/flower_adaptive_clipping/flwr-1.27.0/flower_adaptive_clipping.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -228,6 +229,13 @@ def _v15_prose() -> list[ProseClaim]:
         ProseClaim("v162.RA2", r"gives epsilon ([\d.]+) where the exact Gaussian value is ([\d.]+)",
                    (R(1, FEDML, "rows/17/cells/1/rdp_epsilon"), R(2, FEDML, "rows/17/cells/1/exact_epsilon"))),
         ProseClaim("v161.B1c", r"mean squared error is ([\d.]+) times larger in the plaintext view", (R(1, P3, "verdicts/B1c/ratio"),)),
+        ProseClaim("v163.A3_A10", r"the clip after one round is ([\d.]+) from a start of 0\.1, where the paper reading gives ([\d.]+)\. After 23 such rounds it is ([\d.]+), where",
+                   (R(1, ADAPT, "rows/9/measured/scenarios/0/next_clip"), R(2, ADAPT, "rows/9/measured/scenarios/0/paper"),
+                    R(3, ADAPT, "rows/17/measured/clip_after_23"))),
+        ProseClaim("v163.A11", r"a clip that starts at 0\.1 to ([\d.]+e-\d+) and a clip that starts at 10 to ([\d.]+e\d+),",
+                   (R(1, ADAPT, "rows/18/measured/clip_after_200"), R(2, ADAPT, "rows/19/measured/clip_after_200"))),
+        ProseClaim("v163.A6", r"the noise standard deviation is ([\d.]+) by the new clip and ([\d.]+) by the old clip",
+                   (R(1, ADAPT, "rows/14/measured/std_by_new_clip"), R(2, ADAPT, "rows/14/measured/std_by_old_clip"))),
     ]
 
 

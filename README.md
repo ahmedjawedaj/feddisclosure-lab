@@ -42,8 +42,20 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 
 - With equal client weights and all sampled clients responding, the fixed clipping strategies deliver the configured noise multiplier. One round at multiplier 1 is epsilon 4.38 at delta 1e-5.
 - With one client holding a 0.91 weight share the exact value is epsilon 79.4, and with `num_sampled_clients` set to 10 while 2 results are aggregated it is epsilon 33.1. A reported client failure does not lead to the second case, because the wrapper then releases nothing. Empirical 95% lower bounds are 10.90 and 10.49.
-- With adaptive clipping and every client clipped, the update noise scale is 0.903 of the reference algorithm at the default learning rate and 0.607 at learning rate 1.0.
+- With adaptive clipping and every client clipped, the update noise scale is 0.903 of the reference algorithm at the default learning rate and 0.607 at learning rate 1.0. The direction of the clip update was measured later, in the v0.16.3 section below.
 - `LocalDpMod` meets its configured (epsilon, delta) for epsilon up to 5 on the tested grid. At configured epsilon 20 the exact delta is 153 times the configured delta.
+
+## Measured adaptive clipping in Flower against the paper (v0.16.3)
+
+`scripts/audit_flower_adaptive_clipping.py` runs the four adaptive clipping strategy classes of `flwr` (server side and client side, in the legacy and the Message API) with fake client replies and compares them with Andrew et al. (2021), arXiv 1905.03871. Predictions were written in [`docs/preregistration/v0.16-adaptive-clipping.md`](docs/preregistration/v0.16-adaptive-clipping.md) before the harness existed. It was run on `flwr` 1.27.0 and 1.44.0. All 82 rows per version held their predictions, so the findings below are about differences from the paper's reading and not about failed predictions. Tables and limits are in [`docs/v0.16-adaptive-clipping-audit.md`](docs/v0.16-adaptive-clipping-audit.md).
+
+- The noise budget split, the default count noise and the standard deviation of the noisy count (sigma_b divided by the number of replies) follow the paper.
+- The bit that feeds the clip update is set when an update is clipped, while the paper, as read once, sets it when an update is not clipped. With the update rule unchanged the clip moves the other way. When all updates are clipped, the clip after one round is 0.0904837 from a start of 0.1, where the paper reading gives 0.1105171. After 23 such rounds it is 0.010026, where the paper reading gives 0.9974.
+- With fixed update norms between 0.5 and 1.5, 200 rounds take a clip that starts at 0.1 to 2.06e-10 and a clip that starts at 10 to 4.85e9, so the clip moves away from the target quantile instead of settling.
+- The model noise is scaled with the clip after the round's update, in all four variants. In the measured configuration the noise standard deviation is 1.0014 by the new clip and 0.6092 by the old clip, and the paper's Algorithm 1 as read once uses the old clip.
+- When fewer clients reply than `num_sampled_clients`, the noise scale uses `num_sampled_clients` and the fraction uses the reply count. Flower logs a warning.
+
+These are measurements on synthetic updates. The privacy guarantee of the whole mechanism was not measured, and no epsilon is reported. The paper's ordering was read from one summarising fetch of a web copy and not checked against the PDF.
 
 ## Measured privacy of FedML's DP mechanisms (v0.16.2)
 
@@ -70,7 +82,7 @@ Tuning chose the edge of the total variation grid for `breaching`, and the model
 
 ## Headline results (v0.15.0)
 
-Current release: 0.16.2. Release 0.16.2 adds the FedML DP measurement described above. Release 0.16.1 added the CIFAR-10 inversion study and changed no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+Current release: 0.16.3. Release 0.16.3 adds the adaptive clipping measurement described above and corrects two sentences about adaptive clipping in the v0.16.0 Flower document. It changes no result number. Release 0.16.2 adds the FedML DP measurement described above. Release 0.16.1 added the CIFAR-10 inversion study and changed no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
 
 All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
@@ -151,8 +163,8 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build
 pip install -e '.[test,research,ml,privacy]'
 
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   with flwr and opacus (no opendp, no torchvision): 582 pass and 21 skip, 7 deselected
-#   without flwr and opacus: 427 pass and 59 skip, 6 deselected
+#   with flwr and opacus (no opendp, no torchvision): 594 pass and 21 skip, 8 deselected
+#   without flwr and opacus: 427 pass and 60 skip, 6 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard
