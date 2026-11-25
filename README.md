@@ -208,8 +208,8 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build
 pip install -e '.[test,research,ml,privacy]'
 
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   with flwr and opacus (no opendp, no torchvision): 650 pass and 27 skip, 9 deselected
-#   without flwr and opacus: 455 pass and 67 skip, 6 deselected
+#   with flwr and opacus (no opendp, no torchvision): 663 pass and 28 skip, 9 deselected
+#   without flwr and opacus: 468 pass and 68 skip, 6 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard
