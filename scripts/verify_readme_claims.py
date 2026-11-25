@@ -38,6 +38,7 @@ FLOWER_DP = "reports/results/privacy/v0160/flower_dp_audit/flwr-1.27.0/flower_dp
 P3 = "reports/results/privacy/v0160/p3_breaching/summary.json"
 FEDML = "reports/results/privacy/v0160/fedml_dp_audit/fedml-0.9.6/fedml_dp_audit.json"
 ADAPT = "reports/results/privacy/v0160/flower_adaptive_clipping/flwr-1.27.0/flower_adaptive_clipping.json"
+NVF = "reports/results/privacy/v0160/nvflare_dp_audit/nvflare-2.9.1/nvflare_dp_audit.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -234,6 +235,12 @@ def _v15_prose() -> list[ProseClaim]:
                     R(3, ADAPT, "rows/17/measured/clip_after_23"))),
         ProseClaim("v163.A11", r"a clip that starts at 0\.1 to ([\d.]+e-\d+) and a clip that starts at 10 to ([\d.]+e\d+),",
                    (R(1, ADAPT, "rows/18/measured/clip_after_200"), R(2, ADAPT, "rows/19/measured/clip_after_200"))),
+        ProseClaim("v164.N3", r"one call records epsilon ([\d.]+), of which ([\d.]+) is the release phase",
+                   (R(1, NVF, "rows/2/measured/ledger_one_call/epsilon_total"), R(2, NVF, "rows/2/measured/ledger_one_call/epsilon_release"))),
+        ProseClaim("v164.N4", r"(\d+) of 1,000 entries were accepted in one pass, ([\d.]+) times the number wanted",
+                   (R(1, NVF, "rows/3/measured/accepted_before_selection"), R(2, NVF, "rows/3/measured/ratio_to_n_upload"))),
+        ProseClaim("v164.N5", r"returned after (\d+) passes at epsilon 1e4", (R(1, NVF, "rows/4/measured/cells/1/acceptance_passes"),)),
+        ProseClaim("v164.checks", r"All 18 rows and (\d+) checks held", (R(1, NVF, "summary/checks_held"),)),
         ProseClaim("v163.A6", r"the noise standard deviation is ([\d.]+) by the new clip and ([\d.]+) by the old clip",
                    (R(1, ADAPT, "rows/14/measured/std_by_new_clip"), R(2, ADAPT, "rows/14/measured/std_by_old_clip"))),
     ]

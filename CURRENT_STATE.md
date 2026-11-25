@@ -1,3 +1,8 @@
+## 2026-11-25 v0.16.4 NVFlare filter measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-nvflare.md` and `docs/v0.16-nvflare-dp-audit.md`)
+
+`nvflare` 2.9.1 SVTPrivacy and PercentilePrivacy, 18 rows and 63 checks, all held. The default release budget makes one call epsilon 255.9 at 25,578 parameters. The acceptance step accepts a whole pass (656 of 1,000 for 100 wanted) and has no pass limit. No lower bound exceeded the claim. Release gate script and commit hooks added.
+Next: see `NEXT_SPRINT.md`.
+
 ## 2026-11-25 v0.16.3 adaptive clipping measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-adaptive-clipping.md` and `docs/v0.16-adaptive-clipping-audit.md`)
 
 `flwr` 1.27.0 and 1.44.0, four adaptive clipping variants, 82 rows per version, all held their predictions. The bit that feeds the clip update is set for clipped updates (the paper's is the reverse), so the clip moves away from the target quantile. The model noise is scaled with the clip after the round's update. No epsilon was measured.

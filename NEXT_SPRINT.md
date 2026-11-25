@@ -1,3 +1,12 @@
+## After v0.16.4 (2026-11-25)
+
+Done in v0.16.4: fourth framework for the DP measurements (NVFlare 2.9.1) and the release gate.
+
+- [ ] A selection-phase check with more power for SVTPrivacy (the row N6b bound is weak at 200,000 runs).
+- [ ] Run NVFlare 2.8.3 and 2.9.0 to confirm the hash identity by running.
+- [ ] Measure the privacy guarantee of the whole adaptive clipping mechanism in Flower.
+- [ ] Run more `flwr` releases.
+
 ## After v0.16.3 (2026-11-25)
 
 Done in v0.16.3: adaptive clipping measurement for Flower (plan item T8b).

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Prose check on staged markdown: no dashes, semicolons or banned words in added lines.
+exec python3 "$(git rev-parse --show-toplevel)/scripts/release_gate.py" --staged
