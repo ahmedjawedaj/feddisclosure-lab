@@ -44,6 +44,7 @@ GUARANTEE = {v: f"{GUARANTEE_DIR}flwr-{v}/flower_adaptive_guarantee.json" for v 
 ADAPT_G = GUARANTEE["1.27.0"]
 SEL = "reports/results/privacy/v0160/nvflare_selection/nvflare_selection.json"
 EVT = "reports/results/privacy/v0160/nvflare_events/nvflare_events.json"
+TFF = "reports/results/privacy/v0160/tff_dp/tff-0.87.0/tff_dp_audit.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -279,6 +280,33 @@ def _v15_prose() -> list[ProseClaim]:
     ]
 
 
+def _tff_prose() -> list[ProseClaim]:
+    """Numbers quoted in the v0.16.9 section of the README, read from the TFF evidence file."""
+    R = Ref
+    m = "rows/{}/measured/"
+    return [
+        ProseClaim("v169.counts", r"Result: (\d+) of (\d+) rows and (\d+) of (\d+) checks held",
+                   (R(1, TFF, "summary/rows_held"), R(2, TFF, "summary/rows_total"), R(3, TFF, "summary/checks_held"), R(4, TFF, "summary/checks_total"))),
+        ProseClaim("v169.F1", r"Measured over configured is ([\d.]+), ([\d.]+) and ([\d.]+) for three configurations",
+                   tuple(R(i + 1, TFF, m.format(1) + f"{k}/ratio") for i, k in enumerate(("F1a", "F1b", "F1c")))),
+        ProseClaim("v169.F3", r"the noise ratios are ([\d.]+) and ([\d.]+)\. A division by the reporting count would give 0\.5 and 2\.0, and the same check measured ([\d.]+) and ([\d.]+)\.",
+                   (R(1, TFF, m.format(3) + "m5/ratio_to_z_C_over_n"), R(2, TFF, m.format(3) + "m20/ratio_to_z_C_over_n"),
+                    R(3, TFF, m.format(3) + "m5/ratio_to_z_C_over_m"), R(4, TFF, m.format(3) + "m20/ratio_to_z_C_over_m"))),
+        ProseClaim("v169.F5", r"\(ratios ([\d.]+) and ([\d.]+) for equal and unequal weights\)",
+                   (R(1, TFF, m.format(5) + "equal/ratio"), R(2, TFF, m.format(5) + "unequal/ratio"))),
+        ProseClaim("v169.A4", r"The measured noise is ([\d.]+) and ([\d.]+) of the value for that clip, and would be ([\d.]+) and ([\d.]+) times too high",
+                   (R(1, TFF, m.format(10) + "A4a/ratio_to_old_clip"), R(2, TFF, m.format(10) + "A4b/ratio_to_old_clip"),
+                    R(3, TFF, m.format(10) + "A4a/mean_ratio_to_new_clip"), R(4, TFF, m.format(10) + "A4b/mean_ratio_to_new_clip"))),
+        ProseClaim("v169.A7", r"is ([\d.]+) and ([\d.]+) of the configured one in the two configurations tried\. The delivered count noise standard deviation is ([\d.]+) against 5\.0 and ([\d.]+) against 0\.6",
+                   (R(1, TFF, m.format(13) + "n100/composed"), R(2, TFF, m.format(13) + "n12/composed"),
+                    R(3, TFF, m.format(11) + "A5a/S_std"), R(4, TFF, m.format(11) + "A5c/S_std"))),
+        ProseClaim("v169.A6", r"With 50 of 100 clients all below the clip the fraction is ([\d.]+) and not 1",
+                   (R(1, TFF, m.format(12) + "noise_free/m50_u1.0/recovered_fraction"),)),
+        ProseClaim("v169.A8", r"\(zeroed count (\d+) in the test\)", (R(1, TFF, m.format(14) + "zeroing/on/zeroed_count"),)),
+        ProseClaim("v169.T", r"taking ([\d.]+) seconds", (R(1, TFF, m.format(15) + "total_seconds"),)),
+    ]
+
+
 def _verdict_words() -> list[VerdictWord]:
     out = [VerdictWord(t, PROOFS, f"{t}/pass") for t in ("E1", "E2", "E3", "M1")]
     out += [VerdictWord(t, DP, f"{t}/pass") for t in ("D1", "D2", "D3", "D4", "D5")]
@@ -310,7 +338,7 @@ def _lira_claims() -> list[Claim]:
 
 
 CLAIMS: list[Claim] = _view_claims() + _lira_claims()
-PROSE: list[ProseClaim] = _prose_claims() + _v15_prose()
+PROSE: list[ProseClaim] = _prose_claims() + _v15_prose() + _tff_prose()
 VERDICTS: list[Verdict] = _verdicts()
 PHRASES: list[Phrase] = _phrases()
 WORDS: list[VerdictWord] = _verdict_words()
@@ -567,6 +595,20 @@ def check_guarantee_rows_held(readme: str, root: Path) -> tuple[str, str]:
     return "OK", f"{want} rows held in both versions and the cross version comparison held"
 
 
+def check_tff_failures(readme: str, root: Path) -> tuple[str, str]:
+    """The TFF evidence has exactly one failed check, in row F5, and the README calls it an arithmetic slip."""
+    fp = root / TFF
+    if not fp.is_file():
+        return "MISSING", f"evidence file {TFF}"
+    s = json.loads(fp.read_text())["summary"]
+    failed = s["checks_failed"]
+    if s["rows_failed"] != ["F5"] or len(failed) != 1 or failed[0]["row"] != "F5":
+        return "MISMATCH", f"expected one failed check in F5, evidence has rows {s['rows_failed']} and {len(failed)} failed checks"
+    if "arithmetic slip" not in readme or s["mismatch_found_rows"]:
+        return "MISMATCH", "README does not call the failed check an arithmetic slip, or a mismatch was found"
+    return "OK", "one failed check, in F5, and no delivered value mismatch"
+
+
 def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, suite: bool = True,
            prose: list[ProseClaim] | None = None, verdicts: list[Verdict] | None = None,
            phrases: list[Phrase] | None = None, words: list[VerdictWord] | None = None) -> list[tuple[str, str, str]]:
@@ -580,6 +622,7 @@ def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, sui
     results += [(f"word.{w.token}", *check_word(readme, root, w)) for w in (WORDS if words is None else words)]
     if prose is None:
         results.append(("v166.rows_held", *check_guarantee_rows_held(readme, root)))
+        results.append(("v169.failures", *check_tff_failures(readme, root)))
     if suite:
         results += [(f"tests.fast_suite_count.{k}", *check_suite_line(readme, root, k)) for k in SUITE_FILES]
     return results
