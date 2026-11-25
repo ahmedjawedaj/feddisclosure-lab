@@ -294,7 +294,7 @@ def _tff_prose() -> list[ProseClaim]:
                     R(3, TFF, m.format(3) + "m5/ratio_to_z_C_over_m"), R(4, TFF, m.format(3) + "m20/ratio_to_z_C_over_m"))),
         ProseClaim("v169.F5", r"\(ratios ([\d.]+) and ([\d.]+) for equal and unequal weights\)",
                    (R(1, TFF, m.format(5) + "equal/ratio"), R(2, TFF, m.format(5) + "unequal/ratio"))),
-        ProseClaim("v169.A4", r"The measured noise is ([\d.]+) and ([\d.]+) of the value for that clip, and would be ([\d.]+) and ([\d.]+) times too high",
+        ProseClaim("v169.A4", r"The measured noise is ([\d.]+) and ([\d.]+) of the value for that clip, and would be ([\d.]+) and ([\d.]+) times higher than the value for the clip after the update",
                    (R(1, TFF, m.format(10) + "A4a/ratio_to_old_clip"), R(2, TFF, m.format(10) + "A4b/ratio_to_old_clip"),
                     R(3, TFF, m.format(10) + "A4a/mean_ratio_to_new_clip"), R(4, TFF, m.format(10) + "A4b/mean_ratio_to_new_clip"))),
         ProseClaim("v169.A7", r"is ([\d.]+) and ([\d.]+) of the configured one in the two configurations tried\. The delivered count noise standard deviation is ([\d.]+) against 5\.0 and ([\d.]+) against 0\.6",
