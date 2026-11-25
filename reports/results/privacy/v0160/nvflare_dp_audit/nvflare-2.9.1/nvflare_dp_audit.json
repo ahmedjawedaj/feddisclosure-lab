@@ -1,0 +1,1471 @@
+{
+  "schema": "feddisclosure.nvflare_dp_audit.v1",
+  "quick": false,
+  "environment": {
+    "nvflare": "2.9.1",
+    "nvflare_svt_privacy_sha256": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+    "nvflare_percentile_privacy_sha256": "29bcf457e2c20ff8e5fe92411673b128b0c85a94efd9a0513a102095bdbb58c0",
+    "numpy": "2.5.5",
+    "python": "3.13.18",
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39"
+  },
+  "parameters": {
+    "seed_base": 20261125,
+    "alpha": 0.05,
+    "gamma": 1e-05,
+    "mc_runs_per_input_n6": 200000,
+    "n7_runs": 200,
+    "n12_calls_per_step_count": 200,
+    "n5_timeout_seconds": 10.0,
+    "preregistration": "docs/preregistration/v0.16-nvflare.md"
+  },
+  "script_sha256": "7b41455704bdadd3ef925cd57135646b5ceeb9af07df4b61effa8f2081c9a84f",
+  "summary": {
+    "rows_total": 18,
+    "rows_held": 18,
+    "rows_failed": [],
+    "checks_total": 63,
+    "checks_held": 63,
+    "checks_failed": [],
+    "quick_mode_note": null
+  },
+  "rows": [
+    {
+      "id": "N1",
+      "configuration": {
+        "epsilon": [
+          0.1,
+          1,
+          10,
+          100
+        ],
+        "n_upload": [
+          1,
+          10,
+          100,
+          1000
+        ],
+        "fraction": 0.1,
+        "entries": "0.5 gamma",
+        "seed_base": 20261225
+      },
+      "prediction": "Ledger epsilon_threshold equals epsilon / (1 + (2 n)^(2/3)) and epsilon_query equals epsilon minus that, in every cell.",
+      "tolerance": "relative 1e-12",
+      "measured": {
+        "cells": [
+          {
+            "epsilon": 0.1,
+            "n_upload_expected": 1,
+            "total_params": 10,
+            "n_upload": 1,
+            "epsilon_threshold": 0.03864882095643094,
+            "epsilon_threshold_expected": 0.03864882095643094,
+            "epsilon_query": 0.061351179043569064,
+            "epsilon_query_expected": 0.061351179043569064,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 0.1,
+            "epsilon_total": 0.2,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 0.1,
+            "n_upload_expected": 10,
+            "total_params": 100,
+            "n_upload": 10,
+            "epsilon_threshold": 0.011950196841550463,
+            "epsilon_threshold_expected": 0.011950196841550463,
+            "epsilon_query": 0.08804980315844954,
+            "epsilon_query_expected": 0.08804980315844954,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 1.0,
+            "epsilon_total": 1.1,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 0.1,
+            "n_upload_expected": 100,
+            "total_params": 1000,
+            "n_upload": 100,
+            "epsilon_threshold": 0.0028409479171811027,
+            "epsilon_threshold_expected": 0.0028409479171811027,
+            "epsilon_query": 0.0971590520828189,
+            "epsilon_query_expected": 0.0971590520828189,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 10.0,
+            "epsilon_total": 10.1,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 0.1,
+            "n_upload_expected": 1000,
+            "total_params": 10000,
+            "n_upload": 1000,
+            "epsilon_threshold": 0.0006260168658132998,
+            "epsilon_threshold_expected": 0.0006260168658132998,
+            "epsilon_query": 0.0993739831341867,
+            "epsilon_query_expected": 0.0993739831341867,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 100.0,
+            "epsilon_total": 100.1,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 1.0,
+            "n_upload_expected": 1,
+            "total_params": 10,
+            "n_upload": 1,
+            "epsilon_threshold": 0.3864882095643094,
+            "epsilon_threshold_expected": 0.3864882095643094,
+            "epsilon_query": 0.6135117904356906,
+            "epsilon_query_expected": 0.6135117904356906,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 0.1,
+            "epsilon_total": 1.1,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 1.0,
+            "n_upload_expected": 10,
+            "total_params": 100,
+            "n_upload": 10,
+            "epsilon_threshold": 0.11950196841550463,
+            "epsilon_threshold_expected": 0.11950196841550463,
+            "epsilon_query": 0.8804980315844954,
+            "epsilon_query_expected": 0.8804980315844954,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 1.0,
+            "epsilon_total": 2.0,
+            "acceptance_passes": 3
+          },
+          {
+            "epsilon": 1.0,
+            "n_upload_expected": 100,
+            "total_params": 1000,
+            "n_upload": 100,
+            "epsilon_threshold": 0.028409479171811025,
+            "epsilon_threshold_expected": 0.028409479171811025,
+            "epsilon_query": 0.971590520828189,
+            "epsilon_query_expected": 0.971590520828189,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 10.0,
+            "epsilon_total": 11.0,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 1.0,
+            "n_upload_expected": 1000,
+            "total_params": 10000,
+            "n_upload": 1000,
+            "epsilon_threshold": 0.006260168658132998,
+            "epsilon_threshold_expected": 0.006260168658132998,
+            "epsilon_query": 0.993739831341867,
+            "epsilon_query_expected": 0.993739831341867,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 100.0,
+            "epsilon_total": 101.0,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 10.0,
+            "n_upload_expected": 1,
+            "total_params": 10,
+            "n_upload": 1,
+            "epsilon_threshold": 3.864882095643094,
+            "epsilon_threshold_expected": 3.864882095643094,
+            "epsilon_query": 6.135117904356906,
+            "epsilon_query_expected": 6.135117904356906,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 0.1,
+            "epsilon_total": 10.1,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 10.0,
+            "n_upload_expected": 10,
+            "total_params": 100,
+            "n_upload": 10,
+            "epsilon_threshold": 1.1950196841550462,
+            "epsilon_threshold_expected": 1.1950196841550462,
+            "epsilon_query": 8.804980315844954,
+            "epsilon_query_expected": 8.804980315844954,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 1.0,
+            "epsilon_total": 11.0,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 10.0,
+            "n_upload_expected": 100,
+            "total_params": 1000,
+            "n_upload": 100,
+            "epsilon_threshold": 0.28409479171811025,
+            "epsilon_threshold_expected": 0.28409479171811025,
+            "epsilon_query": 9.715905208281889,
+            "epsilon_query_expected": 9.715905208281889,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 10.0,
+            "epsilon_total": 20.0,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 10.0,
+            "n_upload_expected": 1000,
+            "total_params": 10000,
+            "n_upload": 1000,
+            "epsilon_threshold": 0.06260168658132997,
+            "epsilon_threshold_expected": 0.06260168658132997,
+            "epsilon_query": 9.93739831341867,
+            "epsilon_query_expected": 9.93739831341867,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 100.0,
+            "epsilon_total": 110.0,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 100.0,
+            "n_upload_expected": 1,
+            "total_params": 10,
+            "n_upload": 1,
+            "epsilon_threshold": 38.64882095643094,
+            "epsilon_threshold_expected": 38.64882095643094,
+            "epsilon_query": 61.35117904356906,
+            "epsilon_query_expected": 61.35117904356906,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 0.1,
+            "epsilon_total": 100.1,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 100.0,
+            "n_upload_expected": 10,
+            "total_params": 100,
+            "n_upload": 10,
+            "epsilon_threshold": 11.950196841550463,
+            "epsilon_threshold_expected": 11.950196841550463,
+            "epsilon_query": 88.04980315844954,
+            "epsilon_query_expected": 88.04980315844954,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 1.0,
+            "epsilon_total": 101.0,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 100.0,
+            "n_upload_expected": 100,
+            "total_params": 1000,
+            "n_upload": 100,
+            "epsilon_threshold": 2.8409479171811025,
+            "epsilon_threshold_expected": 2.8409479171811025,
+            "epsilon_query": 97.1590520828189,
+            "epsilon_query_expected": 97.1590520828189,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 10.0,
+            "epsilon_total": 110.0,
+            "acceptance_passes": 1
+          },
+          {
+            "epsilon": 100.0,
+            "n_upload_expected": 1000,
+            "total_params": 10000,
+            "n_upload": 1000,
+            "epsilon_threshold": 0.6260168658132997,
+            "epsilon_threshold_expected": 0.6260168658132997,
+            "epsilon_query": 99.3739831341867,
+            "epsilon_query_expected": 99.3739831341867,
+            "rel_diff_threshold": 0.0,
+            "rel_diff_query": 0.0,
+            "epsilon_release": 100.0,
+            "epsilon_total": 200.0,
+            "acceptance_passes": 1
+          }
+        ]
+      },
+      "checks": [
+        {
+          "check": "epsilon 0.1, n_upload 1: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 1
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 0.1, n_upload 10: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 10
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 0.1, n_upload 100: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 100
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 0.1, n_upload 1000: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 1000
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 1.0, n_upload 1: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 1
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 1.0, n_upload 10: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 10
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 1.0, n_upload 100: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 100
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 1.0, n_upload 1000: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 1000
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 10.0, n_upload 1: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 1
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 10.0, n_upload 10: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 10
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 10.0, n_upload 100: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 100
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 10.0, n_upload 1000: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 1000
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 100.0, n_upload 1: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 1
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 100.0, n_upload 10: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 10
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 100.0, n_upload 100: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 100
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 100.0, n_upload 1000: threshold and query split",
+          "expected": "relative diff <= 1e-12",
+          "observed": {
+            "rel_threshold": 0.0,
+            "rel_query": 0.0,
+            "n_upload": 1000
+          },
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "Input values were not named in the pre-registration. All entries were set to 0.5 gamma."
+    },
+    {
+      "id": "N2",
+      "configuration": {
+        "d": 1000,
+        "fraction": 0.1,
+        "n_upload": 100,
+        "epsilon": 1.0,
+        "noise_var": 0.1,
+        "entries": "1e-5",
+        "seed": 20261325
+      },
+      "prediction": "The recorded Laplace scales are one scalar draw of scale gamma / epsilon_threshold, query draws of scale 2 gamma n / epsilon_query and a release draw of scale 2 gamma n / epsilon_release.",
+      "tolerance": "relative 1e-12",
+      "measured": {
+        "n_upload": 100,
+        "acceptance_passes": 1,
+        "laplace_calls": [
+          {
+            "scale": 0.0003519951893353393,
+            "size": null
+          },
+          {
+            "scale": 0.0020584803547642576,
+            "size": 1000
+          },
+          {
+            "scale": 0.0002,
+            "size": 100
+          }
+        ],
+        "expected_threshold_scale": 0.0003519951893353393,
+        "expected_query_scale": 0.0020584803547642576,
+        "expected_release_scale": 0.0002,
+        "expected_epsilon_release": 10.0
+      },
+      "checks": [
+        {
+          "check": "call structure: one scalar draw, one draw per pass, one release draw",
+          "expected": {
+            "calls": 3,
+            "first_size": null
+          },
+          "observed": {
+            "calls": 3,
+            "first_size": null
+          },
+          "held": true
+        },
+        {
+          "check": "threshold draw scale gamma / epsilon_threshold",
+          "expected": 0.0003519951893353393,
+          "observed": 0.0003519951893353393,
+          "held": true
+        },
+        {
+          "check": "query draw scale 2 gamma n / epsilon_query in every pass",
+          "expected": 0.0020584803547642576,
+          "observed": [
+            0.0020584803547642576
+          ],
+          "held": true
+        },
+        {
+          "check": "release draw scale 2 gamma n / epsilon_release",
+          "expected": 0.0002,
+          "observed": 0.0002,
+          "held": true
+        },
+        {
+          "check": "release draw size equals n_upload",
+          "expected": 100,
+          "observed": 100,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "Expected scales are computed from the configuration, not from the ledger."
+    },
+    {
+      "id": "N3",
+      "configuration": {
+        "d": 25578,
+        "class_defaults": true,
+        "calls": [
+          1,
+          10
+        ],
+        "entries": "0.5 gamma",
+        "seed_base": 20261425
+      },
+      "prediction": "Ledger epsilon_total for one call is 0.1 + 0.1 * 2558 = 255.9. After ten calls get_privacy_spent() is 2559.0. delta is 0.",
+      "tolerance": "absolute 1e-9",
+      "measured": {
+        "d": 25578,
+        "n_upload_one_call": 2558,
+        "ledger_one_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 255.9,
+          "epsilon_threshold": 0.0003356752888337253,
+          "epsilon_query": 0.09966432471116628,
+          "epsilon_release": 255.8,
+          "n_upload": 2558,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "epsilon_total_expected_one_call": 255.9,
+        "cumulative_meta_one_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "epsilon_total": 255.9,
+          "calls": 1
+        },
+        "privacy_spent_ten_calls": 2559.0000000000005,
+        "epsilon_total_expected_ten_calls": 2559.0,
+        "acceptance_passes_ten_calls": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ledger_delta_values_ten_calls": [
+          0.0
+        ]
+      },
+      "checks": [
+        {
+          "check": "n_upload is 2558",
+          "expected": 2558,
+          "observed": 2558,
+          "held": true
+        },
+        {
+          "check": "one call epsilon_total is 255.9",
+          "expected": 255.9,
+          "observed": 255.9,
+          "held": true
+        },
+        {
+          "check": "ten calls get_privacy_spent is 2559.0",
+          "expected": 2559.0,
+          "observed": 2559.0000000000005,
+          "held": true
+        },
+        {
+          "check": "delta is 0 in the ledger and in the cumulative meta",
+          "expected": 0.0,
+          "observed": {
+            "ledger": 0.0,
+            "meta": 0.0
+          },
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The ten calls use one filter instance with one seed per call. Entries were set to 0.5 gamma because the pre-registration named none."
+    },
+    {
+      "id": "N4",
+      "configuration": {
+        "d": 1000,
+        "n_upload": 100,
+        "epsilon": 100.0,
+        "entries": "all equal to gamma",
+        "seed": 20261525
+      },
+      "prediction": "The number of accepted entries recorded before selection is at least 5 times n_upload. The standard sparse vector technique stops after c positive answers and here c is n_upload.",
+      "tolerance": "ratio at least 5",
+      "measured": {
+        "n_upload": 100,
+        "accepted_before_selection": 656,
+        "ratio_to_n_upload": 6.56,
+        "acceptance_passes": 1,
+        "group_counts": [
+          656
+        ]
+      },
+      "checks": [
+        {
+          "check": "accepted entries at least 5 times n_upload",
+          "expected": ">= 5",
+          "observed": 6.56,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "One call. Acceptance runs over a whole pass, so the count is not capped at n_upload."
+    },
+    {
+      "id": "N5",
+      "configuration": {
+        "d": 1000,
+        "n_upload": 100,
+        "entries": "three equal to gamma, rest 0",
+        "epsilon": [
+          0.1,
+          10000.0,
+          1000000.0
+        ],
+        "subprocess_timeout_seconds": 10.0,
+        "seeds": [
+          20261625,
+          20261626,
+          20261627
+        ]
+      },
+      "prediction": "At 0.1 the call returns with 1 acceptance pass. At 1e4 it returns with between 5 and 200 passes. At 1e6 it does not return within 10 seconds.",
+      "tolerance": "as stated",
+      "measured": {
+        "cells": [
+          {
+            "epsilon": 0.1,
+            "seed": 20261625,
+            "timeout_seconds": 10.0,
+            "elapsed_seconds": 0.42989468574523926,
+            "outcome": "returned",
+            "acceptance_passes": 1,
+            "n_upload": 100,
+            "import_seconds": 0.29761528968811035,
+            "call_seconds": 0.013661623001098633,
+            "epsilon_total": 10.1
+          },
+          {
+            "epsilon": 10000.0,
+            "seed": 20261626,
+            "timeout_seconds": 10.0,
+            "elapsed_seconds": 0.36708593368530273,
+            "outcome": "returned",
+            "acceptance_passes": 30,
+            "n_upload": 100,
+            "import_seconds": 0.2446451187133789,
+            "call_seconds": 0.01408696174621582,
+            "epsilon_total": 10010.0
+          },
+          {
+            "epsilon": 1000000.0,
+            "seed": 20261627,
+            "timeout_seconds": 10.0,
+            "outcome": "timed out",
+            "elapsed_seconds": 10.010776281356812
+          }
+        ]
+      },
+      "checks": [
+        {
+          "check": "epsilon 0.1 returns with 1 acceptance pass",
+          "expected": {
+            "outcome": "returned",
+            "passes": 1
+          },
+          "observed": {
+            "outcome": "returned",
+            "passes": 1
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 1e4 returns with 5 to 200 passes",
+          "expected": {
+            "outcome": "returned",
+            "passes": "5..200"
+          },
+          "observed": {
+            "outcome": "returned",
+            "passes": 30
+          },
+          "held": true
+        },
+        {
+          "check": "epsilon 1e6 does not return within 10 seconds",
+          "expected": "timed out",
+          "observed": "timed out",
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "Each epsilon runs in a fresh python subprocess. The 10 second limit covers interpreter start and the nvflare import, whose time is recorded."
+    },
+    {
+      "id": "N6a",
+      "configuration": {
+        "d": 8,
+        "fraction": 0.25,
+        "n_upload": 2,
+        "epsilon": 20.0,
+        "replace": false,
+        "inputs": "all +gamma against all -gamma",
+        "runs_per_input": 200000,
+        "seeds": [
+          20261735,
+          20261736
+        ]
+      },
+      "prediction": "The empirical 95% lower bound on epsilon is at most the ledger epsilon_release for this call.",
+      "tolerance": "lower bound at most claimed",
+      "measured": {
+        "runs_per_input": 200000,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 20.2,
+          "epsilon_threshold": 5.682073068333001,
+          "epsilon_query": 14.317926931667,
+          "epsilon_release": 0.2,
+          "n_upload": 2,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "epsilon_release_claimed": 0.2,
+        "empirical": {
+          "runs_world_a": 200000,
+          "runs_world_b": 200000,
+          "events_world_a": 105190,
+          "events_world_b": 95473,
+          "p_hat_a": 0.52595,
+          "p_hat_b": 0.477365,
+          "p_lower_a": 0.5237587840588638,
+          "p_upper_a": 0.5281404637361133,
+          "p_lower_b": 0.4751737815281697,
+          "p_upper_b": 0.47955687458577545,
+          "eps_lower_a_over_b": 0.08816874300404723,
+          "eps_lower_b_over_a": 0.0,
+          "eps_lower_bound": 0.08816874300404723,
+          "confidence": 0.95,
+          "ceiling_at_this_run_count": 10.900740682299965
+        },
+        "event": "sum of released values above 0",
+        "real_process_dxo_per_run": true
+      },
+      "checks": [
+        {
+          "check": "empirical 95% lower bound at most the ledger epsilon_release",
+          "expected": "<= 0.2",
+          "observed": 0.08816874300404723,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "Every run calls the real process_dxo. Selection depends on absolute values, so the two inputs differ only in the release step."
+    },
+    {
+      "id": "N6b",
+      "configuration": {
+        "d": 8,
+        "fraction": 0.25,
+        "n_upload": 2,
+        "epsilon": 20.0,
+        "replace": false,
+        "inputs": "(gamma, 0, ..., 0) against all 0",
+        "runs_per_input": 200000,
+        "seeds": [
+          20261745,
+          20261746
+        ]
+      },
+      "prediction": "The empirical 95% lower bound is at most epsilon_threshold + epsilon_query of the call.",
+      "tolerance": "lower bound at most claimed",
+      "measured": {
+        "runs_per_input": 200000,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 20.2,
+          "epsilon_threshold": 5.682073068333001,
+          "epsilon_query": 14.317926931667,
+          "epsilon_release": 0.2,
+          "n_upload": 2,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "epsilon_threshold_plus_query_claimed": 20.0,
+        "empirical": {
+          "runs_world_a": 200000,
+          "runs_world_b": 200000,
+          "events_world_a": 120858,
+          "events_world_b": 50046,
+          "p_hat_a": 0.60429,
+          "p_hat_b": 0.25023,
+          "p_lower_a": 0.6021428918846712,
+          "p_upper_a": 0.6064340849948111,
+          "p_lower_b": 0.24833282173667826,
+          "p_upper_b": 0.2521344199462643,
+          "eps_lower_a_over_b": 0.8705324212948741,
+          "eps_lower_b_over_a": 0.0,
+          "eps_lower_bound": 0.8705324212948741,
+          "confidence": 0.95,
+          "ceiling_at_this_run_count": 10.900740682299965
+        },
+        "event": "entry 0 of the output is nonzero",
+        "real_process_dxo_per_run": true
+      },
+      "checks": [
+        {
+          "check": "empirical 95% lower bound at most epsilon_threshold + epsilon_query",
+          "expected": "<= 20.0",
+          "observed": 0.8705324212948741,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The bound cannot exceed about 10.9 at this run count, so with a claim of 20 the check has little power."
+    },
+    {
+      "id": "N7",
+      "configuration": {
+        "d": 1000,
+        "n_upload": 100,
+        "epsilon": 100.0,
+        "entries": "all equal to gamma",
+        "runs": 200,
+        "replace": [
+          true,
+          false
+        ],
+        "seeds": [
+          20261825,
+          20261826
+        ]
+      },
+      "prediction": "With replace True the number of nonzero released entries is below n_upload in at least 95% of runs and its mean is between 90 and 100. With replace False it is exactly n_upload in every run.",
+      "tolerance": "as stated",
+      "measured": {
+        "runs": 200,
+        "replace_true": {
+          "mean_nonzero": 92.89,
+          "min": 85,
+          "max": 99,
+          "fraction_below_n_upload": 1.0
+        },
+        "replace_false": {
+          "mean_nonzero": 100.0,
+          "min": 100,
+          "max": 100
+        }
+      },
+      "checks": [
+        {
+          "check": "replace True: fraction of runs with fewer than n_upload nonzero entries",
+          "expected": ">= 0.95",
+          "observed": 1.0,
+          "held": true
+        },
+        {
+          "check": "replace True: mean nonzero entries between 90 and 100",
+          "expected": "[90, 100]",
+          "observed": 92.89,
+          "held": true
+        },
+        {
+          "check": "replace False: exactly n_upload nonzero entries in every run",
+          "expected": 100,
+          "observed": [
+            100,
+            100
+          ],
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "Sampling with replacement writes repeated picks to the same output cell."
+    },
+    {
+      "id": "N8",
+      "configuration": {
+        "d": 100,
+        "extra": "one scalar entry 0.123",
+        "fraction": [
+          0.0,
+          1e-12
+        ],
+        "seeds": [
+          20261925,
+          20261926
+        ]
+      },
+      "prediction": "At 0 the output is all zeros for array entries, the scalar is unchanged and the ledger is empty. At 1e-12 n_upload is 1 and the ledger has one entry.",
+      "tolerance": "exact",
+      "measured": {
+        "fraction_0": {
+          "array_all_zero": true,
+          "array_dtype": "float64",
+          "scalar_output": 0.123,
+          "ledger_length": 0,
+          "privacy_spent": 0.0,
+          "has_budget_meta": false
+        },
+        "fraction_1e-12": {
+          "n_upload": 1,
+          "ledger_length": 1
+        }
+      },
+      "checks": [
+        {
+          "check": "fraction 0: array entries all zero",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "fraction 0: scalar unchanged",
+          "expected": 0.123,
+          "observed": 0.123,
+          "held": true
+        },
+        {
+          "check": "fraction 0: ledger empty",
+          "expected": 0,
+          "observed": 0,
+          "held": true
+        },
+        {
+          "check": "fraction 1e-12: n_upload is 1",
+          "expected": 1,
+          "observed": 1,
+          "held": true
+        },
+        {
+          "check": "fraction 1e-12: ledger has one entry",
+          "expected": 1,
+          "observed": 1,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "At fraction 0 the call returns before the accountant is reached, so no budget metadata is attached."
+    },
+    {
+      "id": "N9",
+      "configuration": {
+        "array_entries": 100,
+        "scalar_entries": 1,
+        "scalar_value": 0.123,
+        "fraction": 0.1,
+        "seed": 20262025
+      },
+      "prediction": "The scalar is returned unchanged, the ledger entry has has_scalar_passthrough True and a note, and n_upload is computed from 101 entries with fraction 0.1 (11).",
+      "tolerance": "exact",
+      "measured": {
+        "ledger": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 1.2000000000000002,
+          "epsilon_threshold": 0.011297616672964708,
+          "epsilon_query": 0.0887023833270353,
+          "epsilon_release": 1.1,
+          "n_upload": 11,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": true,
+          "note": "scalar passthrough is not noise-protected by the SVT accountant."
+        },
+        "scalar_output": 0.123,
+        "scalar_output_type": "ndarray",
+        "cumulative_meta": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "epsilon_total": 1.2000000000000002,
+          "calls": 1,
+          "note": "scalar passthrough is not included in the SVT accountant guarantee."
+        },
+        "group_counts_sorted_by_name": [
+          1,
+          33
+        ],
+        "selected_counts_sorted_by_name": [
+          1,
+          10
+        ],
+        "group_names_sorted": [
+          "s",
+          "w"
+        ]
+      },
+      "checks": [
+        {
+          "check": "scalar returned unchanged",
+          "expected": 0.123,
+          "observed": 0.123,
+          "held": true
+        },
+        {
+          "check": "ledger has_scalar_passthrough is True",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "ledger entry has a note",
+          "expected": "present",
+          "observed": "scalar passthrough is not noise-protected by the SVT accountant.",
+          "held": true
+        },
+        {
+          "check": "n_upload computed from 101 entries is 11",
+          "expected": 11,
+          "observed": 11,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The scalar takes part in acceptance and in the partition of selected counts. The group counts and selected counts are recorded as an observation."
+    },
+    {
+      "id": "N10",
+      "configuration": {
+        "d": 1000,
+        "seeds": [
+          123,
+          123,
+          124
+        ],
+        "seeding": "numpy.random.seed"
+      },
+      "prediction": "The constructor has no seed argument. The same seed gives identical output, a different seed differs, and the global numpy state advances.",
+      "tolerance": "exact",
+      "measured": {
+        "constructor_parameters": [
+          "fraction",
+          "epsilon",
+          "noise_var",
+          "gamma",
+          "tau",
+          "data_kinds",
+          "replace",
+          "epsilon_threshold",
+          "epsilon_query",
+          "epsilon_release"
+        ],
+        "seed_like_parameters": [],
+        "same_seed_identical": true,
+        "different_seed_differs": true,
+        "global_state_advances": [
+          {
+            "key_changed": true,
+            "pos_before": 624,
+            "pos_after": 445
+          },
+          {
+            "key_changed": true,
+            "pos_before": 624,
+            "pos_after": 445
+          },
+          {
+            "key_changed": true,
+            "pos_before": 624,
+            "pos_after": 502
+          }
+        ]
+      },
+      "checks": [
+        {
+          "check": "constructor has no seed argument",
+          "expected": [],
+          "observed": [],
+          "held": true
+        },
+        {
+          "check": "same seed gives identical output",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "different seed differs",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "global numpy state advances during a call",
+          "expected": true,
+          "observed": true,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The filter draws from the global numpy generator."
+    },
+    {
+      "id": "N11",
+      "configuration": {
+        "calls": "3, then START_RUN via handle_event, then 1",
+        "d": 200,
+        "seed": 20262225
+      },
+      "prediction": "The ledger has 3 entries and get_privacy_spent() equals their sum. After START_RUN it is empty and the next call starts a new sum.",
+      "tolerance": "exact",
+      "measured": {
+        "ledger_length_after_3_calls": 3,
+        "spent_after_3_calls": 6.300000000000001,
+        "sequential_sum_of_ledger": 6.300000000000001,
+        "ledger_length_after_start_run": 0,
+        "spent_after_start_run": 0.0,
+        "ledger_length_after_next_call": 1,
+        "spent_after_next_call": 2.1,
+        "next_call_epsilon_total": 2.1
+      },
+      "checks": [
+        {
+          "check": "ledger has 3 entries after 3 calls",
+          "expected": 3,
+          "observed": 3,
+          "held": true
+        },
+        {
+          "check": "get_privacy_spent equals the sum of the entries",
+          "expected": 6.300000000000001,
+          "observed": 6.300000000000001,
+          "held": true
+        },
+        {
+          "check": "after START_RUN the ledger is empty and spent is 0",
+          "expected": {
+            "ledger": 0,
+            "spent": 0.0
+          },
+          "observed": {
+            "ledger": 0,
+            "spent": 0.0
+          },
+          "held": true
+        },
+        {
+          "check": "next call starts a new sum",
+          "expected": 2.1,
+          "observed": 2.1,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The sum is taken in ledger order, which is the order the filter adds them."
+    },
+    {
+      "id": "N12",
+      "configuration": {
+        "d": 1000,
+        "epsilon": 1.0,
+        "NUM_STEPS_CURRENT_ROUND": [
+          1,
+          5
+        ],
+        "entries": "1e-5 times the step count",
+        "calls_per_step_count": 200,
+        "seeds": [
+          20262326,
+          20262330
+        ]
+      },
+      "prediction": "The release noise in output units is 5 times larger with 5 steps (scale ratio 5), and the recorded Laplace scales are unchanged.",
+      "tolerance": "relative 1e-9 on recorded scales, 10% on measured ratio",
+      "measured": {
+        "calls_per_step_count": 200,
+        "steps_1": {
+          "recorded_scales": {
+            "threshold": 0.0003519951893353393,
+            "query": 0.0020584803547642576,
+            "release": 0.0002
+          },
+          "mean_abs_output_deviation": 0.0002003473916936574,
+          "released_values": 17988
+        },
+        "steps_5": {
+          "recorded_scales": {
+            "threshold": 0.0003519951893353393,
+            "query": 0.0020584803547642576,
+            "release": 0.0002
+          },
+          "mean_abs_output_deviation": 0.0009909306043912112,
+          "released_values": 18115
+        },
+        "recorded_scale_relative_differences": {
+          "threshold": 0.0,
+          "query": 0.0,
+          "release": 0.0
+        },
+        "measured_ratio_steps5_over_steps1": 4.946061917823221,
+        "expected_release_scale": 0.0002,
+        "measured_release_noise_mean_abs_steps1": 0.0002003473916936574
+      },
+      "checks": [
+        {
+          "check": "recorded Laplace scales unchanged between 1 and 5 steps",
+          "expected": "relative diff <= 1e-9",
+          "observed": {
+            "threshold": 0.0,
+            "query": 0.0,
+            "release": 0.0
+          },
+          "held": true
+        },
+        {
+          "check": "release noise in output units is 5 times larger with 5 steps",
+          "expected": "5 within 10%",
+          "observed": 4.946061917823221,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The ratio is the mean absolute deviation of released values from steps times gamma, pooled over all calls. The number of calls was not named in the pre-registration."
+    },
+    {
+      "id": "P0",
+      "configuration": {
+        "d": 10000,
+        "calls": "same input twice without reseed, then after numpy.random.seed(2) and (3)",
+        "defaults": true
+      },
+      "prediction": "The output is identical every time, because the filter uses no randomness.",
+      "tolerance": "exact",
+      "measured": {
+        "outputs_identical_in_four_calls": true,
+        "global_numpy_state_unchanged_by_call": true,
+        "input_unchanged": true
+      },
+      "checks": [
+        {
+          "check": "output identical every time",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "global numpy random state is not advanced",
+          "expected": true,
+          "observed": true,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The state check is an addition that supports the prediction. It is not a separate prediction."
+    },
+    {
+      "id": "P1",
+      "configuration": {
+        "d": 10000,
+        "percentile": [
+          10,
+          50,
+          90
+        ],
+        "gamma": 0.01
+      },
+      "prediction": "The number of entries that become exactly 0 is within 1 of percentile percent of the entries.",
+      "tolerance": "1 entry",
+      "measured": {
+        "cells": [
+          {
+            "percentile": 10,
+            "zero_entries": 1000,
+            "expected": 1000.0
+          },
+          {
+            "percentile": 50,
+            "zero_entries": 5000,
+            "expected": 5000.0
+          },
+          {
+            "percentile": 90,
+            "zero_entries": 9000,
+            "expected": 9000.0
+          }
+        ]
+      },
+      "checks": [
+        {
+          "check": "percentile 10: zero entries within 1 of 1000",
+          "expected": 1000.0,
+          "observed": 1000,
+          "held": true
+        },
+        {
+          "check": "percentile 50: zero entries within 1 of 5000",
+          "expected": 5000.0,
+          "observed": 5000,
+          "held": true
+        },
+        {
+          "check": "percentile 90: zero entries within 1 of 9000",
+          "expected": 9000.0,
+          "observed": 9000,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "Input is standard normal, 10,000 distinct values."
+    },
+    {
+      "id": "P2",
+      "configuration": {
+        "d": 10000,
+        "NUM_STEPS_CURRENT_ROUND": 4,
+        "percentile": 10,
+        "gamma": 0.01
+      },
+      "prediction": "Entries with absolute value above the cutoff and above gamma are clipped to gamma after division by the step count and multiplied back, so the output equals sign times 4 times gamma.",
+      "tolerance": "relative 1e-12",
+      "measured": {
+        "steps": 4,
+        "gamma": 0.01,
+        "cutoff": 0.03242601848222014,
+        "entries_checked": 9000,
+        "worst_relative_difference": 0.0,
+        "expected_magnitude": 0.04
+      },
+      "checks": [
+        {
+          "check": "entries above cutoff and above gamma equal sign * 4 * gamma",
+          "expected": "relative diff <= 1e-12",
+          "observed": 0.0,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The cutoff is computed from the input independently of the filter."
+    },
+    {
+      "id": "P3",
+      "configuration": {
+        "d": 10000,
+        "percentile": 100,
+        "gamma": 0.01
+      },
+      "prediction": "Every entry with absolute value strictly below the maximum becomes 0, and the entry at the maximum is kept.",
+      "tolerance": "exact",
+      "measured": {
+        "max_abs_input": 3.743952735648434,
+        "output_at_max": -0.01,
+        "all_below_max_zero": true,
+        "entry_at_max_kept": true,
+        "nonzero_entries": 1,
+        "expected_output_at_max": -0.01
+      },
+      "checks": [
+        {
+          "check": "every entry strictly below the maximum is 0",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "entry at the maximum is kept",
+          "expected": true,
+          "observed": true,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "The kept entry is clipped to gamma."
+    },
+    {
+      "id": "P4",
+      "configuration": {
+        "arrays": [
+          10000,
+          50
+        ],
+        "scalars": [
+          "numpy float64 3.7",
+          "numpy float64 1e-9"
+        ],
+        "NUM_STEPS_CURRENT_ROUND": 3
+      },
+      "prediction": "The scalar is returned unchanged by value (multiplied by the step count after division), with no clipping.",
+      "tolerance": "relative 1e-12",
+      "measured": {
+        "steps": 3,
+        "big_scalar_input": 3.7,
+        "big_scalar_output": 3.7,
+        "rel_diff_big": 0.0,
+        "tiny_scalar_input": 1e-09,
+        "tiny_scalar_output": 1e-09,
+        "rel_diff_tiny": 0.0,
+        "python_float_scalar_entry": "AttributeError: 'float' object has no attribute 'ravel'"
+      },
+      "checks": [
+        {
+          "check": "scalar above gamma returned unchanged (no clipping)",
+          "expected": "relative diff <= 1e-12",
+          "observed": 0.0,
+          "held": true
+        },
+        {
+          "check": "scalar below the cutoff returned unchanged (not zeroed)",
+          "expected": "relative diff <= 1e-12",
+          "observed": 0.0,
+          "held": true
+        }
+      ],
+      "prediction_held": true,
+      "note": "Scalars are numpy float64. A plain Python float entry is recorded in the measured block as an observation."
+    }
+  ],
+  "runtime_seconds": 149.6
+}

@@ -164,7 +164,9 @@ def test_committed_evidence_pins_the_check_counts():
     doc = json.loads(EVIDENCE.read_text())
     assert doc["quick"] is False
     assert doc["summary"]["checks_total"] == 63
-    assert doc["summary"]["checks_held"] + len(doc["summary"]["checks_failed"]) == 63
+    assert doc["summary"]["checks_held"] == 63
+    assert doc["summary"]["checks_failed"] == []
+    assert doc["summary"]["rows_held"] == 18
     assert doc["summary"]["rows_total"] == 18
     assert [r["id"] for r in doc["rows"]] == ALL_ROWS
     assert doc["parameters"]["mc_runs_per_input_n6"] == 200_000
