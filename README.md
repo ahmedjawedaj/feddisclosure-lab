@@ -50,10 +50,10 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 `scripts/audit_nvflare_dp.py` calls `SVTPrivacy` and `PercentilePrivacy` of `nvflare` 2.9.1 in process on synthetic updates and compares what executes with the parameters and the filter's own accountant. Predictions were written in [`docs/preregistration/v0.16-nvflare.md`](docs/preregistration/v0.16-nvflare.md) before the harness existed. All 18 rows and 63 checks held, so the notes below are about behaviour to know and not about failed predictions. Only 2.9.1 was run (the two files are identical by hash in 2.8.3 and 2.9.0). Tables and limits are in [`docs/v0.16-nvflare-dp-audit.md`](docs/v0.16-nvflare-dp-audit.md).
 
 - The accountant arithmetic and the Laplace scales that are drawn match the documented formulas. With the class defaults on 25,578 parameters one call records epsilon 255.9, of which 255.8 is the release phase, because the default `noise_var` of 0.1 is multiplied by the 2,558 entries released.
-- The acceptance step does not stop once enough entries are accepted. With epsilon 100 and 100 entries wanted, 656 of 1,000 entries were accepted in one pass, 6.56 times the number wanted, and the release samples from them.
-- The acceptance loop has no pass limit. A sparse update returned after 30 passes at epsilon 1e4 and had not returned after 10 seconds at epsilon 1e6.
+- The acceptance step does not stop once enough entries are accepted. With epsilon 100 and 100 entries wanted, 656 of 1,000 entries were accepted in one pass, 6.56 times the number wanted, and the release samples from them. This is one seeded call and the count varies from run to run.
+- The acceptance loop has no pass limit. A sparse update returned after 30 passes at epsilon 1e4 and had not returned after 10 seconds at epsilon 1e6 in one run (the cause was not investigated).
 - No empirical lower bound exceeded the claimed epsilon. The selection check has little power at the run count used.
-- `PercentilePrivacy` has no randomness and the documentation claims no DP guarantee for it.
+- `PercentilePrivacy` has no randomness and the documentation page, as read through a summary, makes no DP claim for it.
 
 These are measurements on synthetic updates in one version. No NVFlare job, training run or end-to-end guarantee was measured.
 
