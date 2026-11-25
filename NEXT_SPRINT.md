@@ -1,3 +1,12 @@
+## After v0.16.8 (2026-11-26)
+
+Done in v0.16.8: events check for SVTPrivacy (larger d and n, `replace` True, values between 0 and gamma, release values and a joint event), 10 rows and 83 checks held.
+
+- [ ] Re-record the fast suite records and the README counts after main is merged into the branch.
+- [ ] Check the pairs and events that stay untested: one changed coordinate at a time, the marginal event that one entry is selected, an explicit `epsilon_release`, `epsilon_threshold` and `epsilon_query`, `replace` True in the release rows, and d above 40.
+- [ ] Check the composition of the accountant over several calls (`pure_dp_sum`) and `NUM_STEPS_CURRENT_ROUND` other than 1.
+- [ ] Run the Monte Carlo on 2.8.3 and 2.9.0 only if a later release changes the filter file.
+
 ## After v0.16.6 (2026-11-26)
 
 Done in v0.16.6: whole mechanism measurement for Flower adaptive clipping (plan item T8c, effective noise multipliers, no epsilon).
@@ -11,7 +20,7 @@ Done in v0.16.6: whole mechanism measurement for Flower adaptive clipping (plan 
 
 Done in v0.16.5: selection check with stated power for SVTPrivacy, version identity of the filter files by running, gate integrity pins and a pre-registration power check.
 
-- [ ] Check other events and pairs for the selection step (the release values, larger d and n, values between 0 and gamma).
+- [x] Check other events and pairs for the selection step (the release values, larger d and n, values between 0 and gamma). Done in v0.16.8 for the configurations listed there.
 - [ ] Run the Monte Carlo on 2.8.3 and 2.9.0 and not only the filter files and one seeded call.
 - [ ] Run more `flwr` releases.
 
