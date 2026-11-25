@@ -1,0 +1,2106 @@
+{
+  "schema": "feddisclosure.tff_dp_audit.v1",
+  "quick": false,
+  "preregistration": "docs/preregistration/v0.16-tff-dp.md",
+  "preregistration_commit": "7a22b12",
+  "script_sha256": "d51807de4fd11632a58168b8513cf26d6584384dbe0d94902956bcd11623e773",
+  "environment": {
+    "tensorflow-federated": "0.87.0",
+    "tensorflow": "2.14.1",
+    "tensorflow-privacy": "0.9.0",
+    "dp-accounting": "0.4.3",
+    "numpy": "1.25.2",
+    "jax": "0.4.14",
+    "jaxlib": "0.4.14",
+    "scipy": "1.9.3",
+    "python": "3.11.18",
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39"
+  },
+  "parameters": {
+    "base_seed": 20261126,
+    "D": 100000,
+    "calls": 3,
+    "a4_calls": 10,
+    "R_a5": [
+      2000,
+      2000,
+      8000
+    ]
+  },
+  "deviations": [
+    {
+      "date": "2026-11-26",
+      "item": "Order of work and test runs",
+      "reason": "The script was written after the pre-registration commit 7a22b12. Two quick runs (few calls, output in a temporary directory outside the repository, not evidence) were made before the full run. Their statistical checks failed or held at random because the run counts are small, which is expected. They changed no prediction, tolerance or configuration."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Row F2 case e model structure",
+      "reason": "The first quick run raised an exception in case e because a plain StructType of two tensors is not accepted by the TFP clipping code. The script uses StructWithPythonType with the list container for the two tensors. The statement tested is the one pre-registered."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Row F5 third check, arithmetic slip in the pre-registration",
+      "reason": "The pre-registration says the output norm for a client of weight 1.0 and update norm 0.5 is 0.5 / (n W) with W 14, which is 0.0035714. When the first weight is 1.0 and the other nine stay 1.0 the weights sent sum to 10, so the arithmetic gives 0.005. The script checks the number as pre-registered, which is expected to fail, and adds a check with W 10. The failure stays in the record."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Checks added beyond the pre-registered statements",
+      "reason": "A recomputation of each pre-registered power figure (F1, A4, A5, A7) and the extra F5 check of deviation 3. None replaces a pre-registered check. Case a of A1 does not assert the absence of a warning, because the pre-registration states that only for case b."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Replication rule as implemented",
+      "reason": "When a statistical check of a row fails, the row is run once more with the seed offset 5,000,000 added to the seed rule, which only changes the input vectors and the call to tf.random.set_seed. A mismatch is called found when the same check fails in both runs. The seed does not control the noise (row F6), so the replication has fresh noise."
+    }
+  ],
+  "rows": [
+    {
+      "id": "V",
+      "configuration": {
+        "expected": {
+          "tensorflow-federated": "0.87.0",
+          "tensorflow": "2.14.1",
+          "tensorflow-privacy": "0.9.0",
+          "dp-accounting": "0.4.3",
+          "numpy": "1.25.2",
+          "jax": "0.4.14",
+          "jaxlib": "0.4.14",
+          "scipy": "1.9.3"
+        }
+      },
+      "measured": {
+        "installed": {
+          "tensorflow-federated": "0.87.0",
+          "tensorflow": "2.14.1",
+          "tensorflow-privacy": "0.9.0",
+          "dp-accounting": "0.4.3",
+          "numpy": "1.25.2",
+          "jax": "0.4.14",
+          "jaxlib": "0.4.14",
+          "scipy": "1.9.3"
+        },
+        "python": "3.11.18",
+        "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39"
+      },
+      "checks": [
+        {
+          "check": "installed versions equal the pre-registered ones",
+          "expected": {
+            "tensorflow-federated": "0.87.0",
+            "tensorflow": "2.14.1",
+            "tensorflow-privacy": "0.9.0",
+            "dp-accounting": "0.4.3",
+            "numpy": "1.25.2",
+            "jax": "0.4.14",
+            "jaxlib": "0.4.14",
+            "scipy": "1.9.3"
+          },
+          "observed": {
+            "tensorflow-federated": "0.87.0",
+            "tensorflow": "2.14.1",
+            "tensorflow-privacy": "0.9.0",
+            "dp-accounting": "0.4.3",
+            "numpy": "1.25.2",
+            "jax": "0.4.14",
+            "jaxlib": "0.4.14",
+            "scipy": "1.9.3"
+          },
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "F1",
+      "configuration": {
+        "configs": {
+          "F1a": [
+            0.5,
+            1.0,
+            10.0
+          ],
+          "F1b": [
+            1.0,
+            2.0,
+            10.0
+          ],
+          "F1c": [
+            2.0,
+            0.5,
+            20.0
+          ]
+        },
+        "calls": 3,
+        "D": 100000,
+        "tolerance": 0.005
+      },
+      "measured": {
+        "F1a": {
+          "z": 0.5,
+          "clip": 1.0,
+          "n": 10.0,
+          "N": 300000,
+          "predicted_rms": 0.05,
+          "rms": 0.05010401485170833,
+          "ratio": 1.0020802970341665,
+          "moments": {
+            "mean": 0.00011981529548516211,
+            "std": 0.05010387159247454,
+            "skew": -0.0005445001282139955,
+            "excess_kurtosis": -0.016095825602968628
+          },
+          "event": "GaussianDpEvent(noise_multiplier=0.5)",
+          "mde80_relative": 0.006086528340480814
+        },
+        "F1b": {
+          "z": 1.0,
+          "clip": 2.0,
+          "n": 10.0,
+          "N": 300000,
+          "predicted_rms": 0.2,
+          "rms": 0.20006405725128498,
+          "ratio": 1.0003202862564249,
+          "moments": {
+            "mean": 0.00046429918521701023,
+            "std": 0.2000635184887841,
+            "skew": -0.0014745033545920888,
+            "excess_kurtosis": -0.014521868539134175
+          },
+          "event": "GaussianDpEvent(noise_multiplier=1.0)",
+          "mde80_relative": 0.006086528340480814
+        },
+        "F1c": {
+          "z": 2.0,
+          "clip": 0.5,
+          "n": 20.0,
+          "N": 300000,
+          "predicted_rms": 0.05,
+          "rms": 0.04991565780442632,
+          "ratio": 0.9983131560885263,
+          "moments": {
+            "mean": -6.292064155986812e-05,
+            "std": 0.04991561814744412,
+            "skew": -0.0010114474471156726,
+            "excess_kurtosis": 3.483994031983073e-05
+          },
+          "event": "GaussianDpEvent(noise_multiplier=2.0)",
+          "mde80_relative": 0.006086528340480814
+        }
+      },
+      "checks": [
+        {
+          "check": "F1a: RMS ratio within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 1.0020802970341665,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1a: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": -0.0005445001282139955,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1a: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": -0.016095825602968628,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1a: absolute mean at most 4 standard errors",
+          "expected": "<= 0.00036590798874472683",
+          "observed": 0.00011981529548516211,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1a: reported event is Gaussian with multiplier z",
+          "expected": 0.5,
+          "observed": 0.5,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "F1b: RMS ratio within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 1.0003202862564249,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1b: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": -0.0014745033545920888,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1b: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": -0.014521868539134175,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1b: absolute mean at most 4 standard errors",
+          "expected": "<= 0.0014610612947004503",
+          "observed": 0.00046429918521701023,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1b: reported event is Gaussian with multiplier z",
+          "expected": 1.0,
+          "observed": 1.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "F1c: RMS ratio within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 0.9983131560885263,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1c: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": -0.0010114474471156726,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1c: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": 3.483994031983073e-05,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1c: absolute mean at most 4 standard errors",
+          "expected": "<= 0.0003645324233625745",
+          "observed": -6.292064155986812e-05,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "F1c: reported event is Gaussian with multiplier z",
+          "expected": 2.0,
+          "observed": 2.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "power: smallest deviation found with 80% power at N 300,000 (pre-registered 0.609%)",
+          "expected": "0.609% +- 0.002%",
+          "observed": 0.006086528340480814,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "F2",
+      "configuration": {
+        "z": 0.0,
+        "clip": 1.0,
+        "n": 10.0,
+        "m": 10,
+        "coordinates": 1000
+      },
+      "measured": {
+        "a": {
+          "label": "norm 3 against zero",
+          "norm_of_difference": 0.10000000267437767,
+          "predicted": 0.1,
+          "relative_error": 2.674377663769434e-08
+        },
+        "b": {
+          "label": "norm 3 against its opposite (replace-one)",
+          "norm_of_difference": 0.20000000572547105,
+          "predicted": 0.2,
+          "relative_error": 2.8627355208588057e-08
+        },
+        "c": {
+          "label": "norm 0.5 against zero",
+          "norm_of_difference": 0.04999999990209098,
+          "predicted": 0.05,
+          "relative_error": 1.9581804233670397e-09
+        },
+        "d": {
+          "label": "norm exactly 1 against zero",
+          "norm_of_difference": 0.09999999974388629,
+          "predicted": 0.1,
+          "relative_error": 2.561137135703717e-09
+        },
+        "e": {
+          "label": "two tensors, global norm 3 against zero",
+          "norm_of_difference": 0.10000000267437767,
+          "predicted": 0.1,
+          "relative_error": 2.674377663769434e-08
+        },
+        "per_tensor_clip_would_give": 0.14142135623730953
+      },
+      "checks": [
+        {
+          "check": "case a: norm 3 against zero",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000000267437767,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case b: norm 3 against its opposite (replace-one)",
+          "expected": "0.2 within 1e-5 relative",
+          "observed": 0.20000000572547105,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case c: norm 0.5 against zero",
+          "expected": "0.05 within 1e-5 relative",
+          "observed": 0.04999999990209098,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case d: norm exactly 1 against zero",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.09999999974388629,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case e: two tensors, global norm 3 against zero",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000000267437767,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "F3",
+      "configuration": {
+        "z": 1.0,
+        "clip": 1.0,
+        "n": 10.0,
+        "m": [
+          5,
+          20
+        ],
+        "calls": 3,
+        "D": 100000
+      },
+      "measured": {
+        "m5": {
+          "N": 300000,
+          "rms": 0.09996520739185913,
+          "ratio_to_z_C_over_n": 0.9996520739185912,
+          "ratio_to_z_C_over_m": 0.4998260369592956,
+          "noise_free_norm": 0.2499999996863269,
+          "noise_free_predicted": 0.25,
+          "sensitivity": 0.1000000029975073,
+          "delivered_multiplier": 0.9996520439539482
+        },
+        "m20": {
+          "N": 300000,
+          "rms": 0.10012149186244138,
+          "ratio_to_z_C_over_n": 1.0012149186244137,
+          "ratio_to_z_C_over_m": 2.0024298372488274,
+          "noise_free_norm": 1.000000008821196,
+          "noise_free_predicted": 1.0,
+          "sensitivity": 0.10000000258630173,
+          "delivered_multiplier": 1.0012148927299755
+        }
+      },
+      "checks": [
+        {
+          "check": "m 5: noise RMS ratio to z C / n within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 0.9996520739185912,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "m 5: positive control, ratio to z C / m separates from 1",
+          "expected": "< 0.7 for m 5, > 1.3 for m 20",
+          "observed": 0.4998260369592956,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "m 5: noise-free output norm equals (m / n) * 0.5",
+          "expected": "0.25 within 1e-5 relative",
+          "observed": 0.2499999996863269,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "m 5: sensitivity of the output to one client of norm 3 is C / n",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.1000000029975073,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "m 5: delivered multiplier within 0.005 of z",
+          "expected": "1.0 +- 0.005",
+          "observed": 0.9996520439539482,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "m 20: noise RMS ratio to z C / n within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 1.0012149186244137,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "m 20: positive control, ratio to z C / m separates from 1",
+          "expected": "< 0.7 for m 5, > 1.3 for m 20",
+          "observed": 2.0024298372488274,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "m 20: noise-free output norm equals (m / n) * 0.5",
+          "expected": "1.0 within 1e-5 relative",
+          "observed": 1.000000008821196,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "m 20: sensitivity of the output to one client of norm 3 is C / n",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000000258630173,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "m 20: delivered multiplier within 0.005 of z",
+          "expected": "1.0 +- 0.005",
+          "observed": 1.0012148927299755,
+          "held": true,
+          "kind": "stat"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "F4",
+      "configuration": {
+        "z": 1.0,
+        "clip": 1.0,
+        "n": 10.0
+      },
+      "measured": {
+        "initial_state_extraction": "ExtractingDpEventFromInitialStateError",
+        "event_m10": "GaussianDpEvent(noise_multiplier=1.0)",
+        "event_m5": "GaussianDpEvent(noise_multiplier=1.0)",
+        "event_round2_m5": "GaussianDpEvent(noise_multiplier=1.0)",
+        "event_fields": [
+          "noise_multiplier"
+        ],
+        "epsilon_names_six_files": {
+          "home/claude/work/tff_venv/lib/python3.11/site-packages/tensorflow_federated/python/aggregators/differential_privacy.py": [],
+          "home/claude/work/tff_venv/lib/python3.11/site-packages/tensorflow_federated/python/learning/model_update_aggregator.py": [],
+          "home/claude/work/tff_venv/lib/python3.11/site-packages/tensorflow_privacy/privacy/dp_query/gaussian_query.py": [],
+          "home/claude/work/tff_venv/lib/python3.11/site-packages/tensorflow_privacy/privacy/dp_query/normalized_query.py": [],
+          "home/claude/work/tff_venv/lib/python3.11/site-packages/tensorflow_privacy/privacy/dp_query/quantile_estimator_query.py": [],
+          "home/claude/work/tff_venv/lib/python3.11/site-packages/tensorflow_privacy/privacy/dp_query/quantile_adaptive_clip_sum_query.py": []
+        },
+        "whole_package_epsilon_names_reported_not_judged": {
+          "python/simulation/models/resnet_models.py": [
+            "BATCH_NORM_EPSILON",
+            "epsilon"
+          ],
+          "python/learning/optimizers/adagrad.py": [
+            "_EPSILON_KEY",
+            "_epsilon",
+            "epsilon"
+          ],
+          "python/learning/optimizers/adamw.py": [
+            "_EPSILON_KEY",
+            "_epsilon",
+            "epsilon"
+          ],
+          "python/learning/optimizers/adam.py": [
+            "_EPSILON_KEY",
+            "_epsilon",
+            "epsilon"
+          ],
+          "python/learning/optimizers/adafactor.py": [
+            "_EPSILON_1_KEY",
+            "_EPSILON_2_KEY",
+            "_epsilon_1",
+            "_epsilon_2",
+            "epsilon_1",
+            "epsilon_2"
+          ],
+          "python/learning/optimizers/rmsprop.py": [
+            "_EPSILON_KEY",
+            "_epsilon",
+            "epsilon"
+          ],
+          "python/learning/optimizers/yogi.py": [
+            "_EPSILON_KEY",
+            "_epsilon",
+            "epsilon"
+          ],
+          "python/analytics/differential_privacy.py": [
+            "epsilon"
+          ]
+        }
+      },
+      "checks": [
+        {
+          "check": "extract_dp_event_from_state on the initial state raises ExtractingDpEventFromInitialStateError",
+          "expected": "ExtractingDpEventFromInitialStateError",
+          "observed": "ExtractingDpEventFromInitialStateError",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "event after m 10 is Gaussian with multiplier 1.0",
+          "expected": 1.0,
+          "observed": "GaussianDpEvent(noise_multiplier=1.0)",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "event after m 5 is Gaussian with multiplier 1.0 and equals the m 10 event",
+          "expected": 1.0,
+          "observed": "GaussianDpEvent(noise_multiplier=1.0)",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "event has only the field noise_multiplier and is not a PoissonSampledDpEvent",
+          "expected": [
+            "noise_multiplier"
+          ],
+          "observed": [
+            "noise_multiplier"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "after a second round the event is one Gaussian event with the same multiplier",
+          "expected": "GaussianDpEvent(noise_multiplier=1.0)",
+          "observed": "GaussianDpEvent(noise_multiplier=1.0)",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "no name containing epsilon in the six files outside docstrings and comments",
+          "expected": 0,
+          "observed": 0,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "F5",
+      "configuration": {
+        "weights": {
+          "equal": [
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0,
+            2.0
+          ],
+          "unequal": [
+            5.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "z": 1.0,
+        "clip": 1.0,
+        "n": 10.0,
+        "calls": 3,
+        "D": 100000
+      },
+      "measured": {
+        "equal": {
+          "W": 20.0,
+          "predicted_rms": 0.005,
+          "rms": 0.00499654907522475,
+          "ratio": 0.9993098150449501,
+          "N": 300000
+        },
+        "unequal": {
+          "W": 14.0,
+          "predicted_rms": 0.007142857142857143,
+          "rms": 0.007139741727583752,
+          "ratio": 0.9995638418617253,
+          "N": 300000
+        },
+        "noise_free": {
+          "weight5_norm": 0.0071428571827709675,
+          "weight5_predicted": 0.007142857142857143,
+          "weight1_norm": 0.004999999888241291,
+          "weight1_predicted_with_W_10": 0.005,
+          "weight1_predicted_with_W_14": 0.0035714285714285713
+        }
+      },
+      "checks": [
+        {
+          "check": "equal weights: noise RMS ratio to z C / (n W) within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 0.9993098150449501,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "unequal weights: noise RMS ratio to z C / (n W) within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 0.9995638418617253,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "weight 5 and update norm 0.5: output norm is C / (n W) (the weighted value is clipped)",
+          "expected": "0.007142857142857143 within 1e-5 relative",
+          "observed": 0.0071428571827709675,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "weight 1 and update norm 0.5: output norm is 0.5 / (n W) with W 14, 0.0035714 (as pre-registered)",
+          "expected": "0.0035714 within 1e-5 relative",
+          "observed": 0.004999999888241291,
+          "held": false,
+          "kind": "exact"
+        },
+        {
+          "check": "beyond the pre-registration: the same output norm against 0.5 / (n W) with W the sum of the weights actually sent (10)",
+          "expected": "0.005 within 1e-5 relative",
+          "observed": 0.004999999888241291,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": false
+    },
+    {
+      "id": "F6",
+      "configuration": {
+        "z": 1.0,
+        "clip": 1.0,
+        "n": 10.0,
+        "D": 100000
+      },
+      "measured": {
+        "correlation_between_calls": 0.0033575008687174363,
+        "lag1_autocorrelation": -0.002991635997740397,
+        "positive_control_lag1": 0.49884193979918107,
+        "threshold": 0.012649110640673516,
+        "vectors_equal": false,
+        "seed_digests": [
+          "7924890f5a003599ac050ef0f326befd6718d6f150d6e05967af637ed123996d",
+          "7567c728f89f77559218c5950b0352cc0e1099cb1e04398357cf195f18e4f798"
+        ],
+        "mde80_correlation": 0.015310550665924497
+      },
+      "checks": [
+        {
+          "check": "two calls from the same state give different noise",
+          "expected": "not equal",
+          "observed": false,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "absolute correlation between the two calls at most 0.01265",
+          "expected": "<= 0.012649110640673516",
+          "observed": 0.0033575008687174363,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "absolute lag-1 autocorrelation at most 0.01265",
+          "expected": "<= 0.012649110640673516",
+          "observed": -0.002991635997740397,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "positive control: lag-1 autocorrelation of neighbouring sums above 0.4",
+          "expected": "> 0.4",
+          "observed": 0.49884193979918107,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "two fresh processes with the same global seed give different digests (prediction: the seed does not control the noise)",
+          "expected": "different",
+          "observed": [
+            "7924890f5a003599ac050ef0f326befd6718d6f150d6e05967af637ed123996d",
+            "7567c728f89f77559218c5950b0352cc0e1099cb1e04398357cf195f18e4f798"
+          ],
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "A1",
+      "configuration": {
+        "cases": [
+          [
+            "a",
+            1.0,
+            100.0,
+            null
+          ],
+          [
+            "b",
+            1.0,
+            100.0,
+            10.0
+          ],
+          [
+            "c",
+            0.5,
+            10.0,
+            null
+          ],
+          [
+            "d",
+            0.3,
+            200.0,
+            2.0
+          ],
+          [
+            "e",
+            1.0,
+            12.0,
+            null
+          ],
+          [
+            "f",
+            10.0,
+            100.0,
+            null
+          ],
+          [
+            "g",
+            9.99,
+            100.0,
+            null
+          ],
+          [
+            "h",
+            1.0,
+            100.0,
+            0.5
+          ],
+          [
+            "i",
+            0.0,
+            100.0,
+            null
+          ],
+          [
+            "j",
+            0.0,
+            100.0,
+            3.0
+          ],
+          [
+            "k",
+            1.0,
+            100.0,
+            0.0
+          ],
+          [
+            "l",
+            1.0,
+            100.0,
+            0.55
+          ]
+        ]
+      },
+      "measured": {
+        "cases": {
+          "a": {
+            "input": [
+              1.0,
+              100.0,
+              null
+            ],
+            "output": [
+              "value",
+              1.005037815259212,
+              5.0,
+              false
+            ]
+          },
+          "b": {
+            "input": [
+              1.0,
+              100.0,
+              10.0
+            ],
+            "output": [
+              "value",
+              1.0012523486435176,
+              10.0,
+              false
+            ]
+          },
+          "c": {
+            "input": [
+              0.5,
+              10.0,
+              null
+            ],
+            "output": [
+              "value",
+              0.5773502691896257,
+              0.5,
+              false
+            ]
+          },
+          "d": {
+            "input": [
+              0.3,
+              200.0,
+              2.0
+            ],
+            "output": [
+              "value",
+              0.3008473263383401,
+              2.0,
+              false
+            ]
+          },
+          "e": {
+            "input": [
+              1.0,
+              12.0,
+              null
+            ],
+            "output": [
+              "value",
+              1.809068067466581,
+              0.6000000000000001,
+              false
+            ]
+          },
+          "f": {
+            "input": [
+              10.0,
+              100.0,
+              null
+            ],
+            "output": [
+              "error",
+              "ValueError"
+            ]
+          },
+          "g": {
+            "input": [
+              9.99,
+              100.0,
+              null
+            ],
+            "output": [
+              "value",
+              223.43905770087412,
+              5.0,
+              true
+            ]
+          },
+          "h": {
+            "input": [
+              1.0,
+              100.0,
+              0.5
+            ],
+            "output": [
+              "error",
+              "ValueError"
+            ]
+          },
+          "i": {
+            "input": [
+              0.0,
+              100.0,
+              null
+            ],
+            "output": [
+              "value",
+              0.0,
+              0.0,
+              false
+            ]
+          },
+          "j": {
+            "input": [
+              0.0,
+              100.0,
+              3.0
+            ],
+            "output": [
+              "value",
+              0.0,
+              3.0,
+              false
+            ]
+          },
+          "k": {
+            "input": [
+              1.0,
+              100.0,
+              0.0
+            ],
+            "output": [
+              "error",
+              "ValueError"
+            ]
+          },
+          "l": {
+            "input": [
+              1.0,
+              100.0,
+              0.55
+            ],
+            "output": [
+              "value",
+              2.4003967925959158,
+              0.55,
+              true
+            ]
+          }
+        },
+        "initial_state": {
+          "read": {
+            "noise_multiplier": 1.005037784576416,
+            "sum_stddev": 0.10050377994775772,
+            "clip": 0.10000000149011612,
+            "count_stddev": 5.0,
+            "denominator_count": 100.0,
+            "denominator_sum": 100.0
+          },
+          "predicted": {
+            "noise_multiplier": 1.005037815259212,
+            "sum_stddev": 0.10050378152592121,
+            "clip": 0.1,
+            "count_stddev": 5.0,
+            "denominator_count": 100.0,
+            "denominator_sum": 100.0
+          }
+        },
+        "signature_defaults": {
+          "initial_l2_norm_clip": 0.1,
+          "target_unclipped_quantile": 0.5,
+          "learning_rate": 0.2,
+          "clipped_count_stddev": null
+        }
+      },
+      "checks": [
+        {
+          "check": "case a (1.0, 100.0, None)",
+          "expected": [
+            "value",
+            1.005037815259212,
+            5.0,
+            null
+          ],
+          "observed": [
+            "value",
+            1.005037815259212,
+            5.0,
+            false
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case b (1.0, 100.0, 10.0)",
+          "expected": [
+            "value",
+            1.0012523486435176,
+            10.0,
+            false
+          ],
+          "observed": [
+            "value",
+            1.0012523486435176,
+            10.0,
+            false
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case c (0.5, 10.0, None)",
+          "expected": [
+            "value",
+            0.5773502691896257,
+            0.5,
+            null
+          ],
+          "observed": [
+            "value",
+            0.5773502691896257,
+            0.5,
+            false
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case d (0.3, 200.0, 2.0)",
+          "expected": [
+            "value",
+            0.3008473263383401,
+            2.0,
+            null
+          ],
+          "observed": [
+            "value",
+            0.3008473263383401,
+            2.0,
+            false
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case e (1.0, 12.0, None)",
+          "expected": [
+            "value",
+            1.809068067466581,
+            0.6000000000000001,
+            null
+          ],
+          "observed": [
+            "value",
+            1.809068067466581,
+            0.6000000000000001,
+            false
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case f (10.0, 100.0, None) raises ValueError",
+          "expected": "ValueError",
+          "observed": "ValueError",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case g (9.99, 100.0, None)",
+          "expected": [
+            "value",
+            223.43905770087412,
+            5.0,
+            true
+          ],
+          "observed": [
+            "value",
+            223.43905770087412,
+            5.0,
+            true
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case h (1.0, 100.0, 0.5) raises ValueError",
+          "expected": "ValueError",
+          "observed": "ValueError",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case i (0.0, 100.0, None)",
+          "expected": [
+            "value",
+            0.0,
+            0.0,
+            null
+          ],
+          "observed": [
+            "value",
+            0.0,
+            0.0,
+            false
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case j (0.0, 100.0, 3.0)",
+          "expected": [
+            "value",
+            0.0,
+            3.0,
+            null
+          ],
+          "observed": [
+            "value",
+            0.0,
+            3.0,
+            false
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case k (1.0, 100.0, 0.0) raises ValueError",
+          "expected": "ValueError",
+          "observed": "ValueError",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "case l (1.0, 100.0, 0.55)",
+          "expected": [
+            "value",
+            2.4003967925959158,
+            0.55,
+            true
+          ],
+          "observed": [
+            "value",
+            2.4003967925959158,
+            0.55,
+            true
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "initial state of gaussian_adaptive(1.0, 100.0)",
+          "expected": {
+            "noise_multiplier": 1.005037815259212,
+            "sum_stddev": 0.10050378152592121,
+            "clip": 0.1,
+            "count_stddev": 5.0,
+            "denominator_count": 100.0,
+            "denominator_sum": 100.0
+          },
+          "observed": {
+            "noise_multiplier": 1.005037784576416,
+            "sum_stddev": 0.10050377994775772,
+            "clip": 0.10000000149011612,
+            "count_stddev": 5.0,
+            "denominator_count": 100.0,
+            "denominator_sum": 100.0
+          },
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "signature defaults",
+          "expected": {
+            "initial_l2_norm_clip": 0.1,
+            "target_unclipped_quantile": 0.5,
+            "learning_rate": 0.2,
+            "clipped_count_stddev": null
+          },
+          "observed": {
+            "initial_l2_norm_clip": 0.1,
+            "target_unclipped_quantile": 0.5,
+            "learning_rate": 0.2,
+            "clipped_count_stddev": null
+          },
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "A2",
+      "configuration": {
+        "grid": [
+          [
+            1.0,
+            100.0,
+            null
+          ],
+          [
+            1.0,
+            100.0,
+            10.0
+          ],
+          [
+            0.5,
+            10.0,
+            null
+          ],
+          [
+            0.3,
+            200.0,
+            2.0
+          ],
+          [
+            1.0,
+            12.0,
+            null
+          ]
+        ]
+      },
+      "measured": {
+        "z1.0_n100.0_sbNone": {
+          "event": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=1.0050378), GaussianDpEvent(noise_multiplier=10.0)])",
+          "first": 1.005037784576416,
+          "second": 10.0,
+          "composed": 0.9999999697762934,
+          "predicted_first": 1.005037815259212,
+          "predicted_second": 10.0
+        },
+        "z1.0_n100.0_sb10.0": {
+          "event": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=1.0012524), GaussianDpEvent(noise_multiplier=20.0)])",
+          "first": 1.0012524127960205,
+          "second": 20.0,
+          "composed": 1.0000000639120814,
+          "predicted_first": 1.0012523486435176,
+          "predicted_second": 20.0
+        },
+        "z0.5_n10.0_sbNone": {
+          "event": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=0.57735026), GaussianDpEvent(noise_multiplier=1.0)])",
+          "first": 0.5773502588272095,
+          "second": 1.0,
+          "composed": 0.49999999326941313,
+          "predicted_first": 0.5773502691896257,
+          "predicted_second": 1.0
+        },
+        "z0.3_n200.0_sb2.0": {
+          "event": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=0.30084732), GaussianDpEvent(noise_multiplier=4.0)])",
+          "first": 0.3008473217487335,
+          "second": 4.0,
+          "composed": 0.2999999954490637,
+          "predicted_first": 0.3008473263383401,
+          "predicted_second": 4.0
+        },
+        "z1.0_n12.0_sbNone": {
+          "event": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=1.809068), GaussianDpEvent(noise_multiplier=1.2)])",
+          "first": 1.809067964553833,
+          "second": 1.2000000476837158,
+          "composed": 1.0000000102125515,
+          "predicted_first": 1.809068067466581,
+          "predicted_second": 1.2000000000000002
+        }
+      },
+      "checks": [
+        {
+          "check": "z1.0_n100.0_sbNone: composed event of two Gaussian events",
+          "expected": "ComposedDpEvent of 2",
+          "observed": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=1.0050378), GaussianDpEvent(noise_multiplier=10.0)])",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n100.0_sbNone: first multiplier equals the value multiplier",
+          "expected": 1.005037815259212,
+          "observed": 1.005037784576416,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n100.0_sbNone: second multiplier equals 2 times the count stddev",
+          "expected": 10.0,
+          "observed": 10.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n100.0_sbNone: composed multiplier equals z",
+          "expected": 1.0,
+          "observed": 0.9999999697762934,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n100.0_sb10.0: composed event of two Gaussian events",
+          "expected": "ComposedDpEvent of 2",
+          "observed": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=1.0012524), GaussianDpEvent(noise_multiplier=20.0)])",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n100.0_sb10.0: first multiplier equals the value multiplier",
+          "expected": 1.0012523486435176,
+          "observed": 1.0012524127960205,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n100.0_sb10.0: second multiplier equals 2 times the count stddev",
+          "expected": 20.0,
+          "observed": 20.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n100.0_sb10.0: composed multiplier equals z",
+          "expected": 1.0,
+          "observed": 1.0000000639120814,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z0.5_n10.0_sbNone: composed event of two Gaussian events",
+          "expected": "ComposedDpEvent of 2",
+          "observed": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=0.57735026), GaussianDpEvent(noise_multiplier=1.0)])",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z0.5_n10.0_sbNone: first multiplier equals the value multiplier",
+          "expected": 0.5773502691896257,
+          "observed": 0.5773502588272095,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z0.5_n10.0_sbNone: second multiplier equals 2 times the count stddev",
+          "expected": 1.0,
+          "observed": 1.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z0.5_n10.0_sbNone: composed multiplier equals z",
+          "expected": 0.5,
+          "observed": 0.49999999326941313,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z0.3_n200.0_sb2.0: composed event of two Gaussian events",
+          "expected": "ComposedDpEvent of 2",
+          "observed": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=0.30084732), GaussianDpEvent(noise_multiplier=4.0)])",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z0.3_n200.0_sb2.0: first multiplier equals the value multiplier",
+          "expected": 0.3008473263383401,
+          "observed": 0.3008473217487335,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z0.3_n200.0_sb2.0: second multiplier equals 2 times the count stddev",
+          "expected": 4.0,
+          "observed": 4.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z0.3_n200.0_sb2.0: composed multiplier equals z",
+          "expected": 0.3,
+          "observed": 0.2999999954490637,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n12.0_sbNone: composed event of two Gaussian events",
+          "expected": "ComposedDpEvent of 2",
+          "observed": "ComposedDpEvent(events=[GaussianDpEvent(noise_multiplier=1.809068), GaussianDpEvent(noise_multiplier=1.2)])",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n12.0_sbNone: first multiplier equals the value multiplier",
+          "expected": 1.809068067466581,
+          "observed": 1.809067964553833,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n12.0_sbNone: second multiplier equals 2 times the count stddev",
+          "expected": 1.2000000000000002,
+          "observed": 1.2000000476837158,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "z1.0_n12.0_sbNone: composed multiplier equals z",
+          "expected": 1.0,
+          "observed": 1.0000000102125515,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "A3",
+      "configuration": {
+        "z": 0.0,
+        "n": 100.0,
+        "m": 100,
+        "initial_clip": 0.1
+      },
+      "measured": {
+        "u": {
+          "0.0": {
+            "next_clip": 0.11051709949970245,
+            "predicted": 0.11051709180756478,
+            "recovered_fraction": -2.7350088271926865e-07,
+            "output_norm": 0.10000001639127731,
+            "output_predicted": 0.1
+          },
+          "0.3": {
+            "next_clip": 0.10408108681440353,
+            "predicted": 0.10408107741923883,
+            "recovered_fraction": 0.2999996231670742,
+            "output_norm": 0.08499996364116669,
+            "output_predicted": 0.08499999999999999
+          },
+          "0.5": {
+            "next_clip": 0.10000000149011612,
+            "predicted": 0.1,
+            "recovered_fraction": 0.5,
+            "output_norm": 0.07499994337558746,
+            "output_predicted": 0.07500000000000001
+          },
+          "0.7": {
+            "next_clip": 0.09607894718647003,
+            "predicted": 0.09607894391523232,
+            "recovered_fraction": 0.6999999042688355,
+            "output_norm": 0.06499995291233063,
+            "output_predicted": 0.065
+          },
+          "1.0": {
+            "next_clip": 0.09048374742269516,
+            "predicted": 0.09048374180359596,
+            "recovered_fraction": 0.9999997640025637,
+            "output_norm": 0.05000000819563866,
+            "output_predicted": 0.05
+          }
+        },
+        "boundary": {
+          "norm_equal_to_clip": 0.1131046786904335,
+          "norm_next_float32_above": 0.13814637064933777
+        }
+      },
+      "checks": [
+        {
+          "check": "u 0.0: next clip equals 0.1 exp(-0.2 (u - 0.5))",
+          "expected": "0.11051709180756478 within 1e-5 relative",
+          "observed": 0.11051709949970245,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 0.0: output norm equals the sum clipped at the old clip",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000001639127731,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 0.3: next clip equals 0.1 exp(-0.2 (u - 0.5))",
+          "expected": "0.10408107741923883 within 1e-5 relative",
+          "observed": 0.10408108681440353,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 0.3: output norm equals the sum clipped at the old clip",
+          "expected": "0.08499999999999999 within 1e-5 relative",
+          "observed": 0.08499996364116669,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 0.5: next clip equals 0.1 exp(-0.2 (u - 0.5))",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000000149011612,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 0.5: output norm equals the sum clipped at the old clip",
+          "expected": "0.07500000000000001 within 1e-5 relative",
+          "observed": 0.07499994337558746,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 0.7: next clip equals 0.1 exp(-0.2 (u - 0.5))",
+          "expected": "0.09607894391523232 within 1e-5 relative",
+          "observed": 0.09607894718647003,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 0.7: output norm equals the sum clipped at the old clip",
+          "expected": "0.065 within 1e-5 relative",
+          "observed": 0.06499995291233063,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 1.0: next clip equals 0.1 exp(-0.2 (u - 0.5))",
+          "expected": "0.09048374180359596 within 1e-5 relative",
+          "observed": 0.09048374742269516,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "u 1.0: output norm equals the sum clipped at the old clip",
+          "expected": "0.05 within 1e-5 relative",
+          "observed": 0.05000000819563866,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "boundary: norm equal to the clip counts as below it",
+          "expected": "0.11310467725449494 within 1e-5 relative",
+          "observed": 0.1131046786904335,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "boundary: next float32 above counts as above it",
+          "expected": "0.13814636475945596 within 1e-5 relative",
+          "observed": 0.13814637064933777,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "A4",
+      "configuration": {
+        "calls": 10,
+        "D": 100000,
+        "tolerance": 0.005
+      },
+      "measured": {
+        "A4a": {
+          "z": 1.0,
+          "n": 100.0,
+          "N": 1000000,
+          "z_value": 1.005037815259212,
+          "C0": 0.10000000149011612,
+          "rms": 0.0010038021256089536,
+          "predicted_rms": 0.0010050378302354425,
+          "ratio_to_old_clip": 0.9987704894389902,
+          "mean_ratio_to_new_clip": 1.100344977104301,
+          "mean_C1_over_C0": 0.9077072082801578,
+          "C1": [
+            0.09048374742269516,
+            0.09052998572587967,
+            0.09095299243927002,
+            0.09048374742269516,
+            0.09048374742269516,
+            0.09118939936161041,
+            0.09188512712717056,
+            0.09073098003864288,
+            0.09048374742269516,
+            0.09048374742269516
+          ],
+          "zs_delivered": 1.0038021106511366,
+          "mde80_relative": 0.005595116081449995
+        },
+        "A4b": {
+          "z": 1.0,
+          "n": 12.0,
+          "N": 1000000,
+          "z_value": 1.809068067466581,
+          "C0": 0.10000000149011612,
+          "rms": 0.015059513214332765,
+          "predicted_rms": 0.015075567453531634,
+          "ratio_to_old_clip": 0.9989350822615233,
+          "mean_ratio_to_new_clip": 1.1005138376398294,
+          "mean_C1_over_C0": 0.9077309309284252,
+          "C1": [
+            0.09048374742269516,
+            0.0907946228981018,
+            0.09048374742269516,
+            0.09048374742269516,
+            0.09048374742269516,
+            0.09073701500892639,
+            0.09048374742269516,
+            0.09227191656827927,
+            0.09102490544319153,
+            0.09048374742269516
+          ],
+          "zs_delivered": 1.8071415587914241,
+          "mde80_relative": 0.005595116081449995
+        }
+      },
+      "checks": [
+        {
+          "check": "A4a: RMS ratio to z_value C0 / n within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 0.9987704894389902,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A4a: mean ratio to z_value C1 / n at least 1.05 (positive control)",
+          "expected": ">= 1.05",
+          "observed": 1.100344977104301,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A4b: RMS ratio to z_value C0 / n within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 0.9989350822615233,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A4b: mean ratio to z_value C1 / n at least 1.05 (positive control)",
+          "expected": ">= 1.05",
+          "observed": 1.1005138376398294,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "power: smallest deviation found with 80% power at N 1,000,000 (pre-registered 0.560%)",
+          "expected": "0.560% +- 0.002%",
+          "observed": 0.005595116081449995,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "A5",
+      "configuration": {
+        "specs": [
+          [
+            "A5a",
+            1.0,
+            100.0,
+            {},
+            2000
+          ],
+          [
+            "A5b",
+            1.0,
+            10.0,
+            {
+              "clipped_count_stddev": 5.0
+            },
+            2000
+          ],
+          [
+            "A5c",
+            1.0,
+            12.0,
+            {},
+            8000
+          ]
+        ]
+      },
+      "measured": {
+        "A5a": {
+          "z": 1.0,
+          "n": 100.0,
+          "R": 2000,
+          "S_mean": 0.12477830468141102,
+          "S_std": 5.068314032441446,
+          "share_at_bound": 0.0,
+          "all_inside_bounds": true
+        },
+        "A5b": {
+          "z": 1.0,
+          "n": 10.0,
+          "R": 2000,
+          "S_mean": -0.11426463538886165,
+          "S_std": 3.5960068264556018,
+          "share_at_bound": 0.314,
+          "all_inside_bounds": true
+        },
+        "A5c": {
+          "z": 1.0,
+          "n": 12.0,
+          "R": 8000,
+          "S_mean": -0.005871003324626698,
+          "S_std": 0.6045078270550515,
+          "share_at_bound": 0.0,
+          "all_inside_bounds": true
+        }
+      },
+      "checks": [
+        {
+          "check": "A5a: absolute mean of S at most 0.45",
+          "expected": "<= 0.45",
+          "observed": 0.12477830468141102,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A5a: standard deviation of S between 4.70 and 5.30",
+          "expected": "[4.70, 5.30]",
+          "observed": 5.068314032441446,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A5b: share of calls at a bound is 0.3173 within 0.04",
+          "expected": "0.3173 +- 0.04",
+          "observed": 0.314,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A5b: every call has C1 over C0 inside [exp(-0.1), exp(0.1)]",
+          "expected": true,
+          "observed": true,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A5c: absolute mean of S at most 0.0268",
+          "expected": "<= 0.0268",
+          "observed": -0.005871003324626698,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A5c: standard deviation of S between 0.576 and 0.624",
+          "expected": "[0.576, 0.624]",
+          "observed": 0.6045078270550515,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "power: A5a smallest deviation found with 80% power (pre-registered 7.3%)",
+          "expected": "7.3% +- 0.1%",
+          "observed": 0.07331052817435652,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "power: A5c smallest deviation found with 80% power (pre-registered 4.7%)",
+          "expected": "4.7% +- 0.1%",
+          "observed": 0.046654015952121396,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "A6",
+      "configuration": {
+        "n": 100.0,
+        "m": [
+          50,
+          200
+        ],
+        "calls": 3,
+        "D": 100000
+      },
+      "measured": {
+        "noise_free": {
+          "m50_u1.0": {
+            "next_clip": 0.09512294828891754,
+            "predicted": 0.09512294245007141,
+            "recovered_fraction": 0.7499997675953056,
+            "unclamped_fraction": 0.75,
+            "output_norm": 0.024999987334012985
+          },
+          "m50_u0.0": {
+            "next_clip": 0.10512711107730865,
+            "predicted": 0.10512710963760241,
+            "recovered_fraction": 0.2500000060312585,
+            "unclamped_fraction": 0.25,
+            "output_norm": 0.04999997466802597
+          },
+          "m50_u0.5": {
+            "next_clip": 0.10000000149011612,
+            "predicted": 0.1,
+            "recovered_fraction": 0.5,
+            "unclamped_fraction": 0.5,
+            "output_norm": 0.03749998286366463
+          },
+          "m200_u1.0": {
+            "next_clip": 0.09048374742269516,
+            "predicted": 0.09048374180359596,
+            "recovered_fraction": 0.9999997640025637,
+            "unclamped_fraction": 1.5,
+            "output_norm": 0.10000020265579224
+          }
+        },
+        "noisy_m50": {
+          "N": 300000,
+          "rms": 0.001003458016547011,
+          "predicted_rms": 0.001005037815259212,
+          "ratio_to_n": 0.9984281201282028,
+          "ratio_to_m": 0.4992140600641014
+        }
+      },
+      "checks": [
+        {
+          "check": "m 50, u 1.0: next clip",
+          "expected": "0.09512294245007141 within 1e-5 relative",
+          "observed": 0.09512294828891754,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "m 50, u 0.0: next clip",
+          "expected": "0.10512710963760241 within 1e-5 relative",
+          "observed": 0.10512711107730865,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "m 50, u 0.5: next clip",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000000149011612,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "m 200, u 1.0: next clip",
+          "expected": "0.09048374180359596 within 1e-5 relative",
+          "observed": 0.09048374742269516,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "m 50, u 1.0: output norm is 0.025",
+          "expected": "0.025 within 1e-5 relative",
+          "observed": 0.024999987334012985,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "noisy m 50: RMS ratio to z_value C0 / n within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 0.9984281201282028,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "noisy m 50: positive control, ratio to z_value C0 / m is below 0.6",
+          "expected": "< 0.6",
+          "observed": 0.4992140600641014,
+          "held": true,
+          "kind": "stat"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "A7",
+      "configuration": "derived from A4 and A5, no new runs",
+      "measured": {
+        "n100": {
+          "zs_delivered": 1.0038021106511366,
+          "count_stddev_measured": 5.068314032441446,
+          "composed": 0.998916178675547,
+          "se": 0.0007176785535691634,
+          "mde80": 0.010604013509563704
+        },
+        "n12": {
+          "zs_delivered": 1.8071415587914241,
+          "count_stddev_measured": 0.6045078270550515,
+          "composed": 1.0048685915123776,
+          "se": 0.005494658139797852,
+          "mde80": 0.029624420961678125
+        }
+      },
+      "checks": [
+        {
+          "check": "n100: composed delivered multiplier within 0.01 of 1",
+          "expected": "1 +- 0.01",
+          "observed": 0.998916178675547,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "n100: power, smallest deviation found with 80% power (pre-registered 0.0106)",
+          "expected": "0.0106 +- 0.0005",
+          "observed": 0.010604013509563704,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "n12: composed delivered multiplier within 0.025 of 1",
+          "expected": "1 +- 0.025",
+          "observed": 1.0048685915123776,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "n12: power, smallest deviation found with 80% power (pre-registered 0.0296)",
+          "expected": "0.0296 +- 0.0005",
+          "observed": 0.029624420961678125,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "A8",
+      "configuration": {
+        "n": 100.0,
+        "calls": 3,
+        "D": 100000
+      },
+      "measured": {
+        "noise": {
+          "N": 300000,
+          "rms": 0.001005110217308783,
+          "predicted": 0.001005037815259212,
+          "ratio": 1.000072039129744
+        },
+        "noise_free_u0.5": {
+          "next_clip": 0.10000000149011612,
+          "predicted": 0.1
+        },
+        "noise_free_u1.0": {
+          "next_clip": 0.09048374742269516,
+          "predicted": 0.09048374180359596
+        },
+        "zeroing": {
+          "on": {
+            "next_clip": 0.10000000149011612,
+            "output_norm": 0.04999997466802597,
+            "zeroed_count": 50.0
+          },
+          "off": {
+            "next_clip": 0.11051709949970245,
+            "output_norm": 0.10000001639127731
+          }
+        }
+      },
+      "checks": [
+        {
+          "check": "dp_aggregator noise RMS ratio to z_value C0 / n within 0.005 of 1",
+          "expected": "1 +- 0.005",
+          "observed": 1.000072039129744,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "dp_aggregator noise-free u 0.5: next clip",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000000149011612,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "dp_aggregator noise-free u 1.0: next clip",
+          "expected": "0.09048374180359596 within 1e-5 relative",
+          "observed": 0.09048374742269516,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "zeroing on: next clip is 0.1",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000000149011612,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "zeroing on: output norm is 0.05",
+          "expected": "0.05 within 1e-5 relative",
+          "observed": 0.04999997466802597,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "zeroing on: zeroed count is 50",
+          "expected": 50,
+          "observed": 50.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "zeroing off: next clip is 0.1 exp(0.1)",
+          "expected": "0.11051709180756478 within 1e-5 relative",
+          "observed": 0.11051709949970245,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "zeroing off: output norm is 0.1",
+          "expected": "0.1 within 1e-5 relative",
+          "observed": 0.10000001639127731,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "T",
+      "measured": {
+        "total_seconds": 408.5
+      },
+      "checks": [
+        {
+          "check": "whole script under 1500 seconds",
+          "expected": "< 1500",
+          "observed": 408.5,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    }
+  ],
+  "replication": [],
+  "summary": {
+    "rows_total": 16,
+    "rows_held": 15,
+    "rows_failed": [
+      "F5"
+    ],
+    "checks_total": 127,
+    "checks_held": 126,
+    "checks_failed": [
+      {
+        "row": "F5",
+        "check": "weight 1 and update norm 0.5: output norm is 0.5 / (n W) with W 14, 0.0035714 (as pre-registered)",
+        "expected": "0.0035714 within 1e-5 relative",
+        "observed": 0.004999999888241291,
+        "held": false,
+        "kind": "exact"
+      }
+    ],
+    "mismatch_found_rows": []
+  },
+  "runtime_seconds": 408.5
+}
