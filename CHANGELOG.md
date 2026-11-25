@@ -15,8 +15,21 @@ Events check of the NVFlare SVTPrivacy filter: other events, larger sizes, input
 - The release row sits closest to its claim, with the event epsilon predicted at 0.976 of `epsilon_release` and measured at 0.962 of it.
 - The pre-registration says which clauses no script check covers and what stays untested (other pairs, the marginal event, explicit release or threshold budgets, `replace` True in the release rows, larger sizes, composition across calls). The script used a ledger tolerance of 1e-9 where the text says 1e-12.
 - The filter files are byte identical in 2.8.3, 2.9.0 and 2.9.1, so only 2.9.1 was run. The run took 1,048.7 seconds.
-- The suite records are not re-recorded in this release and are stale until re-recorded after the merge.
+- The suite records were re-recorded after main was merged into the branch.
 - Package version is 0.16.8.
+
+## [0.16.7] - 2026-11-26
+
+The release gate now runs in CI. No result number, verdict or threshold changed.
+
+### Added
+- `.github/workflows/release-gate.yml` runs `scripts/release_gate.py` on every pull request against the base commit of that pull request, with the head commit checked out and the full history fetched. Before this the gate was run by hand and the v0.16.5 limits said it was not enforced in CI.
+- `tests/test_release_gate_workflow.py` pins the trigger, the checkout of the head commit and the base commit argument.
+
+### Recorded on purpose
+- A pull request that changes `scripts/release_gate.py` or the hooks without changing `scripts/gate_pins.json` fails the gate integrity check in CI. That is intended. A pull request that changes the gate and the pins file together passes the integrity check, and the pins file, the workflow file and `scripts/check_commit_attribution.sh` are not pinned, so a reviewer has to read those files and the owner decides.
+- The workflow checks the pull request only. Pushes to main are not gated.
+- Package version is 0.16.7.
 
 ## [0.16.6] - 2026-11-26
 
