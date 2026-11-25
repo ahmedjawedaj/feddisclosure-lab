@@ -1,3 +1,8 @@
+## 2026-11-25 v0.16.1 inversion attack on CIFAR-10 (see `CHANGELOG.md`, `docs/preregistration/v0.16-p3.md` and `docs/v0.16-p3-breaching-results.md`)
+
+Pre-registered `breaching` study on real CIFAR-10, 20 seeds. Control passes (+5.50 dB over the label-only floor). With 8 records per client the attack does not beat the floor in PSNR in the plaintext view (-0.12 dB) or with n-1 collusion (-0.01 dB), so R1, R3 and O1 fail. For these attacks the aggregate view is 1.47 dB below the floor and its pass is vacuous. This is not evidence of privacy. The repository's own attack is 2.59 times worse in mean squared error (B1c fails).
+Next: see `NEXT_SPRINT.md`.
+
 ## 2026-11-23 v0.16.0 first phase of the v0.16 plan (see `CHANGELOG.md`, `docs/preregistration/v0.16-p1.md` and `docs/v0.16-p1-flower-dp-audit.md`)
 
 Measured privacy of Flower's DP mechanisms on `flwr` 1.27.0 and 1.44.0 with `scripts/audit_flower_dp.py`. Equal weights and full participation match the configured multiplier. Unequal weights, `num_sampled_clients` set higher than the number of aggregated results, and `LocalDpMod` at large epsilon or with `sensitivity` equal to `clipping_norm` do not. With adaptive clipping and all clients clipped the update noise is below the reference algorithm's. In 1.44.0 an optional accountant on the Message API raises an error on the first and releases nothing on the second. All predictions held except the mechanism named in C6.

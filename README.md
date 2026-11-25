@@ -45,9 +45,21 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 - With adaptive clipping and every client clipped, the update noise scale is 0.903 of the reference algorithm at the default learning rate and 0.607 at learning rate 1.0.
 - `LocalDpMod` meets its configured (epsilon, delta) for epsilon up to 5 on the tested grid. At configured epsilon 20 the exact delta is 153 times the configured delta.
 
+## Stronger inversion attack on CIFAR-10 (v0.16.1)
+
+`scripts/p3_breaching_cifar10.py` runs the gradient inversion attack of the `breaching` library (version 0.1.2, 4,000 iterations) on real CIFAR-10 against a small CNN with 25,578 parameters. Four clients hold 8 records each and take one SGD step. The rules were committed in [`docs/preregistration/v0.16-p3.md`](docs/preregistration/v0.16-p3.md) before the script and before any run. Results are from 20 evaluation seeds on a Colab T4. The unit is the seed, and the gain is the PSNR difference to a label-only floor (class average images) with a 95% bootstrap interval. Tables, deviations and limits are in [`docs/v0.16-p3-breaching-results.md`](docs/v0.16-p3-breaching-results.md).
+
+- The control passed. With a batch of 1 the attack gains +5.50 dB over the floor (interval +4.71 to +6.31), so the setup works when the problem is easy.
+- With a batch of 8 the attack did not beat the floor. The gain is -0.12 dB in the plaintext view (interval -0.72 to +0.42) and -0.01 dB with n-1 collusion (interval -0.64 to +0.56). The pre-registered predictions R1, R3 and O1 failed and are kept as written.
+- The aggregate view is 1.47 dB below the floor (interval -1.83 to -1.13), so its pass (R2) is vacuous. Plaintext is itself at the floor, so a gain over the floor cannot be used here to say what the aggregate view leaks, and this result is not evidence of privacy.
+- The repository's own attack is weaker than `breaching` in every view. Its mean squared error is 2.59 times larger in the plaintext view, so B1c fails.
+- SSIM gain is positive for plaintext and collusion and near zero for the aggregate. That reading was not pre-registered and needs its own rule before it is relied on.
+
+Tuning chose the edge of the total variation grid for `breaching`, and the model, the batch size and the number of local steps were fixed. These are limits of this study and not statements about the library.
+
 ## Headline results (v0.15.0)
 
-Current release: 0.16.0. Release 0.16.0 adds the Flower DP measurement described in the section above and changes no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+Current release: 0.16.1. Release 0.16.1 adds the CIFAR-10 inversion study described above and changes no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
 
 All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
@@ -128,8 +140,8 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build
 pip install -e '.[test,research,ml,privacy]'
 
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   with flwr and opacus (no opendp, no torchvision): 558 pass and 8 skip, 5 deselected
-#   without flwr and opacus: 400 pass and 49 skip, 4 deselected
+#   with flwr and opacus (no opendp, no torchvision): 577 pass and 8 skip, 6 deselected
+#   without flwr and opacus: 418 pass and 50 skip, 5 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard

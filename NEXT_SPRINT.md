@@ -1,3 +1,13 @@
+## After v0.16.1 (2026-11-25)
+
+Done in v0.16.1: stronger inversion attack on CIFAR-10 (plan item P3, R1 and R3 fail).
+
+- [ ] Establish a plaintext baseline above the floor before reading aggregate rows again. Needs a new pre-registration (wider total variation grid, more local steps or a larger batch).
+- [ ] Pre-register a rule for the SSIM reading before any claim is built on it.
+- [ ] Two more frameworks for the DP measurements. Check each framework's release history and tracker first.
+- [ ] Inventory of what the server sees with protections on (plan item P2).
+- [ ] Composition and sampling amplification.
+
 ## After v0.16.0 (2026-11-23)
 
 Done in v0.16.0: measured privacy of Flower's DP mechanisms (plan item P1, first framework).

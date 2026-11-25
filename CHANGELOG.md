@@ -2,6 +2,24 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.1] - 2026-11-25
+
+Second phase of the v0.16 plan, inversion attack part. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Pre-registered breaching study on CIFAR-10** (plan item P3). `scripts/p3_breaching_cifar10.py` runs `breaching` 0.1.2 and the repository's own attack against plaintext, SecAgg+ aggregate and n-1 collusion views, with a label-only floor, 20 evaluation seeds and a tuning rule fixed in advance. Pre-registration `docs/preregistration/v0.16-p3.md` was committed before the script, with a dated deviation log. Results `docs/v0.16-p3-breaching-results.md`, evidence under `reports/results/privacy/v0160/p3_breaching/` (20 seed files, 3 tuning seed files, summary and tuning). Run on a Colab T4. According to the run notes it took two runtimes (seeds 0 to 14 and 15 to 19, same model hash), and the seed files do not record the split.
+- Colab runbook `docs/v0.16-p3-colab-runbook.md` and tests in `tests/privacy/test_p3_breaching.py`.
+
+### Verdicts, kept as written
+- Pass: K0 (control, +5.50 dB, lower limit +4.71), R2 and R2r (vacuous, the aggregate sits below the floor), O2 (collusion beats the aggregate).
+- Fail: R1 and R3 (plaintext -0.12 dB and collusion -0.01 dB, neither beats the floor in PSNR, while SSIM gain is positive), R1r and R3r (repository attack), B1c (mean squared error ratio 2.59 against a limit of 1.5), O1.
+- The pre-registered claim that plaintext and collusion sit clearly above the label-only floor is not supported for this model, batch size and number of local steps. The aggregate result is not evidence of privacy.
+
+### Recorded on purpose
+- Deviation items 1 to 7 are in the pre-registration. They cover the parameter count (25,578), pre-run probes, the interrupted and resumed run, the transcribed and then replaced summary files, and tuning at the edge of the grid.
+- `images_seed0.npz`, `images_seed1.npz` and `model.pt` are not in the repository. The model hash is in every seed file.
+- Package version is 0.16.1.
+
 ## [0.16.0] - 2026-11-23
 
 First phase of the v0.16 plan. No v0.15 result number, verdict or threshold changed.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "feddisclosure-lab"
-version = "0.16.0"
+version = "0.16.1"
 description = "Reproducible federated learning disclosure laboratory: Flower in Docker, SecAgg+, Opacus DP, OpenDP, membership inference and update inversion"
 readme = "README.md"
 license = {file = "LICENSE"}
