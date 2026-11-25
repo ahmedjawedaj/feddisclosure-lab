@@ -1,0 +1,5 @@
+{
+  "scripts/hooks/commit-msg": "dbcf014356afc350fb518b48ccaff63e665677cb1cce207ce2a9ae6d103bdbd3",
+  "scripts/hooks/pre-commit": "a027deeff6486e13b8c147807c58af0cda4c89598f997aab12ab83a8abe030cd",
+  "scripts/release_gate.py": "90f85584ac4447e027d0f7f237f45ed576ccf0431b8a32f8fa6eaefc8789d404"
+}
