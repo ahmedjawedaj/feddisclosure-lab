@@ -1,3 +1,13 @@
+## After v0.16.6 (2026-11-26)
+
+Done in v0.16.6: whole mechanism measurement for Flower adaptive clipping (plan item T8c, effective noise multipliers, no epsilon).
+
+- [ ] Re-record the fast suite records and the README counts after the branch is rebased (`scripts/record_fast_suite.py`).
+- [ ] Settle which sensitivity convention Flower intends for the count and the model sum, and rerun the composed rows under it.
+- [ ] Measure the same trajectories with partial participation and unequal weights, and with a trained model whose update norms respond to the noise.
+- [ ] Add subsampling and a composition accountant before any epsilon is stated.
+- [ ] Run more `flwr` releases.
+
 ## After v0.16.4 (2026-11-25)
 
 Done in v0.16.4: fourth framework for the DP measurements (NVFlare 2.9.1) and the release gate.

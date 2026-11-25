@@ -1,3 +1,8 @@
+## 2026-11-26 v0.16.6 adaptive clipping whole mechanism measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-adaptive-guarantee.md` and `docs/v0.16-adaptive-guarantee-audit.md`)
+
+`flwr` 1.27.0 and 1.44.0, four adaptive and four fixed clipping variants over simulated clip trajectories, 640 rows per version, all held their predictions. The released count is a plain sum of bits of 0 or 1 (sensitivity 1, the paper's centred bit has magnitude 1/2 as read once). The model noise uses the clip after the update, so against the clip the clients used the model sum multiplier is the stored one times C(t+1) / C(t) (0.9054 with every update clipped at the defaults, 0.606 at clip learning rate 1.0). The composed multiplier with Flower's count is 0.8952 of the configured one in the default cell and 0.56949 to 0.99627 of it at a clip ratio of 1 for count noise 0.6 to 10. Fixed clipping classes have the configured multiplier. No epsilon or delta was computed and the intended sensitivity convention was not established.
+Next: see `NEXT_SPRINT.md`. The fast suite records and the README counts were not re-recorded here.
+
 ## 2026-11-25 v0.16.4 NVFlare filter measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-nvflare.md` and `docs/v0.16-nvflare-dp-audit.md`)
 
 `nvflare` 2.9.1 SVTPrivacy and PercentilePrivacy, 18 rows and 63 checks, all held. The default release budget makes one call epsilon 255.9 at 25,578 parameters. The acceptance step accepts a whole pass (656 of 1,000 for 100 wanted) and has no pass limit. No lower bound exceeded the claim. Release gate script and commit hooks added.

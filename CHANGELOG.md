@@ -2,6 +2,23 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.6] - 2026-11-26
+
+Whole mechanism measurement for Flower adaptive clipping. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Measured effective noise multiplier of Flower's whole adaptive clipping mechanism** (plan item T8c). `scripts/audit_flower_adaptive_guarantee.py` runs the four adaptive and four fixed clipping strategy classes (server side and client side, legacy and Message API) over simulated trajectories of the clip on `flwr` 1.27.0 and 1.44.0, 640 rows per version. Evidence `reports/results/privacy/v0160/flower_adaptive_guarantee/flwr-1.27.0/`, `flwr-1.44.0/` and `cross_version/`, results `docs/v0.16-adaptive-guarantee-audit.md`, pre-registration `docs/preregistration/v0.16-adaptive-guarantee.md` (committed alone before the harness existed). Tests in `tests/privacy/test_audit_flower_adaptive_guarantee.py`.
+- Claim checks in `scripts/verify_readme_claims.py` for the new README section, including a check that every saved row held in both versions.
+
+### Recorded on purpose
+- All 640 rows per version held their pre-registered predictions, and the clip sequences of the two versions agree exactly. The findings are measured multipliers and ratios, not failed predictions.
+- The count that Flower releases is the plain sum of bits of 0 or 1 with no shift, so its sensitivity is 1 under add or remove, where the paper's centred bit has magnitude 1/2 as read once.
+- The model noise is scaled with the clip after the round's update, so measured against the clip the clients used, the model sum multiplier is the stored multiplier times the ratio of the new clip to the old clip. In the default configuration with every update clipped the composed multiplier with Flower's count is 0.8952 of the configured one, and 0.56949 to 0.99627 of it at a clip ratio of 1 across the count noise values tried.
+- No epsilon or delta is reported. The composed numbers depend on assumptions listed in the results document, among them the sensitivity convention, which was not established for Flower.
+- The four adaptive variants and both versions share seeds, so their agreement is not independent evidence. One quick smoke run and several choices the pre-registration left open are in its deviation log.
+- The suite records were not re-recorded in this release branch. The README count claims need `scripts/record_fast_suite.py` after the branch is rebased.
+- Package version is 0.16.6.
+
 ## [0.16.4] - 2026-11-25
 
 Fourth framework for the v0.16 DP measurements, plus release tooling. No earlier result number, verdict or threshold changed.
