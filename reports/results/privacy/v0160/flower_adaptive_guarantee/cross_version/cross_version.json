@@ -1,0 +1,13 @@
+{
+  "schema": "feddisclosure.flower_adaptive_guarantee.compare.v1",
+  "versions": [
+    "1.27.0",
+    "1.44.0"
+  ],
+  "cells_compared": 96,
+  "max_relative_difference_of_clip_sequences": 0.0,
+  "prediction_held": true,
+  "tolerance": "1e-9 relative",
+  "row": "G7",
+  "script_sha256": "9a6cd1e19dce5654b6b8501a96bc5f1b00076454909efd204dc98a04220a6005"
+}
