@@ -2,6 +2,19 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.7] - 2026-11-26
+
+The release gate now runs in CI. No result number, verdict or threshold changed.
+
+### Added
+- `.github/workflows/release-gate.yml` runs `scripts/release_gate.py` on every pull request against the base commit of that pull request, with the head commit checked out and the full history fetched. Before this the gate was run by hand and the v0.16.5 limits said it was not enforced in CI.
+- `tests/test_release_gate_workflow.py` pins the trigger, the checkout of the head commit and the base commit argument.
+
+### Recorded on purpose
+- A pull request that changes `scripts/release_gate.py` or the hooks fails the gate integrity check in CI, because the pins differ and `GATE_REPIN=1` is not set there. That is intended. A reviewer reads the diff and the owner decides.
+- The workflow checks the pull request only. Pushes to main are not gated.
+- Package version is 0.16.7.
+
 ## [0.16.6] - 2026-11-26
 
 Whole mechanism measurement for Flower adaptive clipping. No earlier result number, verdict or threshold changed.

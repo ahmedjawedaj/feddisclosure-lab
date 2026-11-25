@@ -1,3 +1,9 @@
+## After v0.16.7 (2026-11-26)
+
+Done in v0.16.7: the release gate runs in CI on pull requests.
+
+- [ ] Gate pushes to main as well, or protect main so only gated pull requests can merge.
+
 ## After v0.16.6 (2026-11-26)
 
 Done in v0.16.6: whole mechanism measurement for Flower adaptive clipping (plan item T8c, effective noise multipliers, no epsilon).
