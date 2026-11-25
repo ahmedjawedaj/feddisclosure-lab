@@ -13,7 +13,7 @@ Pre-registration and script for a second CIFAR-10 inversion study (tracker item 
 
 ### Recorded on purpose
 - Dropped levers and the reasons are in the pre-registration: more local steps, a larger batch, more iterations, the repository attack, the `max_weight` 16 and exact aggregate rows and separate tuning of the 2 record arm. The exact aggregate row is gone, so an aggregate difference cannot be split into mixing and quantisation.
-- The SSIM margins were chosen after reading the P3 SSIM numbers, which the pre-registration says.
+- The SSIM margins (and the margins and expected values of the rules A, D and Q) were chosen after reading the P3 numbers, which the pre-registration says in its deviation log. The SSIM rows are calibrated after P3 and are not confirmatory. The deviation log also records, before any run, that a failed control withholds the gates and T1 as well, and that rule Q gets the label FAIL, underpowered when its point estimate is inside the margin.
 - Only a CPU smoke test on synthetic stand-in data was run. No attack was run on real CIFAR-10 for P3b. The GPU run is a separate step and its results sections stay marked as not yet run.
 - Package version is 0.16.10.
 
