@@ -1,3 +1,12 @@
+## After v0.16.10 (2026-11-26)
+
+Done in v0.16.10: pre-registration, script, tests and runbook for the P3b study (plan item T6b). Not run.
+
+- [ ] Run P3b on a Colab T4 with `docs/v0.16-p3b-colab-runbook.md`, copy the output into `reports/results/privacy/v0160/p3b_breaching/`, write the results document with every row marked as the pre-registration says, and record the real run time.
+- [ ] If a plaintext gate passes, read the aggregate and collusion rows of that arm and metric. If every PSNR gate fails, report that and stop, because a further arm needs a new pre-registration.
+- [ ] Separate mixing from quantisation for the aggregate view (the exact aggregate row was dropped to fit the budget).
+- [ ] Check whether total variation winners tuned at 4 records transfer to 2 records.
+
 ## After v0.16.8 (2026-11-26)
 
 Done in v0.16.8: events check for SVTPrivacy (larger d and n, `replace` True, values between 0 and gamma, release values and a joint event), 10 rows and 83 checks held.

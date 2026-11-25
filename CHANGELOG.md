@@ -2,6 +2,21 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.10] - 2026-11-26
+
+Pre-registration and script for a second CIFAR-10 inversion study (tracker item T6b). The study has not been run, so no result, verdict or threshold changed.
+
+### Added
+- **Pre-registration of P3b** `docs/preregistration/v0.16-p3b.md` (commit `71a0bda`, committed alone before the script). P3 found the plaintext view at the label-only floor with 8 records per client, so its aggregate and collusion rows had nothing to be read against. P3b runs two arms with 4 and 2 records per client and a control with 1 record, `breaching` 0.1.2, 20 fresh evaluation seeds (100 to 119) and 3 fresh tuning seeds, a wider total variation grid (0.05, 0.2, 0.8, 3.2) and SSIM as a second metric next to PSNR.
+- **A gate before any aggregate or collusion row is read.** Plaintext must clear the floor by +1.0 dB (lower limit) in PSNR or +0.20 in SSIM for its own arm and metric, and the 1 record control must reach +2.0 dB. A row behind a failed gate is declared NOT INTERPRETABLE in advance and gets no PASS or FAIL, so the vacuous pass of P3 cannot repeat. Confidences, numeric rules and a power section (simulated with the exact rules, 4,000 simulations per cell) are in the file, with a list of the clauses that no script check covers.
+- `scripts/p3b_breaching_cifar10.py` (resumable, writes one JSON per seed and a summary with the gates), `scripts/p3b_power_table.py` (the power simulation, its SHA-256 is in the pre-registration), tests `tests/privacy/test_p3b_breaching.py` and the runbook `docs/v0.16-p3b-colab-runbook.md`.
+
+### Recorded on purpose
+- Dropped levers and the reasons are in the pre-registration: more local steps, a larger batch, more iterations, the repository attack, the `max_weight` 16 and exact aggregate rows and separate tuning of the 2 record arm. The exact aggregate row is gone, so an aggregate difference cannot be split into mixing and quantisation.
+- The SSIM margins were chosen after reading the P3 SSIM numbers, which the pre-registration says.
+- Only a CPU smoke test on synthetic stand-in data was run. No attack was run on real CIFAR-10 for P3b. The GPU run is a separate step and its results sections stay marked as not yet run.
+- Package version is 0.16.10.
+
 ## [0.16.8] - 2026-11-26
 
 Events check of the NVFlare SVTPrivacy filter: other events, larger sizes, input values between 0 and gamma and the release values. No earlier result number, verdict or threshold changed.
