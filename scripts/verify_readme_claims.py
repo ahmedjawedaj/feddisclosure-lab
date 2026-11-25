@@ -35,6 +35,7 @@ FASHION_BOOT = V15 + "fashion_mnist/seed_bootstrap.json"
 # Fast suite records live in reports/results/privacy/v*/. The newest version directory that holds the file wins.
 RECORD_DIR = "reports/results/privacy/v0150"
 FLOWER_DP = "reports/results/privacy/v0160/flower_dp_audit/flwr-1.27.0/flower_dp_audit.json"
+P3 = "reports/results/privacy/v0160/p3_breaching/summary.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -211,6 +212,14 @@ def _v15_prose() -> list[ProseClaim]:
         ProseClaim("v16.A", r"update noise scale is ([\d.]+) of the reference algorithm at the default learning rate and ([\d.]+) at learning rate 1\.0",
                    (R(1, FLOWER_DP, "rows/9/measured/sigma_ratio_to_reference"), R(2, FLOWER_DP, "rows/10/measured/sigma_ratio_to_reference"))),
         ProseClaim("v16.L1", r"exact delta is ([\d.]+) times the configured delta", (R(1, FLOWER_DP, "rows/16/exact_from_formula_sigma/delta_ratio_to_configured"),)),
+        ProseClaim("v161.K0", r"batch of 1 the attack gains \+([\d.]+) dB over the floor \(interval \+([\d.]+) to \+([\d.]+)\)",
+                   (R(1, P3, "verdicts/K0/mean"), R(2, P3, "verdicts/K0/lo"), R(3, P3, "verdicts/K0/hi"))),
+        ProseClaim("v161.R1_R3", r"gain is (-?[\d.]+) dB in the plaintext view \(interval (-?[\d.]+) to \+([\d.]+)\) and (-?[\d.]+) dB with n-1 collusion \(interval (-?[\d.]+) to \+([\d.]+)\)",
+                   (R(1, P3, "verdicts/R1/mean"), R(2, P3, "verdicts/R1/lo"), R(3, P3, "verdicts/R1/hi"),
+                    R(4, P3, "verdicts/R3/mean"), R(5, P3, "verdicts/R3/lo"), R(6, P3, "verdicts/R3/hi"))),
+        ProseClaim("v161.R2", r"aggregate view is ([\d.]+) dB below the floor \(interval (-?[\d.]+) to (-?[\d.]+)\)",
+                   (R(1, P3, "verdicts/R2/mean", -1), R(2, P3, "verdicts/R2/lo"), R(3, P3, "verdicts/R2/hi"))),
+        ProseClaim("v161.B1c", r"mean squared error is ([\d.]+) times larger in the plaintext view", (R(1, P3, "verdicts/B1c/ratio"),)),
     ]
 
 

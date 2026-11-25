@@ -11,8 +11,8 @@ authors:
   - family-names: Jawed
     given-names: Ahmed
     alias: ahmedjawedaj
-version: 0.16.0
-date-released: 2026-11-23
+version: 0.16.1
+date-released: 2026-11-25
 license: Apache-2.0
 repository-code: "https://github.com/ahmedjawedaj/feddisclosure-lab"
 keywords:
