@@ -1,0 +1,1642 @@
+{
+  "schema": "feddisclosure.nvflare_events.v1",
+  "quick": false,
+  "preregistration": "docs/preregistration/v0.16-nvflare-events.md",
+  "preregistration_commit": "a1d1ea5ecb8c774e68536b52d2d94596c56eb419",
+  "script_sha256": "d94f24fda88fc3d14cd48e11dac77557817cca0ae25013d2eb1e8a68574591bf",
+  "environment": {
+    "nvflare": "2.9.1",
+    "numpy": "2.5.5",
+    "python": "3.13.18",
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39"
+  },
+  "parameters": {
+    "base_seed": 20261201,
+    "blocks": 5,
+    "runs_per_block": 100000,
+    "alpha_tail": 0.0125,
+    "z_tail": 2.2414027276049464,
+    "z_80": 0.8416212335729144
+  },
+  "deviations": [],
+  "rows": [
+    {
+      "id": "K0",
+      "configuration": {
+        "runs_per_world": 500000,
+        "alpha_tail": 0.0125
+      },
+      "measured": {
+        "ceiling": 11.64484767602845,
+        "largest_claim": 1.2
+      },
+      "checks": [
+        {
+          "check": "ceiling at 500,000 runs per world and 1.25% per tail",
+          "expected": "11.64 +- 0.01",
+          "observed": 11.64484767602845,
+          "held": true
+        },
+        {
+          "check": "ceiling above every claim",
+          "expected": "> 1.2",
+          "observed": 11.64484767602845,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "E1",
+      "configuration": {
+        "fraction": 0.4,
+        "epsilon": 1.0,
+        "replace": false,
+        "n": 4,
+        "d": 10,
+        "gamma": 1e-05,
+        "event": "set",
+        "h": 4,
+        "world_a_in_gamma": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "world_c_in_gamma": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261201 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 1.0,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 1.4,
+          "epsilon_threshold": 0.2,
+          "epsilon_query": 0.8,
+          "epsilon_release": 0.4,
+          "n_upload": 4,
+          "acceptance_passes": 2,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              583,
+              628,
+              599,
+              664,
+              597
+            ],
+            "passes": 776301,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              359,
+              360,
+              375,
+              390,
+              367
+            ],
+            "passes": 778718,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.006142,
+          "p_hat_c": 0.003702,
+          "lo_a": 0.005896984833208885,
+          "hi_a": 0.006394329767713005,
+          "lo_c": 0.0035121540751779385,
+          "hi_c": 0.003899208099054129,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.41366769407145976,
+            "ln(lo_c/hi_a)": -0.5991820779891351,
+            "ln((1-hi_c)/(1-lo_a))": 0.00200761087689983,
+            "ln((1-hi_a)/(1-lo_c))": -0.002896524896163706
+          },
+          "lb": 0.41366769407145976
+        },
+        "log_ratio_hat": 0.5062772078673249,
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              583,
+              628,
+              599,
+              664,
+              597
+            ],
+            "chi2": 6.832587700907426,
+            "df": 4,
+            "p_value": 0.1450041376472457
+          },
+          "c": {
+            "block_counts": [
+              359,
+              360,
+              375,
+              390,
+              367
+            ],
+            "chi2": 1.7753459666410063,
+            "df": 4,
+            "p_value": 0.7769897359195798
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.006199009962365852,
+          "p_c": 0.003667787562900899,
+          "log_ratio": 0.5248009594240786,
+          "log_ratio_over_claim": 0.5248009594240786,
+          "predicted_lb": 0.45892049316990424
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 1.0830643887009308,
+            "excess": 0.0830643887009308,
+            "excess_over_claim": 0.0830643887009308,
+            "se_at_epsilon_80": 0.02694250506869113
+          },
+          "control_claim": 0.1,
+          "control_power_at_numeric_truth": 1.0,
+          "power_at_claim_numeric_truth": 0.0
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 1.552602,
+          "c": 1.557436
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload, claim and epsilon_total as pre-registered",
+          "expected": [
+            4,
+            1.0
+          ],
+          "observed": [
+            4,
+            1.0
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.0062 +- 0.00044",
+          "observed": 0.006142,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.00367 +- 0.00034",
+          "observed": 0.003702,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table to 1 percent",
+          "expected": "relative difference at most 0.01 in both worlds",
+          "observed": [
+            0.006199009962365852,
+            0.003667787562900899
+          ],
+          "held": true
+        },
+        {
+          "check": "log ratio point estimate within 4 SE of the prediction",
+          "expected": "0.525 +- 0.118",
+          "observed": 0.5062772078673249,
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.459 +- 0.118",
+          "observed": 0.41366769407145976,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 1.0",
+          "observed": 0.41366769407145976,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.1",
+          "observed": 0.41366769407145976,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.1450041376472457,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.7769897359195798,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "1.083 +- 0.002",
+          "observed": 1.0830643887009308,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.5",
+          "observed": 0.0830643887009308,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "E2",
+      "configuration": {
+        "fraction": 0.25,
+        "epsilon": 1.0,
+        "replace": true,
+        "n": 6,
+        "d": 24,
+        "gamma": 1e-05,
+        "event": "atleast",
+        "h": 4,
+        "world_a_in_gamma": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "world_c_in_gamma": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261201 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 1.0,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 1.6,
+          "epsilon_threshold": 0.16021833815767017,
+          "epsilon_query": 0.8397816618423298,
+          "epsilon_release": 0.6000000000000001,
+          "n_upload": 6,
+          "acceptance_passes": 2,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              856,
+              851,
+              853,
+              845,
+              877
+            ],
+            "passes": 584512,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              641,
+              647,
+              622,
+              672,
+              654
+            ],
+            "passes": 577570,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.008564,
+          "p_hat_c": 0.006472,
+          "lo_a": 0.008274541754046464,
+          "hi_a": 0.008860730952617388,
+          "lo_c": 0.00622045843633931,
+          "hi_c": 0.006730850256950928,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.20648206857010934,
+            "ln(lo_c/hi_a)": -0.3537856538828028,
+            "ln((1-hi_c)/(1-lo_a))": 0.0015553612106392037,
+            "ln((1-hi_a)/(1-lo_c))": -0.002660334578268657
+          },
+          "lb": 0.20648206857010934
+        },
+        "log_ratio_hat": 0.2800821909712458,
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              856,
+              851,
+              853,
+              845,
+              877
+            ],
+            "chi2": 0.7010057485882191,
+            "df": 4,
+            "p_value": 0.9512048338948318
+          },
+          "c": {
+            "block_counts": [
+              641,
+              647,
+              622,
+              672,
+              654
+            ],
+            "chi2": 2.075857695131444,
+            "df": 4,
+            "p_value": 0.721808921882973
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.008574246028780392,
+          "p_c": 0.006339715845227413,
+          "log_ratio": 0.30192911443343107,
+          "log_ratio_over_claim": 0.30192911443343107,
+          "predicted_lb": 0.24961608978380748
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 1.0632146019767623,
+            "excess": 0.06321460197676232,
+            "excess_over_claim": 0.06321460197676232,
+            "se_at_epsilon_80": 0.02050409039072514
+          },
+          "control_claim": 0.1,
+          "control_power_at_numeric_truth": 0.9999999999274536,
+          "power_at_claim_numeric_truth": 0.0
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 1.169024,
+          "c": 1.15514
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload, claim and epsilon_total as pre-registered",
+          "expected": [
+            6,
+            1.0
+          ],
+          "observed": [
+            6,
+            1.0
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.00857 +- 0.00052",
+          "observed": 0.008564,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.00634 +- 0.00045",
+          "observed": 0.006472,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table to 1 percent",
+          "expected": "relative difference at most 0.01 in both worlds",
+          "observed": [
+            0.008574246028780392,
+            0.006339715845227413
+          ],
+          "held": true
+        },
+        {
+          "check": "log ratio point estimate within 4 SE of the prediction",
+          "expected": "0.302 +- 0.093",
+          "observed": 0.2800821909712458,
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.25 +- 0.093",
+          "observed": 0.20648206857010934,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 1.0",
+          "observed": 0.20648206857010934,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.1",
+          "observed": 0.20648206857010934,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.9512048338948318,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.721808921882973,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "1.063 +- 0.002",
+          "observed": 1.0632146019767623,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.5",
+          "observed": 0.06321460197676232,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "E3",
+      "configuration": {
+        "fraction": 0.4,
+        "epsilon": 1.0,
+        "replace": false,
+        "n": 4,
+        "d": 10,
+        "gamma": 1e-05,
+        "event": "set",
+        "h": 4,
+        "world_a_in_gamma": [
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        "world_c_in_gamma": [
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8,
+          0.8
+        ],
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261201 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 1.0,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 1.4,
+          "epsilon_threshold": 0.2,
+          "epsilon_query": 0.8,
+          "epsilon_release": 0.4,
+          "n_upload": 4,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              587,
+              558,
+              535,
+              546,
+              568
+            ],
+            "passes": 780899,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              415,
+              435,
+              388,
+              379,
+              419
+            ],
+            "passes": 778352,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.005588,
+          "p_hat_c": 0.004072,
+          "lo_a": 0.005354356350620738,
+          "hi_a": 0.00582896837025766,
+          "lo_c": 0.0038727975102462314,
+          "hi_c": 0.004278556800085459,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.22429474422453033,
+            "ln(lo_c/hi_a)": -0.40886291601515296,
+            "ln((1-hi_c)/(1-lo_a))": 0.0010810062750796305,
+            "ln((1-hi_a)/(1-lo_c))": -0.001965706903985072
+          },
+          "lb": 0.22429474422453033
+        },
+        "log_ratio_hat": 0.31648716214649375,
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              587,
+              558,
+              535,
+              546,
+              568
+            ],
+            "chi2": 2.8988041007077396,
+            "df": 4,
+            "p_value": 0.574900603465863
+          },
+          "c": {
+            "block_counts": [
+              415,
+              435,
+              388,
+              379,
+              419
+            ],
+            "chi2": 5.268999570573576,
+            "df": 4,
+            "p_value": 0.2607929987899211
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.005577568296540581,
+          "p_c": 0.0040694798004327955,
+          "log_ratio": 0.3152377141348679,
+          "log_ratio_over_claim": 0.3152377141348679,
+          "predicted_lb": 0.2500424590601124
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 1.0788766025869532,
+            "excess": 0.07887660258695317,
+            "excess_over_claim": 0.07887660258695317,
+            "se_at_epsilon_80": 0.02558416787549671
+          },
+          "control_claim": 0.1,
+          "control_power_at_numeric_truth": 0.999999875489668,
+          "power_at_claim_numeric_truth": 0.0
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 1.561798,
+          "c": 1.556704
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload, claim and epsilon_total as pre-registered",
+          "expected": [
+            4,
+            1.0
+          ],
+          "observed": [
+            4,
+            1.0
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.00558 +- 0.00042",
+          "observed": 0.005588,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.00407 +- 0.00036",
+          "observed": 0.004072,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table to 1 percent",
+          "expected": "relative difference at most 0.01 in both worlds",
+          "observed": [
+            0.005577568296540581,
+            0.0040694798004327955
+          ],
+          "held": true
+        },
+        {
+          "check": "log ratio point estimate within 4 SE of the prediction",
+          "expected": "0.315 +- 0.116",
+          "observed": 0.31648716214649375,
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.25 +- 0.116",
+          "observed": 0.22429474422453033,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 1.0",
+          "observed": 0.22429474422453033,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.1",
+          "observed": 0.22429474422453033,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.574900603465863,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.2607929987899211,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "1.079 +- 0.002",
+          "observed": 1.0788766025869532,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.5",
+          "observed": 0.07887660258695317,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "E4",
+      "configuration": {
+        "fraction": 0.25,
+        "epsilon": 1.0,
+        "replace": false,
+        "n": 10,
+        "d": 40,
+        "gamma": 1e-05,
+        "event": "atleast",
+        "h": 6,
+        "world_a_in_gamma": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "world_c_in_gamma": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261201 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 1.0,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 2.0,
+          "epsilon_threshold": 0.11950196841550463,
+          "epsilon_query": 0.8804980315844954,
+          "epsilon_release": 1.0,
+          "n_upload": 10,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              900,
+              880,
+              907,
+              949,
+              853
+            ],
+            "passes": 555875,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              611,
+              613,
+              649,
+              610,
+              671
+            ],
+            "passes": 552623,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.008978,
+          "p_hat_c": 0.006308,
+          "lo_a": 0.008681624500065925,
+          "hi_a": 0.00928164130374515,
+          "lo_c": 0.006059680112652404,
+          "hi_c": 0.006563631506374604,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.27966463247243045,
+            "ln(lo_c/hi_a)": -0.4263813837901808,
+            "ln((1-hi_c)/(1-lo_a))": 0.002134262486656667,
+            "ln((1-hi_a)/(1-lo_c))": -0.0032468696571324165
+          },
+          "lb": 0.27966463247243045
+        },
+        "log_ratio_hat": 0.3529584712589484,
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              900,
+              880,
+              907,
+              949,
+              853
+            ],
+            "chi2": 5.65873461615371,
+            "df": 4,
+            "p_value": 0.22612491475604177
+          },
+          "c": {
+            "block_counts": [
+              611,
+              613,
+              649,
+              610,
+              671
+            ],
+            "chi2": 4.92772326669861,
+            "df": 4,
+            "p_value": 0.29479426060552566
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.008714630763437184,
+          "p_c": 0.006266533155932028,
+          "log_ratio": 0.32978003410199436,
+          "log_ratio_over_claim": 0.32978003410199436,
+          "predicted_lb": 0.27747053253662907
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 1.0635831075717774,
+            "excess": 0.06358310757177743,
+            "excess_over_claim": 0.06358310757177743,
+            "se_at_epsilon_80": 0.020623617711840857
+          },
+          "control_claim": 0.1,
+          "control_power_at_numeric_truth": 0.9999999999999857,
+          "power_at_claim_numeric_truth": 0.0
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 1.11175,
+          "c": 1.105246
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload, claim and epsilon_total as pre-registered",
+          "expected": [
+            10,
+            1.0
+          ],
+          "observed": [
+            10,
+            1.0
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.00871 +- 0.00053",
+          "observed": 0.008978,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.00627 +- 0.00045",
+          "observed": 0.006308,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table to 1 percent",
+          "expected": "relative difference at most 0.01 in both worlds",
+          "observed": [
+            0.008714630763437184,
+            0.006266533155932028
+          ],
+          "held": true
+        },
+        {
+          "check": "log ratio point estimate within 4 SE of the prediction",
+          "expected": "0.33 +- 0.093",
+          "observed": 0.3529584712589484,
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.277 +- 0.093",
+          "observed": 0.27966463247243045,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 1.0",
+          "observed": 0.27966463247243045,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.1",
+          "observed": 0.27966463247243045,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.22612491475604177,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.29479426060552566,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "1.064 +- 0.002",
+          "observed": 1.0635831075717774,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.5",
+          "observed": 0.06358310757177743,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "E5",
+      "configuration": {
+        "fraction": 0.25,
+        "epsilon": 1.0,
+        "replace": false,
+        "n": 3,
+        "d": 12,
+        "gamma": 1e-05,
+        "event": "allpos",
+        "h": 3,
+        "world_a_in_gamma": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "world_c_in_gamma": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261201 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 0.30000000000000004,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 1.3,
+          "epsilon_threshold": 0.23245395427292462,
+          "epsilon_query": 0.7675460457270754,
+          "epsilon_release": 0.30000000000000004,
+          "n_upload": 3,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              14410,
+              14520,
+              14324,
+              14288,
+              14373
+            ],
+            "passes": 625243,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              10762,
+              10787,
+              10701,
+              10718,
+              10912
+            ],
+            "passes": 628129,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.14383,
+          "p_hat_c": 0.10776,
+          "lo_a": 0.14271928269768497,
+          "hi_a": 0.14494597022694578,
+          "lo_c": 0.10677900430265941,
+          "hi_c": 0.10874678152659278,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.2718575685048799,
+            "ln(lo_c/hi_a)": -0.30559973558275766,
+            "ln((1-hi_c)/(1-lo_a))": 0.0388631598376244,
+            "ln((1-hi_a)/(1-lo_c))": -0.04366936618718854
+          },
+          "lb": 0.2718575685048799
+        },
+        "log_ratio_hat": 0.28872551451368944,
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              14410,
+              14520,
+              14324,
+              14288,
+              14373
+            ],
+            "chi2": 2.607051798525851,
+            "df": 4,
+            "p_value": 0.6255744380422076
+          },
+          "c": {
+            "block_counts": [
+              10762,
+              10787,
+              10701,
+              10718,
+              10912
+            ],
+            "chi2": 2.891590352478062,
+            "df": 4,
+            "p_value": 0.5761283111212049
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.14419542972276644,
+          "p_c": 0.10758849705313223,
+          "log_ratio": 0.29285579302940534,
+          "log_ratio_over_claim": 0.9761859767646843,
+          "predicted_lb": 0.2808985001970356
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 0.3163537766835577,
+            "excess": 0.01635377668355764,
+            "excess_over_claim": 0.054512588945192134,
+            "se_at_epsilon_80": 0.005304459806179947
+          },
+          "control_claim": 0.030000000000000006,
+          "control_power_at_numeric_truth": 1.0,
+          "power_at_claim_numeric_truth": 0.0001714101311722227
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 1.250486,
+          "c": 1.256258
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload, claim and epsilon_total as pre-registered",
+          "expected": [
+            3,
+            0.3
+          ],
+          "observed": [
+            3,
+            0.30000000000000004
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.1442 +- 0.002",
+          "observed": 0.14383,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.1076 +- 0.0018",
+          "observed": 0.10776,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table to 1 percent",
+          "expected": "relative difference at most 0.01 in both worlds",
+          "observed": [
+            0.14419542972276644,
+            0.10758849705313223
+          ],
+          "held": true
+        },
+        {
+          "check": "log ratio point estimate within 4 SE of the prediction",
+          "expected": "0.2929 +- 0.021",
+          "observed": 0.28872551451368944,
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.281 +- 0.021",
+          "observed": 0.2718575685048799,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 0.30000000000000004",
+          "observed": 0.2718575685048799,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.030000000000000006",
+          "observed": 0.2718575685048799,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.6255744380422076,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.5761283111212049,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "0.316 +- 0.002",
+          "observed": 0.3163537766835577,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.15000000000000002",
+          "observed": 0.01635377668355764,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "E6",
+      "configuration": {
+        "fraction": 0.25,
+        "epsilon": 1.0,
+        "replace": false,
+        "n": 2,
+        "d": 8,
+        "gamma": 1e-05,
+        "event": "joint",
+        "h": 2,
+        "world_a_in_gamma": [
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "world_c_in_gamma": [
+          0.0,
+          0.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "blocks": 5,
+        "runs_per_block": 100000,
+        "seed_rule": "20261201 + 10000 r + 100 w + b",
+        "seed_offset": 0
+      },
+      "measured": {
+        "claim": 1.2,
+        "ledger_first_call": {
+          "accountant": "pure_dp_sum",
+          "scope": "filter-level",
+          "delta": 0.0,
+          "round": null,
+          "epsilon_total": 1.2,
+          "epsilon_threshold": 0.2841036534166501,
+          "epsilon_query": 0.7158963465833499,
+          "epsilon_release": 0.2,
+          "n_upload": 2,
+          "acceptance_passes": 1,
+          "has_scalar_passthrough": false
+        },
+        "worlds": {
+          "a": {
+            "counts": [
+              1246,
+              1266,
+              1330,
+              1234,
+              1260
+            ],
+            "passes": 718498,
+            "calls": 500000
+          },
+          "c": {
+            "counts": [
+              728,
+              726,
+              695,
+              705,
+              739
+            ],
+            "passes": 678121,
+            "calls": 500000
+          }
+        },
+        "interval_and_lb": {
+          "p_hat_a": 0.012672,
+          "p_hat_c": 0.007186,
+          "lo_a": 0.012320034844612214,
+          "hi_a": 0.01303117119551794,
+          "lo_c": 0.006920895169472483,
+          "hi_c": 0.0074584009916624765,
+          "candidates": {
+            "ln(lo_a/hi_c)": 0.5018857394383384,
+            "ln(lo_c/hi_a)": -0.6327991506207586,
+            "ln((1-hi_c)/(1-lo_a))": 0.004910201675199105,
+            "ln((1-hi_a)/(1-lo_c))": -0.006171866163698242
+          },
+          "lb": 0.5018857394383384
+        },
+        "log_ratio_hat": 0.5672601463807431,
+        "block_agreement": {
+          "a": {
+            "block_counts": [
+              1246,
+              1266,
+              1330,
+              1234,
+              1260
+            ],
+            "chi2": 4.434988047323563,
+            "df": 4,
+            "p_value": 0.35032596805536215
+          },
+          "c": {
+            "block_counts": [
+              728,
+              726,
+              695,
+              705,
+              739
+            ],
+            "chi2": 1.8238492926226868,
+            "df": 4,
+            "p_value": 0.7681162090732522
+          }
+        },
+        "numeric_prediction": {
+          "p_a": 0.012516284117915468,
+          "p_c": 0.007041486311784208,
+          "log_ratio": 0.5752112542063061,
+          "log_ratio_over_claim": 0.47934271183858845,
+          "predicted_lb": 0.5282046634069845
+        },
+        "power": {
+          "min_detectable": {
+            "epsilon_80": 1.2585542490844055,
+            "excess": 0.05855424908440554,
+            "excess_over_claim": 0.04879520757033795,
+            "se_at_epsilon_80": 0.018992472916764213
+          },
+          "control_claim": 0.12,
+          "control_power_at_numeric_truth": 1.0,
+          "power_at_claim_numeric_truth": 0.0
+        },
+        "mean_acceptance_passes_per_call": {
+          "a": 1.436996,
+          "c": 1.356242
+        }
+      },
+      "selection_verdict": "holds",
+      "excess_found": false,
+      "checks": [
+        {
+          "check": "ledger n_upload, claim and epsilon_total as pre-registered",
+          "expected": [
+            2,
+            1.2
+          ],
+          "observed": [
+            2,
+            1.2
+          ],
+          "held": true
+        },
+        {
+          "check": "p_hat world a within tolerance of the prediction",
+          "expected": "0.01252 +- 0.00063",
+          "observed": 0.012672,
+          "held": true
+        },
+        {
+          "check": "p_hat world c within tolerance of the prediction",
+          "expected": "0.00704 +- 0.00047",
+          "observed": 0.007186,
+          "held": true
+        },
+        {
+          "check": "numeric computation agrees with the prediction table to 1 percent",
+          "expected": "relative difference at most 0.01 in both worlds",
+          "observed": [
+            0.012516284117915468,
+            0.007041486311784208
+          ],
+          "held": true
+        },
+        {
+          "check": "log ratio point estimate within 4 SE of the prediction",
+          "expected": "0.575 +- 0.084",
+          "observed": 0.5672601463807431,
+          "held": true
+        },
+        {
+          "check": "LB within tolerance of the predicted LB",
+          "expected": "0.528 +- 0.084",
+          "observed": 0.5018857394383384,
+          "held": true
+        },
+        {
+          "check": "LB at most the claim (verdict holds)",
+          "expected": "<= 1.2",
+          "observed": 0.5018857394383384,
+          "held": true
+        },
+        {
+          "check": "positive control: LB above 0.1 times the claim",
+          "expected": "> 0.12",
+          "observed": 0.5018857394383384,
+          "held": true
+        },
+        {
+          "check": "block agreement world a not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.35032596805536215,
+          "held": true
+        },
+        {
+          "check": "block agreement world c not rejected at 0.01",
+          "expected": "p >= 0.01",
+          "observed": 0.7681162090732522,
+          "held": true
+        },
+        {
+          "check": "smallest epsilon found with 80% power matches the pre-registration",
+          "expected": "1.259 +- 0.002",
+          "observed": 1.2585542490844055,
+          "held": true
+        },
+        {
+          "check": "informative: excess at 80% power at most half of the claim",
+          "expected": "<= 0.6",
+          "observed": 0.05855424908440554,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "C",
+      "configuration": "LB of E1 to E6 tested against 0.1 times each claim, no new runs",
+      "measured": {
+        "E1": {
+          "control_claim": 0.1,
+          "power_at_numeric_truth": 1.0
+        },
+        "E2": {
+          "control_claim": 0.1,
+          "power_at_numeric_truth": 0.9999999999274536
+        },
+        "E3": {
+          "control_claim": 0.1,
+          "power_at_numeric_truth": 0.999999875489668
+        },
+        "E4": {
+          "control_claim": 0.1,
+          "power_at_numeric_truth": 0.9999999999999857
+        },
+        "E5": {
+          "control_claim": 0.030000000000000006,
+          "power_at_numeric_truth": 1.0
+        },
+        "E6": {
+          "control_claim": 0.12,
+          "power_at_numeric_truth": 1.0
+        }
+      },
+      "checks": [
+        {
+          "check": "E1: LB above 0.1",
+          "expected": "> 0.1",
+          "observed": 0.41366769407145976,
+          "held": true
+        },
+        {
+          "check": "E2: LB above 0.1",
+          "expected": "> 0.1",
+          "observed": 0.20648206857010934,
+          "held": true
+        },
+        {
+          "check": "E3: LB above 0.1",
+          "expected": "> 0.1",
+          "observed": 0.22429474422453033,
+          "held": true
+        },
+        {
+          "check": "E4: LB above 0.1",
+          "expected": "> 0.1",
+          "observed": 0.27966463247243045,
+          "held": true
+        },
+        {
+          "check": "E5: LB above 0.030000000000000006",
+          "expected": "> 0.030000000000000006",
+          "observed": 0.2718575685048799,
+          "held": true
+        },
+        {
+          "check": "E6: LB above 0.12",
+          "expected": "> 0.12",
+          "observed": 0.5018857394383384,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "P",
+      "measured": {
+        "file": "/home/claude/work/t10/v/lib/python3.13/site-packages/nvflare/app_common/filters/svt_privacy.py",
+        "sha256": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858"
+      },
+      "checks": [
+        {
+          "check": "installed svt_privacy.py has the 2.9.1 sha256",
+          "expected": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+          "observed": "c543bbea2ce3bfe2e35a1d85a26acac8dffc0e95024e777010cdbf0cd0f92858",
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    },
+    {
+      "id": "T",
+      "measured": {
+        "monte_carlo_seconds": 1048.7,
+        "total_seconds": 1048.7
+      },
+      "checks": [
+        {
+          "check": "whole script under 1500 seconds",
+          "expected": "< 1500",
+          "observed": 1048.7,
+          "held": true
+        },
+        {
+          "check": "Monte Carlo part between 800 and 1300 seconds",
+          "expected": "800 to 1300",
+          "observed": 1048.7,
+          "held": true
+        }
+      ],
+      "prediction_held": true
+    }
+  ],
+  "summary": {
+    "rows_total": 10,
+    "rows_held": 10,
+    "rows_failed": [],
+    "checks_total": 83,
+    "checks_held": 83,
+    "checks_failed": [],
+    "excess_found_rows": []
+  },
+  "runtime_seconds": 1048.7,
+  "replication": []
+}
