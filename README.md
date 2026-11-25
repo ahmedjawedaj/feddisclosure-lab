@@ -116,7 +116,7 @@ Tuning chose the edge of the total variation grid for `breaching`, and the model
 
 ## Headline results (v0.15.0)
 
-Current release: 0.16.6. Release 0.16.6 adds the whole mechanism measurement for Flower adaptive clipping described above and changes no result number. Release 0.16.5 adds the NVFlare selection check with stated power described above, a gate integrity check that pins the gate script and the commit hooks, a pre-registration power check and a pre-registration template. It changes no earlier result number. Release 0.16.4 adds the NVFlare filter measurement described above and a release gate script with commit hooks. It changes no result number. Release 0.16.3 adds the adaptive clipping measurement described above and corrects two sentences about adaptive clipping in the v0.16.0 Flower document. It changes no result number. Release 0.16.2 adds the FedML DP measurement described above. Release 0.16.1 added the CIFAR-10 inversion study and changed no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+Current release: 0.16.7. Release 0.16.7 runs the release gate in CI on every pull request and changes no result number. Release 0.16.6 adds the whole mechanism measurement for Flower adaptive clipping described above and changes no result number. Release 0.16.5 adds the NVFlare selection check with stated power described above, a gate integrity check that pins the gate script and the commit hooks, a pre-registration power check and a pre-registration template. It changes no earlier result number. Release 0.16.4 adds the NVFlare filter measurement described above and a release gate script with commit hooks. It changes no result number. Release 0.16.3 adds the adaptive clipping measurement described above and corrects two sentences about adaptive clipping in the v0.16.0 Flower document. It changes no result number. Release 0.16.2 adds the FedML DP measurement described above. Release 0.16.1 added the CIFAR-10 inversion study and changed no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
 
 All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
@@ -197,8 +197,8 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build
 pip install -e '.[test,research,ml,privacy]'
 
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   with flwr and opacus (no opendp, no torchvision): 649 pass and 27 skip, 9 deselected
-#   without flwr and opacus: 454 pass and 67 skip, 6 deselected
+#   with flwr and opacus (no opendp, no torchvision): 650 pass and 27 skip, 9 deselected
+#   without flwr and opacus: 455 pass and 67 skip, 6 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard
