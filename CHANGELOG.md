@@ -16,7 +16,7 @@ Whole mechanism measurement for Flower adaptive clipping. No earlier result numb
 - The model noise is scaled with the clip after the round's update, so measured against the clip the clients used, the model sum multiplier is the stored multiplier times the ratio of the new clip to the old clip. In the default configuration with every update clipped the composed multiplier with Flower's count is 0.8952 of the configured one, and 0.56949 to 0.99627 of it at a clip ratio of 1 across the count noise values tried.
 - No epsilon or delta is reported. The composed numbers depend on assumptions listed in the results document, among them the sensitivity convention, which was not established for Flower.
 - The four adaptive variants and both versions share seeds, so their agreement is not independent evidence. One quick smoke run and several choices the pre-registration left open are in its deviation log.
-- The suite records were not re-recorded in this release branch. The README count claims need `scripts/record_fast_suite.py` after the branch is rebased.
+- The suite records were re-recorded after main with v0.16.5 was merged into this branch (649 passed and 27 skipped, and 454 passed and 67 skipped in the CI environment).
 - Package version is 0.16.6.
 
 ## [0.16.5] - 2026-11-26

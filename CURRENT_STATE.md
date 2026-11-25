@@ -1,7 +1,7 @@
 ## 2026-11-26 v0.16.6 adaptive clipping whole mechanism measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-adaptive-guarantee.md` and `docs/v0.16-adaptive-guarantee-audit.md`)
 
 `flwr` 1.27.0 and 1.44.0, four adaptive and four fixed clipping variants over simulated clip trajectories, 640 rows per version, all held their predictions. The released count is a plain sum of bits of 0 or 1 (sensitivity 1, the paper's centred bit has magnitude 1/2 as read once). The model noise uses the clip after the update, so against the clip the clients used the model sum multiplier is the stored one times C(t+1) / C(t) (0.9054 with every update clipped at the defaults, 0.606 at clip learning rate 1.0). The composed multiplier with Flower's count is 0.8952 of the configured one in the default cell and 0.56949 to 0.99627 of it at a clip ratio of 1 for count noise 0.6 to 10. Fixed clipping classes have the configured multiplier. No epsilon or delta was computed and the intended sensitivity convention was not established.
-Next: see `NEXT_SPRINT.md`. The fast suite records and the README counts were not re-recorded here.
+Next: see `NEXT_SPRINT.md`.
 
 ## 2026-11-26 v0.16.5 NVFlare selection check with stated power (see `CHANGELOG.md`, `docs/preregistration/v0.16-nvflare-selection.md` and `docs/v0.16-nvflare-selection-audit.md`)
 
