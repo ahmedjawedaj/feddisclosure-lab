@@ -2,6 +2,23 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.3] - 2026-11-25
+
+Adaptive clipping measurement for Flower. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Measured adaptive clipping in Flower against Andrew et al. (2021)** (plan item T8b). `scripts/audit_flower_adaptive_clipping.py` runs the four adaptive clipping strategy classes (server side and client side, legacy and Message API) on `flwr` 1.27.0 and 1.44.0, 82 rows per version. Evidence `reports/results/privacy/v0160/flower_adaptive_clipping/flwr-1.27.0/` and `flwr-1.44.0/`, results `docs/v0.16-adaptive-clipping-audit.md`, pre-registration `docs/preregistration/v0.16-adaptive-clipping.md` (committed before the harness existed). Tests in `tests/privacy/test_audit_flower_adaptive_clipping.py`.
+
+### Changed
+- `docs/v0.16-p1-flower-dp-audit.md`: two sentences about adaptive clipping were corrected (see below). README gains a section for this measurement.
+
+### Recorded on purpose
+- All 82 rows per version held their pre-registered predictions. The findings are differences from the paper's reading and not failed predictions. The main one is that the clipped bit has the opposite sign to the paper's, so the clip moves away from the target quantile (rows A3, A4, A10, A11).
+- Correction: the v0.16.0 Flower document said the client-side adaptive variant adds noise before it updates the norm. Row A6 measured the opposite on both client-side variants. The document also said the direction of the clip movement was not compared with the paper, and it now is.
+- Smoke runs were done before the full runs, one row configuration was changed before any full run (A8), and the paper's ordering was read from one summarising fetch of a web copy. All three are in the deviation log.
+- No privacy guarantee of the whole mechanism was measured and no epsilon is reported.
+- Package version is 0.16.3.
+
 ## [0.16.2] - 2026-11-25
 
 Second framework for the v0.16 DP measurements. No earlier result number, verdict or threshold changed.

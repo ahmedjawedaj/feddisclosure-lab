@@ -1,3 +1,11 @@
+## After v0.16.3 (2026-11-25)
+
+Done in v0.16.3: adaptive clipping measurement for Flower (plan item T8b).
+
+- [ ] Measure the privacy guarantee of the whole adaptive mechanism, including the noised count and composition over rounds.
+- [ ] Check the paper's ordering and bit definition against the PDF.
+- [ ] Run more `flwr` releases.
+
 ## After v0.16.2 (2026-11-25)
 
 Done in v0.16.2: second framework for the DP measurements (FedML 0.9.6).
