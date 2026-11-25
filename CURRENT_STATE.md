@@ -3,6 +3,11 @@
 `flwr` 1.27.0 and 1.44.0, four adaptive and four fixed clipping variants over simulated clip trajectories, 640 rows per version, all held their predictions. The released count is a plain sum of bits of 0 or 1 (sensitivity 1, the paper's centred bit has magnitude 1/2 as read once). The model noise uses the clip after the update, so against the clip the clients used the model sum multiplier is the stored one times C(t+1) / C(t) (0.9054 with every update clipped at the defaults, 0.606 at clip learning rate 1.0). The composed multiplier with Flower's count is 0.8952 of the configured one in the default cell and 0.56949 to 0.99627 of it at a clip ratio of 1 for count noise 0.6 to 10. Fixed clipping classes have the configured multiplier. No epsilon or delta was computed and the intended sensitivity convention was not established.
 Next: see `NEXT_SPRINT.md`. The fast suite records and the README counts were not re-recorded here.
 
+## 2026-11-26 v0.16.5 NVFlare selection check with stated power (see `CHANGELOG.md`, `docs/preregistration/v0.16-nvflare-selection.md` and `docs/v0.16-nvflare-selection-audit.md`)
+
+The v0.16.4 selection check could not fail at its claim (ceiling 10.9 against 20). The new check calls the real `SVTPrivacy` 1,000,000 times for each of three small configurations. Lower bounds on the epsilon of the selected set were 0.418, 0.357 and 0.015 against claims of 1, 1 and 0.1, and the smallest excess found with 80% power was 2.1%, 2.6% and 26% of the claim. All 7 rows and 44 checks held, one unscripted prediction held partly. The two filter files are byte identical in 2.8.3, 2.9.0 and 2.9.1 and a seeded call of each gave the same digest. The release gate now pins its own files and the commit hooks and checks that a pre-registration with predictions also states power.
+Next: see `NEXT_SPRINT.md`.
+
 ## 2026-11-25 v0.16.4 NVFlare filter measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-nvflare.md` and `docs/v0.16-nvflare-dp-audit.md`)
 
 `nvflare` 2.9.1 SVTPrivacy and PercentilePrivacy, 18 rows and 63 checks, all held. The default release budget makes one call epsilon 255.9 at 25,578 parameters. The acceptance step accepts a whole pass (656 of 1,000 for 100 wanted) and has no pass limit. No lower bound exceeded the claim. Release gate script and commit hooks added.

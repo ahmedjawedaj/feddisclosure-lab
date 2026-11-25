@@ -14,9 +14,17 @@ Checks
 4. The tree holds no strings from material that is held back (see HELD below).
 5. Version in pyproject.toml, CITATION.cff and the top CHANGELOG entry agree.
 6. scripts/verify_readme_claims.py passes.
+7. Gate integrity: the gate script and the two commit hooks match the sha256 pins in scripts/gate_pins.json.
+   A mismatch fails the gate unless GATE_REPIN=1 is set, and then the full diff of the gate files against BASE
+   is printed so that a reviewer sees it. `GATE_REPIN=1 python3 scripts/release_gate.py --repin [BASE]` writes new pins.
+8. Pre-registration power: a changed pre-registration file with a heading that has the word Predictions must also
+   have a heading with the word Power. Only files changed since BASE are checked.
 """
 from __future__ import annotations
 
+import hashlib
+import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -28,6 +36,8 @@ DASHES = ("—", "–")
 # Held back material. Word boundaries keep ordinary words from matching.
 HELD = (r"\bpfl\b", r"JointMechanism", r"\bT3b\b", r"\bT4b\b", r"fedml\.init\b")
 HELD_SKIP = ("scripts/release_gate.py",)
+PINS_FILE = "scripts/gate_pins.json"
+PINNED = ("scripts/release_gate.py", "scripts/hooks/commit-msg", "scripts/hooks/pre-commit")
 
 
 def git(*args: str) -> str:
@@ -58,6 +68,75 @@ def check_prereg(base: str) -> tuple[bool, str]:
         if text.split(marker)[0] != original.split(marker)[0]:
             bad.append(f)
     return not bad, "text above the Deviation log changed in " + ", ".join(bad) if bad else f"{len(files)} changed pre-registration files checked"
+
+
+def file_sha256(rel: str, root: Path = ROOT) -> str:
+    p = root / rel
+    return hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else "missing"
+
+
+def pin_mismatches(pins: dict, root: Path = ROOT, pinned: tuple[str, ...] = PINNED) -> list[str]:
+    """Names of pinned files whose sha256 differs from the pin, or that have no pin."""
+    bad = []
+    for rel in pinned:
+        if rel not in pins:
+            bad.append(f"{rel} (no pin)")
+        elif file_sha256(rel, root) != pins[rel]:
+            bad.append(rel)
+    return bad
+
+
+def gate_diff(base: str) -> str:
+    return git("diff", base, "--", *PINNED, PINS_FILE)
+
+
+def check_integrity(base: str) -> tuple[bool, str]:
+    pins_path = ROOT / PINS_FILE
+    repin = os.environ.get("GATE_REPIN") == "1"
+    try:
+        pins = json.loads(pins_path.read_text())
+    except (OSError, ValueError):
+        pins = {}
+    bad = pin_mismatches(pins)
+    if not bad:
+        return True, f"{len(PINNED)} gate files match their pins"
+    if repin:
+        print("GATE_REPIN=1 is set. Diff of the gate files and pins against " + base + ":")
+        print(gate_diff(base) or "(no difference against the base)")
+        return True, "GATE_REPIN=1, " + ", ".join(bad) + " differ from the pins, review the diff printed above"
+    return False, ", ".join(bad) + f" differ from {PINS_FILE}. Review the change and rerun with GATE_REPIN=1 to see the diff"
+
+
+def repin(base: str) -> int:
+    if os.environ.get("GATE_REPIN") != "1":
+        print("FAIL  repin needs GATE_REPIN=1")
+        return 2
+    old = {}
+    try:
+        old = json.loads((ROOT / PINS_FILE).read_text())
+    except (OSError, ValueError):
+        pass
+    new = {rel: file_sha256(rel) for rel in PINNED}
+    (ROOT / PINS_FILE).write_text(json.dumps(new, indent=2, sort_keys=True) + "\n")
+    for rel in PINNED:
+        print(f"{'same   ' if old.get(rel) == new[rel] else 'changed'}  {rel}  {old.get(rel, 'none')} -> {new[rel]}")
+    print(gate_diff(base) or "(no difference against the base)")
+    return 0
+
+
+def prereg_power_missing(text: str) -> bool:
+    """True when a heading has the word Predictions and no heading has the word Power."""
+    heads = [m.group(0) for m in re.finditer(r"^#{1,6}[ \t].*$", text, re.M)]
+    has_pred = any(re.search(r"\bpredictions?\b", h, re.I) for h in heads)
+    has_power = any(re.search(r"\bpower\b", h, re.I) for h in heads)
+    return has_pred and not has_power
+
+
+def check_prereg_power(base: str) -> tuple[bool, str]:
+    changed = set(git("diff", "--name-only", base, "--", "docs/preregistration").split())
+    files = [f for f in sorted(changed) if f.endswith(".md") and (ROOT / f).is_file()]
+    bad = [f for f in files if prereg_power_missing((ROOT / f).read_text())]
+    return not bad, ("no Power heading in " + ", ".join(bad)) if bad else f"{len(files)} changed pre-registration files checked"
 
 
 def added_markdown_lines(base: str):
@@ -133,7 +212,10 @@ def main() -> int:
         ok, detail = check_prose(base)
         print(f"{'OK  ' if ok else 'FAIL'}  prose: {detail}")
         return 0 if ok else 1
-    checks = [("attribution", lambda: check_attribution(base)), ("prereg_integrity", lambda: check_prereg(base)),
+    if base == "--repin":
+        return repin(sys.argv[2] if len(sys.argv) > 2 else "origin/main")
+    checks = [("gate_integrity", lambda: check_integrity(base)), ("attribution", lambda: check_attribution(base)),
+              ("prereg_integrity", lambda: check_prereg(base)), ("prereg_power", lambda: check_prereg_power(base)),
               ("prose", lambda: check_prose(base)), ("held_back", check_held), ("versions", check_versions),
               ("claims", check_claims)]
     failed = 0
