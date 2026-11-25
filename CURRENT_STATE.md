@@ -1,6 +1,6 @@
 ## 2026-11-25 v0.16.1 inversion attack on CIFAR-10 (see `CHANGELOG.md`, `docs/preregistration/v0.16-p3.md` and `docs/v0.16-p3-breaching-results.md`)
 
-Pre-registered `breaching` study on real CIFAR-10, 20 seeds. Control passes (+5.50 dB over the label-only floor). With 8 records per client the attack does not beat the floor in the plaintext view (-0.12 dB) or with n-1 collusion (-0.01 dB), so R1, R3 and O1 fail. The aggregate view is 1.47 dB below the floor and its pass is vacuous. This is not evidence of privacy. The repository's own attack is 2.59 times worse in mean squared error (B1c fails).
+Pre-registered `breaching` study on real CIFAR-10, 20 seeds. Control passes (+5.50 dB over the label-only floor). With 8 records per client the attack does not beat the floor in PSNR in the plaintext view (-0.12 dB) or with n-1 collusion (-0.01 dB), so R1, R3 and O1 fail. For these attacks the aggregate view is 1.47 dB below the floor and its pass is vacuous. This is not evidence of privacy. The repository's own attack is 2.59 times worse in mean squared error (B1c fails).
 Next: see `NEXT_SPRINT.md`.
 
 ## 2026-11-23 v0.16.0 first phase of the v0.16 plan (see `CHANGELOG.md`, `docs/preregistration/v0.16-p1.md` and `docs/v0.16-p1-flower-dp-audit.md`)

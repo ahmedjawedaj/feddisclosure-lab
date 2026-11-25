@@ -51,7 +51,7 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 
 - The control passed. With a batch of 1 the attack gains +5.50 dB over the floor (interval +4.71 to +6.31), so the setup works when the problem is easy.
 - With a batch of 8 the attack did not beat the floor. The gain is -0.12 dB in the plaintext view (interval -0.72 to +0.42) and -0.01 dB with n-1 collusion (interval -0.64 to +0.56). The pre-registered predictions R1, R3 and O1 failed and are kept as written.
-- The aggregate view is 1.47 dB below the floor (interval -1.83 to -1.13), so its pass (R2) is vacuous. Plaintext is itself at the floor, so this run does not separate the aggregate from plaintext and is not evidence of privacy.
+- The aggregate view is 1.47 dB below the floor (interval -1.83 to -1.13), so its pass (R2) is vacuous. Plaintext is itself at the floor, so a gain over the floor cannot be used here to say what the aggregate view leaks, and this result is not evidence of privacy.
 - The repository's own attack is weaker than `breaching` in every view. Its mean squared error is 2.59 times larger in the plaintext view, so B1c fails.
 - SSIM gain is positive for plaintext and collusion and near zero for the aggregate. That reading was not pre-registered and needs its own rule before it is relied on.
 
