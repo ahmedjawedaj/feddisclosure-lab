@@ -45,6 +45,17 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 - With adaptive clipping and every client clipped, the update noise scale is 0.903 of the reference algorithm at the default learning rate and 0.607 at learning rate 1.0.
 - `LocalDpMod` meets its configured (epsilon, delta) for epsilon up to 5 on the tested grid. At configured epsilon 20 the exact delta is 153 times the configured delta.
 
+## Measured privacy of FedML's DP mechanisms (v0.16.2)
+
+`scripts/audit_fedml_dp.py` calls the classes under `fedml/core/dp` of `fedml` 0.9.6 directly, with placeholder modules standing in for the rest of the package, and compares the mechanism that executes with the one implied by the configured parameters. FedML's own `__init__` was never executed. Predictions were written in [`docs/preregistration/v0.16-fedml.md`](docs/preregistration/v0.16-fedml.md) before any run. 130 checks were built from them (18 were added after the first quick run, and both failed checks were in the original set), 128 held and 2 did not (both concern the error an accountant path raises). Some rows were partly confirmatory, as the pre-registration states. Only 0.9.6 was run. Tables and limits are in [`docs/v0.16-fedml-dp-audit.md`](docs/v0.16-fedml-dp-audit.md). The DP source files are byte-identical in the seven earlier releases that were compared.
+
+Read these as measurements under the stated configurations and not as statements about intended use. FedML ships no documentation text for these parameters in the wheel, so "claimed" means the reading implied by the class docstrings and the cited papers.
+
+- The Gaussian and Laplace mechanisms deliver the noise scale their formulas give, within 0.5% in all 18 cells measured.
+- `sensitivity` is one argument for both mechanisms. With an update of L2 norm 1 spread over 16 coordinates and `sensitivity` set to 1, the executed Laplace mechanism is epsilon 4.00 where the configuration implies 1.00. The Laplace class is correct for an L1 bound, so this is a configuration note and not a property of the mechanism.
+- `LocalDP` adds noise that does not depend on the input and does no clipping. With `sensitivity` 2, epsilon 1 and an update of norm 25 the exact epsilon is 34.5, and the empirical 95% lower bound is 10.57. The norm 25 update is a deliberately large toy case and `sensitivity` 2 does not bound it. Real update norms were not measured.
+- The RDP to (epsilon, delta) conversion for one full step at noise multiplier 1 gives epsilon 4.73 where the exact Gaussian value is 4.38, a valid upper bound 8% above exact. Separately, `get_epsilon` raises after the first step in the three configurations tried, so this function is reached only by calling it through the class.
+
 ## Stronger inversion attack on CIFAR-10 (v0.16.1)
 
 `scripts/p3_breaching_cifar10.py` runs the gradient inversion attack of the `breaching` library (version 0.1.2, 4,000 iterations) on real CIFAR-10 against a small CNN with 25,578 parameters. Four clients hold 8 records each and take one SGD step. The rules were committed in [`docs/preregistration/v0.16-p3.md`](docs/preregistration/v0.16-p3.md) before the script and before any run. Results are from 20 evaluation seeds on a Colab T4. The unit is the seed, and the gain is the PSNR difference to a label-only floor (class average images) with a 95% bootstrap interval. Tables, deviations and limits are in [`docs/v0.16-p3-breaching-results.md`](docs/v0.16-p3-breaching-results.md).
@@ -59,7 +70,7 @@ Tuning chose the edge of the total variation grid for `breaching`, and the model
 
 ## Headline results (v0.15.0)
 
-Current release: 0.16.1. Release 0.16.1 adds the CIFAR-10 inversion study described above and changes no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
+Current release: 0.16.2. Release 0.16.2 adds the FedML DP measurement described above. Release 0.16.1 added the CIFAR-10 inversion study and changed no earlier result. Release 0.16.0 added the Flower DP measurement and changed no v0.15 result. Releases 0.15.1 to 0.15.3 correct wording, add a hosted Fashion-MNIST rerun and add one related-work pointer. They change no result number, verdict or threshold. See [`CHANGELOG.md`](CHANGELOG.md).
 
 All numbers come from saved runs under `reports/results/`. Every prediction was written with a numeric pass rule in [`docs/preregistration/v0.15.md`](docs/preregistration/v0.15.md) before the runs, and no threshold was changed afterwards. Some readings were fixed in code and not timestamped before the runs (D2, D3, D4, the F1 split, the B1 headline, and the S and X primary readings), and the deviation log in that file lists them. The log does not say when the D5, W3, W5, P1, F2, S1 and S3 readings were fixed. W3, F2 and S1 would fail under the other reading, and P1 would be untested. Where a rule was ambiguous the reading used is in that file's deviation log, together with the verdict under the other reading.
 
@@ -140,8 +151,8 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu   # CPU build
 pip install -e '.[test,research,ml,privacy]'
 
 # fast test suite, no Docker needed. The counts depend on what is installed:
-#   with flwr and opacus (no opendp, no torchvision): 577 pass and 8 skip, 6 deselected
-#   without flwr and opacus: 418 pass and 50 skip, 5 deselected
+#   with flwr and opacus (no opendp, no torchvision): 582 pass and 21 skip, 7 deselected
+#   without flwr and opacus: 427 pass and 59 skip, 6 deselected
 PYTHONPATH=src:. pytest -q -m 'not slow'
 
 # rebuild the offline evidence dashboard

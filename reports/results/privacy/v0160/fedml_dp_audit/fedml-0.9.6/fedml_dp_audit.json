@@ -1,0 +1,2374 @@
+{
+  "schema": "feddisclosure.fedml_dp_audit.v1",
+  "quick": false,
+  "environment": {
+    "fedml": "0.9.6",
+    "fedml_dp_tree_sha256": "9e01b96e5ec686156397f12edc00a575fa6acb9f9f69b0a21dd0e23e98599814",
+    "fedml_modules_loaded": [
+      "fedml",
+      "fedml.core",
+      "fedml.core.common",
+      "fedml.core.common.ml_engine_backend",
+      "fedml.core.dp",
+      "fedml.core.dp.budget_accountant",
+      "fedml.core.dp.budget_accountant.rdp_accountant",
+      "fedml.core.dp.budget_accountant.rdp_analysis",
+      "fedml.core.dp.common",
+      "fedml.core.dp.common.constants",
+      "fedml.core.dp.common.utils",
+      "fedml.core.dp.fedml_differential_privacy",
+      "fedml.core.dp.frames",
+      "fedml.core.dp.frames.NbAFL",
+      "fedml.core.dp.frames.base_dp_solution",
+      "fedml.core.dp.frames.cdp",
+      "fedml.core.dp.frames.dp_clip",
+      "fedml.core.dp.frames.ldp",
+      "fedml.core.dp.mechanisms",
+      "fedml.core.dp.mechanisms.base_dp_mechanism",
+      "fedml.core.dp.mechanisms.dp_mechanism",
+      "fedml.core.dp.mechanisms.gaussian",
+      "fedml.core.dp.mechanisms.laplace"
+    ],
+    "fedml_init_executed": false,
+    "network_blocked_during_rows": true,
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "torch": "2.15.0+cpu",
+    "python": "3.13.18"
+  },
+  "parameters": {
+    "dim": 16,
+    "delta": 1e-05,
+    "noise_runs": 20000,
+    "trials_per_world": 200000,
+    "compute_noise_samples": 200000,
+    "seed": 20261124
+  },
+  "script_sha256": "69ff9dfc7f37b770872753600fdc631f1ca29b729d83f634452b32f97bb6eced",
+  "summary": {
+    "checks_total": 130,
+    "checks_failed": [
+      {
+        "row": "RA1",
+        "check": "q0.1_default_orders: after a step raises TypeError",
+        "expected": "TypeError",
+        "observed": "NameError: name '_log_erfc' is not defined",
+        "held": false
+      },
+      {
+        "row": "RA5",
+        "check": "raises only after a step (pre-registered detail)",
+        "expected": "no exception before a step",
+        "observed": "TypeError: unsupported operand type(s) for /: 'float' and 'NoneType'",
+        "held": false
+      }
+    ]
+  },
+  "rows": [
+    {
+      "row": "G1",
+      "api": "fedml.core.dp.mechanisms.gaussian.Gaussian via DPMechanism",
+      "cells": [
+        {
+          "epsilon": 0.1,
+          "delta": 1e-05,
+          "sensitivity": 1.0,
+          "sigma_attribute": 48.44805262605389,
+          "sigma_formula": 48.44805262605389,
+          "noise": {
+            "runs": 20000,
+            "sigma": 48.371228451369404,
+            "mean_abs": 38.589474135248686,
+            "sigma_min_coord": 47.948784047175096,
+            "sigma_max_coord": 48.90341861580352,
+            "ks_pvalue": 0.9133728108141989,
+            "max_abs_column_corr": 0.012280857322287826,
+            "lag1_corr": 0.0016216712490253844
+          },
+          "sigma_ratio_measured_over_formula": 0.9984142979847416,
+          "mu_claimed": 0.02064066450138866,
+          "mu_measured": 0.02067344642705037,
+          "exact_delta_at_configured_eps": 2.747996127012092e-09,
+          "exact_delta_ratio_to_configured": 0.0002747996127012092,
+          "exact_eps_at_configured_delta": 0.060809932744892756,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 0.5,
+          "delta": 1e-05,
+          "sensitivity": 1.0,
+          "sigma_attribute": 9.689610525210778,
+          "sigma_formula": 9.689610525210778,
+          "noise": {
+            "runs": 20000,
+            "sigma": 9.690046176595729,
+            "mean_abs": 7.734521659045864,
+            "sigma_min_coord": 9.598716093017194,
+            "sigma_max_coord": 9.816455533169261,
+            "ks_pvalue": 0.8399983332804153,
+            "max_abs_column_corr": 0.011717430572517732,
+            "lag1_corr": -0.0002105586702062644
+          },
+          "sigma_ratio_measured_over_formula": 1.0000449606703816,
+          "mu_claimed": 0.10320332250694328,
+          "mu_measured": 0.10319868262498996,
+          "exact_delta_at_configured_eps": 1.6059560932632606e-08,
+          "exact_delta_ratio_to_configured": 0.0016059560932632606,
+          "exact_eps_at_configured_delta": 0.35255522632898834,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 1.0,
+          "delta": 1e-05,
+          "sensitivity": 1.0,
+          "sigma_attribute": 4.844805262605389,
+          "sigma_formula": 4.844805262605389,
+          "noise": {
+            "runs": 20000,
+            "sigma": 4.846709273396965,
+            "mean_abs": 3.865746065463674,
+            "sigma_min_coord": 4.7972301892645905,
+            "sigma_max_coord": 4.898729798653702,
+            "ks_pvalue": 0.8253532849398211,
+            "max_abs_column_corr": 0.01710536447127821,
+            "lag1_corr": 0.007040880111974785
+          },
+          "sigma_ratio_measured_over_formula": 1.0003930004795594,
+          "mu_claimed": 0.20640664501388656,
+          "mu_measured": 0.20632555897026586,
+          "exact_delta_at_configured_eps": 4.071446503419191e-08,
+          "exact_delta_ratio_to_configured": 0.00407144650341919,
+          "exact_eps_at_configured_delta": 0.7506542544617933,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 0.1,
+          "delta": 0.1,
+          "sensitivity": 1.0,
+          "sigma_attribute": 22.47544724497493,
+          "sigma_formula": 22.47544724497493,
+          "noise": {
+            "runs": 20000,
+            "sigma": 22.457724486072784,
+            "mean_abs": 17.92801844959654,
+            "sigma_min_coord": 22.312599817153227,
+            "sigma_max_coord": 22.63761967080871,
+            "ks_pvalue": 0.8281564832860274,
+            "max_abs_column_corr": 0.010657988124981945,
+            "lag1_corr": 0.006374228483551244
+          },
+          "sigma_ratio_measured_over_formula": 0.9992114613467321,
+          "mu_claimed": 0.044492996695475344,
+          "mu_measured": 0.04452810883044507,
+          "exact_delta_at_configured_eps": 0.00020061798928101143,
+          "exact_delta_ratio_to_configured": 0.0020061798928101143,
+          "exact_eps_at_configured_delta": 0.0,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 0.5,
+          "delta": 0.1,
+          "sensitivity": 1.0,
+          "sigma_attribute": 4.495089448994986,
+          "sigma_formula": 4.495089448994986,
+          "noise": {
+            "runs": 20000,
+            "sigma": 4.49115982054598,
+            "mean_abs": 3.5828845877074915,
+            "sigma_min_coord": 4.459716499748382,
+            "sigma_max_coord": 4.52569286998896,
+            "ks_pvalue": 0.5309778335811819,
+            "max_abs_column_corr": 0.013594814797960736,
+            "lag1_corr": 0.008263587277095263
+          },
+          "sigma_ratio_measured_over_formula": 0.9991257952720196,
+          "mu_claimed": 0.22246498347737673,
+          "mu_measured": 0.22265963358178428,
+          "exact_delta_at_configured_eps": 0.001220065163042976,
+          "exact_delta_ratio_to_configured": 0.01220065163042976,
+          "exact_eps_at_configured_delta": 0.0,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 1.0,
+          "delta": 0.1,
+          "sensitivity": 1.0,
+          "sigma_attribute": 2.247544724497493,
+          "sigma_formula": 2.247544724497493,
+          "noise": {
+            "runs": 20000,
+            "sigma": 2.247874687242898,
+            "mean_abs": 1.7936218064539236,
+            "sigma_min_coord": 2.23008560293105,
+            "sigma_max_coord": 2.260739741257058,
+            "ks_pvalue": 0.4350004728339566,
+            "max_abs_column_corr": 0.009600882235519859,
+            "lag1_corr": 0.005759558687910712
+          },
+          "sigma_ratio_measured_over_formula": 1.0001468103134092,
+          "mu_claimed": 0.44492996695475345,
+          "mu_measured": 0.4448646562351468,
+          "exact_delta_at_configured_eps": 0.0030629676352829753,
+          "exact_delta_ratio_to_configured": 0.030629676352829753,
+          "exact_eps_at_configured_delta": 0.21268999552515444,
+          "meets_configured_guarantee": true
+        }
+      ],
+      "checks": [
+        {
+          "check": "sigma within 1% of formula (eps 0.1, delta 1e-05)",
+          "expected": 1.0,
+          "observed": 0.9984142979847416,
+          "held": true
+        },
+        {
+          "check": "meets (eps, delta) (eps 0.1, delta 1e-05)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "sigma within 1% of formula (eps 0.5, delta 1e-05)",
+          "expected": 1.0,
+          "observed": 1.0000449606703816,
+          "held": true
+        },
+        {
+          "check": "meets (eps, delta) (eps 0.5, delta 1e-05)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "sigma within 1% of formula (eps 1.0, delta 1e-05)",
+          "expected": 1.0,
+          "observed": 1.0003930004795594,
+          "held": true
+        },
+        {
+          "check": "meets (eps, delta) (eps 1.0, delta 1e-05)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "sigma within 1% of formula (eps 0.1, delta 0.1)",
+          "expected": 1.0,
+          "observed": 0.9992114613467321,
+          "held": true
+        },
+        {
+          "check": "meets (eps, delta) (eps 0.1, delta 0.1)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "sigma within 1% of formula (eps 0.5, delta 0.1)",
+          "expected": 1.0,
+          "observed": 0.9991257952720196,
+          "held": true
+        },
+        {
+          "check": "meets (eps, delta) (eps 0.5, delta 0.1)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "sigma within 1% of formula (eps 1.0, delta 0.1)",
+          "expected": 1.0,
+          "observed": 1.0001468103134092,
+          "held": true
+        },
+        {
+          "check": "meets (eps, delta) (eps 1.0, delta 0.1)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "G2",
+      "cells": [
+        {
+          "epsilon": 1.0,
+          "accepted": true,
+          "sigma": 4.844805262605389,
+          "exception": null
+        },
+        {
+          "epsilon": 1.0000001,
+          "accepted": false,
+          "exception": "ValueError: Epsilon cannot be greater than 1. "
+        },
+        {
+          "epsilon": 2,
+          "accepted": false,
+          "exception": "ValueError: Epsilon cannot be greater than 1. "
+        },
+        {
+          "epsilon": 5,
+          "accepted": false,
+          "exception": "ValueError: Epsilon cannot be greater than 1. "
+        },
+        {
+          "epsilon": 10,
+          "accepted": false,
+          "exception": "ValueError: Epsilon cannot be greater than 1. "
+        }
+      ],
+      "checks": [
+        {
+          "check": "epsilon 1.0",
+          "expected": "accepted",
+          "observed": "accepted",
+          "held": true
+        },
+        {
+          "check": "epsilon 1.0000001",
+          "expected": "ValueError",
+          "observed": "ValueError: Epsilon cannot be greater than 1. ",
+          "held": true
+        },
+        {
+          "check": "epsilon 2",
+          "expected": "ValueError",
+          "observed": "ValueError: Epsilon cannot be greater than 1. ",
+          "held": true
+        },
+        {
+          "check": "epsilon 5",
+          "expected": "ValueError",
+          "observed": "ValueError: Epsilon cannot be greater than 1. ",
+          "held": true
+        },
+        {
+          "check": "epsilon 10",
+          "expected": "ValueError",
+          "observed": "ValueError: Epsilon cannot be greater than 1. ",
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "LP1",
+      "api": "fedml.core.dp.mechanisms.laplace.Laplace via DPMechanism",
+      "cells": [
+        {
+          "epsilon": 0.1,
+          "delta": 0.0,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 10.0,
+          "scale_formula": 10.0,
+          "scale_measured": 10.027454724801906,
+          "scale_ratio_measured_over_formula": 1.0027454724801905,
+          "noise": {
+            "runs": 20000,
+            "sigma": 14.175414593859715,
+            "mean_abs": 10.027454724801906,
+            "sigma_min_coord": 14.019968808573214,
+            "sigma_max_coord": 14.308372324645031,
+            "ks_pvalue": 0.9718613331283321,
+            "max_abs_column_corr": 0.011802100569538721,
+            "lag1_corr": -0.008865780112301661
+          },
+          "eps_pure_formula": 0.1,
+          "eps_pure_measured": 0.09972620445012831,
+          "exact_delta_at_configured_eps": 0.0,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.0,
+          "exact_eps_at_configured_delta": 0.09972620445012831,
+          "exact_delta_from_formula_scale": 0.0,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 1,
+          "delta": 0.0,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 1.0,
+          "scale_formula": 1.0,
+          "scale_measured": 1.0008732196617964,
+          "scale_ratio_measured_over_formula": 1.0008732196617964,
+          "noise": {
+            "runs": 20000,
+            "sigma": 1.4143096079866324,
+            "mean_abs": 1.0008732196617964,
+            "sigma_min_coord": 1.4005134662262866,
+            "sigma_max_coord": 1.432903270715492,
+            "ks_pvalue": 0.8943867189072657,
+            "max_abs_column_corr": 0.012305223826730213,
+            "lag1_corr": -0.006416381500895295
+          },
+          "eps_pure_formula": 1.0,
+          "eps_pure_measured": 0.9991275421855212,
+          "exact_delta_at_configured_eps": 0.0,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.0,
+          "exact_eps_at_configured_delta": 0.9991275421855212,
+          "exact_delta_from_formula_scale": 0.0,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 5,
+          "delta": 0.0,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 0.2,
+          "scale_formula": 0.2,
+          "scale_measured": 0.19901245353787145,
+          "scale_ratio_measured_over_formula": 0.9950622676893572,
+          "noise": {
+            "runs": 20000,
+            "sigma": 0.28131832448123223,
+            "mean_abs": 0.19901245353787145,
+            "sigma_min_coord": 0.2774330048611133,
+            "sigma_max_coord": 0.2851655748090464,
+            "ks_pvalue": 0.961307533688908,
+            "max_abs_column_corr": 0.01125518128916761,
+            "lag1_corr": -0.0008453365895068346
+          },
+          "eps_pure_formula": 5.0,
+          "eps_pure_measured": 5.02481117248124,
+          "exact_delta_at_configured_eps": 0.012328954171541562,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.0,
+          "exact_eps_at_configured_delta": 5.02481117248124,
+          "exact_delta_from_formula_scale": 0.0,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 0.1,
+          "delta": 1e-05,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 9.99900009499097,
+          "scale_formula": 9.99900009499097,
+          "scale_measured": 10.005467878511293,
+          "scale_ratio_measured_over_formula": 1.000646843030191,
+          "noise": {
+            "runs": 20000,
+            "sigma": 14.14725501068473,
+            "mean_abs": 10.005467878511293,
+            "sigma_min_coord": 13.898393548008222,
+            "sigma_max_coord": 14.369729773855797,
+            "ks_pvalue": 0.39797426064637864,
+            "max_abs_column_corr": 0.014364955666514622,
+            "lag1_corr": 0.005429741577431387
+          },
+          "eps_pure_formula": 0.1000100000500003,
+          "eps_pure_measured": 0.09994535109624372,
+          "exact_delta_at_configured_eps": 0.0,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 5.00001250003379e-06,
+          "exact_eps_at_configured_delta": 0.09992535099624306,
+          "exact_delta_from_formula_scale": 5.00001250003379e-06,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 1,
+          "delta": 1e-05,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 0.9999900000499997,
+          "scale_formula": 0.9999900000499997,
+          "scale_measured": 0.9991156143418659,
+          "scale_ratio_measured_over_formula": 0.9991256055479654,
+          "noise": {
+            "runs": 20000,
+            "sigma": 1.4128871122009357,
+            "mean_abs": 0.9991156143418659,
+            "sigma_min_coord": 1.3962115786479787,
+            "sigma_max_coord": 1.430944611969341,
+            "ks_pvalue": 0.9621790024970207,
+            "max_abs_column_corr": 0.01233663050401667,
+            "lag1_corr": 0.013831192846408043
+          },
+          "eps_pure_formula": 1.0000100000500003,
+          "eps_pure_measured": 1.0008851684884503,
+          "exact_delta_at_configured_eps": 0.0004424863182659333,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 5.00001250003379e-06,
+          "exact_eps_at_configured_delta": 1.0008651683884497,
+          "exact_delta_from_formula_scale": 5.00001250003379e-06,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 5,
+          "delta": 1e-05,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 0.1999995999988,
+          "scale_formula": 0.1999995999988,
+          "scale_measured": 0.19939956109108217,
+          "scale_ratio_measured_over_formula": 0.9969997994609918,
+          "noise": {
+            "runs": 20000,
+            "sigma": 0.2822662457934061,
+            "mean_abs": 0.19939956109108217,
+            "sigma_min_coord": 0.2794917943465278,
+            "sigma_max_coord": 0.2854407932354748,
+            "ks_pvalue": 0.9681638187810897,
+            "max_abs_column_corr": 0.015403568740122168,
+            "lag1_corr": -0.009500158214981977
+          },
+          "eps_pure_formula": 5.0000100000500005,
+          "eps_pure_measured": 5.0150561742872535,
+          "exact_delta_at_configured_eps": 0.007499822067397965,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 5.00001250003379e-06,
+          "exact_eps_at_configured_delta": 5.0150361741872524,
+          "exact_delta_from_formula_scale": 5.000012500144813e-06,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 0.1,
+          "delta": 0.1,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 4.86948524061076,
+          "scale_formula": 4.86948524061076,
+          "scale_measured": 4.85903484027739,
+          "scale_ratio_measured_over_formula": 0.9978539003987085,
+          "noise": {
+            "runs": 20000,
+            "sigma": 6.863665886486232,
+            "mean_abs": 4.85903484027739,
+            "sigma_min_coord": 6.7914540779609975,
+            "sigma_max_coord": 6.921261720232396,
+            "ks_pvalue": 0.958725470217575,
+            "max_abs_column_corr": 0.011852389254750084,
+            "lag1_corr": -0.008376887226419322
+          },
+          "eps_pure_formula": 0.2053605156578263,
+          "eps_pure_measured": 0.20580218765068836,
+          "exact_delta_at_configured_eps": 0.05152618223966299,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.05131670194948623,
+          "exact_eps_at_configured_delta": 0.0,
+          "exact_delta_from_formula_scale": 0.05131670194948623,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 1,
+          "delta": 0.1,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 0.9046822152905256,
+          "scale_formula": 0.9046822152905256,
+          "scale_measured": 0.902285187669707,
+          "scale_ratio_measured_over_formula": 0.9973504203130059,
+          "noise": {
+            "runs": 20000,
+            "sigma": 1.276501292578871,
+            "mean_abs": 0.902285187669707,
+            "sigma_min_coord": 1.2644558455267576,
+            "sigma_max_coord": 1.3049115584533495,
+            "ks_pvalue": 0.15030379814523287,
+            "max_abs_column_corr": 0.00807672532643527,
+            "lag1_corr": -0.006802377425675305
+          },
+          "eps_pure_formula": 1.1053605156578263,
+          "eps_pure_measured": 1.1082970369741487,
+          "exact_delta_at_configured_eps": 0.052708594232676265,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.05131670194948623,
+          "exact_eps_at_configured_delta": 0.897576005658496,
+          "exact_delta_from_formula_scale": 0.05131670194948623,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 5,
+          "delta": 0.1,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 0.19587255335505918,
+          "scale_formula": 0.19587255335505918,
+          "scale_measured": 0.19581766957418792,
+          "scale_ratio_measured_over_formula": 0.9997197985121898,
+          "noise": {
+            "runs": 20000,
+            "sigma": 0.27708232598244115,
+            "mean_abs": 0.19581766957418792,
+            "sigma_min_coord": 0.27402141321382606,
+            "sigma_max_coord": 0.28249051848103557,
+            "ks_pvalue": 0.6026456641896274,
+            "max_abs_column_corr": 0.011223630998662864,
+            "lag1_corr": 0.006935004236263879
+          },
+          "eps_pure_formula": 5.105360515657826,
+          "eps_pure_measured": 5.106791446218993,
+          "exact_delta_at_configured_eps": 0.05199520915839173,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.05131670194948623,
+          "exact_eps_at_configured_delta": 4.89607041490334,
+          "exact_delta_from_formula_scale": 0.05131670194948601,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 0.1,
+          "delta": 0.5,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 1.260800043812828,
+          "scale_formula": 1.260800043812828,
+          "scale_measured": 1.2604724030868157,
+          "scale_ratio_measured_over_formula": 0.9997401326819269,
+          "noise": {
+            "runs": 20000,
+            "sigma": 1.7801256290518523,
+            "mean_abs": 1.2604724030868157,
+            "sigma_min_coord": 1.7579620811993022,
+            "sigma_max_coord": 1.8014981740911022,
+            "ks_pvalue": 0.5841741115845973,
+            "max_abs_column_corr": 0.008710325516100589,
+            "lag1_corr": -0.0028858380585172067
+          },
+          "eps_pure_formula": 0.7931471805599453,
+          "eps_pure_measured": 0.7933533471665579,
+          "exact_delta_at_configured_eps": 0.29296610595945904,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.2928932188134524,
+          "exact_eps_at_configured_delta": 0.0,
+          "exact_delta_from_formula_scale": 0.2928932188134524,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 1,
+          "delta": 0.5,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 0.5906161091496412,
+          "scale_formula": 0.5906161091496412,
+          "scale_measured": 0.5918292406742685,
+          "scale_ratio_measured_over_formula": 1.002054010220571,
+          "noise": {
+            "runs": 20000,
+            "sigma": 0.8365336446663224,
+            "mean_abs": 0.5918292406742685,
+            "sigma_min_coord": 0.8295863167126963,
+            "sigma_max_coord": 0.8455507967164144,
+            "ks_pvalue": 0.5426730081007121,
+            "max_abs_column_corr": 0.012561648049514752,
+            "lag1_corr": -0.004861112076427425
+          },
+          "eps_pure_formula": 1.6931471805599454,
+          "eps_pure_measured": 1.6896765676205934,
+          "exact_delta_at_configured_eps": 0.29166510657393374,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.2928932188134524,
+          "exact_eps_at_configured_delta": 0.3033822065007028,
+          "exact_delta_from_formula_scale": 0.29289321881345254,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        },
+        {
+          "epsilon": 5,
+          "delta": 0.5,
+          "sensitivity_l1": 1.0,
+          "scale_attribute": 0.17564977125738837,
+          "scale_formula": 0.17564977125738837,
+          "scale_measured": 0.1755906777428808,
+          "scale_ratio_measured_over_formula": 0.999663571924492,
+          "noise": {
+            "runs": 20000,
+            "sigma": 0.24826381374053544,
+            "mean_abs": 0.1755906777428808,
+            "sigma_min_coord": 0.24346519259857025,
+            "sigma_max_coord": 0.25220948254816633,
+            "ks_pvalue": 0.6468251447855615,
+            "max_abs_column_corr": 0.013481071884830897,
+            "lag1_corr": 0.013530040124861212
+          },
+          "eps_pure_formula": 5.693147180559945,
+          "eps_pure_measured": 5.69506315969866,
+          "exact_delta_at_configured_eps": 0.2935702953663314,
+          "predicted_exact_delta_1_minus_sqrt_1_minus_delta": 0.2928932188134524,
+          "exact_eps_at_configured_delta": 4.308768798578769,
+          "exact_delta_from_formula_scale": 0.29289321881345254,
+          "pure_eps_within_2pct_of_claimed": true,
+          "meets_configured_guarantee": true
+        }
+      ],
+      "checks": [
+        {
+          "check": "scale within 1% (eps 0.1, delta 0.0)",
+          "expected": 1.0,
+          "observed": 1.0027454724801905,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 0.1, delta 0.0)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 0.1, delta 0.0)",
+          "expected": true,
+          "observed": 0.09972620445012831,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 1, delta 0.0)",
+          "expected": 1.0,
+          "observed": 1.0008732196617964,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 1, delta 0.0)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 1, delta 0.0)",
+          "expected": true,
+          "observed": 0.9991275421855212,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 5, delta 0.0)",
+          "expected": 1.0,
+          "observed": 0.9950622676893572,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 5, delta 0.0)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 5, delta 0.0)",
+          "expected": true,
+          "observed": 5.02481117248124,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 0.1, delta 1e-05)",
+          "expected": 1.0,
+          "observed": 1.000646843030191,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 0.1, delta 1e-05)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 0.1, delta 1e-05)",
+          "expected": true,
+          "observed": 0.09994535109624372,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 1, delta 1e-05)",
+          "expected": 1.0,
+          "observed": 0.9991256055479654,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 1, delta 1e-05)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 1, delta 1e-05)",
+          "expected": true,
+          "observed": 1.0008851684884503,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 5, delta 1e-05)",
+          "expected": 1.0,
+          "observed": 0.9969997994609918,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 5, delta 1e-05)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 5, delta 1e-05)",
+          "expected": true,
+          "observed": 5.0150561742872535,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 0.1, delta 0.1)",
+          "expected": 1.0,
+          "observed": 0.9978539003987085,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 0.1, delta 0.1)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 0.1, delta 0.1)",
+          "expected": true,
+          "observed": 0.20580218765068836,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 1, delta 0.1)",
+          "expected": 1.0,
+          "observed": 0.9973504203130059,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 1, delta 0.1)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 1, delta 0.1)",
+          "expected": true,
+          "observed": 1.1082970369741487,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 5, delta 0.1)",
+          "expected": 1.0,
+          "observed": 0.9997197985121898,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 5, delta 0.1)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 5, delta 0.1)",
+          "expected": true,
+          "observed": 5.106791446218993,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 0.1, delta 0.5)",
+          "expected": 1.0,
+          "observed": 0.9997401326819269,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 0.1, delta 0.5)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 0.1, delta 0.5)",
+          "expected": true,
+          "observed": 0.7933533471665579,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 1, delta 0.5)",
+          "expected": 1.0,
+          "observed": 1.002054010220571,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 1, delta 0.5)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 1, delta 0.5)",
+          "expected": true,
+          "observed": 1.6896765676205934,
+          "held": true
+        },
+        {
+          "check": "scale within 1% (eps 5, delta 0.5)",
+          "expected": 1.0,
+          "observed": 0.999663571924492,
+          "held": true
+        },
+        {
+          "check": "meets claim (eps 5, delta 0.5)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "measured pure epsilon within 2% of claimed (eps 5, delta 0.5)",
+          "expected": true,
+          "observed": 5.69506315969866,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "LP2",
+      "note": "configuration note. The sensitivity argument is read as L1 by the Laplace class. The update below has L2 norm 1 equal to the configured value.",
+      "configured": {
+        "epsilon": 1.0,
+        "delta": 1e-05,
+        "sensitivity": 1.0,
+        "scale_formula": 0.9999900000499997
+      },
+      "cases": {
+        "concentrated": {
+          "update_l1": 1.0,
+          "update_l2": 1.0,
+          "eps_pure_measured": 0.9998573728849803,
+          "eps_pure_claimed": 1.0000100000500003,
+          "ratio_to_claimed": 0.999847374361244,
+          "exact_eps_at_configured_delta": 0.9998373727849796,
+          "empirical": {
+            "threshold": 0.9687596875484379,
+            "trials_per_world": 200000,
+            "false_positives": 37404,
+            "true_positives": 101493,
+            "fpr_upper": 0.18873593282531453,
+            "tpr_lower": 0.5052713429904032,
+            "eps_lower_bound": 0.9847269490109006,
+            "confidence": 0.95,
+            "statistic": "log likelihood ratio of the predicted Laplace law"
+          }
+        },
+        "spread": {
+          "update_l1": 4.0,
+          "update_l2": 1.0,
+          "eps_pure_measured": 3.9994294915399213,
+          "eps_pure_claimed": 1.0000100000500003,
+          "ratio_to_claimed": 3.999389497444976,
+          "exact_eps_at_configured_delta": 3.9994094914399207,
+          "empirical": {
+            "threshold": 2.900029000145001,
+            "trials_per_world": 200000,
+            "false_positives": 35,
+            "true_positives": 850,
+            "fpr_upper": 0.00024337431511552374,
+            "tpr_lower": 0.003969601718687221,
+            "eps_lower_bound": 2.789298073524792,
+            "confidence": 0.95,
+            "statistic": "log likelihood ratio of the predicted Laplace law"
+          }
+        }
+      },
+      "checks": [
+        {
+          "check": "concentrated eps_pure within 2% of 1.00001",
+          "expected": 1.00001,
+          "observed": 0.9998573728849803,
+          "held": true
+        },
+        {
+          "check": "spread eps_pure within 2% of 4.00004",
+          "expected": 4.00004,
+          "observed": 3.9994294915399213,
+          "held": true
+        },
+        {
+          "check": "empirical bound at or below exact (spread)",
+          "expected": "<= 4.0004",
+          "observed": 2.789298073524792,
+          "held": true
+        }
+      ],
+      "measured_scale": 1.0001426474604154
+    },
+    {
+      "row": "LP3",
+      "note": "observation, not a privacy measurement",
+      "outputs": {
+        "gaussian": {
+          "float32_input_becomes": "torch.float32",
+          "int64_buffer_becomes": "torch.float32",
+          "int64_buffer_value": 4.810603618621826
+        },
+        "laplace": {
+          "float32_input_becomes": "torch.float64",
+          "int64_buffer_becomes": "torch.float64",
+          "int64_buffer_value": 5.774174759648309
+        }
+      },
+      "checks": [
+        {
+          "check": "gaussian float32 stays float32",
+          "expected": "torch.float32",
+          "observed": "torch.float32",
+          "held": true
+        },
+        {
+          "check": "laplace float32 becomes float64",
+          "expected": "torch.float64",
+          "observed": "torch.float64",
+          "held": true
+        },
+        {
+          "check": "gaussian int64 buffer becomes floating",
+          "expected": "floating",
+          "observed": "torch.float32",
+          "held": true
+        },
+        {
+          "check": "laplace int64 buffer becomes floating",
+          "expected": "floating",
+          "observed": "torch.float64",
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "K1",
+      "api": "fedml.core.dp.frames.dp_clip.DP_Clip",
+      "cells": [
+        {
+          "norm_before": 0.5000000044906143,
+          "norm_after": 0.5000000044906143,
+          "returns_same_object": true,
+          "input_tensors_modified": false
+        },
+        {
+          "norm_before": 0.999999994171398,
+          "norm_after": 0.9999990163702279,
+          "returns_same_object": true,
+          "input_tensors_modified": true
+        },
+        {
+          "norm_before": 5.000000059172553,
+          "norm_after": 0.9999998052186756,
+          "returns_same_object": true,
+          "input_tensors_modified": true
+        },
+        {
+          "norm_before": 50.00000090999121,
+          "norm_after": 0.9999999777678237,
+          "returns_same_object": true,
+          "input_tensors_modified": true
+        }
+      ],
+      "add_local_noise_deterministic": true,
+      "checks": [
+        {
+          "check": "norm 0.5 unchanged",
+          "expected": 0.5,
+          "observed": 0.5000000044906143,
+          "held": true
+        },
+        {
+          "check": "norm 1 stays 1 within 1e-5",
+          "expected": 1.0,
+          "observed": 0.9999990163702279,
+          "held": true
+        },
+        {
+          "check": "norm 5.0 clipped to 1 within 1e-5",
+          "expected": 1.0,
+          "observed": 0.9999998052186756,
+          "held": true
+        },
+        {
+          "check": "norm 5.0 modified in place",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "norm 50.0 clipped to 1 within 1e-5",
+          "expected": 1.0,
+          "observed": 0.9999999777678237,
+          "held": true
+        },
+        {
+          "check": "norm 50.0 modified in place",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "add_local_noise is deterministic across seeds (no noise)",
+          "expected": true,
+          "observed": true,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "K2",
+      "api": "fedml.core.dp.frames.dp_clip.DP_Clip.compute_noise",
+      "configured": {
+        "noise_multiplier": 1.0,
+        "clipping_norm": 1.0,
+        "qw": 100.0
+      },
+      "calls": [
+        {
+          "call": 1,
+          "state_scale_after": 0.01,
+          "sigma_measured": 0.010019839728924874,
+          "sigma_predicted_z_c_over_qw_pow_k": 0.01,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 2,
+          "state_scale_after": 0.0001,
+          "sigma_measured": 9.994846919243414e-05,
+          "sigma_predicted_z_c_over_qw_pow_k": 0.0001,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 3,
+          "state_scale_after": 1e-06,
+          "sigma_measured": 9.98261725881055e-07,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-06,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 4,
+          "state_scale_after": 1e-08,
+          "sigma_measured": 1.0014167179952042e-08,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-08,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 5,
+          "state_scale_after": 1e-10,
+          "sigma_measured": 9.99681056464407e-11,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-10,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 6,
+          "state_scale_after": 1e-12,
+          "sigma_measured": 1.0044111596898274e-12,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-12,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 7,
+          "state_scale_after": 1e-14,
+          "sigma_measured": 1.0036761711549676e-14,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-14,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 8,
+          "state_scale_after": 1e-16,
+          "sigma_measured": 1.0019566437347979e-16,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-16,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 9,
+          "state_scale_after": 1e-18,
+          "sigma_measured": 1.001599902973831e-18,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-18,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 10,
+          "state_scale_after": 1.0000000000000001e-20,
+          "sigma_measured": 9.987768576259262e-21,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-20,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 11,
+          "state_scale_after": 1e-22,
+          "sigma_measured": 9.991697187200253e-23,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-22,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 12,
+          "state_scale_after": 1.0000000000000001e-24,
+          "sigma_measured": 9.983111211686773e-25,
+          "sigma_predicted_z_c_over_qw_pow_k": 1.0000000000000001e-24,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 13,
+          "state_scale_after": 1e-26,
+          "sigma_measured": 1.0002798659901562e-26,
+          "sigma_predicted_z_c_over_qw_pow_k": 9.999999999999999e-27,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 14,
+          "state_scale_after": 1.0000000000000001e-28,
+          "sigma_measured": 1.000477599428482e-28,
+          "sigma_predicted_z_c_over_qw_pow_k": 1.0000000000000001e-28,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 15,
+          "state_scale_after": 1e-30,
+          "sigma_measured": 1.0003039149114629e-30,
+          "sigma_predicted_z_c_over_qw_pow_k": 9.999999999999999e-31,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 16,
+          "state_scale_after": 1e-32,
+          "sigma_measured": 9.968738082796824e-33,
+          "sigma_predicted_z_c_over_qw_pow_k": 9.999999999999999e-33,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 17,
+          "state_scale_after": 1.0000000000000001e-34,
+          "sigma_measured": 9.992753024513754e-35,
+          "sigma_predicted_z_c_over_qw_pow_k": 1.0000000000000001e-34,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 18,
+          "state_scale_after": 1.0000000000000001e-36,
+          "sigma_measured": 1.001579564856551e-36,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-36,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 19,
+          "state_scale_after": 1.0000000000000001e-38,
+          "sigma_measured": 9.995989155173893e-39,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-38,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 20,
+          "state_scale_after": 1.0000000000000001e-40,
+          "sigma_measured": 1.0020308041200057e-40,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-40,
+          "nonzero_fraction": 1.0
+        },
+        {
+          "call": 21,
+          "state_scale_after": 1.0000000000000002e-42,
+          "sigma_measured": 1.0009149882993259e-42,
+          "sigma_predicted_z_c_over_qw_pow_k": 9.999999999999999e-43,
+          "nonzero_fraction": 0.9995200037956238
+        },
+        {
+          "call": 22,
+          "state_scale_after": 1.0000000000000002e-44,
+          "sigma_measured": 9.794708517971127e-45,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-44,
+          "nonzero_fraction": 0.9417799711227417
+        },
+        {
+          "call": 23,
+          "state_scale_after": 1.0000000000000002e-46,
+          "sigma_measured": 0.0,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-46,
+          "nonzero_fraction": 0.0
+        },
+        {
+          "call": 24,
+          "state_scale_after": 1.0000000000000003e-48,
+          "sigma_measured": 0.0,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-48,
+          "nonzero_fraction": 0.0
+        },
+        {
+          "call": 25,
+          "state_scale_after": 1.0000000000000002e-50,
+          "sigma_measured": 0.0,
+          "sigma_predicted_z_c_over_qw_pow_k": 9.999999999999999e-51,
+          "nonzero_fraction": 0.0
+        },
+        {
+          "call": 26,
+          "state_scale_after": 1.0000000000000002e-52,
+          "sigma_measured": 0.0,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-52,
+          "nonzero_fraction": 0.0
+        },
+        {
+          "call": 27,
+          "state_scale_after": 1.0000000000000002e-54,
+          "sigma_measured": 0.0,
+          "sigma_predicted_z_c_over_qw_pow_k": 9.999999999999999e-55,
+          "nonzero_fraction": 0.0
+        },
+        {
+          "call": 28,
+          "state_scale_after": 1.0000000000000002e-56,
+          "sigma_measured": 0.0,
+          "sigma_predicted_z_c_over_qw_pow_k": 9.999999999999999e-57,
+          "nonzero_fraction": 0.0
+        },
+        {
+          "call": 29,
+          "state_scale_after": 1.0000000000000002e-58,
+          "sigma_measured": 0.0,
+          "sigma_predicted_z_c_over_qw_pow_k": 1e-58,
+          "nonzero_fraction": 0.0
+        },
+        {
+          "call": 30,
+          "state_scale_after": 1.0000000000000002e-60,
+          "sigma_measured": 0.0,
+          "sigma_predicted_z_c_over_qw_pow_k": 1.0000000000000001e-60,
+          "nonzero_fraction": 0.0
+        }
+      ],
+      "first_call_with_all_zero_noise": 23,
+      "across_keys_and_rounds": [
+        {
+          "round": 1,
+          "sigma_a": 0.009978894720472357,
+          "sigma_b": 0.00010024287549839189
+        },
+        {
+          "round": 2,
+          "sigma_a": 1.0006040703472576e-06,
+          "sigma_b": 9.987622318926214e-09
+        }
+      ],
+      "checks": [
+        {
+          "check": "calls 1 to 15 within 2% of z C / qw^k",
+          "expected": "within 2%",
+          "observed": [
+            0.010019839728924874,
+            9.994846919243414e-05,
+            9.98261725881055e-07
+          ],
+          "held": true
+        },
+        {
+          "check": "first all-zero call between 20 and 24",
+          "expected": "20..24",
+          "observed": 23,
+          "held": true
+        },
+        {
+          "check": "keys and rounds follow z C / qw^k with k continuing across rounds",
+          "expected": "k = 1,2,3,4",
+          "observed": [
+            0.009978894720472357,
+            0.00010024287549839189,
+            1.0006040703472576e-06,
+            9.987622318926214e-09
+          ],
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "K3",
+      "api": "fedml.core.dp.frames.dp_clip.DP_Clip.add_global_noise",
+      "returned": null,
+      "max_abs_deviation_input_from_original_over_qw": 7.450580569168253e-10,
+      "max_abs_deviation_input_times_qw_from_original": 7.450580596923828e-08,
+      "state_scale_after": 0.0001,
+      "checks": [
+        {
+          "check": "returns None",
+          "expected": null,
+          "observed": null,
+          "held": true
+        },
+        {
+          "check": "input dict equals original / qw with no noise (max abs dev below 1e-6)",
+          "expected": "< 1e-6",
+          "observed": 7.450580569168253e-10,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "K4",
+      "api": "fedml.core.dp.fedml_differential_privacy.FedMLDifferentialPrivacy",
+      "flags": {
+        "ldp": {
+          "frame_class": "LocalDP",
+          "is_dp_enabled": true,
+          "is_local_dp_enabled": true,
+          "is_global_dp_enabled": false,
+          "is_clipping": false
+        },
+        "cdp": {
+          "frame_class": "GlobalDP",
+          "is_dp_enabled": true,
+          "is_local_dp_enabled": false,
+          "is_global_dp_enabled": true,
+          "is_clipping": true
+        },
+        "dp_clip": {
+          "frame_class": "DP_Clip",
+          "is_dp_enabled": true,
+          "is_local_dp_enabled": false,
+          "is_global_dp_enabled": false,
+          "is_clipping": false
+        }
+      },
+      "checks": [
+        {
+          "check": "dp_clip: local and global predicates both false",
+          "expected": [
+            false,
+            false
+          ],
+          "observed": [
+            false,
+            false
+          ],
+          "held": true
+        },
+        {
+          "check": "ldp reachable through local predicate",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "cdp reachable through global predicate",
+          "expected": true,
+          "observed": true,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "CD1",
+      "api": "fedml.core.dp.frames.cdp.GlobalDP",
+      "exception": null,
+      "configured": {
+        "sensitivity": 0.1,
+        "epsilon": 1.0,
+        "delta": 1e-05
+      },
+      "sigma_formula": 0.48448052626053895,
+      "noise": {
+        "runs": 20000,
+        "sigma": 0.48467093325267313,
+        "mean_abs": 0.3865746112742576,
+        "sigma_min_coord": 0.47972302516149257,
+        "sigma_max_coord": 0.48987298580381927,
+        "ks_pvalue": 0.825353923742451,
+        "max_abs_column_corr": 0.017105364470778626,
+        "lag1_corr": 0.007040880084605608
+      },
+      "frame_is_rdp_accountant_enabled": false,
+      "frame_enable_rdp_accountant": false,
+      "reads_of_enable_rdp_accountant_in_frames": [],
+      "checks": [
+        {
+          "check": "no exception with the accountant off",
+          "expected": null,
+          "observed": null,
+          "held": true
+        },
+        {
+          "check": "sigma within 1% of formula",
+          "expected": 1.0,
+          "observed": 1.0003930126843361,
+          "held": true
+        },
+        {
+          "check": "is_rdp_accountant_enabled exists and is False (candidate refuted)",
+          "expected": false,
+          "observed": false,
+          "held": true
+        },
+        {
+          "check": "self.enable_rdp_accountant is not read anywhere in frames",
+          "expected": [],
+          "observed": [],
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "CD2",
+      "api": "fedml.core.dp.frames.cdp.GlobalDP",
+      "exception": "TypeError: RDP_Accountant.__init__() missing 1 required positional argument: 'dp_param'",
+      "init_exception": "TypeError: RDP_Accountant.__init__() missing 1 required positional argument: 'dp_param'",
+      "checks": [
+        {
+          "check": "construction raises TypeError naming dp_param",
+          "expected": "TypeError ... dp_param",
+          "observed": "TypeError: RDP_Accountant.__init__() missing 1 required positional argument: 'dp_param'",
+          "held": true
+        },
+        {
+          "check": "FedMLDifferentialPrivacy.init raises the same",
+          "expected": "TypeError",
+          "observed": "TypeError: RDP_Accountant.__init__() missing 1 required positional argument: 'dp_param'",
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "CD3",
+      "api": "fedml.core.dp.frames.base_dp_solution.BaseDPFrame.global_clip",
+      "max_grad_norm": 1.0,
+      "input_norms": [
+        0.5,
+        3.0,
+        30.0
+      ],
+      "output_norms": [
+        0.5000000014342053,
+        0.9999990448145184,
+        0.9999991373399617
+      ],
+      "modified_in_place": [
+        false,
+        true,
+        true
+      ],
+      "unset_returns_same_list_unchanged": true,
+      "checks": [
+        {
+          "check": "all clipped norms at most 1",
+          "expected": "<= 1",
+          "observed": [
+            0.5000000014342053,
+            0.9999990448145184,
+            0.9999991373399617
+          ],
+          "held": true
+        },
+        {
+          "check": "large inputs equal 1 within 1e-4",
+          "expected": 1.0,
+          "observed": [
+            0.9999990448145184,
+            0.9999991373399617
+          ],
+          "held": true
+        },
+        {
+          "check": "small input unchanged",
+          "expected": 0.5,
+          "observed": 0.5000000014342053,
+          "held": true
+        },
+        {
+          "check": "inputs modified in place",
+          "expected": [
+            false,
+            true,
+            true
+          ],
+          "observed": [
+            false,
+            true,
+            true
+          ],
+          "held": true
+        },
+        {
+          "check": "max_grad_norm unset: list returned unchanged",
+          "expected": true,
+          "observed": true,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "LD1",
+      "api": "fedml.core.dp.frames.ldp.LocalDP",
+      "configured": {
+        "epsilon": 1.0,
+        "delta": 1e-05,
+        "sensitivity": 2.0,
+        "max_grad_norm": null,
+        "update_norm": 1.0
+      },
+      "measured": {
+        "sensitivity_replace_one": 2.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 9.690698206694544,
+          "mean_abs": 7.723915841091346,
+          "sigma_min_coord": 9.592892605265641,
+          "sigma_max_coord": 9.744968861996913,
+          "ks_pvalue": 0.6831132277731906,
+          "max_abs_column_corr": 0.011038290674867918,
+          "lag1_corr": 0.0027845388187658954
+        },
+        "sigma_formula": 9.689610525210778,
+        "sigma_ratio_measured_over_formula": 1.000112252342954,
+        "mu": 0.20638347798493578,
+        "max_abs_mean_deviation_from_unclipped_input": 0.09211983983734681
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 4.1015822628320693e-08,
+        "eps_at_configured_delta": 0.750884756448963
+      },
+      "meets_configured_guarantee": true,
+      "empirical": {
+        "threshold": 2.0,
+        "trials_per_world": 200000,
+        "false_positives": 83505,
+        "true_positives": 100181,
+        "fpr_upper": 0.41968997212643927,
+        "tpr_lower": 0.49871119741905284,
+        "eps_lower_bound": 0.1724908365318337,
+        "confidence": 0.95,
+        "threshold_in_predicted_sigma": 0.20640664501388656
+      },
+      "checks": [
+        {
+          "check": "sigma within 1% of formula",
+          "expected": 1.0,
+          "observed": 1.000112252342954,
+          "held": true
+        },
+        {
+          "check": "exact epsilon within 5% of predicted",
+          "expected": 0.751,
+          "observed": 0.750884756448963,
+          "held": true
+        },
+        {
+          "check": "output is not clipped (mean equals unclipped input)",
+          "expected": "< 5 SE",
+          "observed": 0.09211983983734681,
+          "held": true
+        },
+        {
+          "check": "meets the configured guarantee",
+          "expected": true,
+          "observed": true,
+          "held": true
+        },
+        {
+          "check": "empirical bound at or below exact",
+          "expected": "<= 0.751",
+          "observed": 0.1724908365318337,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "LD1",
+      "api": "fedml.core.dp.frames.ldp.LocalDP",
+      "configured": {
+        "epsilon": 1.0,
+        "delta": 1e-05,
+        "sensitivity": 2.0,
+        "max_grad_norm": null,
+        "update_norm": 5.0
+      },
+      "measured": {
+        "sensitivity_replace_one": 10.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 9.68565602478959,
+          "mean_abs": 7.728054904106731,
+          "sigma_min_coord": 9.601623231872043,
+          "sigma_max_coord": 9.774548032271872,
+          "ks_pvalue": 0.8086414030677079,
+          "max_abs_column_corr": 0.009020788592177822,
+          "lag1_corr": -0.007640193694840147
+        },
+        "sigma_formula": 9.689610525210778,
+        "sigma_ratio_measured_over_formula": 0.9995918824176784,
+        "mu": 1.0324545879397196,
+        "max_abs_mean_deviation_from_unclipped_input": 0.16200490029076464
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.1384966261065128,
+        "eps_at_configured_delta": 4.542255357018053
+      },
+      "meets_configured_guarantee": false,
+      "empirical": {
+        "threshold": 10.0,
+        "trials_per_world": 200000,
+        "false_positives": 30441,
+        "true_positives": 99646,
+        "fpr_upper": 0.1537868587893799,
+        "tpr_lower": 0.496036246329429,
+        "eps_lower_bound": 1.1710612313927198,
+        "confidence": 0.95,
+        "threshold_in_predicted_sigma": 1.0320332250694328
+      },
+      "checks": [
+        {
+          "check": "sigma within 1% of formula",
+          "expected": 1.0,
+          "observed": 0.9995918824176784,
+          "held": true
+        },
+        {
+          "check": "exact epsilon within 5% of predicted",
+          "expected": 4.54,
+          "observed": 4.542255357018053,
+          "held": true
+        },
+        {
+          "check": "output is not clipped (mean equals unclipped input)",
+          "expected": "< 5 SE",
+          "observed": 0.16200490029076464,
+          "held": true
+        },
+        {
+          "check": "empirical bound at or below exact",
+          "expected": "<= 4.542",
+          "observed": 1.1710612313927198,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "LD1",
+      "api": "fedml.core.dp.frames.ldp.LocalDP",
+      "configured": {
+        "epsilon": 1.0,
+        "delta": 1e-05,
+        "sensitivity": 2.0,
+        "max_grad_norm": null,
+        "update_norm": 25.0
+      },
+      "measured": {
+        "sensitivity_replace_one": 50.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 9.713322301386619,
+          "mean_abs": 7.750248147614974,
+          "sigma_min_coord": 9.592718516755387,
+          "sigma_max_coord": 9.761569120869101,
+          "ks_pvalue": 0.9647213017680414,
+          "max_abs_column_corr": 0.0119833348329916,
+          "lag1_corr": 0.0012530176645821282
+        },
+        "sigma_formula": 9.689610525210778,
+        "sigma_ratio_measured_over_formula": 1.0024471340838876,
+        "mu": 5.147569332983245,
+        "max_abs_mean_deviation_from_unclipped_input": 0.14916171386534696
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.9836678065514946,
+        "eps_at_configured_delta": 34.476481482761386
+      },
+      "meets_configured_guarantee": false,
+      "empirical": {
+        "threshold": 44.25,
+        "trials_per_world": 200000,
+        "false_positives": 0,
+        "true_positives": 144664,
+        "fpr_upper": 1.8444227173720117e-05,
+        "tpr_lower": 0.7213536811486175,
+        "eps_lower_bound": 10.574119544364745,
+        "confidence": 0.95,
+        "threshold_in_predicted_sigma": 4.56674702093224
+      },
+      "checks": [
+        {
+          "check": "sigma within 1% of formula",
+          "expected": 1.0,
+          "observed": 1.0024471340838876,
+          "held": true
+        },
+        {
+          "check": "exact epsilon within 5% of predicted",
+          "expected": 34.6,
+          "observed": 34.476481482761386,
+          "held": true
+        },
+        {
+          "check": "output is not clipped (mean equals unclipped input)",
+          "expected": "< 5 SE",
+          "observed": 0.14916171386534696,
+          "held": true
+        },
+        {
+          "check": "empirical bound at or below exact",
+          "expected": "<= 34.476",
+          "observed": 10.574119544364745,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "LD2",
+      "api": "fedml.core.dp.frames.ldp.LocalDP",
+      "configured": {
+        "epsilon": 1.0,
+        "delta": 1e-05,
+        "sensitivity": 2.0,
+        "max_grad_norm": 1.0,
+        "update_norm": 25.0
+      },
+      "measured": {
+        "sensitivity_replace_one": 50.0,
+        "noise": {
+          "runs": 20000,
+          "sigma": 9.713322301386619,
+          "mean_abs": 7.750248147614974,
+          "sigma_min_coord": 9.592718516755387,
+          "sigma_max_coord": 9.761569120869101,
+          "ks_pvalue": 0.9647213017680414,
+          "max_abs_column_corr": 0.0119833348329916,
+          "lag1_corr": 0.0012530176645821282
+        },
+        "sigma_formula": 9.689610525210778,
+        "sigma_ratio_measured_over_formula": 1.0024471340838876,
+        "mu": 5.147569332983245,
+        "max_abs_mean_deviation_from_unclipped_input": 0.14916171386534696
+      },
+      "exact_from_measured_sigma": {
+        "delta_at_configured_eps": 0.9836678065514946,
+        "eps_at_configured_delta": 34.476481482761386
+      },
+      "meets_configured_guarantee": false,
+      "empirical": {
+        "threshold": 44.25,
+        "trials_per_world": 200000,
+        "false_positives": 0,
+        "true_positives": 144664,
+        "fpr_upper": 1.8444227173720117e-05,
+        "tpr_lower": 0.7213536811486175,
+        "eps_lower_bound": 10.574119544364745,
+        "confidence": 0.95,
+        "threshold_in_predicted_sigma": 4.56674702093224
+      },
+      "checks": [
+        {
+          "check": "sigma within 1% of formula",
+          "expected": 1.0,
+          "observed": 1.0024471340838876,
+          "held": true
+        },
+        {
+          "check": "exact epsilon within 5% of predicted",
+          "expected": 34.6,
+          "observed": 34.476481482761386,
+          "held": true
+        },
+        {
+          "check": "output is not clipped (mean equals unclipped input)",
+          "expected": "< 5 SE",
+          "observed": 0.14916171386534696,
+          "held": true
+        },
+        {
+          "check": "empirical bound at or below exact",
+          "expected": "<= 34.476",
+          "observed": 10.574119544364745,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "RA1",
+      "api": "fedml.core.dp.budget_accountant.rdp_accountant.RDP_Accountant",
+      "cases": {
+        "q0.1_default_orders": {
+          "before_step": {
+            "value": "(0, 0)",
+            "type": "tuple"
+          },
+          "after_step": {
+            "exception": "NameError: name '_log_erfc' is not defined"
+          },
+          "history_after_two_equal_steps": [
+            [
+              1.0,
+              0.1,
+              2
+            ]
+          ],
+          "history_after_third_different_step": [
+            [
+              1.0,
+              0.1,
+              2
+            ],
+            [
+              2.0,
+              0.1,
+              1
+            ]
+          ]
+        },
+        "q1.0_default_orders": {
+          "before_step": {
+            "value": "(0, 0)",
+            "type": "tuple"
+          },
+          "after_step": {
+            "exception": "TypeError: RDP_Accountant.get_privacy_spent() takes 0 positional arguments but 1 positional argument (and 3 keyword-only arguments) were given"
+          },
+          "history_after_two_equal_steps": [
+            [
+              1.0,
+              1.0,
+              2
+            ]
+          ],
+          "history_after_third_different_step": [
+            [
+              1.0,
+              1.0,
+              2
+            ],
+            [
+              2.0,
+              1.0,
+              1
+            ]
+          ]
+        },
+        "q0.1_integer_orders": {
+          "before_step": {
+            "value": "(0, 0)",
+            "type": "tuple"
+          },
+          "after_step": {
+            "exception": "TypeError: RDP_Accountant.get_privacy_spent() takes 0 positional arguments but 1 positional argument (and 3 keyword-only arguments) were given"
+          },
+          "history_after_two_equal_steps": [
+            [
+              1.0,
+              0.1,
+              2
+            ]
+          ],
+          "history_after_third_different_step": [
+            [
+              1.0,
+              0.1,
+              2
+            ],
+            [
+              2.0,
+              0.1,
+              1
+            ]
+          ]
+        }
+      },
+      "checks": [
+        {
+          "check": "q0.1_default_orders: before any step returns the tuple (0, 0)",
+          "expected": "(0, 0)",
+          "observed": "(0, 0)",
+          "held": true
+        },
+        {
+          "check": "q0.1_default_orders: after a step raises TypeError",
+          "expected": "TypeError",
+          "observed": "NameError: name '_log_erfc' is not defined",
+          "held": false
+        },
+        {
+          "check": "q0.1_default_orders: two equal steps merge into one entry with 2 steps",
+          "expected": [
+            [
+              1.0,
+              0.1,
+              2
+            ]
+          ],
+          "observed": [
+            [
+              1.0,
+              0.1,
+              2
+            ]
+          ],
+          "held": true
+        },
+        {
+          "check": "q1.0_default_orders: before any step returns the tuple (0, 0)",
+          "expected": "(0, 0)",
+          "observed": "(0, 0)",
+          "held": true
+        },
+        {
+          "check": "q1.0_default_orders: after a step raises TypeError",
+          "expected": "TypeError",
+          "observed": "TypeError: RDP_Accountant.get_privacy_spent() takes 0 positional arguments but 1 positional argument (and 3 keyword-only arguments) were given",
+          "held": true
+        },
+        {
+          "check": "q1.0_default_orders: two equal steps merge into one entry with 2 steps",
+          "expected": [
+            [
+              1.0,
+              1.0,
+              2
+            ]
+          ],
+          "observed": [
+            [
+              1.0,
+              1.0,
+              2
+            ]
+          ],
+          "held": true
+        },
+        {
+          "check": "q0.1_integer_orders: before any step returns the tuple (0, 0)",
+          "expected": "(0, 0)",
+          "observed": "(0, 0)",
+          "held": true
+        },
+        {
+          "check": "q0.1_integer_orders: after a step raises TypeError",
+          "expected": "TypeError",
+          "observed": "TypeError: RDP_Accountant.get_privacy_spent() takes 0 positional arguments but 1 positional argument (and 3 keyword-only arguments) were given",
+          "held": true
+        },
+        {
+          "check": "q0.1_integer_orders: two equal steps merge into one entry with 2 steps",
+          "expected": [
+            [
+              1.0,
+              0.1,
+              2
+            ]
+          ],
+          "observed": [
+            [
+              1.0,
+              0.1,
+              2
+            ]
+          ],
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "RA2",
+      "note": "conversion function reached through the class, because the bound call in get_epsilon fails (RA1)",
+      "cells": [
+        {
+          "sigma": 0.5,
+          "rdp_epsilon": 10.725509696418232,
+          "best_alpha": 3.3,
+          "exact_epsilon": 9.997256146434303,
+          "ratio": 1.0728453426937223
+        },
+        {
+          "sigma": 1.0,
+          "rdp_epsilon": 4.728507067217623,
+          "best_alpha": 5.4,
+          "exact_epsilon": 4.377178095681235,
+          "ratio": 1.0802638055515785
+        },
+        {
+          "sigma": 2.0,
+          "rdp_epsilon": 2.1657156590294435,
+          "best_alpha": 9.6,
+          "exact_epsilon": 1.9930914044151182,
+          "ratio": 1.086611308559119
+        },
+        {
+          "sigma": 4.0,
+          "rdp_epsilon": 1.0125506277526435,
+          "best_alpha": 18.0,
+          "exact_epsilon": 0.9263415039983887,
+          "ratio": 1.093064084230436
+        }
+      ],
+      "checks": [
+        {
+          "check": "sigma 0.5: epsilon within 0.5% of 10.73",
+          "expected": 10.73,
+          "observed": 10.725509696418232,
+          "held": true
+        },
+        {
+          "check": "sigma 0.5: at or above exact",
+          "expected": ">= exact",
+          "observed": 1.0728453426937223,
+          "held": true
+        },
+        {
+          "check": "sigma 1.0: epsilon within 0.5% of 4.73",
+          "expected": 4.73,
+          "observed": 4.728507067217623,
+          "held": true
+        },
+        {
+          "check": "sigma 1.0: at or above exact",
+          "expected": ">= exact",
+          "observed": 1.0802638055515785,
+          "held": true
+        },
+        {
+          "check": "sigma 2.0: epsilon within 0.5% of 2.17",
+          "expected": 2.17,
+          "observed": 2.1657156590294435,
+          "held": true
+        },
+        {
+          "check": "sigma 2.0: at or above exact",
+          "expected": ">= exact",
+          "observed": 1.086611308559119,
+          "held": true
+        },
+        {
+          "check": "sigma 4.0: epsilon within 0.5% of 1.01",
+          "expected": 1.01,
+          "observed": 1.0125506277526435,
+          "held": true
+        },
+        {
+          "check": "sigma 4.0: at or above exact",
+          "expected": ">= exact",
+          "observed": 1.093064084230436,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "RA3",
+      "cells": [
+        {
+          "q": 0.01,
+          "sigma": 1.0,
+          "alpha": 2,
+          "shipped": 0.00017181342207453428,
+          "numeric": 0.00017181342207464448,
+          "rel_diff": 6.414466896845292e-13
+        },
+        {
+          "q": 0.01,
+          "sigma": 1.0,
+          "alpha": 4,
+          "shipped": 0.00036315404891075525,
+          "numeric": 0.00036315404891075427,
+          "rel_diff": 2.6869642736015703e-15
+        },
+        {
+          "q": 0.01,
+          "sigma": 1.0,
+          "alpha": 8,
+          "shipped": 0.0008936439076060279,
+          "numeric": 0.0008936439076060515,
+          "rel_diff": 2.6327250645015337e-14
+        },
+        {
+          "q": 0.01,
+          "sigma": 1.0,
+          "alpha": 16,
+          "shipped": 3.087850783696245,
+          "numeric": 3.0878507836962457,
+          "rel_diff": 1.4381822210931939e-16
+        },
+        {
+          "q": 0.01,
+          "sigma": 2.0,
+          "alpha": 2,
+          "shipped": 2.8402138324210935e-05,
+          "numeric": 2.8402138324254547e-05,
+          "rel_diff": 1.5355193292255073e-12
+        },
+        {
+          "q": 0.01,
+          "sigma": 2.0,
+          "alpha": 4,
+          "shipped": 5.715580737173236e-05,
+          "numeric": 5.715580737167842e-05,
+          "rel_diff": 9.43719642177279e-13
+        },
+        {
+          "q": 0.01,
+          "sigma": 2.0,
+          "alpha": 8,
+          "shipped": 0.00011575614792990524,
+          "numeric": 0.00011575614792989606,
+          "rel_diff": 7.93790530882164e-14
+        },
+        {
+          "q": 0.01,
+          "sigma": 2.0,
+          "alpha": 16,
+          "shipped": 0.00023762401964045452,
+          "numeric": 0.00023762401964046352,
+          "rel_diff": 3.787023738275877e-14
+        },
+        {
+          "q": 0.1,
+          "sigma": 1.0,
+          "alpha": 2,
+          "shipped": 0.017036863236176647,
+          "numeric": 0.017036863236176657,
+          "rel_diff": 6.109305869028411e-16
+        },
+        {
+          "q": 0.1,
+          "sigma": 1.0,
+          "alpha": 4,
+          "shipped": 0.05867260696008058,
+          "numeric": 0.058672606960080476,
+          "rel_diff": 1.7739693862490964e-15
+        },
+        {
+          "q": 0.1,
+          "sigma": 1.0,
+          "alpha": 8,
+          "shipped": 1.3783614113481268,
+          "numeric": 1.3783614113481266,
+          "rel_diff": 1.6109316692771986e-16
+        },
+        {
+          "q": 0.1,
+          "sigma": 1.0,
+          "alpha": 16,
+          "shipped": 5.5439121709021215,
+          "numeric": 5.5439121709021215,
+          "rel_diff": 0.0
+        },
+        {
+          "q": 0.1,
+          "sigma": 2.0,
+          "alpha": 2,
+          "shipped": 0.002836228266263719,
+          "numeric": 0.0028362282662637056,
+          "rel_diff": 4.740135728402001e-15
+        },
+        {
+          "q": 0.1,
+          "sigma": 2.0,
+          "alpha": 4,
+          "shipped": 0.006003282964489696,
+          "numeric": 0.0060032829644896995,
+          "rel_diff": 5.779249408158673e-16
+        },
+        {
+          "q": 0.1,
+          "sigma": 2.0,
+          "alpha": 8,
+          "shipped": 0.013725430103219966,
+          "numeric": 0.013725430103219948,
+          "rel_diff": 1.2638754945608922e-15
+        },
+        {
+          "q": 0.1,
+          "sigma": 2.0,
+          "alpha": 16,
+          "shipped": 0.04529183908362201,
+          "numeric": 0.045291839083622006,
+          "rel_diff": 1.532040659929043e-16
+        }
+      ],
+      "worst_relative_difference": 1.5355193292255073e-12,
+      "checks": [
+        {
+          "check": "worst relative difference at most 1e-6",
+          "expected": "<= 1e-6",
+          "observed": 1.5355193292255073e-12,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "RA4",
+      "note": "hypothetical. The frame cannot construct the accountant (CD2). Values come from the conversion function called through the class with the multiplier the frame would pass.",
+      "cells": [
+        {
+          "sensitivity": 0.1,
+          "gaussian_get_rdp_scale": 0.48448052626053895,
+          "true_noise_multiplier_sigma_over_sensitivity": 4.844805262605389,
+          "epsilon_the_accountant_would_report": 11.146342072575555,
+          "epsilon_with_true_multiplier_rdp": 0.8219688698047384,
+          "exact_epsilon_one_release": 0.7509769568672022,
+          "laplace_get_rdp_scale": 0.9999900000499997,
+          "laplace_scale_over_sensitivity": 0.9999900000499997
+        },
+        {
+          "sensitivity": 1.0,
+          "gaussian_get_rdp_scale": 4.844805262605389,
+          "true_noise_multiplier_sigma_over_sensitivity": 4.844805262605389,
+          "epsilon_the_accountant_would_report": 0.8219688698047384,
+          "epsilon_with_true_multiplier_rdp": 0.8219688698047384,
+          "exact_epsilon_one_release": 0.7509769568672022,
+          "laplace_get_rdp_scale": 0.9999900000499997,
+          "laplace_scale_over_sensitivity": 0.9999900000499997
+        },
+        {
+          "sensitivity": 10.0,
+          "gaussian_get_rdp_scale": 48.448052626053894,
+          "true_noise_multiplier_sigma_over_sensitivity": 4.844805262605389,
+          "epsilon_the_accountant_would_report": 0.11628741768963463,
+          "epsilon_with_true_multiplier_rdp": 0.8219688698047384,
+          "exact_epsilon_one_release": 0.7509769568672022,
+          "laplace_get_rdp_scale": 0.9999900000499997,
+          "laplace_scale_over_sensitivity": 0.9999900000499997
+        }
+      ],
+      "checks": [
+        {
+          "check": "s=0.1: get_rdp_scale is sigma, which is s times the true noise multiplier",
+          "expected": 0.48448052626053895,
+          "observed": 0.48448052626053895,
+          "held": true
+        },
+        {
+          "check": "s=1.0: get_rdp_scale is sigma, which is s times the true noise multiplier",
+          "expected": 4.844805262605389,
+          "observed": 4.844805262605389,
+          "held": true
+        },
+        {
+          "check": "s=10.0: get_rdp_scale is sigma, which is s times the true noise multiplier",
+          "expected": 48.448052626053894,
+          "observed": 48.448052626053894,
+          "held": true
+        },
+        {
+          "check": "s=10: reported epsilon below the exact epsilon",
+          "expected": "< exact",
+          "observed": 0.11628741768963463,
+          "held": true
+        },
+        {
+          "check": "laplace get_rdp_scale equals scale / sensitivity",
+          "expected": true,
+          "observed": true,
+          "held": true
+        }
+      ]
+    },
+    {
+      "row": "RA5",
+      "api": "fedml.core.dp.budget_accountant.rdp_accountant.RDP_Accountant",
+      "before_step": {
+        "exception": "TypeError: unsupported operand type(s) for /: 'float' and 'NoneType'"
+      },
+      "after_step": {
+        "exception": "TypeError: unsupported operand type(s) for /: 'float' and 'NoneType'"
+      },
+      "checks": [
+        {
+          "check": "after a step raises TypeError",
+          "expected": "TypeError",
+          "observed": "TypeError: unsupported operand type(s) for /: 'float' and 'NoneType'",
+          "held": true
+        },
+        {
+          "check": "raises only after a step (pre-registered detail)",
+          "expected": "no exception before a step",
+          "observed": "TypeError: unsupported operand type(s) for /: 'float' and 'NoneType'",
+          "held": false
+        }
+      ]
+    },
+    {
+      "row": "OB1",
+      "init_with_the_test_file_arguments": "AttributeError: 'types.SimpleNamespace' object has no attribute 'dp_solution_type'",
+      "class_has_add_noise": false,
+      "checks": [
+        {
+          "check": "init raises AttributeError for dp_solution_type",
+          "expected": "AttributeError",
+          "observed": "AttributeError: 'types.SimpleNamespace' object has no attribute 'dp_solution_type'",
+          "held": true
+        },
+        {
+          "check": "FedMLDifferentialPrivacy has no add_noise",
+          "expected": false,
+          "observed": false,
+          "held": true
+        }
+      ]
+    }
+  ],
+  "runtime_seconds": 3.0
+}

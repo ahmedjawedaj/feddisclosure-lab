@@ -1,10 +1,14 @@
+## After v0.16.2 (2026-11-25)
+
+Done in v0.16.2: second framework for the DP measurements (FedML 0.9.6).
+
 ## After v0.16.1 (2026-11-25)
 
 Done in v0.16.1: stronger inversion attack on CIFAR-10 (plan item P3, R1 and R3 fail).
 
 - [ ] Establish a plaintext baseline above the floor before reading aggregate rows again. Needs a new pre-registration (wider total variation grid, more local steps or a larger batch).
 - [ ] Pre-register a rule for the SSIM reading before any claim is built on it.
-- [ ] Two more frameworks for the DP measurements. Check each framework's release history and tracker first.
+- [ ] One more framework for the DP measurements (Flower and FedML are done). Check its release history and tracker first.
 - [ ] Inventory of what the server sees with protections on (plan item P2).
 - [ ] Composition and sampling amplification.
 

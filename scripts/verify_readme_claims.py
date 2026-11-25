@@ -36,6 +36,7 @@ FASHION_BOOT = V15 + "fashion_mnist/seed_bootstrap.json"
 RECORD_DIR = "reports/results/privacy/v0150"
 FLOWER_DP = "reports/results/privacy/v0160/flower_dp_audit/flwr-1.27.0/flower_dp_audit.json"
 P3 = "reports/results/privacy/v0160/p3_breaching/summary.json"
+FEDML = "reports/results/privacy/v0160/fedml_dp_audit/fedml-0.9.6/fedml_dp_audit.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -219,6 +220,13 @@ def _v15_prose() -> list[ProseClaim]:
                     R(4, P3, "verdicts/R3/mean"), R(5, P3, "verdicts/R3/lo"), R(6, P3, "verdicts/R3/hi"))),
         ProseClaim("v161.R2", r"aggregate view is ([\d.]+) dB below the floor \(interval (-?[\d.]+) to (-?[\d.]+)\)",
                    (R(1, P3, "verdicts/R2/mean", -1), R(2, P3, "verdicts/R2/lo"), R(3, P3, "verdicts/R2/hi"))),
+        ProseClaim("v162.checks", r"(\d+) checks were built from them", (R(1, FEDML, "summary/checks_total"),)),
+        ProseClaim("v162.LP2", r"executed Laplace mechanism is epsilon ([\d.]+) where the configuration implies ([\d.]+)",
+                   (R(1, FEDML, "rows/3/cases/spread/eps_pure_measured"), R(2, FEDML, "rows/3/cases/spread/eps_pure_claimed"))),
+        ProseClaim("v162.LD1", r"the exact epsilon is ([\d.]+), and the empirical 95% lower bound is ([\d.]+)",
+                   (R(1, FEDML, "rows/14/exact_from_measured_sigma/eps_at_configured_delta"), R(2, FEDML, "rows/14/empirical/eps_lower_bound"))),
+        ProseClaim("v162.RA2", r"gives epsilon ([\d.]+) where the exact Gaussian value is ([\d.]+)",
+                   (R(1, FEDML, "rows/17/cells/1/rdp_epsilon"), R(2, FEDML, "rows/17/cells/1/exact_epsilon"))),
         ProseClaim("v161.B1c", r"mean squared error is ([\d.]+) times larger in the plaintext view", (R(1, P3, "verdicts/B1c/ratio"),)),
     ]
 
