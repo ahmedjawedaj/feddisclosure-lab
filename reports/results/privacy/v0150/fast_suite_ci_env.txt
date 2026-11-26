@@ -1,7 +1,7 @@
 date: 2026-11-26
-commit: 60136b1ea0ea1b2be0aa33cfe1bb847068b747f6
+commit: 5f810765ed710760f4eb715022902e10318680df
 code_dirty: no
-tree: clean checkout of 60136b1ea0ea1b2be0aa33cfe1bb847068b747f6
+tree: clean checkout of 5f810765ed710760f4eb715022902e10318680df
 python: 3.13.18
 packages: torch 2.15.0+cpu, flwr absent, opacus absent, hypothesis 6.170.17
-536 passed, 73 skipped, 7 deselected in 17.88s
+536 passed, 74 skipped, 7 deselected in 18.98s

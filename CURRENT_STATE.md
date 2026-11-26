@@ -1,3 +1,8 @@
+## 2026-11-26 v0.16.13 server view measurement (see `CHANGELOG.md`, `docs/preregistration/v0.16-p2.md` and `docs/v0.16-p2-results.md`)
+
+`flwr` 1.27.0, rows S4, S6 and S6b of the inventory, all three held. S4 (two Docker runs, 4 clients): the three metrics each client returned under SecAgg+ were in the reply the ServerApp received and in the `FitRes` given to `aggregate_fit` in 8 of 8 replies, with zero arrays in the array records of those replies. S6 (in process, 2,000 rounds per arm, assumed dependence of participation on the clipped norm): release bit accuracy 0.8425, participant set accuracy 0.8515, controls 0.5045 and 0.5035, and a control has 80% power for a participation difference of 0.062. S6b: effective noise multiplier 1.0001 with 10 results and 0.9001 with 9 (ratio 0.9000), exact epsilon 4.38 and 4.95 per round. Statements about channels the server observes, not proofs of leakage. Not measured: other releases, the Message API strategies, several rounds, timing and size, an active server, any inference from metric values.
+Next: see `NEXT_SPRINT.md`.
+
 ## 2026-11-26 v0.16.12 documents refresh (see `CHANGELOG.md` and `docs/novelty-status.md`)
 
 Stale statements in the novelty status, the README, the inventory header and two audit notes were corrected. No result changed. The prior-art gate for a paper stays partly open because release notes were not read.

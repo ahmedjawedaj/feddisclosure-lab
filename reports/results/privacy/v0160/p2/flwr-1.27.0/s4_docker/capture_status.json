@@ -1,0 +1,17 @@
+{
+  "complete": true,
+  "runs": [
+    {
+      "seed": 0,
+      "mode": "secagg",
+      "ok": true,
+      "error": null
+    },
+    {
+      "seed": 1,
+      "mode": "secagg",
+      "ok": true,
+      "error": null
+    }
+  ]
+}

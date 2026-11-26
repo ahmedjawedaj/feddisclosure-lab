@@ -1,0 +1,565 @@
+{
+  "schema": "feddisclosure.p2_server_view.v1",
+  "quick": false,
+  "preregistration": "docs/preregistration/v0.16-p2.md",
+  "environment": {
+    "flwr": "1.27.0",
+    "numpy": "2.5.3",
+    "python": "3.13.18"
+  },
+  "parameters": {
+    "dim": 16,
+    "clipping_norm": 1.0,
+    "noise_multiplier": 1.0,
+    "num_sampled_clients": 10,
+    "delta": 1e-05,
+    "rounds_per_arm": 2000,
+    "noise_runs": 20000,
+    "participation_high": 0.85,
+    "participation_low": 0.15,
+    "threshold": 0.8,
+    "raw_norm_range": [
+      0.2,
+      1.4
+    ],
+    "seed_base": 20261126
+  },
+  "predictions": {
+    "S6_accuracy": 0.85,
+    "S6_accuracy_tol": 0.03,
+    "S6_exact_rounds": 2000,
+    "S6b_sens": {
+      "M10": 0.1,
+      "M9": 0.1111111111111111
+    },
+    "S6b_sens_rel_tol": 0.001,
+    "S6b_sigma": 0.1,
+    "S6b_sigma_rel_tol": 0.02,
+    "S6b_zeff": {
+      "M10": 1.0,
+      "M9": 0.9
+    },
+    "S6b_zeff_rel_tol": 0.02,
+    "S6b_eps": {
+      "M10": 4.377178,
+      "M9": 4.947319
+    },
+    "S6b_eps_rel_tol": 0.01,
+    "S6b_mix_share_m9": 0.5,
+    "S6b_mix_share_tol": 0.03,
+    "S6b_mix_zeff_high": 0.985,
+    "S6b_mix_zeff_low": 0.915,
+    "S6b_mix_zeff_tol": 0.01
+  },
+  "S4": {
+    "status": "RUN",
+    "pass": true,
+    "runs_finished": 2,
+    "runs_requested": 2,
+    "replies_all_checks_true": 8,
+    "replies_total": 8,
+    "runs": [
+      {
+        "run_dir": "reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/runs/seed0-secagg",
+        "run_ok": true,
+        "capture_completed": true,
+        "mode": "secagg",
+        "replies": [
+          {
+            "node_id": 13879301066409685979,
+            "S4a": true,
+            "S4b": true,
+            "S4c": true,
+            "S4d": true,
+            "metrics_at_grid": {
+              "n_local": 8,
+              "probe_const": 1237.5,
+              "train_loss": 2.2917630672454834
+            },
+            "metrics_at_strategy": {
+              "n_local": 8,
+              "probe_const": 1237.5,
+              "train_loss": 2.2917630672454834
+            },
+            "receipt_site": 3,
+            "array_records": {
+              "fitres.parameters": 0
+            },
+            "payload_bytes": 19928,
+            "num_examples_visible": 8,
+            "masked_vector_in_config_record": true
+          },
+          {
+            "node_id": 13644654108176535913,
+            "S4a": true,
+            "S4b": true,
+            "S4c": true,
+            "S4d": true,
+            "metrics_at_grid": {
+              "n_local": 8,
+              "probe_const": 1234.5,
+              "train_loss": 2.33266544342041
+            },
+            "metrics_at_strategy": {
+              "n_local": 8,
+              "probe_const": 1234.5,
+              "train_loss": 2.33266544342041
+            },
+            "receipt_site": 0,
+            "array_records": {
+              "fitres.parameters": 0
+            },
+            "payload_bytes": 19928,
+            "num_examples_visible": 8,
+            "masked_vector_in_config_record": true
+          },
+          {
+            "node_id": 6689100065037876871,
+            "S4a": true,
+            "S4b": true,
+            "S4c": true,
+            "S4d": true,
+            "metrics_at_grid": {
+              "n_local": 8,
+              "probe_const": 1235.5,
+              "train_loss": 2.290987014770508
+            },
+            "metrics_at_strategy": {
+              "n_local": 8,
+              "probe_const": 1235.5,
+              "train_loss": 2.290987014770508
+            },
+            "receipt_site": 1,
+            "array_records": {
+              "fitres.parameters": 0
+            },
+            "payload_bytes": 19928,
+            "num_examples_visible": 8,
+            "masked_vector_in_config_record": true
+          },
+          {
+            "node_id": 15807781503670914985,
+            "S4a": true,
+            "S4b": true,
+            "S4c": true,
+            "S4d": true,
+            "metrics_at_grid": {
+              "n_local": 8,
+              "probe_const": 1236.5,
+              "train_loss": 2.300128936767578
+            },
+            "metrics_at_strategy": {
+              "n_local": 8,
+              "probe_const": 1236.5,
+              "train_loss": 2.300128936767578
+            },
+            "receipt_site": 2,
+            "array_records": {
+              "fitres.parameters": 0
+            },
+            "payload_bytes": 19928,
+            "num_examples_visible": 8,
+            "masked_vector_in_config_record": true
+          }
+        ],
+        "receipts": 4,
+        "reply_count": 4,
+        "participant_node_ids": [
+          "13644654108176535913",
+          "13879301066409685979",
+          "15807781503670914985",
+          "6689100065037876871"
+        ],
+        "checks_true": {
+          "S4a": 4,
+          "S4b": 4,
+          "S4c": 4,
+          "S4d": 4
+        },
+        "status": "RUN",
+        "pass_": true
+      },
+      {
+        "run_dir": "reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/runs/seed1-secagg",
+        "run_ok": true,
+        "capture_completed": true,
+        "mode": "secagg",
+        "replies": [
+          {
+            "node_id": 729306204715335682,
+            "S4a": true,
+            "S4b": true,
+            "S4c": true,
+            "S4d": true,
+            "metrics_at_grid": {
+              "n_local": 8,
+              "probe_const": 1237.5,
+              "train_loss": 2.3707118034362793
+            },
+            "metrics_at_strategy": {
+              "n_local": 8,
+              "probe_const": 1237.5,
+              "train_loss": 2.3707118034362793
+            },
+            "receipt_site": 3,
+            "array_records": {
+              "fitres.parameters": 0
+            },
+            "payload_bytes": 19928,
+            "num_examples_visible": 8,
+            "masked_vector_in_config_record": true
+          },
+          {
+            "node_id": 13441214861620970904,
+            "S4a": true,
+            "S4b": true,
+            "S4c": true,
+            "S4d": true,
+            "metrics_at_grid": {
+              "n_local": 8,
+              "probe_const": 1234.5,
+              "train_loss": 2.306891918182373
+            },
+            "metrics_at_strategy": {
+              "n_local": 8,
+              "probe_const": 1234.5,
+              "train_loss": 2.306891918182373
+            },
+            "receipt_site": 0,
+            "array_records": {
+              "fitres.parameters": 0
+            },
+            "payload_bytes": 19928,
+            "num_examples_visible": 8,
+            "masked_vector_in_config_record": true
+          },
+          {
+            "node_id": 15903807724530626748,
+            "S4a": true,
+            "S4b": true,
+            "S4c": true,
+            "S4d": true,
+            "metrics_at_grid": {
+              "n_local": 8,
+              "probe_const": 1236.5,
+              "train_loss": 2.273165702819824
+            },
+            "metrics_at_strategy": {
+              "n_local": 8,
+              "probe_const": 1236.5,
+              "train_loss": 2.273165702819824
+            },
+            "receipt_site": 2,
+            "array_records": {
+              "fitres.parameters": 0
+            },
+            "payload_bytes": 19928,
+            "num_examples_visible": 8,
+            "masked_vector_in_config_record": true
+          },
+          {
+            "node_id": 14787158246810152967,
+            "S4a": true,
+            "S4b": true,
+            "S4c": true,
+            "S4d": true,
+            "metrics_at_grid": {
+              "n_local": 8,
+              "probe_const": 1235.5,
+              "train_loss": 2.2432868480682373
+            },
+            "metrics_at_strategy": {
+              "n_local": 8,
+              "probe_const": 1235.5,
+              "train_loss": 2.2432868480682373
+            },
+            "receipt_site": 1,
+            "array_records": {
+              "fitres.parameters": 0
+            },
+            "payload_bytes": 19928,
+            "num_examples_visible": 8,
+            "masked_vector_in_config_record": true
+          }
+        ],
+        "receipts": 4,
+        "reply_count": 4,
+        "participant_node_ids": [
+          "13441214861620970904",
+          "14787158246810152967",
+          "15903807724530626748",
+          "729306204715335682"
+        ],
+        "checks_true": {
+          "S4a": 4,
+          "S4b": 4,
+          "S4c": 4,
+          "S4d": 4
+        },
+        "status": "RUN",
+        "pass_": true
+      }
+    ],
+    "docker_runner_tail": "{\"seed\": 0, \"mode\": \"secagg\", \"ok\": true, \"error\": null}\n{\"seed\": 1, \"mode\": \"secagg\", \"ok\": true, \"error\": null}\n"
+  },
+  "S6_arms": {
+    "bit-dep": {
+      "arm": "bit-dep",
+      "mode": "failure reported (release bit)",
+      "dependent": true,
+      "rounds": 2000,
+      "seed": [
+        20261126,
+        0
+      ],
+      "noise_seed": 20261126,
+      "correct": 1685,
+      "accuracy": 0.8425,
+      "wilson95": [
+        0.8258806013596226,
+        0.8578062212527192
+      ],
+      "majority_class_accuracy": 0.5005,
+      "share_high": 0.5005,
+      "participation_rate_high": 0.8331668331668332,
+      "participation_rate_low": 0.14814814814814814,
+      "share_participated": 0.491,
+      "mean_clipped_norm_participated": 0.894785051075125,
+      "mean_clipped_norm_absent": 0.5790188892488028,
+      "exact_release_rule_rounds": 2000,
+      "share_9_results": 0.509
+    },
+    "bit-ctl": {
+      "arm": "bit-ctl",
+      "mode": "failure reported (release bit)",
+      "dependent": false,
+      "rounds": 2000,
+      "seed": [
+        20261126,
+        1
+      ],
+      "noise_seed": 20261127,
+      "correct": 1009,
+      "accuracy": 0.5045,
+      "wilson95": [
+        0.4826002089845764,
+        0.5263825375898921
+      ],
+      "majority_class_accuracy": 0.5045,
+      "share_high": 0.5045,
+      "participation_rate_high": 0.489593657086224,
+      "participation_rate_low": 0.4803229061553986,
+      "share_participated": 0.485,
+      "mean_clipped_norm_participated": 0.7469030601010499,
+      "mean_clipped_norm_absent": 0.7285412224372058,
+      "exact_release_rule_rounds": 2000,
+      "share_9_results": 0.515
+    },
+    "set-dep": {
+      "arm": "set-dep",
+      "mode": "absent (participant set)",
+      "dependent": true,
+      "rounds": 2000,
+      "seed": [
+        20261126,
+        2
+      ],
+      "noise_seed": 20261128,
+      "correct": 1703,
+      "accuracy": 0.8515,
+      "wilson95": [
+        0.8352421796157717,
+        0.8664101361455075
+      ],
+      "majority_class_accuracy": 0.5145,
+      "share_high": 0.5145,
+      "participation_rate_high": 0.8649173955296404,
+      "participation_rate_low": 0.1627188465499485,
+      "share_participated": 0.524,
+      "mean_clipped_norm_participated": 0.8906267809425799,
+      "mean_clipped_norm_absent": 0.5751071668050254,
+      "exact_release_rule_rounds": 2000,
+      "share_9_results": 0.476
+    },
+    "set-ctl": {
+      "arm": "set-ctl",
+      "mode": "absent (participant set)",
+      "dependent": false,
+      "rounds": 2000,
+      "seed": [
+        20261126,
+        3
+      ],
+      "noise_seed": 20261129,
+      "correct": 1007,
+      "accuracy": 0.5035,
+      "wilson95": [
+        0.48160177641921836,
+        0.5253848042498127
+      ],
+      "majority_class_accuracy": 0.5005,
+      "share_high": 0.4995,
+      "participation_rate_high": 0.4924924924924925,
+      "participation_rate_low": 0.4855144855144855,
+      "share_participated": 0.489,
+      "mean_clipped_norm_participated": 0.7323388515960452,
+      "mean_clipped_norm_absent": 0.7305757473547344,
+      "exact_release_rule_rounds": 2000,
+      "share_9_results": 0.511
+    }
+  },
+  "S6_verdicts": {
+    "S6-bit": {
+      "pass": true,
+      "accuracy": 0.8425,
+      "wilson95": [
+        0.8258806013596226,
+        0.8578062212527192
+      ],
+      "rule": "Wilson lower limit above 0.5 and accuracy 0.85 within 0.03"
+    },
+    "S6-set": {
+      "pass": true,
+      "accuracy": 0.8515,
+      "wilson95": [
+        0.8352421796157717,
+        0.8664101361455075
+      ],
+      "rule": "Wilson lower limit above 0.5 and accuracy 0.85 within 0.03"
+    },
+    "S6-ctl": {
+      "pass": true,
+      "accuracy": {
+        "bit": 0.5045,
+        "set": 0.5035
+      },
+      "wilson95": {
+        "bit": [
+          0.4826002089845764,
+          0.5263825375898921
+        ],
+        "set": [
+          0.48160177641921836,
+          0.5253848042498127
+        ]
+      },
+      "rule": "both control intervals contain 0.5"
+    },
+    "S6-exact": {
+      "pass": true,
+      "rounds_matching": {
+        "bit-dep": 2000,
+        "bit-ctl": 2000,
+        "set-dep": 2000,
+        "set-ctl": 2000
+      },
+      "rule": "release rule matches in every round of every arm"
+    },
+    "S6-clip": {
+      "pass": true,
+      "draws": 200,
+      "within_1e-5": 200,
+      "worst_relative_error": 9.072390083630921e-08
+    },
+    "S6": {
+      "pass": true
+    }
+  },
+  "S6b_configs": {
+    "M10": {
+      "results": 10,
+      "noise_runs": 20000,
+      "sensitivity_zero_out": 0.10000000894074362,
+      "noise": {
+        "runs": 20000,
+        "sigma": 0.10001165669357436,
+        "sigma_min_coord": 0.09891530393577432,
+        "sigma_max_coord": 0.101279740083864,
+        "ks_pvalue": 0.6793954161034146
+      },
+      "sigma": 0.10001165669357436,
+      "mu": 0.9998835360475388,
+      "effective_noise_multiplier": 1.0001164775178935,
+      "eps_at_delta": 4.376587889657182,
+      "claimed_sigma": 0.1,
+      "claimed_eps_at_delta": 4.377178095681235,
+      "noise_seed": 20261127
+    },
+    "M9": {
+      "results": 9,
+      "noise_runs": 20000,
+      "sensitivity_zero_out": 0.11111112125223535,
+      "noise": {
+        "runs": 20000,
+        "sigma": 0.1000116566517547,
+        "sigma_min_coord": 0.09891530396399142,
+        "sigma_max_coord": 0.10127974031256264,
+        "ks_pvalue": 0.6793933067907729
+      },
+      "sigma": 0.1000116566517547,
+      "mu": 1.1109817092534475,
+      "effective_noise_multiplier": 0.9001048277131183,
+      "eps_at_delta": 4.946647130613956,
+      "claimed_sigma": 0.1,
+      "claimed_eps_at_delta": 4.377178095681235,
+      "noise_seed": 20261127
+    }
+  },
+  "S6b_verdicts": {
+    "S6b-sens": {
+      "pass": true,
+      "measured": {
+        "M10": 0.10000000894074362,
+        "M9": 0.11111112125223535
+      },
+      "predicted": {
+        "M10": 0.1,
+        "M9": 0.1111111111111111
+      }
+    },
+    "S6b-sigma": {
+      "pass": true,
+      "measured": {
+        "M10": 0.10001165669357436,
+        "M9": 0.1000116566517547
+      },
+      "predicted": 0.1
+    },
+    "S6b-zeff": {
+      "pass": true,
+      "measured": {
+        "M10": 1.0001164775178935,
+        "M9": 0.9001048277131183
+      },
+      "ratio_M9_over_M10": 0.8999999979472533,
+      "predicted": {
+        "M10": 1.0,
+        "M9": 0.9
+      }
+    },
+    "S6b-eps": {
+      "pass": true,
+      "measured": {
+        "M10": 4.376587889657182,
+        "M9": 4.946647130613956
+      },
+      "predicted": {
+        "M10": 4.377178,
+        "M9": 4.947319
+      },
+      "delta": 1e-05
+    },
+    "S6b-mix": {
+      "pass": true,
+      "share_rounds_9_results": 0.476,
+      "mean_zeff_high": 0.9866066433848872,
+      "mean_zeff_low": 0.9163786080109088,
+      "eps_mean_over_rounds": 4.647936088352606
+    },
+    "S6b": {
+      "pass": true
+    }
+  },
+  "script_sha256": "636079925de64901aca06c429e05b40750e04dd0bffa602074f2155baa9fcdb7",
+  "runtime_seconds": 175.8
+}

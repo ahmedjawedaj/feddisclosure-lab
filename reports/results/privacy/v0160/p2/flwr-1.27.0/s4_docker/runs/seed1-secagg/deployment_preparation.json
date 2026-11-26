@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "preparation_only": true,
+  "client_count": 4,
+  "manifest_sha256": "675342d303525888173e352672d2efe14882e813b16efdd927fe4b85095a8665",
+  "config": {
+    "allowed_observations": [
+      "masked_vectors",
+      "sample_counts",
+      "relay_byte_streams"
+    ],
+    "batch_size": 8,
+    "clients": 4,
+    "dataset": "sklearn_digits",
+    "id": "wire-seed1",
+    "learning_rate": 0.15,
+    "local_epochs": 1,
+    "observer": "wire_capture",
+    "partition": "iid",
+    "rounds": 1,
+    "seed": 1,
+    "source_limit": null
+  },
+  "sites": [
+    {
+      "site_id": 0,
+      "path": "/home/claude/work/fdl-v1613/reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/data/seed1/institution-00",
+      "train_sha256": "2ffd418d7ff9afe762ea35ca229f35da7814e9c139ff06eefe991f3971f92c5e",
+      "val_sha256": "00bff30362ed9647bab05d596db34eaa4fa5c3461596bb50493517298df65e0a",
+      "train_records": 8,
+      "val_records": 1
+    },
+    {
+      "site_id": 1,
+      "path": "/home/claude/work/fdl-v1613/reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/data/seed1/institution-01",
+      "train_sha256": "fb9e66a77a0af02e12562544406bd74bc77fa7c354efc07c00ee4d9ec9597304",
+      "val_sha256": "b51d447008e675758788ee954152740628a633c19f86e805e3c58731446e0377",
+      "train_records": 8,
+      "val_records": 1
+    },
+    {
+      "site_id": 2,
+      "path": "/home/claude/work/fdl-v1613/reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/data/seed1/institution-02",
+      "train_sha256": "0a148dafdd20a2d24cbe9695d61dc70f544549b161d26b4ad0847d2d68af4b35",
+      "val_sha256": "319b3da1bf3699ecb54d9263ec7dc3edf162952a2185074476dd57b536eb0562",
+      "train_records": 8,
+      "val_records": 1
+    },
+    {
+      "site_id": 3,
+      "path": "/home/claude/work/fdl-v1613/reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/data/seed1/institution-03",
+      "train_sha256": "8f9e1d7c3cb88e6baa39593e51cf0e8278f7e9bf3c506ec89474fdacf03d311f",
+      "val_sha256": "bd83a7b13d9e2814789eb6a24760c84bba8deaafe7045e312e53c4cd3e58b79d",
+      "train_records": 8,
+      "val_records": 1
+    }
+  ],
+  "run_dir": "/home/claude/work/fdl-v1613/reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/runs/seed1-secagg",
+  "env_file": "/home/claude/work/fdl-v1613/reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/env/seed1-secagg.env",
+  "evaluator_not_mounted": true,
+  "native_execution_verified": false
+}

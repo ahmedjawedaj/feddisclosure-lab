@@ -46,6 +46,7 @@ SEL = "reports/results/privacy/v0160/nvflare_selection/nvflare_selection.json"
 EVT = "reports/results/privacy/v0160/nvflare_events/nvflare_events.json"
 TFF = "reports/results/privacy/v0160/tff_dp/tff-0.87.0/tff_dp_audit.json"
 DDP = "reports/results/privacy/v0160/tff_ddp/tff-0.87.0/tff_ddp_audit.json"
+P2 = "reports/results/privacy/v0160/p2/flwr-1.27.0/p2_server_view.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -337,6 +338,26 @@ def _ddp_prose() -> list[ProseClaim]:
     ]
 
 
+def _p2_prose() -> list[ProseClaim]:
+    """Numbers quoted in the v0.16.13 section of the README, read from the server view evidence file."""
+    R = Ref
+    v = "S6b_verdicts/"
+    return [
+        ProseClaim("v1613.S4", r"(\d+) of (\d+) replies carried the three metric values", (R(1, P2, "S4/replies_all_checks_true"), R(2, P2, "S4/replies_total"))),
+        ProseClaim("v1613.S4d", r"held zero arrays \((\d+) of (\d+) replies\)", (R(1, P2, "S4/replies_all_checks_true"), R(2, P2, "S4/replies_total"))),
+        ProseClaim("v1613.S6", r"accuracy ([\d.]+) \(Wilson 95% interval ([\d.]+) to ([\d.]+)\) and the participant set with accuracy ([\d.]+) \(([\d.]+) to ([\d.]+)\) over ([\d,]+) rounds",
+                   (R(1, P2, "S6_arms/bit-dep/accuracy"), R(2, P2, "S6_arms/bit-dep/wilson95/0"), R(3, P2, "S6_arms/bit-dep/wilson95/1"),
+                    R(4, P2, "S6_arms/set-dep/accuracy"), R(5, P2, "S6_arms/set-dep/wilson95/0"), R(6, P2, "S6_arms/set-dep/wilson95/1"),
+                    R(7, P2, "S6_arms/set-dep/rounds"))),
+        ProseClaim("v1613.S6ctl", r"The controls with no dependence gave ([\d.]+) and ([\d.]+)\.",
+                   (R(1, P2, "S6_arms/bit-ctl/accuracy"), R(2, P2, "S6_arms/set-ctl/accuracy"))),
+        ProseClaim("v1613.S6b", r"went from ([\d.]+) to ([\d.]+), a ratio of ([\d.]+), and the exact epsilon at delta 1e-5 for one round from ([\d.]+) to ([\d.]+)\.",
+                   (R(1, P2, "S6b_configs/M10/effective_noise_multiplier"), R(2, P2, "S6b_configs/M9/effective_noise_multiplier"),
+                    R(3, P2, v + "S6b-zeff/ratio_M9_over_M10"), R(4, P2, "S6b_configs/M10/eps_at_delta"), R(5, P2, "S6b_configs/M9/eps_at_delta"))),
+        ProseClaim("v1613.T", r"The full run took ([\d.]+) seconds\. Not covered by any script check, read or judged by hand: how a deployment", (R(1, P2, "runtime_seconds"),)),
+    ]
+
+
 def _verdict_words() -> list[VerdictWord]:
     out = [VerdictWord(t, PROOFS, f"{t}/pass") for t in ("E1", "E2", "E3", "M1")]
     out += [VerdictWord(t, DP, f"{t}/pass") for t in ("D1", "D2", "D3", "D4", "D5")]
@@ -368,7 +389,7 @@ def _lira_claims() -> list[Claim]:
 
 
 CLAIMS: list[Claim] = _view_claims() + _lira_claims()
-PROSE: list[ProseClaim] = _prose_claims() + _v15_prose() + _tff_prose() + _ddp_prose()
+PROSE: list[ProseClaim] = _prose_claims() + _v15_prose() + _tff_prose() + _ddp_prose() + _p2_prose()
 VERDICTS: list[Verdict] = _verdicts()
 PHRASES: list[Phrase] = _phrases()
 WORDS: list[VerdictWord] = _verdict_words()
@@ -659,6 +680,21 @@ def check_ddp_failures(readme: str, root: Path) -> tuple[str, str]:
     return "OK", "five failed checks, three held on replication, two exact checks stand, no mismatch found"
 
 
+def check_p2_verdicts(readme: str, root: Path) -> tuple[str, str]:
+    """All three pre-registered predictions of P2 held in the evidence, and the README says so."""
+    fp = root / P2
+    if not fp.is_file():
+        return "MISSING", f"evidence file {P2}"
+    doc = json.loads(fp.read_text())
+    flags = {"S4": doc["S4"]["pass"], "S6": doc["S6_verdicts"]["S6"]["pass"], "S6b": doc["S6b_verdicts"]["S6b"]["pass"]}
+    held = "all three pre-registered predictions held, S4, S6 and S6b, and none failed" in readme
+    if all(flags.values()) != held:
+        return "MISMATCH", f"evidence verdicts {flags}, README says all held: {held}"
+    if doc["quick"] or doc["S4"]["status"] != "RUN":
+        return "MISMATCH", "evidence is a quick run or S4 did not run"
+    return "OK", f"verdicts {flags}, README matches"
+
+
 def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, suite: bool = True,
            prose: list[ProseClaim] | None = None, verdicts: list[Verdict] | None = None,
            phrases: list[Phrase] | None = None, words: list[VerdictWord] | None = None) -> list[tuple[str, str, str]]:
@@ -674,6 +710,7 @@ def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, sui
         results.append(("v166.rows_held", *check_guarantee_rows_held(readme, root)))
         results.append(("v169.failures", *check_tff_failures(readme, root)))
         results.append(("v1611.failures", *check_ddp_failures(readme, root)))
+        results.append(("v1613.verdicts", *check_p2_verdicts(readme, root)))
     if suite:
         results += [(f"tests.fast_suite_count.{k}", *check_suite_line(readme, root, k)) for k in SUITE_FILES]
     return results
