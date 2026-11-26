@@ -1,11 +1,21 @@
 ## After v0.16.10 (2026-11-26)
 
-Done in v0.16.10: pre-registration, script, tests and runbook for the P3b study (plan item T6b). Not run.
+Done in v0.16.10: pre-registration, script, tests, runbook and the run of the P3b study (plan item T6b). Results are in `docs/v0.16-p3b-results.md`.
 
-- [ ] Run P3b on a Colab T4 with `docs/v0.16-p3b-colab-runbook.md`, copy the output into `reports/results/privacy/v0160/p3b_breaching/`, write the results document with every row marked as the pre-registration says, and record the real run time.
-- [ ] If a plaintext gate passes, read the aggregate and collusion rows of that arm and metric. If every PSNR gate fails, report that and stop, because a further arm needs a new pre-registration.
+- [x] Run P3b on a Colab T4, copy the output into `reports/results/privacy/v0160/p3b_breaching/` and write the results document. The run took about 72 minutes.
+- [ ] Decide whether the 2 record SSIM observation for the aggregate view (above the floor while PSNR is near zero) deserves a pre-registered follow up with its own rule.
 - [ ] Separate mixing from quantisation for the aggregate view (the exact aggregate row was dropped to fit the budget).
-- [ ] Check whether total variation winners tuned at 4 records transfer to 2 records.
+- [ ] Check whether total variation winners tuned at 4 records transfer to 2 records, and whether a batch of 3 records sits between the two arms.
+
+## After v0.16.9 (2026-11-26)
+
+Done in v0.16.9: measurement of TFF's Gaussian fixed and adaptive clipping aggregators on 0.87.0 (fourth framework for the DP measurements).
+
+- [ ] Re-record the fast suite records and the README counts after main is merged into the branch (the orchestrator does this).
+- [ ] Measure the tree aggregation constructors (`tree_aggregation`, `tree_adaptive`), distributed DP and secure aggregation records of TFF.
+- [ ] Run a trained model through `dp_aggregator` so that the clip trajectory responds to the noise, and with client sampling.
+- [ ] Settle which sensitivity convention TFF's documentation intends, and add sampling and a composition accountant before any epsilon is stated.
+- [ ] Check earlier TFF releases and whether the project is maintained, and run the same script if a later release changes `differential_privacy.py` or the TFP queries.
 
 ## After v0.16.8 (2026-11-26)
 
