@@ -55,7 +55,7 @@ Read these as measurements under the stated configurations. Flower's how-to guid
 - The mean change that one client above the clip makes to the output is 1.00000, 1.00708 and 1.45129 times the clip at 16, 8 and 5 bits, because stochastic rounding adds to the norm after the clip.
 - The discrete Gaussian noise is 2.41687, 1.67157, 1.08342 and 1.00292 times the configured level at 4, 5, 8 and 12 bits, as the integer scale predicts. The Skellam noise stays near the configured level.
 - The modular range wraps and does not saturate. With `modclip_prob` 0.3 and 0.7 the delivered noise is 0.60842 and 0.22789 over the configured level, against 0.74456 and 0.35147 for a saturating field.
-- With the adaptive clip the noise follows the clip that the clients used in the round. A noise tied to the clip after the update would be 1.10002 times higher.
+- With the adaptive clip the noise follows the clip that the clients used in the round. The measured noise is 1.10002 times the value that the clip after the update would give.
 - The state holds an `UnsupportedDpEvent` with no fields and no name in the state, the measurements or eight source files contains "epsilon". The measurement does not compute or imply an epsilon guarantee, and the implied epsilon table of row I is labelled a Gaussian approximation.
 - The Python global seed does not control the noise.
 - The standard deviation of the per-call RMS of Skellam with the Fourier rotation was 0.0218 in the first run against a window of 0.0116 to 0.0197, and 0.0172 in the replication. The results document describes a scratch run after the evidence that is consistent with some calls carrying noise that two clients share. It is not in the evidence file and its cause was not isolated.

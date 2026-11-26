@@ -329,7 +329,7 @@ def _ddp_prose() -> list[ProseClaim]:
         ProseClaim("v1611.E2", r"delivered noise is ([\d.]+) and ([\d.]+) over the configured level, against ([\d.]+) and ([\d.]+) for a saturating field",
                    (R(1, DDP, "rows/5/measured/E2/E2 p 0.3/rms_over_zC"), R(2, DDP, "rows/5/measured/E2/E2 p 0.7/rms_over_zC"),
                     R(3, DDP, "rows/5/measured/E2/E2 p 0.3/clip_alternative"), R(4, DDP, "rows/5/measured/E2/E2 p 0.7/clip_alternative"))),
-        ProseClaim("v1611.F", r"after the update would be ([\d.]+) times higher",
+        ProseClaim("v1611.F", r"measured noise is ([\d.]+) times the value that the clip after the update would give",
                    (R(1, DDP, "rows/6/measured/mean_ratio_to_clip_after_update"),)),
         ProseClaim("v1611.A1sd", r"Fourier rotation was ([\d.]+) in the first run against a window of 0\.0116 to 0\.0197, and ([\d.]+) in the replication",
                    (R(1, DDP, "rows/1/measured/A1/A1 skellam dft/per_call_rms_sd"), R(2, DDP, "replication/0/measured/A1/A1 skellam dft/per_call_rms_sd"))),
