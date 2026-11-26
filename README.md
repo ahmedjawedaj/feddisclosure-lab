@@ -12,6 +12,8 @@ FedDisclosure Lab trains real federated models with [Flower](https://flower.ai) 
 
 > **This is a research benchmark, not a privacy product.** It makes no formal security or privacy certification claim. Read [Status and honest limits](#status-and-honest-limits) before you cite or reuse any number.
 
+**Paper draft:** [`docs/paper/paper.pdf`](docs/paper/paper.pdf) (source in `docs/paper/paper.md`). It is a draft for review and has not been peer reviewed.
+
 ## Why this exists
 
 Federated learning is often described as private because raw data never leaves the client. The literature and our own measurements say that is not enough. Updates leak, secure aggregation has failure modes, and differential privacy trades away accuracy that some clients pay for more than others. This repo asks narrow, testable questions and refuses to round the answers in anyone's favor.
