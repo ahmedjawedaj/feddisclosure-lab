@@ -1,0 +1,49 @@
+{
+ "selected": {
+  "plaintext": 0.2,
+  "aggregate": 0.2,
+  "collusion": 0.2
+ },
+ "mean_psnr": {
+  "plaintext": {
+   "0.05": 15.520808623900558,
+   "0.2": 16.115817560038952,
+   "0.8": 13.914594463888955,
+   "3.2": 11.42942173933398
+  },
+  "aggregate": {
+   "0.05": 11.280078642423312,
+   "0.2": 12.127029904182502,
+   "0.8": 11.130436037250186,
+   "3.2": 9.697013353620415
+  },
+  "collusion": {
+   "0.05": 15.454870378161147,
+   "0.2": 16.723733074689417,
+   "0.8": 14.128470662203044,
+   "3.2": 11.586383912795958
+  }
+ },
+ "winner_at_grid_edge": {
+  "plaintext": false,
+  "aggregate": false,
+  "collusion": false
+ },
+ "seeds": [
+  9100,
+  9101,
+  9102
+ ],
+ "tuning_arm_records_per_client": 4,
+ "grid": [
+  0.05,
+  0.2,
+  0.8,
+  3.2
+ ],
+ "criterion": "highest mean PSNR over tuning images, ties to the earlier grid entry",
+ "quick": false,
+ "model_sha256": "66ef08e119ed94103d24384e1dc39044cafb45d5858c04cca99a1b1b4b264891",
+ "script_version": "p3b-1",
+ "iterations": 4000
+}

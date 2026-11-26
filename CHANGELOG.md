@@ -2,6 +2,27 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.10] - 2026-11-26
+
+Second CIFAR-10 inversion study (tracker item T6b), pre-registered, run on a Colab T4 and reported. No earlier result number, verdict or threshold changed.
+
+**Result in short.** The control passed (+4.71 dB, lower limit +2.41, with a seed spread 1.69 times the assumed one, so its power statement is void). At 4 records per client both plaintext gates failed (PSNR gain +0.74 dB, interval -0.03 to +1.57, and SSIM gain +0.182), so every row of that arm behind the gates is NOT INTERPRETABLE. At 2 records both plaintext gates passed (+2.79 dB and +0.294 SSIM). Behind them collusion keeps the attack above the floor (C2P, C2S), collusion is close to plaintext (Q2P, Q2S) and mixing costs the attacker (D2P, D2S). The aggregate view of 8 mixed images had a PSNR gain of +0.02 dB and rule A2P failed (labelled underpowered, upper limit +1.01 against a margin of +1.0). Its SSIM gain was +0.110 and A2S failed. Fewer records helped (T1 passed). These are statements about the attacks that ran and not about privacy. Details and every row are in `docs/v0.16-p3b-results.md`.
+
+### Added
+- **Pre-registration of P3b** `docs/preregistration/v0.16-p3b.md` (commit `71a0bda`, committed alone before the script). P3 found the plaintext view at the label-only floor with 8 records per client, so its aggregate and collusion rows had nothing to be read against. P3b runs two arms with 4 and 2 records per client and a control with 1 record, `breaching` 0.1.2, 20 fresh evaluation seeds (100 to 119) and 3 fresh tuning seeds, a wider total variation grid (0.05, 0.2, 0.8, 3.2) and SSIM as a second metric next to PSNR.
+- **Results** `docs/v0.16-p3b-results.md` and the saved run output in `reports/results/privacy/v0160/p3b_breaching/` (summary, tuning, 20 seed files and 3 tuning seed files, from a tgz with SHA-256 `07066551be678fb9ff5dafc9621091276bafdfa1ac2d3b15dca7b2b7615a5e09`). Image files and the model checkpoint are not in the repository.
+- **A gate before any aggregate or collusion row is read.** Plaintext must clear the floor by +1.0 dB (lower limit) in PSNR or +0.20 in SSIM for its own arm and metric, and the 1 record control must reach +2.0 dB. A row behind a failed gate is declared NOT INTERPRETABLE in advance and gets no PASS or FAIL, so the vacuous pass of P3 cannot repeat. Confidences, numeric rules and a power section (simulated with the exact rules, 4,000 simulations per cell) are in the file, with a list of the clauses that no script check covers.
+- `scripts/p3b_breaching_cifar10.py` (resumable, writes one JSON per seed and a summary with the gates), `scripts/p3b_power_table.py` (the power simulation, its SHA-256 is in the pre-registration), tests `tests/privacy/test_p3b_breaching.py` and the runbook `docs/v0.16-p3b-colab-runbook.md`.
+
+### Recorded on purpose
+- Dropped levers and the reasons are in the pre-registration: more local steps, a larger batch, more iterations, the repository attack, the `max_weight` 16 and exact aggregate rows and separate tuning of the 2 record arm. The exact aggregate row is gone, so an aggregate difference cannot be split into mixing and quantisation.
+- The SSIM margins (and the margins and expected values of the rules A, D and Q) were chosen after reading the P3 numbers, which the pre-registration says in its deviation log. The SSIM rows are calibrated after P3 and are not confirmatory. The deviation log also records, before any run, that a failed control withholds the gates and T1 as well, and that rule Q gets the label FAIL, underpowered when its point estimate is inside the margin.
+- The two failed predictions with confidence above 0.5 are A2P and A2S (confidence 0.8 each). Both were rule A at 2 records. Failed gates G4P (0.45) and G4S (0.25) were the low confidence ones.
+- The 2 record arm and the control reused the total variation winner tuned at 4 records (0.2 for all three views, not at the grid edge). That transfer was not tested.
+- The run took about 72 minutes in total (about 15 minutes of tuning and 57 minutes of evaluation, 168 to 175 s per seed), below the pre-registered estimate of about 90 minutes.
+- A resumed invocation after a Colab reconnect found all 20 seeds present, skipped them and rewrote `summary.json`. It also overwrote the live `run.log`. The seed and tuning files were not touched. This is deviation entry 9 of the pre-registration.
+- Package version is 0.16.10.
+
 ## [0.16.9] - 2026-11-26
 
 Measurement of the differential privacy aggregators of TensorFlow Federated 0.87.0. No earlier result number, verdict or threshold changed.

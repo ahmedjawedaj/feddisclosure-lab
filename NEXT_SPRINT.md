@@ -1,3 +1,12 @@
+## After v0.16.10 (2026-11-26)
+
+Done in v0.16.10: pre-registration, script, tests, runbook and the run of the P3b study (plan item T6b). Results are in `docs/v0.16-p3b-results.md`.
+
+- [x] Run P3b on a Colab T4, copy the output into `reports/results/privacy/v0160/p3b_breaching/` and write the results document. The run took about 72 minutes.
+- [ ] Decide whether the 2 record SSIM observation for the aggregate view (above the floor while PSNR is near zero) deserves a pre-registered follow up with its own rule.
+- [ ] Separate mixing from quantisation for the aggregate view (the exact aggregate row was dropped to fit the budget).
+- [ ] Check whether total variation winners tuned at 4 records transfer to 2 records, and whether a batch of 3 records sits between the two arms.
+
 ## After v0.16.9 (2026-11-26)
 
 Done in v0.16.9: measurement of TFF's Gaussian fixed and adaptive clipping aggregators on 0.87.0 (fourth framework for the DP measurements).
