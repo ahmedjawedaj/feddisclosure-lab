@@ -1,3 +1,12 @@
+## After v0.16.13 (2026-11-26)
+
+Done in v0.16.13: pre-registration, harness, Docker run and results for S4, S6 and S6b (plan item T7). Results are in `docs/v0.16-p2-results.md`.
+
+- [ ] Analyse the saved relay streams of the two S4 runs to see what a network observer between a SuperNode and the SuperLink sees of the metric record (channel 8, not examined).
+- [ ] Run S6 and S6b on the Message API strategies in `flwr.serverapp.strategy` and on `flwr` 1.44.0, and through the SecAgg+ workflow with a client that really drops out.
+- [ ] Decide whether a participation dependence on the norm is worth looking for in a real or simulated training run, with an observer that does not know the direction in advance.
+- [ ] Run S4 with other metric types, a larger metric record, several rounds and more than four clients.
+
 ## After v0.16.11 (2026-11-26)
 
 Done in v0.16.11: measurement of TFF's `DistributedDpSumFactory` on 0.87.0 (fifth framework family for the DP measurements and the first for a discrete mechanism).

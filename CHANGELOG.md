@@ -2,6 +2,29 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.13] - 2026-11-26
+
+Measurement of what the Flower server observes with SecAgg+ and fixed clipping central DP switched on (tracker item T7, rows S4, S6 and S6b of the inventory). No earlier result number, verdict or threshold changed.
+
+**Result in short.** All three pre-registered predictions held and none failed. S4: in two Docker runs of the real SecAgg+ stack, 8 of 8 client replies carried the three metric values the clients returned, the same values reached `aggregate_fit` (8 of 8), and the array records of those replies held zero arrays (8 of 8). S6: under an assumed dependence of participation on the clipped norm, the release bit predicted the norm class with accuracy 0.8425 (Wilson 95% 0.8259 to 0.8578) and the participant set with 0.8515 (0.8352 to 0.8664) over 2,000 rounds each, and the controls gave 0.5045 and 0.5035. S6b: with 9 results at `num_sampled_clients` 10 the effective noise multiplier was 0.9001 against 1.0001 with 10 results (ratio 0.9000) and the exact one round epsilon at delta 1e-5 went from 4.38 to 4.95. These are statements about what the server process observes and not about leakage.
+
+### Added
+- **Pre-registration** `docs/preregistration/v0.16-p2.md` (commit `43e931e`, committed alone before the script was written), with predictions, a power section for each null result, a stopping rule and a list of 15 limits.
+- `scripts/audit_p2_server_view.py` (SHA-256 `636079925de64901aca06c429e05b40750e04dd0bffa602074f2155baa9fcdb7`): S6 and S6b drive `flwr.server.strategy.DifferentialPrivacyServerSideFixedClipping` in process, S4 starts or reads the Docker wire capture stack. Metric returning client `src/feddisclosure/training/p2_metrics_client.py`, strategy hook `src/feddisclosure/training/p2_metrics_server.py` and the app definition `docker/wire_relay/app_metrics/pyproject.toml`. The existing client, ServerApp and `docker/wire_relay/app` are unchanged.
+- **Results** `docs/v0.16-p2-results.md` and evidence in `reports/results/privacy/v0160/p2/flwr-1.27.0/` (the JSON and the two saved Docker runs, without the model checkpoints).
+- Tests `tests/privacy/test_audit_p2_server_view.py` (fast, with altered copies of the saved runs that must fail), a README section and claim checks for every number in it in `scripts/verify_readme_claims.py`.
+
+### Corrected
+- None. Dated update notes were appended to `docs/v0.16-p2-server-view-inventory.md` (header, rows 4, 5 and 6 and the predictions section). The text of the inventory was not rewritten.
+
+### Recorded on purpose
+- Failed predictions: none. The closest margin was S6-bit at 0.8425 against the registered 0.85 plus or minus 0.03.
+- The accuracy of 0.85 in S6 is the value that the registered participation probabilities give for an exact reader, so S6 shows the real strategy passes participation through to the release bit and the result list. It does not show that any client depends on its norm.
+- The orchestrator retried the Flower CLI call of seed 0 once (SuperLink unreachable at the first attempt, before any client event). The deviation log of the pre-registration lists this, the local image rebuild with the sandbox CA bundle, a `--quick` test run of the script and the reads made before the script.
+- Clauses that no script check covers, as listed in the pre-registration and the results document: how a deployment reports a missing reply, that the strategy was driven directly and not through the SecAgg+ workflow in S6 and S6b, that the observer is told the direction of the dependence, the content of the rebuilt Docker image, the paths of this sandbox in the saved env files, that no inference from the metric values was attempted, and the wording of the documents.
+- Untested: the Message API strategies, other `flwr` releases, several rounds, more than four clients, metric types other than two floats and one integer, timing and message size, an active server, and the relay streams of the two S4 runs (saved, not analysed).
+- Package version is 0.16.13.
+
 ## [0.16.12] - 2026-11-26
 
 Documents only. No result number, verdict, threshold or script changed.
