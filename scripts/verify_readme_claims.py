@@ -45,6 +45,7 @@ ADAPT_G = GUARANTEE["1.27.0"]
 SEL = "reports/results/privacy/v0160/nvflare_selection/nvflare_selection.json"
 EVT = "reports/results/privacy/v0160/nvflare_events/nvflare_events.json"
 TFF = "reports/results/privacy/v0160/tff_dp/tff-0.87.0/tff_dp_audit.json"
+DDP = "reports/results/privacy/v0160/tff_ddp/tff-0.87.0/tff_ddp_audit.json"
 SUITE_FILES = {"full": "fast_suite.txt", "ci": "fast_suite_ci_env.txt"}
 # A record is stale when any of these changed between the commit it names and the working tree.
 CODE_PATHS = ("src", "services", "scripts", "tests", "pyproject.toml")
@@ -307,6 +308,35 @@ def _tff_prose() -> list[ProseClaim]:
     ]
 
 
+def _ddp_prose() -> list[ProseClaim]:
+    """Numbers quoted in the v0.16.11 section of the README, read from the distributed DP evidence file."""
+    R = Ref
+    a1, a2 = "rows/1/measured/A1/A1 ", "rows/1/measured/A2/A2 "
+    return [
+        ProseClaim("v1611.counts", r"Result: (\d+) of (\d+) rows held and (\d+) of (\d+) checks held",
+                   (R(1, DDP, "summary/rows_held"), R(2, DDP, "summary/rows_total"), R(3, DDP, "summary/checks_held"), R(4, DDP, "summary/checks_total"))),
+        ProseClaim("v1611.A1", r"delivered noise over `noise_multiplier \* l2_clip` is ([\d.]+), ([\d.]+), ([\d.]+) and ([\d.]+) \(Skellam",
+                   tuple(R(i + 1, DDP, a1 + k + "/rms_over_zC") for i, k in enumerate(("skellam dft", "skellam hd", "dgauss dft", "dgauss hd")))),
+        ProseClaim("v1611.B", r"With 4 and 25 clients the delivered noise over `noise_multiplier \* l2_clip` is ([\d.]+) and ([\d.]+), which is ([\d.]+) and ([\d.]+) times",
+                   (R(1, DDP, "rows/2/measured/n4/rms"), R(2, DDP, "rows/2/measured/n25/rms"),
+                    R(3, DDP, "rows/2/measured/n4/ratio_to_docstring_reading"), R(4, DDP, "rows/2/measured/n25/ratio_to_docstring_reading"))),
+        ProseClaim("v1611.C", r"is ([\d.]+) and ([\d.]+)\. The sensitivity of one client stays at the clip",
+                   (R(1, DDP, "rows/3/measured/skellam m 5/rms_over_zC"), R(2, DDP, "rows/3/measured/skellam m 20/rms_over_zC"))),
+        ProseClaim("v1611.D", r"is ([\d.]+), ([\d.]+) and ([\d.]+) times the clip at 16, 8 and 5 bits",
+                   tuple(R(i + 1, DDP, f"rows/4/measured/b {b} beta 0/mean_norm_over_C") for i, b in enumerate((16, 8, 5)))),
+        ProseClaim("v1611.A2", r"noise is ([\d.]+), ([\d.]+), ([\d.]+) and ([\d.]+) times the configured level at 4, 5, 8 and 12 bits",
+                   tuple(R(i + 1, DDP, a2 + f"dgauss bits {b}/rms_over_zC") for i, b in enumerate((4, 5, 8, 12)))),
+        ProseClaim("v1611.E2", r"delivered noise is ([\d.]+) and ([\d.]+) over the configured level, against ([\d.]+) and ([\d.]+) for a saturating field",
+                   (R(1, DDP, "rows/5/measured/E2/E2 p 0.3/rms_over_zC"), R(2, DDP, "rows/5/measured/E2/E2 p 0.7/rms_over_zC"),
+                    R(3, DDP, "rows/5/measured/E2/E2 p 0.3/clip_alternative"), R(4, DDP, "rows/5/measured/E2/E2 p 0.7/clip_alternative"))),
+        ProseClaim("v1611.F", r"after the update would be ([\d.]+) times higher",
+                   (R(1, DDP, "rows/6/measured/mean_ratio_to_clip_after_update"),)),
+        ProseClaim("v1611.A1sd", r"Fourier rotation was ([\d.]+) in the first run against a window of 0\.0116 to 0\.0197, and ([\d.]+) in the replication",
+                   (R(1, DDP, "rows/1/measured/A1/A1 skellam dft/per_call_rms_sd"), R(2, DDP, "replication/0/measured/A1/A1 skellam dft/per_call_rms_sd"))),
+        ProseClaim("v1611.T", r"The script ran in ([\d.]+) seconds", (R(1, DDP, "rows/11/measured/total_seconds"),)),
+    ]
+
+
 def _verdict_words() -> list[VerdictWord]:
     out = [VerdictWord(t, PROOFS, f"{t}/pass") for t in ("E1", "E2", "E3", "M1")]
     out += [VerdictWord(t, DP, f"{t}/pass") for t in ("D1", "D2", "D3", "D4", "D5")]
@@ -338,7 +368,7 @@ def _lira_claims() -> list[Claim]:
 
 
 CLAIMS: list[Claim] = _view_claims() + _lira_claims()
-PROSE: list[ProseClaim] = _prose_claims() + _v15_prose() + _tff_prose()
+PROSE: list[ProseClaim] = _prose_claims() + _v15_prose() + _tff_prose() + _ddp_prose()
 VERDICTS: list[Verdict] = _verdicts()
 PHRASES: list[Phrase] = _phrases()
 WORDS: list[VerdictWord] = _verdict_words()
@@ -609,6 +639,26 @@ def check_tff_failures(readme: str, root: Path) -> tuple[str, str]:
     return "OK", "one failed check, in F5, and no delivered value mismatch"
 
 
+def check_ddp_failures(readme: str, root: Path) -> tuple[str, str]:
+    """The distributed DP evidence has five failed checks. Three held on replication and two stand."""
+    fp = root / DDP
+    if not fp.is_file():
+        return "MISSING", f"evidence file {DDP}"
+    doc = json.loads(fp.read_text())
+    s = doc["summary"]
+    failed = s["checks_failed"]
+    if s["rows_failed"] != ["A", "C", "D", "J"] or len(failed) != 5:
+        return "MISMATCH", f"expected failed rows A, C, D, J and 5 failed checks, evidence has {s['rows_failed']} and {len(failed)}"
+    if s["mismatch_found_rows"]:
+        return "MISMATCH", f"a mismatch was found in rows {s['mismatch_found_rows']}"
+    if sum(1 for r in doc["replication"] if r["prediction_held"]) != len(doc["replication"]):
+        return "MISMATCH", "a replication did not hold"
+    exact = [c for c in failed if c["kind"] != "stat"]
+    if len(exact) != 2 or "did not run" not in readme or "Five checks failed" not in readme:
+        return "MISMATCH", "README does not describe the two failed exact checks and the five failed checks"
+    return "OK", "five failed checks, three held on replication, two exact checks stand, no mismatch found"
+
+
 def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, suite: bool = True,
            prose: list[ProseClaim] | None = None, verdicts: list[Verdict] | None = None,
            phrases: list[Phrase] | None = None, words: list[VerdictWord] | None = None) -> list[tuple[str, str, str]]:
@@ -623,6 +673,7 @@ def verify(readme_path: Path, root: Path, claims: list[Claim] | None = None, sui
     if prose is None:
         results.append(("v166.rows_held", *check_guarantee_rows_held(readme, root)))
         results.append(("v169.failures", *check_tff_failures(readme, root)))
+        results.append(("v1611.failures", *check_ddp_failures(readme, root)))
     if suite:
         results += [(f"tests.fast_suite_count.{k}", *check_suite_line(readme, root, k)) for k in SUITE_FILES]
     return results
