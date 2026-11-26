@@ -2,6 +2,27 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.11] - 2026-11-26
+
+Measurement of the distributed DP aggregator of TensorFlow Federated 0.87.0. No earlier result number, verdict or threshold changed.
+
+### Added
+- **Measured noise and sensitivity of `DistributedDpSumFactory` against its configuration.** `scripts/audit_tff_ddp.py` runs the real factory (Skellam and discrete Gaussian mechanisms, discrete Fourier and Hadamard rotations, modular clipping, adaptive clip) through `process.next`, with 10 pre-registered rows plus an environment row and a timing row, and 199 checks. Pre-registration `docs/preregistration/v0.16-tff-ddp.md` (commit `b32e31c`, committed alone before the script was written), results `docs/v0.16-tff-ddp-audit.md`, evidence `reports/results/privacy/v0160/tff_ddp/tff-0.87.0/tff_ddp_audit.json`, tests `tests/privacy/test_audit_tff_ddp.py`. The tests that call TFF skip when `tensorflow_federated` is not importable, as in CI.
+- A README section and claim checks in `scripts/verify_readme_claims.py` for the new numbers, including a check that the evidence has five failed checks, three of which held on replication and two of which stand.
+
+### Recorded on purpose
+- 8 of 12 rows and 194 of 199 checks held. Three statistical checks failed in the first run and held in the one replication that the rule allows (the spread of the per-call RMS of Skellam with the Fourier rotation, the rounding growth at 16 bits by 0.00012 outside the tolerance, and the beta difference at 5 bits), so no mismatch is called. Two failed checks stand as written. The noise-free output norm at 20 clients against 10 expected was 9.97287 where the prediction was 10 (a scratch run after the evidence, not in the evidence file, fits a wrap in the modular range at the design bound). Row J, `tff.learning.ddp_secure_aggregator`, constructs and initializes but a call of `next` did not run, so its prediction was not tested.
+- The documentation says the local noise standard deviation is the central one divided by `expected_clients_per_round`. The code divides by its square root. The delivered noise over `noise_multiplier * l2_clip` was 0.99641 and 1.00015 for 4 and 25 clients, where the sentence read as written would give 0.5 and 0.2.
+- With 5 and 20 clients reporting against 10 expected, the delivered noise was 0.70807 and 1.40720 times the configured level, so the delivered noise multiplier follows the square root of the reporting count over the configured count. This differs from the Gaussian aggregators of 0.16.9, where it stays at the configured value.
+- The sensitivity of a client above the clip was 1.00000, 1.00708 and 1.45129 times the clip at 16, 8 and 5 bits, above the clip in every call at 8 and 5 bits. The discrete Gaussian noise was 2.41687, 1.67157, 1.08342 and 1.00292 times the configured level at 4, 5, 8 and 12 bits. The modular range wraps and does not saturate.
+- The state reports an `UnsupportedDpEvent` and no epsilon. The implied epsilon table of the results document is labelled a Gaussian approximation conditional on the measured numbers and is not a guarantee. No privacy claim is made.
+- Observed and not isolated: the first run of A1 had one call with an RMS of 1.123 and the replication one of 1.0998, and a scratch run after the evidence (500 calls per mechanism, not in the evidence file) had 7 Skellam calls and no discrete Gaussian call with an RMS above 1.06. The values are consistent with two clients that share a noise draw. The deviation log of the pre-registration records the numbers.
+- A call of `next` fails in TFF's default local C++ execution context ("Cannot embed a federated value"), so every row used the test C++ execution context.
+- Script and pre-registration differ in the H correlation threshold (0.01398 in the script, 0.0198 pre-registered, no verdict changes) and in the 80% power figure stored for H. The deviation log lists both.
+- Clauses that no script check covers, as listed in the pre-registration and the results document: the source and install statements, the paper reading, the Gaussian model of rotated coordinates, the orthonormality of the rotations, that the secure sum is a plain sum in this runtime, that the documentation read states no adjacency relation, the scan of eight files for "epsilon", the false failure estimate, that the C++ worker runs the same kernels as the Python side, the implied epsilon table, and the wording of the README and the document.
+- The fast suite records were re-recorded after the branch was built (732 passed and 32 skipped with flwr and opacus, 536 passed and 73 skipped in the CI environment) and the README suite counts were updated.
+- Package version is 0.16.11.
+
 ## [0.16.10] - 2026-11-26
 
 Second CIFAR-10 inversion study (tracker item T6b), pre-registered, run on a Colab T4 and reported. No earlier result number, verdict or threshold changed.

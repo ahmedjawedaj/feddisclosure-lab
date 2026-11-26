@@ -1,7 +1,7 @@
 date: 2026-11-26
-commit: 88ba37402ee6527cc1654a281c9287bccbc3bbba
+commit: d60e58db60e44afdacf0fac7c8cdc0f894cf4eb6
 code_dirty: no
 tree: working copy
 python: 3.13.18
 packages: torch 2.15.0+cpu, flwr 1.27.0, opacus 1.6.0, hypothesis 6.170.17
-706 passed, 30 skipped, 10 deselected, 2 warnings in 97.65s (0:01:37)
+732 passed, 32 skipped, 10 deselected, 2 warnings in 94.07s (0:01:34)

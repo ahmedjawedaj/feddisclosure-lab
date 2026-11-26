@@ -1,3 +1,13 @@
+## After v0.16.11 (2026-11-26)
+
+Done in v0.16.11: measurement of TFF's `DistributedDpSumFactory` on 0.87.0 (fifth framework family for the DP measurements and the first for a discrete mechanism).
+
+- [ ] Pre-register and measure the rate and cause of repeated noise between clients for the Skellam mechanism (the scratch run saw 7 of 500 calls at 10 clients), with the seeds read from the code and a per-client count of equal draws.
+- [ ] Find why a call of `next` of `ddp_secure_aggregator` fails (DecodeError in `replace_secure_intrinsics_with_bodies`) and why the default local C++ execution context rejects the secure sum, then run row J.
+- [ ] Re-run the noise-free norm with `m` between 10 and 20 and a smaller input norm, to separate the modular range at the design bound from other causes.
+- [ ] Measure other dimensions (padding and slicing), several tensors, integer inputs, a trained model with data dependent norms, client sampling and composition over rounds.
+- [ ] Settle which adjacency TFF intends before any epsilon is stated, and add sampling and a composition accountant.
+
 ## After v0.16.10 (2026-11-26)
 
 Done in v0.16.10: pre-registration, script, tests, runbook and the run of the P3b study (plan item T6b). Results are in `docs/v0.16-p3b-results.md`.
