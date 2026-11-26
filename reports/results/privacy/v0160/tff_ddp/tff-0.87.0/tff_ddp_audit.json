@@ -1,0 +1,5768 @@
+{
+  "schema": "feddisclosure.tff_ddp_audit.v1",
+  "quick": false,
+  "preregistration": "docs/preregistration/v0.16-tff-ddp.md",
+  "preregistration_commit": "b32e31c",
+  "script_sha256": "1e5df598f18df4baf31c764318d2b8e6f00136db8bd8b30b118b061839fd82eb",
+  "environment": {
+    "tensorflow-federated": "0.87.0",
+    "tensorflow": "2.14.1",
+    "tensorflow-privacy": "0.9.0",
+    "dp-accounting": "0.4.3",
+    "numpy": "1.25.2",
+    "jax": "0.4.14",
+    "jaxlib": "0.4.14",
+    "scipy": "1.9.3",
+    "python": "3.11.18",
+    "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39"
+  },
+  "parameters": {
+    "base_seed": 20261127,
+    "D": 2048,
+    "calls": {
+      "A1": 120,
+      "A2_A3_B_C_E2": 80,
+      "D": 80,
+      "E3": 20,
+      "F_chains": 20,
+      "H_pairs": 20,
+      "J": 60
+    }
+  },
+  "deviations": [
+    {
+      "date": "2026-11-26",
+      "item": "Order of work and test runs",
+      "reason": "The script was written after the pre-registration commit b32e31c. Quick runs (few calls, output in a temporary directory outside the repository, not evidence) were made before the full run. Their statistical checks failed or held at random because the run counts are small. They changed no prediction, tolerance or configuration."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Row I, entry for Skellam at 4 bits",
+      "reason": "The pre-registration lists A2 Skellam at 4 and 5 bits with the sensitivity of D at 5 bits. Row D has no 4 bit run, so a 4 bit entry would pair a noise measured at one scale with a sensitivity of another. The script drops the 4 bit entry and keeps the 5 bit one at the mean and at the bound."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Row B check 4, location of the docstring sentence",
+      "reason": "The pre-registration says the docstring of the class contains the sentence about the local noise standard deviation. The sentence may be in the docstring of `__init__` instead. The script searches both and records where it was found."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Replication rule as implemented",
+      "reason": "When a statistical check of a row fails, the row is run once more with the seed offset 5,000,000 added to the seed rule, which changes only the input vectors and the seed given to tf.random.set_seed. A mismatch is called found when the same check fails in both runs. The seed does not control the noise (row H), so the replication has fresh noise."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Execution context",
+      "reason": "The first quick run used the default local C++ execution context. A call of process.next failed there with the gRPC error 'Cannot embed a federated value' for every configuration, while initialize ran. The test C++ execution context (tff.backends.test.set_sync_test_cpp_execution_context) runs the same call in under 0.1 s. All rows use the test context. Row V records the outcome of one call in the default context. This is a finding about the runtime and not a change to any prediction. The pre-registration says secure sum is a plain sum in the local runtime, which holds in the test context."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Row J cannot run a call",
+      "reason": "A call of the process built by tff.learning.ddp_secure_aggregator(1.0, 20) fails under the test C++ execution context with a protobuf DecodeError raised in replace_secure_intrinsics_with_bodies, and under the default context with the same error as the factory. Construction and initialize run. By the rule of the brief, a configuration that cannot run is a finding. The row records both errors and its prediction is not tested. The direct factory with the settings of the wrapper was not isolated further."
+    },
+    {
+      "date": "2026-11-26",
+      "item": "Checks added beyond the pre-registered statements",
+      "reason": "A recomputation of each pre-registered model number by the helper functions (checks named 'helper reproduces'), and the report of the largest norm and the share above C in row D. None replaces a pre-registered check."
+    }
+  ],
+  "rows": [
+    {
+      "id": "V",
+      "configuration": {
+        "expected": {
+          "tensorflow-federated": "0.87.0",
+          "tensorflow": "2.14.1",
+          "tensorflow-privacy": "0.9.0",
+          "dp-accounting": "0.4.3",
+          "numpy": "1.25.2",
+          "jax": "0.4.14",
+          "jaxlib": "0.4.14",
+          "scipy": "1.9.3"
+        }
+      },
+      "measured": {
+        "installed": {
+          "tensorflow-federated": "0.87.0",
+          "tensorflow": "2.14.1",
+          "tensorflow-privacy": "0.9.0",
+          "dp-accounting": "0.4.3",
+          "numpy": "1.25.2",
+          "jax": "0.4.14",
+          "jaxlib": "0.4.14",
+          "scipy": "1.9.3"
+        },
+        "python": "3.11.18",
+        "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+        "tff.aggregators exports DistributedDpSumFactory": false,
+        "tff.learning has ddp_secure_aggregator": true,
+        "default_local_cpp_context_probe": {
+          "call_ran": false,
+          "error": "_InactiveRpcError: <_InactiveRpcError of RPC that terminated with: \tstatus = StatusCode.INVALID_ARGUMENT \tdetails = \"Cannot embed a federated value. while evaluating local [_var730] in block locals [_"
+        },
+        "context_used": "tff.backends.test.set_sync_test_cpp_execution_context"
+      },
+      "checks": [
+        {
+          "check": "one call under the test C++ execution context runs (all rows use it)",
+          "expected": "runs",
+          "observed": "see rows",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "installed versions equal the pre-registered ones",
+          "expected": {
+            "tensorflow-federated": "0.87.0",
+            "tensorflow": "2.14.1",
+            "tensorflow-privacy": "0.9.0",
+            "dp-accounting": "0.4.3",
+            "numpy": "1.25.2",
+            "jax": "0.4.14",
+            "jaxlib": "0.4.14",
+            "scipy": "1.9.3"
+          },
+          "observed": {
+            "tensorflow-federated": "0.87.0",
+            "tensorflow": "2.14.1",
+            "tensorflow-privacy": "0.9.0",
+            "dp-accounting": "0.4.3",
+            "numpy": "1.25.2",
+            "jax": "0.4.14",
+            "jaxlib": "0.4.14",
+            "scipy": "1.9.3"
+          },
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "tff.aggregators has no DistributedDpSumFactory and tff.learning has ddp_secure_aggregator (known from the probe, not blind)",
+          "expected": [
+            true,
+            true
+          ],
+          "observed": [
+            true,
+            true
+          ],
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "A",
+      "configuration": {
+        "n": 10,
+        "z": 1.0,
+        "C": 1.0,
+        "D": 2048,
+        "calls": [
+          120,
+          80,
+          80
+        ],
+        "tolerance": 0.007
+      },
+      "measured": {
+        "A1": {
+          "A1 skellam dft": {
+            "N": 245760,
+            "predicted_ratio": 0.9998780148537304,
+            "rms_over_zC": 1.0012102698723226,
+            "ratio_to_prediction": 1.0013324175537424,
+            "moments": {
+              "mean": -0.00011670576313503508,
+              "std": 1.0012102630704371,
+              "skew": 0.0021161377897336367,
+              "excess_kurtosis": 0.015341533478664626
+            },
+            "per_call_rms_sd": 0.021797780788046138,
+            "per_call_rms": [
+              0.9906305715950002,
+              1.0175376541254808,
+              1.018104155819953,
+              0.9901306599150594,
+              1.006156074739526,
+              0.9976347045405335,
+              0.9878591776447844,
+              1.0045604845059461,
+              1.000966041380872,
+              1.0038783659150943,
+              0.9868856687870176,
+              0.9897340863743805,
+              1.0003207511439425,
+              0.9906410437172847,
+              1.018302477449188,
+              0.9759363744575693,
+              1.0214549327547657,
+              0.9821473188856984,
+              1.0206235947207114,
+              1.0165498894913505,
+              0.9909432866046155,
+              0.9746944094053018,
+              0.9696688538397679,
+              0.9784534129509207,
+              0.9923490053635519,
+              0.9912775852666791,
+              0.9866651307527862,
+              1.0100090082198065,
+              0.965106595516201,
+              1.0241308012013879,
+              1.0034832194110217,
+              1.0147620415618195,
+              0.9846744888750961,
+              0.9883892859699765,
+              0.9677101595391568,
+              1.0008440694684069,
+              1.002276931956268,
+              0.9983757771674268,
+              1.0240029662267418,
+              0.9855165243821726,
+              0.9840286798064123,
+              1.0326164268805331,
+              0.9985143685571619,
+              1.0102524784786076,
+              1.0882540508476244,
+              0.9919077104628832,
+              0.9937141148387817,
+              0.9968684259759044,
+              1.0224410603608185,
+              1.022351091970732,
+              0.9923828727825474,
+              1.0202584030392137,
+              0.996412830059925,
+              1.0066121201014901,
+              0.9770076911175871,
+              0.9932968102568155,
+              0.9966839545881774,
+              0.9856707015228838,
+              1.0070204487968792,
+              1.0026842702303982,
+              1.0111934938239189,
+              0.963254839451609,
+              0.9875586988144681,
+              0.9784304044947589,
+              1.0068058289522643,
+              1.0015631611692692,
+              1.0005166212167238,
+              1.0113060063402497,
+              1.004611247011189,
+              0.9790672847282439,
+              1.013116833207912,
+              0.9944304473681099,
+              0.994581951677663,
+              1.007482169057198,
+              1.0009334742372382,
+              0.9963875162313534,
+              0.9919799510165143,
+              1.0083277201893988,
+              0.9753043669990547,
+              1.0309344515361478,
+              1.0134029054824756,
+              1.0162405556121379,
+              0.9610357803892831,
+              0.99456121583391,
+              0.9926397923867241,
+              1.0068700388914131,
+              0.9980919552217175,
+              1.004479829951064,
+              1.007786084784792,
+              1.015974095619801,
+              0.9872740455472642,
+              0.9791036361765205,
+              1.0202490976461491,
+              1.122985445457649,
+              0.9984877370375326,
+              0.9961872210339865,
+              0.9914512016607987,
+              1.0814299649573946,
+              0.9961707213990818,
+              1.0194835479591704,
+              1.0104678999323955,
+              0.9730887348383694,
+              0.9804078580096391,
+              0.9849715187092133,
+              0.9750801393358959,
+              1.0244362595891845,
+              1.0011506918659405,
+              1.0042073723637983,
+              0.9940097117835729,
+              1.0003592822282723,
+              1.0184600573766907,
+              0.9967489292930558,
+              0.9953894642008447,
+              0.9948593473373722,
+              0.9965816166655213,
+              1.0253920244761356,
+              0.9921039794597012,
+              0.9906670226636332,
+              0.9976657080381998,
+              1.0068871656853537
+            ],
+            "measurements": {
+              "scale_factor": 8223.9814453125,
+              "scaled_local_stddev": 2600.651123046875,
+              "padded_dim": 2048.0,
+              "actual_num_clients": 10.0,
+              "l2_clip": 1.0
+            },
+            "warnings": [],
+            "mde80_relative": 0.008200455558602108
+          },
+          "A1 skellam hd": {
+            "N": 245760,
+            "predicted_ratio": 0.9998780148537304,
+            "rms_over_zC": 0.9987097149388706,
+            "ratio_to_prediction": 0.9988315575525174,
+            "moments": {
+              "mean": -0.005373223039220265,
+              "std": 0.9986952604210408,
+              "skew": -0.0037124953329470845,
+              "excess_kurtosis": -0.00319941012801106
+            },
+            "per_call_rms_sd": 0.015745579094899674,
+            "per_call_rms": [
+              1.0030802840696407,
+              1.0022355894227957,
+              0.9993127371304923,
+              0.9874575807255662,
+              0.9886650761561924,
+              0.9969167671874156,
+              1.0142104119738558,
+              1.0133543788497181,
+              1.0052294818189569,
+              1.0188025472742432,
+              0.9789837064028758,
+              1.0067751224907582,
+              0.9782277840137314,
+              1.0137974512408192,
+              1.0061921890400167,
+              1.0046333019977831,
+              1.000958566772141,
+              1.0123320765110253,
+              0.9661416114024031,
+              0.9956937011014787,
+              0.9955049028203562,
+              0.9931522183040395,
+              1.0047139783850774,
+              1.0125445691112447,
+              0.9818109096696703,
+              0.9944434388888531,
+              0.989151596134751,
+              0.9803365694265507,
+              0.9695053124452625,
+              0.9749922799352718,
+              1.0070360408475405,
+              0.9804407209088781,
+              0.998342866302485,
+              1.0058341067094176,
+              1.0039923593838609,
+              1.006832189434248,
+              1.0055212563434879,
+              0.9811850710820664,
+              0.9733330054086565,
+              1.0073235529645248,
+              0.9942849120967618,
+              1.0160974925031336,
+              0.9979026312989712,
+              1.0208647152003476,
+              1.0004677946254288,
+              1.0098107455085643,
+              0.9961087122719688,
+              0.982774478156478,
+              1.0292121546832342,
+              1.0167061030263012,
+              0.9817473234221055,
+              0.9641905614215942,
+              1.041901640057385,
+              1.0123834155641045,
+              1.013294687081877,
+              1.0022216967940567,
+              0.9809842959078876,
+              0.9861866898789059,
+              1.0169607688139208,
+              1.0154164464475115,
+              1.0203243950981882,
+              1.0041167540858325,
+              1.0140506998142473,
+              0.9924044838768428,
+              1.001031276859433,
+              1.0085395335348928,
+              0.995256864551026,
+              0.9981050863638071,
+              0.9902235986662222,
+              1.0096291784802847,
+              0.9968815331906423,
+              0.999643247530778,
+              0.9970287617895939,
+              1.0027803706156022,
+              0.984950807978886,
+              1.0169393206070432,
+              0.9950043134823716,
+              1.0096104053348365,
+              0.9999579366934891,
+              0.9958719847499572,
+              0.9767756372297203,
+              0.9961298869566199,
+              0.9718965059654852,
+              0.9761423536303273,
+              0.9909795402205251,
+              0.9846560133466864,
+              0.9953038175849414,
+              1.021998407324424,
+              1.0044712237794489,
+              0.9852607070000485,
+              1.0147861630089687,
+              1.000067812186872,
+              1.0366723616053974,
+              0.9831727941422268,
+              1.0012138332444003,
+              0.9745940372884916,
+              1.018491570032402,
+              1.007695741095987,
+              0.9869626951589876,
+              0.9886562550539784,
+              1.022547228536394,
+              0.9838859221269105,
+              1.0195824368118225,
+              1.0093450758836395,
+              0.9934571474197013,
+              0.9879139352626809,
+              0.9757457250165662,
+              1.0132442069399623,
+              1.0066391000255401,
+              0.9734920668116158,
+              0.9708279457472984,
+              1.0170592918565486,
+              1.0096409549920862,
+              0.9652943808851754,
+              1.0188331249310116,
+              1.0183950636972618,
+              0.9790430652194809,
+              1.0026476109815388,
+              0.9803489847986882,
+              0.9956586382174064
+            ],
+            "measurements": {
+              "scale_factor": 8223.9814453125,
+              "scaled_local_stddev": 2600.651123046875,
+              "padded_dim": 2048.0,
+              "actual_num_clients": 10.0,
+              "l2_clip": 1.0
+            },
+            "warnings": [],
+            "mde80_relative": 0.008200455558602108
+          },
+          "A1 dgauss dft": {
+            "N": 245760,
+            "predicted_ratio": 1.0000118762818915,
+            "rms_over_zC": 1.0010439578239803,
+            "ratio_to_prediction": 1.001032069284943,
+            "moments": {
+              "mean": -0.0006439238951055396,
+              "std": 1.001043750721174,
+              "skew": 0.0009983450267172544,
+              "excess_kurtosis": 0.008940104629970858
+            },
+            "per_call_rms_sd": 0.01643405228321077,
+            "per_call_rms": [
+              1.014904676709586,
+              1.0095921005179553,
+              1.014143041840818,
+              0.9992495519649021,
+              0.9963734230409697,
+              1.0110317705537617,
+              0.9860967033978503,
+              1.0102678507075766,
+              1.0124799421320845,
+              1.016754110577977,
+              1.007615973342981,
+              1.008738067701167,
+              0.9866120690154621,
+              1.0155868265753962,
+              1.01425257285975,
+              0.9829565814340067,
+              0.9710430973256806,
+              0.9898604166868824,
+              1.0204574380327274,
+              1.0062155950367857,
+              1.0101498615264537,
+              1.0130429683479207,
+              1.0273054909028454,
+              0.9959596153759562,
+              0.9898502882198653,
+              1.0058346621957834,
+              0.9963140923915174,
+              0.9949744226539067,
+              1.0222043506100789,
+              0.9994065558785931,
+              1.0178099134730483,
+              0.9834422120755987,
+              0.9767983315068256,
+              1.0191288481292402,
+              0.9773974190986399,
+              1.0170406638567822,
+              1.0064718561977237,
+              0.9954055739311306,
+              0.9928597009387164,
+              0.9975827497051045,
+              1.0223624895658523,
+              0.9957306623440156,
+              0.9985336114054831,
+              0.9877727736309728,
+              0.9982581407059399,
+              0.9817553134907416,
+              1.0010977376796584,
+              0.9758224657690054,
+              1.0014044693443676,
+              0.9832566981580195,
+              1.0193371236563769,
+              1.0083583146985493,
+              1.0070834191810818,
+              0.9946702416014089,
+              0.9689988295228461,
+              0.9883054035686525,
+              0.9968530520030887,
+              1.0386727257560142,
+              1.0046638749405634,
+              1.0166466636816314,
+              0.9995001014383714,
+              1.0148530074205484,
+              0.9945178008737542,
+              1.0037522287836962,
+              1.0106006971243384,
+              0.9893115219626349,
+              1.0092641123056738,
+              0.9808318342129589,
+              1.039925092892648,
+              0.9909177112885835,
+              1.0158260370864545,
+              1.011657337190652,
+              1.0014920802524652,
+              1.0134086105935705,
+              0.974261834875753,
+              1.0237422137482022,
+              1.0119443464959972,
+              0.9950213883609058,
+              1.0249041840743698,
+              1.0030256965308888,
+              1.0070496361203696,
+              0.9925217724989358,
+              0.9908132724513051,
+              0.9946650376646572,
+              0.9579659510513486,
+              1.0183722451510206,
+              0.9849498672170912,
+              1.035538627444408,
+              1.0074704751715913,
+              0.9865910160779203,
+              1.0169045733272177,
+              1.0232427002322435,
+              0.9966337671906095,
+              1.0129938310449131,
+              1.0194042574509652,
+              0.9950131651815411,
+              1.0023316508119555,
+              0.9977751219991817,
+              0.9516146971322932,
+              0.9926897353717913,
+              1.0168776178897259,
+              1.0228795501111032,
+              0.996843538182849,
+              1.0114743156522223,
+              0.9884271553608018,
+              0.9871208680715584,
+              1.0026032014193391,
+              1.0192422209228846,
+              0.9654505029548205,
+              1.017944932453843,
+              0.9941058046042223,
+              1.015751353670053,
+              1.0023216084134223,
+              0.9839595546787208,
+              0.9821237114055279,
+              0.9874671403607018,
+              0.9877154395747311,
+              0.9759123104783876,
+              0.9772528079235615,
+              0.9776527098247364
+            ],
+            "measurements": {
+              "scale_factor": 8223.9814453125,
+              "scaled_local_stddev": 2600.651123046875,
+              "padded_dim": 2048.0,
+              "actual_num_clients": 10.0,
+              "l2_clip": 1.0
+            },
+            "warnings": [],
+            "mde80_relative": 0.008200455558602108
+          },
+          "A1 dgauss hd": {
+            "N": 245760,
+            "predicted_ratio": 1.0000118762818915,
+            "rms_over_zC": 1.001958586743428,
+            "ratio_to_prediction": 1.0019466873421288,
+            "moments": {
+              "mean": 0.004547551015650022,
+              "std": 1.001948266792576,
+              "skew": -0.004029376487738152,
+              "excess_kurtosis": 0.009411474186663327
+            },
+            "per_call_rms_sd": 0.016318514866789893,
+            "per_call_rms": [
+              0.9879151184226966,
+              1.0291293402830297,
+              1.0225290156743905,
+              1.0179154384231375,
+              1.0119276426689179,
+              0.9946470731120496,
+              1.0130781215329077,
+              0.9853690177033696,
+              1.0368291710746602,
+              1.019254088243472,
+              0.9755527665165915,
+              1.0003069332920111,
+              1.0188318939454681,
+              1.0133385624245428,
+              0.9988264597666953,
+              0.9881179274084764,
+              0.9977782614775241,
+              1.002752008191905,
+              0.9843972236314945,
+              1.0248985325294042,
+              1.0159467515703493,
+              1.0065963336222423,
+              0.9794578978548119,
+              1.0019270062585404,
+              1.0060729808045754,
+              1.0147832429502508,
+              0.9962826215991226,
+              1.0136132410567276,
+              0.9934860789059266,
+              0.996172828197795,
+              1.0169395022105003,
+              0.9928976978260935,
+              0.9801146893178747,
+              1.0163992598931202,
+              1.0175729838684544,
+              1.0190986505050392,
+              0.9995487719259802,
+              0.9775511546188302,
+              1.0170231869812332,
+              0.9967147308328413,
+              1.0223569386117999,
+              0.9855500387060429,
+              1.0208507608984219,
+              1.0261848558551239,
+              1.0269892340690028,
+              0.9862300569101017,
+              0.9854537465328913,
+              0.9775162881344543,
+              0.9964561734813008,
+              0.9957230775980699,
+              0.9993716462824134,
+              1.0328055031568364,
+              0.9935490371587284,
+              1.0066745630819534,
+              1.012598307272807,
+              1.011252158844199,
+              0.992991000722622,
+              0.9981570019833036,
+              0.9893631192570833,
+              1.0195159618346408,
+              1.0068757390068155,
+              0.9909955894758883,
+              0.9980151473544421,
+              0.9711314406085212,
+              1.0139169201821976,
+              1.0007787463175812,
+              1.022059172018679,
+              0.9816751217253442,
+              0.9721829824692916,
+              0.9659001179008806,
+              1.0072349770875355,
+              0.9915993425087904,
+              1.0015424511123168,
+              1.042202108481294,
+              1.0181629604006104,
+              0.9927679044759781,
+              0.9997565156450591,
+              0.9913779504126377,
+              0.9914825667354861,
+              0.9971836213580425,
+              1.0206570788657736,
+              0.985441286396561,
+              1.0089862646842531,
+              1.0096103963735379,
+              0.9879562954511759,
+              0.9816849524117236,
+              0.9849185340832266,
+              1.0011404138260127,
+              0.9932369586241673,
+              1.010443342967837,
+              0.9802292049453186,
+              0.9989916762845931,
+              1.0382700524059203,
+              1.017308870912852,
+              0.9614484418395528,
+              1.0214977552563076,
+              1.0128306638105864,
+              0.9936848990598237,
+              1.0117916684532655,
+              0.9993217489404727,
+              1.0172849780369153,
+              0.9637465781443293,
+              1.003954748745423,
+              0.981491261576012,
+              0.9745694590421377,
+              1.0171058413040508,
+              0.9900309737139754,
+              1.0012699337556552,
+              1.019241931000048,
+              1.0035413175540935,
+              0.9978706428280734,
+              1.0008115815933112,
+              0.9994806680867124,
+              0.9836634760107131,
+              1.0138489956150576,
+              1.0065874450522319,
+              0.9915021893953522,
+              1.0125519478707075,
+              1.0033468352474273,
+              0.9998394896669044
+            ],
+            "measurements": {
+              "scale_factor": 8223.9814453125,
+              "scaled_local_stddev": 2600.651123046875,
+              "padded_dim": 2048.0,
+              "actual_num_clients": 10.0,
+              "l2_clip": 1.0
+            },
+            "warnings": [],
+            "mde80_relative": 0.008200455558602108
+          }
+        },
+        "A2": {
+          "A2 skellam bits 4": {
+            "N": 163840,
+            "predicted_ratio": 0.9999977271472892,
+            "preregistered_ratio": 1.0,
+            "rms_over_zC": 0.9971378944904667,
+            "ratio_to_prediction": 0.9971401608431844,
+            "measurements": {
+              "scale_factor": 1.2836198806762695,
+              "scaled_local_stddev": 0.4059162437915802
+            },
+            "warnings": [],
+            "integer_scale": 1
+          },
+          "A2 dgauss bits 4": {
+            "N": 163840,
+            "predicted_ratio": 2.4209461101422463,
+            "preregistered_ratio": 2.42095,
+            "rms_over_zC": 2.4168732663458985,
+            "ratio_to_prediction": 0.9983176644125679,
+            "measurements": {
+              "scale_factor": 1.2836198806762695,
+              "scaled_local_stddev": 0.4059162437915802
+            },
+            "warnings": [],
+            "integer_scale": 1
+          },
+          "A2 skellam bits 5": {
+            "N": 163840,
+            "predicted_ratio": 0.9999372789651247,
+            "preregistered_ratio": 0.99994,
+            "rms_over_zC": 1.0049355165248268,
+            "ratio_to_prediction": 1.0049985510739983,
+            "measurements": {
+              "scale_factor": 3.706960678100586,
+              "scaled_local_stddev": 1.1722439527511597
+            },
+            "warnings": [],
+            "integer_scale": 2
+          },
+          "A2 dgauss bits 5": {
+            "N": 163840,
+            "predicted_ratio": 1.6748894410255615,
+            "preregistered_ratio": 1.67489,
+            "rms_over_zC": 1.6715671888343058,
+            "ratio_to_prediction": 0.9980164349300444,
+            "measurements": {
+              "scale_factor": 3.706960678100586,
+              "scaled_local_stddev": 1.1722439527511597
+            },
+            "warnings": [],
+            "integer_scale": 2
+          },
+          "A2 skellam bits 8": {
+            "N": 163840,
+            "predicted_ratio": 0.9998791306371447,
+            "preregistered_ratio": 0.99988,
+            "rms_over_zC": 0.9995246580248458,
+            "ratio_to_prediction": 0.999645484537643,
+            "measurements": {
+              "scale_factor": 32.087806701660156,
+              "scaled_local_stddev": 10.147055625915527
+            },
+            "warnings": [],
+            "integer_scale": 11
+          },
+          "A2 dgauss bits 8": {
+            "N": 163840,
+            "predicted_ratio": 1.0836089214281304,
+            "preregistered_ratio": 1.08361,
+            "rms_over_zC": 1.0834246530659546,
+            "ratio_to_prediction": 0.9998299493862297,
+            "measurements": {
+              "scale_factor": 32.087806701660156,
+              "scaled_local_stddev": 10.147055625915527
+            },
+            "warnings": [],
+            "integer_scale": 11
+          },
+          "A2 skellam bits 12": {
+            "N": 163840,
+            "predicted_ratio": 0.9998780120922243,
+            "preregistered_ratio": 0.99988,
+            "rms_over_zC": 1.0017540557478277,
+            "ratio_to_prediction": 1.0018762725381647,
+            "measurements": {
+              "scale_factor": 513.9965209960938,
+              "scaled_local_stddev": 162.5399627685547
+            },
+            "warnings": [],
+            "integer_scale": 163
+          },
+          "A2 dgauss bits 12": {
+            "N": 163840,
+            "predicted_ratio": 1.002702107181067,
+            "preregistered_ratio": 1.0027,
+            "rms_over_zC": 1.002917425647233,
+            "ratio_to_prediction": 1.0002147382204787,
+            "measurements": {
+              "scale_factor": 513.9965209960938,
+              "scaled_local_stddev": 162.5399627685547
+            },
+            "warnings": [],
+            "integer_scale": 163
+          }
+        },
+        "A3": {
+          "A3 skellam bits 16": {
+            "N": 163840,
+            "predicted": 1.000000012321244,
+            "preregistered": 1.0,
+            "rms_error_over_zC": 1.0081184379504118,
+            "warnings": [],
+            "mde80_absolute": 0.009470251788731458
+          },
+          "A3 skellam bits 5": {
+            "N": 163840,
+            "predicted": 1.0209311501600715,
+            "preregistered": 1.0209,
+            "rms_error_over_zC": 1.0215487601073039,
+            "warnings": [],
+            "mde80_absolute": 0.009470251788731458
+          },
+          "A3 skellam bits 4": {
+            "N": 163840,
+            "predicted": 1.0635760397810525,
+            "preregistered": 1.0636,
+            "rms_error_over_zC": 1.0645718481185813,
+            "warnings": [],
+            "mde80_absolute": 0.009470251788731458
+          }
+        }
+      },
+      "checks": [
+        {
+          "check": "A1 skellam dft: RMS over z C within 0.007 of the prediction 0.99988",
+          "expected": "1 +- 0.007",
+          "observed": 1.0013324175537424,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": 0.0021161377897336367,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": 0.015341533478664626,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: absolute mean at most 4 standard errors",
+          "expected": "<= 0.00807848062764029",
+          "observed": -0.00011670576313503508,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+          "expected": "[0.0116, 0.0197]",
+          "observed": 0.021797780788046138,
+          "held": false,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: scale_factor equals 8223.98 within 1e-5",
+          "expected": 8223.98,
+          "observed": 8223.9814453125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam dft: scaled_local_stddev equals 2600.651 within 1e-5",
+          "expected": 2600.651,
+          "observed": 2600.651123046875,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam dft: padded_dim 2048, actual_num_clients 10, l2_clip 1.0",
+          "expected": [
+            2048,
+            10,
+            1.0
+          ],
+          "observed": [
+            2048.0,
+            10.0,
+            1.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam hd: RMS over z C within 0.007 of the prediction 0.99988",
+          "expected": "1 +- 0.007",
+          "observed": 0.9988315575525174,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": -0.0037124953329470845,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": -0.00319941012801106,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: absolute mean at most 4 standard errors",
+          "expected": "<= 0.008058304361778755",
+          "observed": -0.005373223039220265,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+          "expected": "[0.0116, 0.0197]",
+          "observed": 0.015745579094899674,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: scale_factor equals 8223.98 within 1e-5",
+          "expected": 8223.98,
+          "observed": 8223.9814453125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam hd: scaled_local_stddev equals 2600.651 within 1e-5",
+          "expected": 2600.651,
+          "observed": 2600.651123046875,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam hd: padded_dim 2048, actual_num_clients 10, l2_clip 1.0",
+          "expected": [
+            2048,
+            10,
+            1.0
+          ],
+          "observed": [
+            2048.0,
+            10.0,
+            1.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss dft: RMS over z C within 0.007 of the prediction 1.00001",
+          "expected": "1 +- 0.007",
+          "observed": 1.001032069284943,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": 0.0009983450267172544,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": 0.008940104629970858,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: absolute mean at most 4 standard errors",
+          "expected": "<= 0.00807713870307049",
+          "observed": -0.0006439238951055396,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+          "expected": "[0.0116, 0.0197]",
+          "observed": 0.01643405228321077,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: scale_factor equals 8223.98 within 1e-5",
+          "expected": 8223.98,
+          "observed": 8223.9814453125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss dft: scaled_local_stddev equals 2600.651 within 1e-5",
+          "expected": 2600.651,
+          "observed": 2600.651123046875,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss dft: padded_dim 2048, actual_num_clients 10, l2_clip 1.0",
+          "expected": [
+            2048,
+            10,
+            1.0
+          ],
+          "observed": [
+            2048.0,
+            10.0,
+            1.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss hd: RMS over z C within 0.007 of the prediction 1.00001",
+          "expected": "1 +- 0.007",
+          "observed": 1.0019466873421288,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": -0.004029376487738152,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": 0.009411474186663327,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: absolute mean at most 4 standard errors",
+          "expected": "<= 0.008084518583430867",
+          "observed": 0.004547551015650022,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+          "expected": "[0.0116, 0.0197]",
+          "observed": 0.016318514866789893,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: scale_factor equals 8223.98 within 1e-5",
+          "expected": 8223.98,
+          "observed": 8223.9814453125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss hd: scaled_local_stddev equals 2600.651 within 1e-5",
+          "expected": 2600.651,
+          "observed": 2600.651123046875,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss hd: padded_dim 2048, actual_num_clients 10, l2_clip 1.0",
+          "expected": [
+            2048,
+            10,
+            1.0
+          ],
+          "observed": [
+            2048.0,
+            10.0,
+            1.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 4: RMS over z C within 0.007 of the prediction 1.0",
+          "expected": "1 +- 0.007",
+          "observed": 0.9971401608431844,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 skellam bits 4: scale_factor within 1e-4 of 1.2836",
+          "expected": 1.2836,
+          "observed": 1.2836198806762695,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 4: scaled_local_stddev within 1e-4 of 0.40592",
+          "expected": 0.40592,
+          "observed": 0.4059162437915802,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 4: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 1.0,
+          "observed": 0.9999977271472892,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 4: no warning at construction and no exception",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 4: RMS over z C within 0.007 of the prediction 2.42095",
+          "expected": "1 +- 0.007",
+          "observed": 0.9983176644125679,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 dgauss bits 4: scale_factor within 1e-4 of 1.2836",
+          "expected": 1.2836,
+          "observed": 1.2836198806762695,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 4: scaled_local_stddev within 1e-4 of 0.40592",
+          "expected": 0.40592,
+          "observed": 0.4059162437915802,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 4: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 2.42095,
+          "observed": 2.4209461101422463,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 5: RMS over z C within 0.007 of the prediction 0.99994",
+          "expected": "1 +- 0.007",
+          "observed": 1.0049985510739983,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 skellam bits 5: scale_factor within 1e-4 of 3.707",
+          "expected": 3.707,
+          "observed": 3.706960678100586,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 5: scaled_local_stddev within 1e-4 of 1.17224",
+          "expected": 1.17224,
+          "observed": 1.1722439527511597,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 5: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 0.99994,
+          "observed": 0.9999372789651247,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 5: no warning at construction and no exception",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 5: RMS over z C within 0.007 of the prediction 1.67489",
+          "expected": "1 +- 0.007",
+          "observed": 0.9980164349300444,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 dgauss bits 5: scale_factor within 1e-4 of 3.707",
+          "expected": 3.707,
+          "observed": 3.706960678100586,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 5: scaled_local_stddev within 1e-4 of 1.17224",
+          "expected": 1.17224,
+          "observed": 1.1722439527511597,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 5: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 1.67489,
+          "observed": 1.6748894410255615,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 8: RMS over z C within 0.007 of the prediction 0.99988",
+          "expected": "1 +- 0.007",
+          "observed": 0.999645484537643,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 skellam bits 8: scale_factor within 1e-4 of 32.088",
+          "expected": 32.088,
+          "observed": 32.087806701660156,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 8: scaled_local_stddev within 1e-4 of 10.14705",
+          "expected": 10.14705,
+          "observed": 10.147055625915527,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 8: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 0.99988,
+          "observed": 0.9998791306371447,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 8: no warning at construction and no exception",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 8: RMS over z C within 0.007 of the prediction 1.08361",
+          "expected": "1 +- 0.007",
+          "observed": 0.9998299493862297,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 dgauss bits 8: scale_factor within 1e-4 of 32.088",
+          "expected": 32.088,
+          "observed": 32.087806701660156,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 8: scaled_local_stddev within 1e-4 of 10.14705",
+          "expected": 10.14705,
+          "observed": 10.147055625915527,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 8: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 1.08361,
+          "observed": 1.0836089214281304,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 12: RMS over z C within 0.007 of the prediction 0.99988",
+          "expected": "1 +- 0.007",
+          "observed": 1.0018762725381647,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 skellam bits 12: scale_factor within 1e-4 of 513.997",
+          "expected": 513.997,
+          "observed": 513.9965209960938,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 12: scaled_local_stddev within 1e-4 of 162.54",
+          "expected": 162.54,
+          "observed": 162.5399627685547,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 12: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 0.99988,
+          "observed": 0.9998780120922243,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 12: no warning at construction and no exception",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 12: RMS over z C within 0.007 of the prediction 1.0027",
+          "expected": "1 +- 0.007",
+          "observed": 1.0002147382204787,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 dgauss bits 12: scale_factor within 1e-4 of 513.997",
+          "expected": 513.997,
+          "observed": 513.9965209960938,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 12: scaled_local_stddev within 1e-4 of 162.54",
+          "expected": 162.54,
+          "observed": 162.5399627685547,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 12: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 1.0027,
+          "observed": 1.002702107181067,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A3 skellam bits 16: RMS of the error over z C within 0.008 (absolute) of 1.0",
+          "expected": "1.0 +- 0.008",
+          "observed": 1.0081184379504118,
+          "held": false,
+          "kind": "stat"
+        },
+        {
+          "check": "A3 skellam bits 16: helper reproduces the pre-registered value within 1e-4",
+          "expected": 1.0,
+          "observed": 1.000000012321244,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A3 skellam bits 5: RMS of the error over z C within 0.008 (absolute) of 1.0209",
+          "expected": "1.0209 +- 0.008",
+          "observed": 1.0215487601073039,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A3 skellam bits 5: helper reproduces the pre-registered value within 1e-4",
+          "expected": 1.0209,
+          "observed": 1.0209311501600715,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A3 skellam bits 4: RMS of the error over z C within 0.008 (absolute) of 1.0636",
+          "expected": "1.0636 +- 0.008",
+          "observed": 1.0645718481185813,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A3 skellam bits 4: helper reproduces the pre-registered value within 1e-4",
+          "expected": 1.0636,
+          "observed": 1.0635760397810525,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "power: smallest deviation found with 80% power at N 245,760 and 163,840 (pre-registered 0.820% and 0.847%)",
+          "expected": "0.820% and 0.847% +- 0.002%",
+          "observed": [
+            0.008200455558602108,
+            0.008470251788731457
+          ],
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": false,
+      "seconds": 102.9,
+      "mismatch_found": false
+    },
+    {
+      "id": "B",
+      "configuration": {
+        "n": [
+          4,
+          25
+        ],
+        "z": 1.0,
+        "C": 1.0,
+        "bits": 16,
+        "calls": 80
+      },
+      "measured": {
+        "n4": {
+          "N": 163840,
+          "predicted": 0.9998311274475941,
+          "rms": 0.996414926349186,
+          "ratio_to_prediction": 0.9965832219015535,
+          "ratio_to_docstring_reading": 1.992829852698372,
+          "local_stddev_over_zC_times_sqrt_n": 1.0,
+          "local_stddev_original_units": 0.5,
+          "warnings": []
+        },
+        "n25": {
+          "N": 163840,
+          "predicted": 0.9999838877121391,
+          "rms": 1.0001538896600195,
+          "ratio_to_prediction": 1.000170004687045,
+          "ratio_to_docstring_reading": 5.0007694483000975,
+          "local_stddev_over_zC_times_sqrt_n": 1.000000033116186,
+          "local_stddev_original_units": 0.20000000662323722,
+          "warnings": []
+        },
+        "text": {
+          "docstring_sentence_found_in": [
+            "__init__"
+          ],
+          "source_line_found": true
+        }
+      },
+      "checks": [
+        {
+          "check": "n 4: RMS over z C within 0.007 of 0.99983",
+          "expected": "1 +- 0.007",
+          "observed": 0.9965832219015535,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "n 4: positive control, RMS over z C / sqrt(n) (docstring reading) above 1.3",
+          "expected": "> 1.3, predicted 2.00",
+          "observed": 1.992829852698372,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "n 4: local stddev from the measurements times sqrt(n) over z C is 1 within 1e-4",
+          "expected": 1.0,
+          "observed": 1.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "n 4: helper reproduces the pre-registered ratio within 5e-5",
+          "expected": 0.99983,
+          "observed": 0.9998311274475941,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "n 25: RMS over z C within 0.007 of 0.99998",
+          "expected": "1 +- 0.007",
+          "observed": 1.000170004687045,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "n 25: positive control, RMS over z C / sqrt(n) (docstring reading) above 1.3",
+          "expected": "> 1.3, predicted 5.00",
+          "observed": 5.0007694483000975,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "n 25: local stddev from the measurements times sqrt(n) over z C is 1 within 1e-4",
+          "expected": 1.0,
+          "observed": 1.000000033116186,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "n 25: helper reproduces the pre-registered ratio within 5e-5",
+          "expected": 0.99998,
+          "observed": 0.9999838877121391,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "the docstring sentence (local stddev = central stddev / expected_clients_per_round) is present (location in the deviation log)",
+          "expected": "present",
+          "observed": [
+            "__init__"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "the source of _build_aggregation_factory contains central_stddev / math.sqrt(self._num_clients)",
+          "expected": "present",
+          "observed": true,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 14.4
+    },
+    {
+      "id": "C",
+      "configuration": {
+        "n": 10,
+        "m": [
+          5,
+          20
+        ],
+        "calls": 80
+      },
+      "measured": {
+        "skellam m 5": {
+          "N": 163840,
+          "predicted": 0.7071067697876788,
+          "rms_over_zC": 0.7080680048049914,
+          "ratio_to_prediction": 1.0013593916200254,
+          "actual_num_clients": 5.0,
+          "raw_sqrt_m_over_n": 0.7071067811865476,
+          "warnings": [],
+          "noise_free_norm": 2.5000174616141484,
+          "noise_free_predicted": 2.5,
+          "sensitivity": 0.9999918413330492,
+          "delivered_multiplier": 0.7080737817431533,
+          "delivered_multiplier_predicted": 0.7071067697876788
+        },
+        "skellam m 20": {
+          "N": 163840,
+          "predicted": 1.40272778808536,
+          "rms_over_zC": 1.4071997454579857,
+          "ratio_to_prediction": 1.0031880436180207,
+          "actual_num_clients": 20.0,
+          "raw_sqrt_m_over_n": 1.4142135623730951,
+          "warnings": [],
+          "noise_free_norm": 9.972869417322087,
+          "noise_free_predicted": 10.0,
+          "sensitivity": 0.9999984670020359,
+          "delivered_multiplier": 1.4072019026956375,
+          "delivered_multiplier_predicted": 1.40272778808536
+        },
+        "dgauss m 5": {
+          "N": 163840,
+          "predicted": 0.7072016279508219,
+          "rms_over_zC": 0.7054709011249842,
+          "ratio_to_prediction": 0.9975527109137848,
+          "actual_num_clients": 5.0,
+          "raw_sqrt_m_over_n": 0.7071067811865476,
+          "warnings": []
+        },
+        "dgauss m 20": {
+          "N": 163840,
+          "predicted": 1.40290280419715,
+          "rms_over_zC": 1.4036006628920503,
+          "ratio_to_prediction": 1.0004974390904433,
+          "actual_num_clients": 20.0,
+          "raw_sqrt_m_over_n": 1.4142135623730951,
+          "warnings": []
+        }
+      },
+      "checks": [
+        {
+          "check": "skellam m 5: RMS over z C within 0.007 of the prediction 0.70711",
+          "expected": "1 +- 0.007",
+          "observed": 1.0013593916200254,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "skellam m 5: actual_num_clients equals m",
+          "expected": 5,
+          "observed": 5.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam m 5: positive control, RMS over z C below 0.85 (m 5) or above 1.15 (m 20)",
+          "expected": "< 0.85 or > 1.15",
+          "observed": 0.7080680048049914,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "skellam m 5: noise-free output norm is 0.5 m",
+          "expected": "2.5 within 1e-4 relative",
+          "observed": 2.5000174616141484,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam m 5: sensitivity (norm 3 against zero) is 1.0 within 1e-5 relative",
+          "expected": "1.0 within 1e-5",
+          "observed": 0.9999918413330492,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam m 5: delivered multiplier (RMS over sensitivity) within 0.007 of 0.70711",
+          "expected": "0.70711 +- 0.007",
+          "observed": 0.7080737817431533,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "skellam m 20: RMS over z C within 0.007 of the prediction 1.40273",
+          "expected": "1 +- 0.007",
+          "observed": 1.0031880436180207,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "skellam m 20: actual_num_clients equals m",
+          "expected": 20,
+          "observed": 20.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam m 20: positive control, RMS over z C below 0.85 (m 5) or above 1.15 (m 20)",
+          "expected": "< 0.85 or > 1.15",
+          "observed": 1.4071997454579857,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "skellam m 20: noise-free output norm is 0.5 m",
+          "expected": "10.0 within 1e-4 relative",
+          "observed": 9.972869417322087,
+          "held": false,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam m 20: sensitivity (norm 3 against zero) is 1.0 within 1e-5 relative",
+          "expected": "1.0 within 1e-5",
+          "observed": 0.9999984670020359,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam m 20: delivered multiplier (RMS over sensitivity) within 0.007 of 1.40273",
+          "expected": "1.40273 +- 0.007",
+          "observed": 1.4072019026956375,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "dgauss m 5: RMS over z C within 0.007 of the prediction 0.70720",
+          "expected": "1 +- 0.007",
+          "observed": 0.9975527109137848,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "dgauss m 5: actual_num_clients equals m",
+          "expected": 5,
+          "observed": 5.0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "dgauss m 20: RMS over z C within 0.007 of the prediction 1.40290",
+          "expected": "1 +- 0.007",
+          "observed": 1.0004974390904433,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "dgauss m 20: actual_num_clients equals m",
+          "expected": 20,
+          "observed": 20.0,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": false,
+      "seconds": 24.1
+    },
+    {
+      "id": "D",
+      "configuration": {
+        "n": 10,
+        "z": 0.0,
+        "calls": 80,
+        "target_norm": 3.0
+      },
+      "measured": {
+        "b 16 beta 0": {
+          "scale_predicted": 38115.28984642636,
+          "scale_factor": 38115.2890625,
+          "bound_over_C": 1.0011873144393832,
+          "preregistered_bound": 1.00119,
+          "mean_norm_over_C": 1.0000008693340603,
+          "preregistered_mean": 1.0,
+          "largest_norm": 1.0000244727920649,
+          "share_above_C": 0.5125,
+          "sd": 1.0119494460336486e-05,
+          "norms": [
+            1.0000123004476935,
+            1.0000095963114888,
+            0.9999955328578964,
+            1.000000462041893,
+            1.0000068263459052,
+            0.9999936379233024,
+            1.0000062486177388,
+            1.000002303744926,
+            1.0000001792732094,
+            0.9999792336217006,
+            0.9999960392042114,
+            0.9999986483941766,
+            0.999989653441973,
+            0.9999969950538814,
+            0.9999972437997825,
+            1.00000994182978,
+            1.0000128625596265,
+            1.0000125234449153,
+            1.0000027410725767,
+            1.0000012161077851,
+            0.9999997259748146,
+            0.999983784430598,
+            0.9999851728126375,
+            1.000002406922724,
+            0.99998783125327,
+            1.0000095460611935,
+            1.0000027089756471,
+            0.9999913070776869,
+            1.00000517911805,
+            1.0000067759032103,
+            0.99999564487019,
+            0.9999951725938397,
+            1.0000135470370646,
+            0.9999999830325716,
+            0.9999966794530314,
+            1.0000197253843093,
+            0.9999851967611257,
+            1.0000140783475484,
+            1.0000078180801588,
+            1.0000203599094284,
+            1.0000012393938782,
+            0.9999960921550236,
+            1.0000058943099317,
+            0.9999936676487949,
+            0.999997015342679,
+            0.9999995413338234,
+            0.9999980980310507,
+            0.9999881953213113,
+            0.9999951833907123,
+            0.9999950171924483,
+            0.9999962039916109,
+            0.9999882725040268,
+            0.9999961513694674,
+            0.9999863735918527,
+            1.0000036289299452,
+            1.0000202351183316,
+            0.9999975574316021,
+            1.0000129588922133,
+            1.0000043365850355,
+            1.0000058785343087,
+            0.9999762447033839,
+            0.9999932452886351,
+            0.9999981648279241,
+            1.000001419187741,
+            0.9999761138530977,
+            1.0000137970331062,
+            1.0000050242493164,
+            1.0000011688993444,
+            1.0000114922581382,
+            1.0000210408329238,
+            1.0000107438209371,
+            1.0000081273347945,
+            1.0000038437776406,
+            0.9999990574414831,
+            1.0000244727920649,
+            1.000002079354118,
+            0.9999995251981469,
+            1.0000143270215551,
+            0.9999903638195144,
+            0.9999909238693462
+          ],
+          "scaled_inflated_l2_over_scale_factor": 1.0011973336651119,
+          "warnings": [],
+          "mde80_absolute": 1.095220510920754e-05
+        },
+        "b 8 beta 0": {
+          "scale_predicted": 148.71581269492586,
+          "scale_factor": 148.7158203125,
+          "bound_over_C": 1.3043041165284446,
+          "preregistered_bound": 1.30434,
+          "mean_norm_over_C": 1.0070841653204279,
+          "preregistered_mean": 1.00765,
+          "largest_norm": 1.0134870765896808,
+          "share_above_C": 1.0,
+          "sd": 0.0025195258413346147,
+          "norms": [
+            1.0071320156477888,
+            1.0069971256675319,
+            1.0098667515800943,
+            1.0063684050383381,
+            1.0069524486594097,
+            1.0033986840616167,
+            1.0117233868986726,
+            1.0134870765896808,
+            1.0054244208417307,
+            1.0017977521026087,
+            1.0098666908185212,
+            1.012103047941235,
+            1.006997222329362,
+            1.0047722795241831,
+            1.0095981182708935,
+            1.009575718451845,
+            1.0085674783505945,
+            1.0080743458709611,
+            1.0080293870262917,
+            1.0101130226217392,
+            1.0012107880457084,
+            1.0092847021931717,
+            1.0089260931596071,
+            1.0106947771526142,
+            1.0056941929902425,
+            1.0078947656732937,
+            1.007019783108983,
+            1.0078050546903312,
+            1.004749624311098,
+            1.008881217647219,
+            1.0075358010692925,
+            1.0057841499099438,
+            1.0075583200291038,
+            1.0048397544658687,
+            1.0042544410461496,
+            1.006031411439524,
+            1.0085676137426156,
+            1.0110750536328992,
+            1.008141605921116,
+            1.0022038138533904,
+            1.0079846610400705,
+            1.0022940198954642,
+            1.0061437453625126,
+            1.004659625565812,
+            1.007176800022459,
+            1.0100907976039133,
+            1.0073788106260662,
+            1.004366924464489,
+            1.0040743051730783,
+            1.0068849172334813,
+            1.0042996422164996,
+            1.0095982225839648,
+            1.0036917518896789,
+            1.0096427548654026,
+            1.0040294594750538,
+            1.008455520493371,
+            1.0065032746169074,
+            1.008836526146392,
+            1.0072218605006233,
+            1.0054469544539562,
+            1.0104040032403727,
+            1.0081416114100077,
+            1.00973260668598,
+            1.0051994585663695,
+            1.0103595229479283,
+            1.0080741811332086,
+            1.0094189175599702,
+            1.0045696159238278,
+            1.0057168238985295,
+            1.0074012200723137,
+            1.0040968206437924,
+            1.0052669068156943,
+            1.0062561555042677,
+            1.0074911122603658,
+            1.0067278561556785,
+            1.0025647927225103,
+            1.0076930201079997,
+            1.0093518371823285,
+            1.0042094585855093,
+            1.006278387613104
+          ],
+          "scaled_inflated_l2_over_scale_factor": 1.3043140739403092,
+          "warnings": [],
+          "mde80_absolute": 0.0014370775919985502,
+          "without_the_client_max_abs_output": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "b 5 beta 0": {
+          "scale_predicted": 17.180472629518352,
+          "scale_factor": 17.18047332763672,
+          "bound_over_C": 3.6340855092766877,
+          "preregistered_bound": 3.6341,
+          "mean_norm_over_C": 1.451287861104672,
+          "preregistered_mean": 1.454,
+          "largest_norm": 1.5054897410674004,
+          "share_above_C": 1.0,
+          "sd": 0.021939513864574777,
+          "norms": [
+            1.4907905094818643,
+            1.448138225905617,
+            1.4828151130390903,
+            1.4293000795361146,
+            1.4446250730911487,
+            1.457466190239976,
+            1.4678891662489877,
+            1.456303634047009,
+            1.438749800867662,
+            1.4481386546334716,
+            1.472497985739873,
+            1.432850873836183,
+            1.4066016526428589,
+            1.432850703182185,
+            1.4713470266669455,
+            1.4209796892171882,
+            1.451643420909963,
+            1.4516431764511006,
+            1.4316683432861315,
+            1.4655792090911424,
+            1.4907904737160231,
+            1.4609488632154182,
+            1.455139647612098,
+            1.423361838329725,
+            1.441103022372096,
+            1.4257401892213402,
+            1.4621080744934114,
+            1.4352137771530786,
+            1.4701954807827333,
+            1.459788919474638,
+            1.4293002581729581,
+            1.4690428744741606,
+            1.4516434311672088,
+            1.4701955085831862,
+            1.4304847895765458,
+            1.4316683225748927,
+            1.4907904641587044,
+            1.4340326704391908,
+            1.4782385672449028,
+            1.4352134632129718,
+            1.4528098676692378,
+            1.4805287169910095,
+            1.4209792487511594,
+            1.483957317345062,
+            1.4516434518867694,
+            1.4197872318062346,
+            1.4597890244169511,
+            1.4736480456632162,
+            1.4770924495455036,
+            1.4434518437134896,
+            1.43875000005805,
+            1.4446250227420092,
+            1.4850985963611707,
+            1.41859355734534,
+            1.5054897410674004,
+            1.4457968306781688,
+            1.441102789179669,
+            1.4504759694797207,
+            1.4528097032889262,
+            1.4516435121331646,
+            1.4759451547387104,
+            1.422170874435623,
+            1.4528097374890685,
+            1.474797138280848,
+            1.4873777819264973,
+            1.470195407678009,
+            1.4446250290382014,
+            1.4185933027361874,
+            1.4387500425670763,
+            1.4387498458369778,
+            1.4609488482034,
+            1.4632658372929372,
+            1.4873780361756204,
+            1.4209795623816774,
+            1.4173989670948188,
+            1.4197870422375223,
+            1.4528100037351155,
+            1.4281142649870493,
+            1.4422774015602813,
+            1.4411025257660899
+          ],
+          "scaled_inflated_l2_over_scale_factor": 3.6340953488175876,
+          "warnings": [],
+          "mde80_absolute": 0.02206442300821054
+        },
+        "b 8 beta exp(-0.5)": {
+          "scale_predicted": 148.71581269492586,
+          "scale_factor": 148.7158203125,
+          "bound_over_C": 1.0153312708006763,
+          "preregistered_bound": 1.0153,
+          "mean_norm_over_C": 1.007447881969103,
+          "preregistered_mean": 1.0077,
+          "largest_norm": 1.0137545084700001,
+          "share_above_C": 1.0,
+          "sd": 0.002479241743446529,
+          "norms": [
+            1.0051320466640057,
+            1.0065256726271483,
+            1.0110302811594072,
+            1.0071320312799694,
+            1.0052895246264966,
+            1.0122817909245228,
+            1.0038266718468984,
+            1.0109409620932133,
+            1.0115221127491716,
+            1.008791674460412,
+            1.006974965972445,
+            1.0071094561565652,
+            1.004862007868054,
+            1.0051995337377881,
+            1.0116563960505198,
+            1.0105383730525102,
+            1.0089933170881065,
+            1.0095309687733194,
+            1.0058068863364986,
+            1.003849276924957,
+            1.0046819895495531,
+            1.008545072874372,
+            1.0062336300980674,
+            1.007019549215829,
+            1.008500328119546,
+            1.0095759571675214,
+            1.005402154768501,
+            1.005267068560403,
+            1.0104039638862523,
+            1.0059863782373504,
+            1.0083433311115533,
+            1.0070645624105343,
+            1.0040068344228983,
+            1.0033310709483816,
+            1.0076481671755806,
+            1.0084554502617822,
+            1.0063685453810574,
+            1.0093742004828847,
+            1.0114103189509938,
+            1.0067053853861114,
+            1.001887984543662,
+            1.005784140714678,
+            1.0067502425294497,
+            1.0058066061217519,
+            1.0090830477490913,
+            1.0064582724361815,
+            1.0067727847575347,
+            1.0086572343320854,
+            1.005402091083224,
+            1.0137545084700001,
+            1.0073565328045964,
+            1.0104263477352649,
+            1.0076930038573686,
+            1.0132415850119116,
+            1.0093070029618252,
+            1.0034436860534155,
+            1.0048846615860394,
+            1.0066828584516019,
+            1.007266576950439,
+            1.0039619698526927,
+            1.011231478641789,
+            1.0081415613815774,
+            1.0062337682318239,
+            1.0092846147965535,
+            1.0049746093688705,
+            1.0044572176124555,
+            1.0045020174423855,
+            1.0044794503492742,
+            1.006795168406596,
+            1.0047722790071547,
+            1.0101130153606819,
+            1.008074238406066,
+            1.0077154906695982,
+            1.0097326932251798,
+            1.0068401545710586,
+            1.0095757825111944,
+            1.008253704336007,
+            1.0067052589037093,
+            1.0090381327003148,
+            1.0089708742019545
+          ],
+          "scaled_inflated_l2_over_scale_factor": 1.0153411982467084,
+          "warnings": [
+            "The selected beta 0.6065306597126334 is greater than zero. This indicates that conditional randomize"
+          ],
+          "mde80_absolute": 0.001433287014911997
+        },
+        "b 5 beta exp(-0.5)": {
+          "scale_predicted": 17.180472629518352,
+          "scale_factor": 17.18047332763672,
+          "bound_over_C": 1.6939499754653795,
+          "preregistered_bound": 1.6939,
+          "mean_norm_over_C": 1.456132494992834,
+          "preregistered_mean": 1.4537,
+          "largest_norm": 1.5043640160512155,
+          "share_above_C": 1.0,
+          "sd": 0.020332625824258047,
+          "norms": [
+            1.4539754685784392,
+            1.442277600718604,
+            1.4516432143052111,
+            1.4493074625392686,
+            1.4233619604473025,
+            1.4281142156480504,
+            1.4873779713221005,
+            1.4782390700883625,
+            1.4539753578849324,
+            1.4516435770243037,
+            1.444624590416743,
+            1.4655795198840416,
+            1.4539753787288772,
+            1.441103009368396,
+            1.4850987012155796,
+            1.432851164779345,
+            1.437572394085622,
+            1.4941955794725024,
+            1.5043640160512155,
+            1.463265829720807,
+            1.4632659172413156,
+            1.4257401600501245,
+            1.41020993963626,
+            1.4245516221035632,
+            1.470195598147864,
+            1.4422779862504114,
+            1.4609486298213394,
+            1.4759452334652226,
+            1.458628065970583,
+            1.4609490374623213,
+            1.43875017080263,
+            1.4539752010185074,
+            1.4632657084553558,
+            1.4422776409546514,
+            1.4644234370033833,
+            1.4839574908801885,
+            1.4816724483549253,
+            1.4539754353237515,
+            1.4816725581035994,
+            1.455139744787292,
+            1.469042717162158,
+            1.446968171858045,
+            1.4469682120989664,
+            1.4399271106716798,
+            1.4667349854927703,
+            1.4387500537774318,
+            1.4411027647269634,
+            1.4363933386023653,
+            1.4964611760855333,
+            1.4221713209414077,
+            1.437572170655305,
+            1.419786766339511,
+            1.4586276312080597,
+            1.4747967418377912,
+            1.446967972393287,
+            1.4862386856267384,
+            1.4434516364170265,
+            1.4621074216031575,
+            1.464423076379498,
+            1.4504756437529827,
+            1.4839572797701348,
+            1.4352137061219603,
+            1.4574662808467096,
+            1.475945244517207,
+            1.4399268795476132,
+            1.4352136898406722,
+            1.4387498899760591,
+            1.4644231692762844,
+            1.4597890277463879,
+            1.5032375677955112,
+            1.4551397014305676,
+            1.459788896656658,
+            1.4185932647362278,
+            1.4586282876549117,
+            1.4469683604358923,
+            1.482815175205876,
+            1.4667348468892298,
+            1.462107739095907,
+            1.4574664363499419,
+            1.4850984497893214
+          ],
+          "scaled_inflated_l2_over_scale_factor": 1.6939599108122594,
+          "warnings": [
+            "The selected beta 0.6065306597126334 is greater than zero. This indicates that conditional randomize"
+          ],
+          "mde80_absolute": 0.02191322108721426
+        }
+      },
+      "checks": [
+        {
+          "check": "b 16 beta 0: mean norm over C within 1e-05 of 1.0",
+          "expected": "1.0 +- 1e-05",
+          "observed": 1.0000008693340603,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 16 beta 0: every norm at most the bound 1.00119",
+          "expected": "<= 1.0011873144393832",
+          "observed": 1.0000244727920649,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 16 beta 0: scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 1.0011973144393833,
+          "observed": 1.0011973336651119,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 16 beta 0: scale_factor within 1e-4 of the formula",
+          "expected": 38115.28984642636,
+          "observed": 38115.2890625,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 16 beta 0: helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 1.00119,
+          "observed": 1.0011873144393832,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: output without the client is exactly zero (5 calls)",
+          "expected": 0.0,
+          "observed": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: mean norm over C within 0.0012 of 1.00765",
+          "expected": "1.00765 +- 0.0012",
+          "observed": 1.0070841653204279,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 8 beta 0: every norm at most the bound 1.30430",
+          "expected": "<= 1.3043041165284446",
+          "observed": 1.0134870765896808,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 1.3043141165284446,
+          "observed": 1.3043140739403092,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: scale_factor within 1e-4 of the formula",
+          "expected": 148.71581269492586,
+          "observed": 148.7158203125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 1.30434,
+          "observed": 1.3043041165284446,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta 0: mean norm over C within 0.02 of 1.454",
+          "expected": "1.454 +- 0.02",
+          "observed": 1.451287861104672,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 5 beta 0: every norm at most the bound 3.63409",
+          "expected": "<= 3.6340855092766877",
+          "observed": 1.5054897410674004,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta 0: scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 3.634095509276688,
+          "observed": 3.6340953488175876,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta 0: scale_factor within 1e-4 of the formula",
+          "expected": 17.180472629518352,
+          "observed": 17.18047332763672,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta 0: helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 3.6341,
+          "observed": 3.6340855092766877,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): mean norm over C within 0.0012 of 1.0077",
+          "expected": "1.0077 +- 0.0012",
+          "observed": 1.007447881969103,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): every norm at most the bound 1.01533",
+          "expected": "<= 1.0153312708006763",
+          "observed": 1.0137545084700001,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 1.0153412708006764,
+          "observed": 1.0153411982467084,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): scale_factor within 1e-4 of the formula",
+          "expected": 148.71581269492586,
+          "observed": 148.7158203125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 1.0153,
+          "observed": 1.0153312708006763,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): construction emitted a warning about beta above zero",
+          "expected": ">= 1 warning",
+          "observed": [
+            "The selected beta 0.6065306597126334 is greater than zero. This indicates that conditional randomize"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): mean norm over C within 0.02 of 1.4537",
+          "expected": "1.4537 +- 0.02",
+          "observed": 1.456132494992834,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): every norm at most the bound 1.69395",
+          "expected": "<= 1.6939499754653795",
+          "observed": 1.5043640160512155,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 1.6939599754653796,
+          "observed": 1.6939599108122594,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): scale_factor within 1e-4 of the formula",
+          "expected": 17.180472629518352,
+          "observed": 17.18047332763672,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 1.6939,
+          "observed": 1.6939499754653795,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): construction emitted a warning about beta above zero",
+          "expected": ">= 1 warning",
+          "observed": [
+            "The selected beta 0.6065306597126334 is greater than zero. This indicates that conditional randomize"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8: mean norm with beta above 0 differs from beta 0 by less than 0.001",
+          "expected": "< 0.001",
+          "observed": 0.00036371664867518305,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 5: mean norm with beta above 0 differs from beta 0 by less than 0.001",
+          "expected": "< 0.001",
+          "observed": 0.004844633888162031,
+          "held": false,
+          "kind": "stat"
+        }
+      ],
+      "prediction_held": false,
+      "seconds": 29.1,
+      "mismatch_found": false
+    },
+    {
+      "id": "E",
+      "configuration": {
+        "E2_calls": 80,
+        "E3_calls": 20
+      },
+      "measured": {
+        "E1": {
+          "n1": {
+            "helper_min_bits": 2,
+            "constructor_at_min": "constructed",
+            "constructor_one_below": "ValueError"
+          },
+          "n2": {
+            "helper_min_bits": 3,
+            "constructor_at_min": "constructed",
+            "constructor_one_below": "ValueError"
+          },
+          "n4": {
+            "helper_min_bits": 3,
+            "constructor_at_min": "constructed",
+            "constructor_one_below": "ValueError"
+          },
+          "n10": {
+            "helper_min_bits": 4,
+            "constructor_at_min": "constructed",
+            "constructor_one_below": "ValueError"
+          },
+          "n100": {
+            "helper_min_bits": 7,
+            "constructor_at_min": "constructed",
+            "constructor_one_below": "ValueError"
+          },
+          "n1000": {
+            "helper_min_bits": 10,
+            "constructor_at_min": "constructed",
+            "constructor_one_below": "ValueError"
+          },
+          "n10000": {
+            "helper_min_bits": 14,
+            "constructor_at_min": "constructed",
+            "constructor_one_below": "ValueError"
+          },
+          "limits": {
+            "bits0": "ValueError",
+            "bits23": "ValueError",
+            "p0": "ValueError",
+            "p1": "ValueError"
+          }
+        },
+        "E2": {
+          "E2 p 0.3": {
+            "N": 163840,
+            "rms_over_zC": 0.6084167830275234,
+            "wrap_prediction": 0.6081361821850857,
+            "clip_alternative": 0.744555075038613,
+            "ratio_to_wrap": 1.000461411194824,
+            "ratio_to_clip_alternative": 0.8171548397490551,
+            "scale_factor": 30871.404296875,
+            "warnings": []
+          },
+          "E2 p 0.7": {
+            "N": 163840,
+            "rms_over_zC": 0.22789294192870338,
+            "wrap_prediction": 0.2278314176369807,
+            "clip_alternative": 0.3514666050735426,
+            "ratio_to_wrap": 1.0002700430535911,
+            "ratio_to_clip_alternative": 0.6484056767812064,
+            "scale_factor": 83037.7734375,
+            "warnings": []
+          }
+        },
+        "E3": {
+          "m4": {
+            "true_norm": 4.0,
+            "mean_norm": 4.000592506524566,
+            "sd": 0.00293629468717999,
+            "wrap_prediction": 3.999286754851734,
+            "clip_prediction": 3.9996231641154933,
+            "largest": 4.004700564001048,
+            "norms": [
+              3.999546694947717,
+              4.0037886295042515,
+              4.003675525867552,
+              4.000981370064392,
+              4.003835042010257,
+              4.002486323017657,
+              4.000705952561002,
+              3.991728615683039,
+              3.999031147020757,
+              3.9979871693711115,
+              3.9974471700916423,
+              4.003518634993269,
+              3.9983397755572025,
+              3.9997726600996732,
+              4.001630949887947,
+              3.9983244733576364,
+              4.001609074643048,
+              4.00147018049427,
+              4.001270177317867,
+              4.004700564001048
+            ],
+            "max_possible_norm": 15.569561341987615,
+            "warnings": []
+          },
+          "m16": {
+            "true_norm": 16.0,
+            "mean_norm": 8.96394579665534,
+            "sd": 0.09528913215773571,
+            "wrap_prediction": 8.959237057362504,
+            "clip_prediction": 11.30089774016887,
+            "largest": 9.149276213477554,
+            "norms": [
+              8.874106375705049,
+              8.77696171572348,
+              8.902625324437636,
+              8.933128429630651,
+              8.93040142929087,
+              8.908789806679602,
+              9.032014466903473,
+              9.096876455576172,
+              9.056748955327205,
+              8.944437336779046,
+              8.839718593284449,
+              8.913136297810567,
+              8.985770103562254,
+              9.028416842928758,
+              9.149276213477554,
+              8.847247188341147,
+              8.910006118541835,
+              9.092621887621162,
+              9.02477304697401,
+              9.031859344511856
+            ],
+            "max_possible_norm": 15.569561341987615,
+            "warnings": []
+          },
+          "m64": {
+            "true_norm": 64.0,
+            "mean_norm": 9.003886728258593,
+            "sd": 0.08432811005789177,
+            "wrap_prediction": 8.989090431831634,
+            "clip_prediction": 14.533647647101024,
+            "largest": 9.20287063119659,
+            "norms": [
+              8.981787069762706,
+              9.083792861983843,
+              9.05754694980922,
+              8.906626464984436,
+              8.996039325911639,
+              8.962629747313594,
+              9.140846354723676,
+              8.94451548415926,
+              8.99410909869768,
+              9.070769335589544,
+              9.107783066438376,
+              9.038947194543924,
+              9.20287063119659,
+              8.914191588702892,
+              8.912029061771516,
+              8.999336813995443,
+              9.010631310261957,
+              8.883653382358046,
+              8.96821503932389,
+              8.901413783643617
+            ],
+            "max_possible_norm": 15.569561341987615,
+            "warnings": []
+          }
+        }
+      },
+      "checks": [
+        {
+          "check": "E1 n 1: smallest accepted bits is 2, one fewer raises ValueError",
+          "expected": [
+            2,
+            "constructed",
+            "ValueError"
+          ],
+          "observed": [
+            2,
+            "constructed",
+            "ValueError"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E1 n 2: smallest accepted bits is 3, one fewer raises ValueError",
+          "expected": [
+            3,
+            "constructed",
+            "ValueError"
+          ],
+          "observed": [
+            3,
+            "constructed",
+            "ValueError"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E1 n 4: smallest accepted bits is 3, one fewer raises ValueError",
+          "expected": [
+            3,
+            "constructed",
+            "ValueError"
+          ],
+          "observed": [
+            3,
+            "constructed",
+            "ValueError"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E1 n 10: smallest accepted bits is 4, one fewer raises ValueError",
+          "expected": [
+            4,
+            "constructed",
+            "ValueError"
+          ],
+          "observed": [
+            4,
+            "constructed",
+            "ValueError"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E1 n 100: smallest accepted bits is 7, one fewer raises ValueError",
+          "expected": [
+            7,
+            "constructed",
+            "ValueError"
+          ],
+          "observed": [
+            7,
+            "constructed",
+            "ValueError"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E1 n 1000: smallest accepted bits is 10, one fewer raises ValueError",
+          "expected": [
+            10,
+            "constructed",
+            "ValueError"
+          ],
+          "observed": [
+            10,
+            "constructed",
+            "ValueError"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E1 n 10000: smallest accepted bits is 14, one fewer raises ValueError",
+          "expected": [
+            14,
+            "constructed",
+            "ValueError"
+          ],
+          "observed": [
+            14,
+            "constructed",
+            "ValueError"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E1: bits 0, bits 23, modclip_prob 0 and 1 raise ValueError",
+          "expected": [
+            "ValueError",
+            "ValueError",
+            "ValueError",
+            "ValueError"
+          ],
+          "observed": [
+            "ValueError",
+            "ValueError",
+            "ValueError",
+            "ValueError"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E2 p 0.3: RMS over z C within 0.007 of the wrap value 0.60814",
+          "expected": "0.60814 +- 0.007",
+          "observed": 1.0004551304428642,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "E2 p 0.3: positive control, the saturating value 0.74456 is outside the tolerance",
+          "expected": "|r/0.74456 - 1| > 0.007",
+          "observed": 0.8171494346023469,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "E2 p 0.3: helper reproduces the pre-registered wrap and clip values within 5e-5",
+          "expected": [
+            0.60814,
+            0.74456
+          ],
+          "observed": [
+            0.6081361821850857,
+            0.744555075038613
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E2 p 0.7: RMS over z C within 0.007 of the wrap value 0.22783",
+          "expected": "0.22783 +- 0.007",
+          "observed": 1.000276267079416,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "E2 p 0.7: positive control, the saturating value 0.35147 is outside the tolerance",
+          "expected": "|r/0.35147 - 1| > 0.007",
+          "observed": 0.6483994136873797,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "E2 p 0.7: helper reproduces the pre-registered wrap and clip values within 5e-5",
+          "expected": [
+            0.22783,
+            0.35147
+          ],
+          "observed": [
+            0.2278314176369807,
+            0.3514666050735426
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E3 m 4: mean output norm within 0.02 of the wrap value 3.9993",
+          "expected": "3.9993 +- 0.02",
+          "observed": 4.000592506524566,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "E3 m 4: every norm at most the largest possible norm 15.570",
+          "expected": "<= 15.569561341987615",
+          "observed": 4.004700564001048,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E3 m 4: helper reproduces the pre-registered wrap value within the tolerance",
+          "expected": 3.9993,
+          "observed": 3.999286754851734,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E3 m 16: mean output norm within 0.4 of the wrap value 8.96",
+          "expected": "8.96 +- 0.4",
+          "observed": 8.96394579665534,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "E3 m 16: every norm at most the largest possible norm 15.570",
+          "expected": "<= 15.569561341987615",
+          "observed": 9.149276213477554,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E3 m 16: helper reproduces the pre-registered wrap value within the tolerance",
+          "expected": 8.96,
+          "observed": 8.959237057362504,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E3 m 64: mean output norm within 0.2 of the wrap value 8.99",
+          "expected": "8.99 +- 0.2",
+          "observed": 9.003886728258593,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "E3 m 64: every norm at most the largest possible norm 15.570",
+          "expected": "<= 15.569561341987615",
+          "observed": 9.20287063119659,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "E3 m 64: helper reproduces the pre-registered wrap value within the tolerance",
+          "expected": 8.99,
+          "observed": 8.989090431831634,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 17.8
+    },
+    {
+      "id": "F",
+      "configuration": {
+        "n": 20,
+        "z": 1.0,
+        "C0": 1.0,
+        "rounds": 6,
+        "chains": 20
+      },
+      "measured": {
+        "value_multiplier": 1.1547005383792515,
+        "per_round_ratio": {
+          "0": 0.9948011229080109,
+          "1": 1.003947836432539,
+          "2": 1.000461918258205,
+          "3": 0.9961193294113531,
+          "4": 0.9969796093732379,
+          "5": 0.9962464316907103
+        },
+        "ratio_to_clip_after_update_per_round": [
+          1.0958981305686504,
+          1.1051413355954947,
+          1.102315032883316,
+          1.0991540636724193,
+          1.0975776212116746
+        ],
+        "mean_ratio_to_clip_after_update": 1.100017236786311,
+        "round5_over_initial_clip": 0.6139526244891012,
+        "mean_ln_clip_round5": -0.4842619651713135,
+        "step_ratio_min_max": [
+          0.9048373869180701,
+          0.9224505424499512
+        ],
+        "clips_by_round_mean": [
+          1.0,
+          0.9077552616596222,
+          0.824677100777626,
+          0.7485229045152664,
+          0.6783675402402878,
+          0.616183516383171
+        ],
+        "max_exact_deviation_local": 7.942010837869162e-08,
+        "max_exact_deviation_scale_clip": 9.625545327462959e-08,
+        "warnings": [],
+        "clips": [
+          [
+            1.0,
+            0.904837429523468,
+            0.8187307715415955,
+            0.7408182621002197,
+            0.6703200936317444,
+            0.6065307259559631
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8187307715415955,
+            0.7460222244262695,
+            0.6750288605690002,
+            0.6107913851737976
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8187307715415955,
+            0.7463277578353882,
+            0.6753053069114685,
+            0.6110415458679199
+          ],
+          [
+            1.0,
+            0.9104511141777039,
+            0.8238102197647095,
+            0.7515937685966492,
+            0.680070161819458,
+            0.6153529286384583
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8233585953712463,
+            0.7450056672096252,
+            0.6744181513786316,
+            0.6184653639793396
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8278471231460571,
+            0.7507067918777466,
+            0.6807876825332642,
+            0.6222156882286072
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8187307715415955,
+            0.7408182621002197,
+            0.6794736981391907,
+            0.6148132085800171
+          ],
+          [
+            1.0,
+            0.9214687943458557,
+            0.8337794542312622,
+            0.7610238790512085,
+            0.693123996257782,
+            0.6271645426750183
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8336579203605652,
+            0.7543249130249023,
+            0.6825414299964905,
+            0.62256920337677
+          ],
+          [
+            1.0,
+            0.9147082567214966,
+            0.8276622891426086,
+            0.7488998174667358,
+            0.6776325702667236,
+            0.6136064529418945
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8187307715415955,
+            0.7408182621002197,
+            0.6721819639205933,
+            0.6082153916358948
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8294522762298584,
+            0.760648250579834,
+            0.6893478035926819,
+            0.623747706413269
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8187307715415955,
+            0.7408182621002197,
+            0.6703200936317444,
+            0.6074492931365967
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8187307715415955,
+            0.7408182621002197,
+            0.6722928285598755,
+            0.6083157062530518
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8187307715415955,
+            0.7408182621002197,
+            0.6703200936317444,
+            0.614875853061676
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8246806859970093,
+            0.7506579160690308,
+            0.6803199648857117,
+            0.6261314749717712
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8272767066955566,
+            0.7485509514808655,
+            0.6773169040679932,
+            0.612861692905426
+          ],
+          [
+            1.0,
+            0.9134650826454163,
+            0.8292285799980164,
+            0.7503170371055603,
+            0.6789149641990662,
+            0.6208211779594421
+          ],
+          [
+            1.0,
+            0.9224505424499512,
+            0.8376647233963013,
+            0.7592079043388367,
+            0.6869597434997559,
+            0.6215868592262268
+          ],
+          [
+            1.0,
+            0.904837429523468,
+            0.8252772688865662,
+            0.7522616386413574,
+            0.6806744933128357,
+            0.6171141266822815
+          ]
+        ]
+      },
+      "checks": [
+        {
+          "check": "round 0: pooled RMS over (value multiplier times the clip used) within 0.015 of 1",
+          "expected": "1 +- 0.015",
+          "observed": 0.9948011229080109,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "round 1: pooled RMS over (value multiplier times the clip used) within 0.015 of 1",
+          "expected": "1 +- 0.015",
+          "observed": 1.003947836432539,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "round 2: pooled RMS over (value multiplier times the clip used) within 0.015 of 1",
+          "expected": "1 +- 0.015",
+          "observed": 1.000461918258205,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "round 3: pooled RMS over (value multiplier times the clip used) within 0.015 of 1",
+          "expected": "1 +- 0.015",
+          "observed": 0.9961193294113531,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "round 4: pooled RMS over (value multiplier times the clip used) within 0.015 of 1",
+          "expected": "1 +- 0.015",
+          "observed": 0.9969796093732379,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "round 5: pooled RMS over (value multiplier times the clip used) within 0.015 of 1",
+          "expected": "1 +- 0.015",
+          "observed": 0.9962464316907103,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "positive control: pooled RMS of round t over the multiplier times the clip of round t+1 has mean at least 1.05 (predicted 1.10)",
+          "expected": ">= 1.05",
+          "observed": 1.100017236786311,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "round 5 pooled RMS over (value multiplier times C0) is between 0.60 and 0.64 (predicted 0.619)",
+          "expected": "[0.60, 0.64]",
+          "observed": 0.6139526244891012,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "mean ln(clip at round 5 over C0) within 0.01 of -0.48005",
+          "expected": "-0.48005 +- 0.01",
+          "observed": -0.4842619651713135,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "every step ratio of the clip is between exp(-0.1)(1-1e-5) and 1",
+          "expected": [
+            0.9048283696617792,
+            1.0
+          ],
+          "observed": [
+            0.9048373869180701,
+            0.9224505424499512
+          ],
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "exact: scaled_local_stddev * sqrt(n) / scale_factor equals the value multiplier times l2_clip within 1e-5 (every round and chain)",
+          "expected": "<= 1e-5",
+          "observed": 7.942010837869162e-08,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "exact: scale_factor times l2_clip is constant within 1e-5 along a chain",
+          "expected": "<= 1e-5",
+          "observed": 9.625545327462959e-08,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "source text: _build_aggregation_factory builds central_stddev from the initial clip",
+          "expected": "present",
+          "observed": true,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "source text: _autotune_component_states rebuilds the central stddev from the new clip",
+          "expected": "present",
+          "observed": true,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 15.6
+    },
+    {
+      "id": "G",
+      "configuration": {
+        "mechanisms": [
+          "skellam",
+          "dgauss",
+          "adaptive"
+        ]
+      },
+      "measured": {
+        "skellam": {
+          "initial_state_extraction": "ExtractingDpEventFromInitialStateError",
+          "event_class": "UnsupportedDpEvent",
+          "event_repr": "UnsupportedDpEvent()",
+          "event_fields": [],
+          "class_name_leaves_in_state": [
+            "b'UnsupportedDpEvent'"
+          ],
+          "names_with_forbidden_words": [],
+          "state_names": [
+            "agg_state",
+            "class_name",
+            "clipped_count_agg",
+            "clipping_norm",
+            "dp_event",
+            "inner_agg",
+            "inner_agg_process",
+            "is_init_state",
+            "l1_norm_bound",
+            "l2_norm_bound",
+            "local_stddev",
+            "module_name",
+            "prior_norm_bound",
+            "query_state",
+            "scale_factor"
+          ],
+          "measurement_names": [
+            "actual_num_clients",
+            "dp_query_metrics",
+            "l2_clip",
+            "padded_dim",
+            "scale_factor",
+            "scaled_inflated_l2",
+            "scaled_local_stddev"
+          ]
+        },
+        "dgauss": {
+          "initial_state_extraction": "ExtractingDpEventFromInitialStateError",
+          "event_class": "UnsupportedDpEvent",
+          "event_repr": "UnsupportedDpEvent()",
+          "event_fields": [],
+          "class_name_leaves_in_state": [
+            "b'UnsupportedDpEvent'"
+          ],
+          "names_with_forbidden_words": [],
+          "state_names": [
+            "agg_state",
+            "class_name",
+            "clipped_count_agg",
+            "clipping_norm",
+            "dp_event",
+            "inner_agg",
+            "inner_agg_process",
+            "is_init_state",
+            "l2_norm_bound",
+            "local_stddev",
+            "module_name",
+            "prior_norm_bound",
+            "query_state",
+            "scale_factor"
+          ],
+          "measurement_names": [
+            "actual_num_clients",
+            "dp_query_metrics",
+            "l2_clip",
+            "padded_dim",
+            "scale_factor",
+            "scaled_inflated_l2",
+            "scaled_local_stddev"
+          ]
+        },
+        "adaptive": {
+          "initial_state_extraction": "ExtractingDpEventFromInitialStateError",
+          "event_class": "UnsupportedDpEvent",
+          "event_repr": "UnsupportedDpEvent()",
+          "event_fields": [],
+          "class_name_leaves_in_state": [
+            "b'UnsupportedDpEvent'"
+          ],
+          "names_with_forbidden_words": [],
+          "state_names": [
+            "agg_state",
+            "below_estimate_state",
+            "class_name",
+            "clipped_count_agg",
+            "clipping_norm",
+            "current_estimate",
+            "denominator",
+            "dp_event",
+            "inner_agg",
+            "inner_agg_process",
+            "is_init_state",
+            "l1_norm_bound",
+            "l2_norm_bound",
+            "l2_norm_clip",
+            "learning_rate",
+            "local_stddev",
+            "module_name",
+            "numerator_state",
+            "prior_norm_bound",
+            "query_state",
+            "scale_factor",
+            "stddev",
+            "target_quantile"
+          ],
+          "measurement_names": [
+            "actual_num_clients",
+            "dp_query_metrics",
+            "l2_clip",
+            "padded_dim",
+            "scale_factor",
+            "scaled_inflated_l2",
+            "scaled_local_stddev"
+          ]
+        },
+        "epsilon_names_eight_files": {
+          "distributed_dp.py": [],
+          "rotation.py": [],
+          "discretization.py": [],
+          "modular_clipping.py": [],
+          "secure.py": [],
+          "differential_privacy.py": [],
+          "distributed_skellam_query.py": [],
+          "distributed_discrete_gaussian_query.py": []
+        },
+        "docstring_todo_present": true
+      },
+      "checks": [
+        {
+          "check": "skellam: extract_dp_event_from_state on the initial state raises ExtractingDpEventFromInitialStateError",
+          "expected": "ExtractingDpEventFromInitialStateError",
+          "observed": "ExtractingDpEventFromInitialStateError",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam: the event after one round is an UnsupportedDpEvent without a noise_multiplier field",
+          "expected": "UnsupportedDpEvent",
+          "observed": "UnsupportedDpEvent",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam: no name in the state or the measurements contains epsilon, delta or noise_multiplier",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "dgauss: extract_dp_event_from_state on the initial state raises ExtractingDpEventFromInitialStateError",
+          "expected": "ExtractingDpEventFromInitialStateError",
+          "observed": "ExtractingDpEventFromInitialStateError",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "dgauss: the event after one round is an UnsupportedDpEvent without a noise_multiplier field",
+          "expected": "UnsupportedDpEvent",
+          "observed": "UnsupportedDpEvent",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "dgauss: no name in the state or the measurements contains epsilon, delta or noise_multiplier",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "adaptive: extract_dp_event_from_state on the initial state raises ExtractingDpEventFromInitialStateError",
+          "expected": "ExtractingDpEventFromInitialStateError",
+          "observed": "ExtractingDpEventFromInitialStateError",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "adaptive: the event after one round is an UnsupportedDpEvent without a noise_multiplier field",
+          "expected": "UnsupportedDpEvent",
+          "observed": "UnsupportedDpEvent",
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "adaptive: no name in the state or the measurements contains epsilon, delta or noise_multiplier",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "adaptive: the only event class name anywhere in the state is UnsupportedDpEvent",
+          "expected": [
+            "UnsupportedDpEvent"
+          ],
+          "observed": [
+            "b'UnsupportedDpEvent'"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "no name containing epsilon in the eight files outside docstrings and comments",
+          "expected": 0,
+          "observed": 0,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "the class docstring contains a TODO about exact privacy accounting",
+          "expected": "present",
+          "observed": true,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 5.1
+    },
+    {
+      "id": "H",
+      "configuration": {
+        "pairs": 20,
+        "D": 2048
+      },
+      "measured": {
+        "skellam": {
+          "pairs": 20,
+          "correlation_between_calls": 0.005065149154596045,
+          "lag1_autocorrelation": 0.0057216604454587644,
+          "positive_control_lag1": 0.5031654223752359,
+          "threshold": 0.013975424859373685,
+          "any_pair_equal": false,
+          "seed_digests": [
+            "c89526c8a07ed568fbf7125459a8345f863fdeddb333b0f5cbd696871a59cf9c",
+            "12c271389cdb7e7350a813ff1fef1eebeb24df1627e14920d8b220d83fd87d2c"
+          ],
+          "mde80_correlation": 0.0169159284368366
+        },
+        "dgauss": {
+          "pairs": 20,
+          "correlation_between_calls": 0.0019957561812740843,
+          "lag1_autocorrelation": -0.0020582438541677283,
+          "positive_control_lag1": 0.49727266839164375,
+          "threshold": 0.013975424859373685,
+          "any_pair_equal": false,
+          "seed_digests": [
+            "fb76863823aed87af8364338da2a16ebe46a82d69be6c20f1ce7132e6feaf66c",
+            "2944c1616feb972278b4ed868d4ec6a708050f091a7f8f578c4d71a709e40151"
+          ],
+          "mde80_correlation": 0.0169159284368366
+        }
+      },
+      "checks": [
+        {
+          "check": "skellam: the two calls of every pair differ",
+          "expected": "not equal",
+          "observed": false,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "skellam: absolute pooled correlation between the two calls at most 0.0140",
+          "expected": "<= 0.013975424859373685",
+          "observed": 0.005065149154596045,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "skellam: absolute pooled lag-1 autocorrelation at most 0.0140",
+          "expected": "<= 0.013975424859373685",
+          "observed": 0.0057216604454587644,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "skellam: positive control, lag-1 autocorrelation of neighbouring sums above 0.4",
+          "expected": "> 0.4",
+          "observed": 0.5031654223752359,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "skellam: two fresh processes with the same global seed give different digests (prediction: the seed does not control the noise)",
+          "expected": "different",
+          "observed": [
+            "c89526c8a07ed568fbf7125459a8345f863fdeddb333b0f5cbd696871a59cf9c",
+            "12c271389cdb7e7350a813ff1fef1eebeb24df1627e14920d8b220d83fd87d2c"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "dgauss: the two calls of every pair differ",
+          "expected": "not equal",
+          "observed": false,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "dgauss: absolute pooled correlation between the two calls at most 0.0140",
+          "expected": "<= 0.013975424859373685",
+          "observed": 0.0019957561812740843,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "dgauss: absolute pooled lag-1 autocorrelation at most 0.0140",
+          "expected": "<= 0.013975424859373685",
+          "observed": -0.0020582438541677283,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "dgauss: positive control, lag-1 autocorrelation of neighbouring sums above 0.4",
+          "expected": "> 0.4",
+          "observed": 0.49727266839164375,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "dgauss: two fresh processes with the same global seed give different digests (prediction: the seed does not control the noise)",
+          "expected": "different",
+          "observed": [
+            "fb76863823aed87af8364338da2a16ebe46a82d69be6c20f1ce7132e6feaf66c",
+            "2944c1616feb972278b4ed868d4ec6a708050f091a7f8f578c4d71a709e40151"
+          ],
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 32.4
+    },
+    {
+      "id": "I",
+      "configuration": {
+        "delta": 1e-05,
+        "note": "derived from rows A, C and D, no new calls"
+      },
+      "measured": {
+        "table": [
+          {
+            "entry": "A1 skellam dft b 16",
+            "noise_rms_over_C": 1.0012102698723226,
+            "sensitivity_over_C": 1.0000008693340603,
+            "delivered_multiplier": 1.0012093994868903,
+            "mu": 0.9987920613934408,
+            "epsilon_at_delta_1e-5": 4.371057366258374,
+            "label": "Gaussian approximation conditional on the measured numbers, add or remove adjacency, not a guarantee"
+          },
+          {
+            "entry": "C skellam m 5",
+            "noise_rms_over_C": 0.7080680048049914,
+            "sensitivity_over_C": 1.0000008693340603,
+            "delivered_multiplier": 0.7080673892578929,
+            "mu": 1.4122949526712054,
+            "epsilon_at_delta_1e-5": 6.562361311725331,
+            "label": "Gaussian approximation conditional on the measured numbers, add or remove adjacency, not a guarantee"
+          },
+          {
+            "entry": "C skellam m 20",
+            "noise_rms_over_C": 1.4071997454579857,
+            "sensitivity_over_C": 1.0000008693340603,
+            "delivered_multiplier": 1.4071985221323808,
+            "mu": 0.7106317866825659,
+            "epsilon_at_delta_1e-5": 2.9598695702547158,
+            "label": "Gaussian approximation conditional on the measured numbers, add or remove adjacency, not a guarantee"
+          },
+          {
+            "entry": "A2 dgauss b 8, mean sensitivity",
+            "noise_rms_over_C": 1.0834246530659546,
+            "sensitivity_over_C": 1.0070841653204279,
+            "delivered_multiplier": 1.0758034833376982,
+            "mu": 0.9295377970867722,
+            "epsilon_at_delta_1e-5": 4.022958568053909,
+            "label": "Gaussian approximation conditional on the measured numbers, add or remove adjacency, not a guarantee"
+          },
+          {
+            "entry": "A2 skellam b 5, mean sensitivity",
+            "noise_rms_over_C": 1.0049355165248268,
+            "sensitivity_over_C": 1.451287861104672,
+            "delivered_multiplier": 0.6924439619855315,
+            "mu": 1.4441601846488408,
+            "epsilon_at_delta_1e-5": 6.73907713319608,
+            "label": "Gaussian approximation conditional on the measured numbers, add or remove adjacency, not a guarantee"
+          },
+          {
+            "entry": "A2 skellam b 5, sensitivity at the bound",
+            "noise_rms_over_C": 1.0049355165248268,
+            "sensitivity_over_C": 3.6340855092766877,
+            "delivered_multiplier": 0.27653050924628486,
+            "mu": 3.6162375092918793,
+            "epsilon_at_delta_1e-5": 21.303700644795544,
+            "label": "Gaussian approximation conditional on the measured numbers, add or remove adjacency, not a guarantee"
+          }
+        ]
+      },
+      "checks": [
+        {
+          "check": "helper: delta(mu 1, eps 1) = 0.126937 within 1e-6",
+          "expected": 0.126937,
+          "observed": 0.1269367375066439,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "helper: eps(mu 1, delta 1e-5) = 4.37718 within 1e-4",
+          "expected": 4.37718,
+          "observed": 4.3771780956812245,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "helper: eps(mu 2, delta 1e-5) = 9.99726 within 1e-3",
+          "expected": 9.99726,
+          "observed": 9.997256146434305,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "the epsilon in the table decreases when the delivered multiplier rises",
+          "expected": "monotone",
+          "observed": [
+            21.303700644795544,
+            6.73907713319608,
+            6.562361311725331,
+            4.371057366258374,
+            4.022958568053909,
+            2.9598695702547158
+          ],
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "J",
+      "configuration": {
+        "n": 20,
+        "m": [
+          20,
+          10
+        ],
+        "calls": 60
+      },
+      "measured": {
+        "construction": {
+          "warnings": [],
+          "constructed": true
+        },
+        "test_context_error": "DecodeError: Error parsing message",
+        "default_context_error": "_InactiveRpcError: <_InactiveRpcError of RPC that terminated with: \tstatus = StatusCode.INVALID_ARGUMENT \tdetails = \"Cannot embed a federated value. while evaluating local [_var105] in block locals [_var7,_var8,_var9,_var10,_var11,_var12,_var13,_var86,_var87,_var88,_var89,_var90,_var91,_var92,_var96"
+      },
+      "checks": [
+        {
+          "check": "a call of the wrapper runs under the test C++ execution context",
+          "expected": "runs",
+          "observed": "DecodeError: Error parsing message",
+          "held": false,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": false,
+      "seconds": 4.0
+    },
+    {
+      "id": "T",
+      "measured": {
+        "total_seconds": 375.1
+      },
+      "checks": [
+        {
+          "check": "whole script under 2400 seconds",
+          "expected": "< 2400",
+          "observed": 375.1,
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true
+    }
+  ],
+  "replication": [
+    {
+      "id": "A-replication",
+      "configuration": {
+        "n": 10,
+        "z": 1.0,
+        "C": 1.0,
+        "D": 2048,
+        "calls": [
+          120,
+          80,
+          80
+        ],
+        "tolerance": 0.007
+      },
+      "measured": {
+        "A1": {
+          "A1 skellam dft": {
+            "N": 245760,
+            "predicted_ratio": 0.9998780148537304,
+            "rms_over_zC": 1.003198819732161,
+            "ratio_to_prediction": 1.0033212100167204,
+            "moments": {
+              "mean": 0.0006801250015300297,
+              "std": 1.0031985891846058,
+              "skew": -0.006130766652600756,
+              "excess_kurtosis": 0.004046842426224551
+            },
+            "per_call_rms_sd": 0.017207179906979907,
+            "per_call_rms": [
+              0.9720757883302701,
+              0.9945493670571253,
+              1.013270523944683,
+              1.0157881040365846,
+              1.0107132001778525,
+              1.024784434456705,
+              0.986240491869065,
+              0.9818701036153019,
+              1.0150919166456034,
+              1.0106642587911188,
+              0.9963279056187645,
+              0.9843405999791016,
+              0.9969117636404592,
+              1.0147083244116235,
+              1.0077922211700716,
+              1.0180146511031865,
+              1.0079280951995944,
+              1.0071365412520479,
+              1.0090811633272285,
+              1.0384618396234393,
+              1.0113170385308798,
+              1.0023366280936146,
+              0.9746845881358887,
+              1.0193930750907219,
+              0.9949230207454923,
+              1.0083586097585693,
+              0.9961596697724756,
+              1.0165400570999616,
+              0.9974758112105319,
+              1.0091997297461517,
+              1.003506706786052,
+              0.9913421135402934,
+              0.9944930055469609,
+              1.0088808689013573,
+              0.9819755339059816,
+              1.0201331104602465,
+              1.0060248952127142,
+              0.9943806637327287,
+              1.003010075129894,
+              1.0170236906287733,
+              1.0181708273936492,
+              0.9969250131397702,
+              0.9839646456196312,
+              1.0120899269433954,
+              0.9914045716185298,
+              1.0082747456871743,
+              0.9919434750969628,
+              1.0229641350489274,
+              1.0158805149803136,
+              0.9867423640866994,
+              0.9870807168885112,
+              1.0169897262137486,
+              0.9846101075434297,
+              1.0262300953658412,
+              0.9753492871779941,
+              0.9839541822584627,
+              1.0028515972825358,
+              1.0251843549293538,
+              0.9975057037072095,
+              0.9821405647045854,
+              0.9981981040308492,
+              0.9729941541670329,
+              0.9923898948710348,
+              1.0535497272028413,
+              1.0206372051768204,
+              0.9637144328702584,
+              1.0124383294299721,
+              1.0259681740183455,
+              0.9960317172781128,
+              1.014531734329275,
+              0.9965256079078513,
+              1.0183864541431558,
+              0.9853907121105193,
+              0.9962314245189612,
+              1.0107615846077342,
+              0.9950328718786955,
+              1.0083689783842988,
+              1.0018858860928432,
+              1.0387365242852935,
+              0.9781170733466714,
+              0.9994416515005698,
+              0.9978183042157398,
+              0.9843927799134167,
+              1.0092985497266762,
+              1.0130995482452683,
+              1.0152909589861805,
+              1.041998233807886,
+              1.0128236228571235,
+              1.015170116115971,
+              0.9961783942704645,
+              0.9925338472622198,
+              1.0245843947578037,
+              1.0062603690393797,
+              0.9931181774910994,
+              0.9850596460754388,
+              0.9971765400573643,
+              0.9924257257473876,
+              1.0108588377851848,
+              1.0023336869788024,
+              1.0242923429398836,
+              1.0323382413323692,
+              1.0340511060524102,
+              1.0351475228163227,
+              0.9938991857014176,
+              0.9801391089406924,
+              0.9983146740634287,
+              0.9990618395169368,
+              1.012024874851985,
+              0.9838303902865392,
+              0.9710824776772056,
+              0.9789419022281542,
+              0.988784642324071,
+              1.0045593201593173,
+              0.9818179456487738,
+              0.9975435993602423,
+              0.9688843083385721,
+              1.0247267200194219,
+              1.031298465623278,
+              1.0082369851599176,
+              0.9803997119112432
+            ],
+            "measurements": {
+              "scale_factor": 8223.9814453125,
+              "scaled_local_stddev": 2600.651123046875,
+              "padded_dim": 2048.0,
+              "actual_num_clients": 10.0,
+              "l2_clip": 1.0
+            },
+            "warnings": [],
+            "mde80_relative": 0.008200455558602108
+          },
+          "A1 skellam hd": {
+            "N": 245760,
+            "predicted_ratio": 0.9998780148537304,
+            "rms_over_zC": 0.9990901279704296,
+            "ratio_to_prediction": 0.999212016994477,
+            "moments": {
+              "mean": -0.0009527012499131331,
+              "std": 0.9990896737371966,
+              "skew": 0.0003578993568098026,
+              "excess_kurtosis": 0.009528506071513565
+            },
+            "per_call_rms_sd": 0.01912483581848813,
+            "per_call_rms": [
+              0.9848455538481156,
+              1.0029712161194873,
+              1.0262157118389936,
+              1.0140269482196305,
+              1.0118610320900594,
+              1.0120459308416057,
+              0.9791382018844362,
+              0.9581029494248863,
+              1.006096320716223,
+              1.002107309216794,
+              0.9859511708238774,
+              0.9649700407021796,
+              1.0126590206024797,
+              1.0034667047804902,
+              0.9902204603385006,
+              1.0187870959386642,
+              1.0076930580762478,
+              0.9721072966559672,
+              0.9882341712546415,
+              1.0055639830138763,
+              0.9777311614156703,
+              0.9742735348052914,
+              0.9900044755912769,
+              1.0124542854097025,
+              1.0078486436261531,
+              1.0056839445106958,
+              0.9906460425015219,
+              0.973209387764326,
+              1.0086012683998329,
+              0.9885873670673488,
+              1.0276765643478394,
+              1.0009686021975912,
+              1.011901569676342,
+              0.9791900984669675,
+              1.0265837332682726,
+              0.9931784459374633,
+              0.9878089003938498,
+              0.9905090966511324,
+              1.001199672390324,
+              1.017260003615333,
+              0.9894354139806307,
+              1.0025641581473987,
+              1.0158282771612743,
+              0.9939331009761989,
+              1.0111763900392445,
+              0.9923549505000704,
+              1.0011334211056768,
+              0.9894259596526408,
+              0.9673230471724016,
+              1.0082327479652509,
+              1.0242571165958105,
+              1.0022314777860548,
+              0.9979891730947379,
+              0.9952192587156339,
+              1.0098892824815793,
+              0.9975298715221222,
+              1.002403821348079,
+              0.997275045111215,
+              0.9897544152549858,
+              1.0194073302051394,
+              0.9995792735106741,
+              0.9869185419922667,
+              0.9834013764475008,
+              0.9880805056051378,
+              1.0154667918971696,
+              0.9798673916827398,
+              0.9922097590163628,
+              0.9650389498922137,
+              0.9978870135324495,
+              0.9933845162941926,
+              1.0277537551875784,
+              1.011685513650373,
+              0.9917935163596872,
+              1.0028060319084868,
+              1.0052586797510303,
+              1.0009177843360915,
+              1.018132430720232,
+              0.9927147537817258,
+              0.9638032690576429,
+              1.0004396111427514,
+              1.0135985677458055,
+              1.0044896306553532,
+              1.0533704549550538,
+              0.9854296439260992,
+              0.9907709531373949,
+              0.9976711693461394,
+              0.9685510685774436,
+              1.0040546355382816,
+              0.9715047757501235,
+              1.033244918468498,
+              1.0094634090704906,
+              0.9727105892509136,
+              1.0218417025192088,
+              0.9691232402510017,
+              0.9797749952482545,
+              1.0071642394019578,
+              1.0001843579615761,
+              1.0097186978973065,
+              1.00141976734071,
+              0.98281780077573,
+              0.9955295690291275,
+              1.0998259590533135,
+              0.9869681162220644,
+              0.9818050674148497,
+              0.9919471894993958,
+              1.0155822145174977,
+              0.9796326601466869,
+              1.0104515429479428,
+              0.9964267551751185,
+              0.9868635556294636,
+              0.9755706424606482,
+              0.9947557881139785,
+              1.020713910984864,
+              0.9973583928086942,
+              1.0019773754574826,
+              1.00268662742657,
+              1.0087370915563552,
+              0.9973367647940452,
+              1.0318771634731096,
+              0.9791951734473097
+            ],
+            "measurements": {
+              "scale_factor": 8223.9814453125,
+              "scaled_local_stddev": 2600.651123046875,
+              "padded_dim": 2048.0,
+              "actual_num_clients": 10.0,
+              "l2_clip": 1.0
+            },
+            "warnings": [],
+            "mde80_relative": 0.008200455558602108
+          },
+          "A1 dgauss dft": {
+            "N": 245760,
+            "predicted_ratio": 1.0000118762818915,
+            "rms_over_zC": 0.9992858158490284,
+            "ratio_to_prediction": 0.9992739481899329,
+            "moments": {
+              "mean": 0.0019752135299513657,
+              "std": 0.999283863718698,
+              "skew": 0.00058417053432038,
+              "excess_kurtosis": -0.004325585752106953
+            },
+            "per_call_rms_sd": 0.015600488235719362,
+            "per_call_rms": [
+              1.0007974275344058,
+              0.9948453788843894,
+              1.014622808608686,
+              0.966074306058424,
+              0.9940452317270912,
+              0.9790291425013724,
+              0.9928524173805456,
+              1.0182898176010942,
+              1.0142071113613176,
+              1.0051369608568497,
+              0.9947472427997336,
+              1.0128991544424002,
+              0.9840993569341221,
+              0.9916899731250152,
+              1.0020123624091708,
+              0.998045558002001,
+              1.0056146637725207,
+              1.007381665310093,
+              0.9842682522053143,
+              1.0233474704212526,
+              0.981357820972059,
+              1.0009229160056037,
+              0.9803706688331546,
+              0.9972331213104538,
+              1.0108830976563357,
+              1.0024205432660516,
+              0.9929708237134086,
+              1.004779595583439,
+              0.9915903767546472,
+              0.983773086076501,
+              0.9930633270751517,
+              0.9772783870971306,
+              1.0391102706978996,
+              1.005648290893344,
+              1.0062692796639947,
+              0.9834010070048326,
+              1.011479176643777,
+              1.004444841828482,
+              1.0163906661478743,
+              1.0015948890941573,
+              0.9856713050604725,
+              1.0019458746558285,
+              0.976988683488241,
+              1.0008547329148998,
+              0.9836615126771411,
+              1.014296196697358,
+              1.0010073087046987,
+              1.0071207379280778,
+              0.9872310328148646,
+              0.9972895279485438,
+              1.0211286321031192,
+              0.9908662456839965,
+              0.9872894291894858,
+              0.9780169986718621,
+              0.9814246492099985,
+              1.0215297557313898,
+              0.9915751031787381,
+              1.003484502636119,
+              1.0157742673960581,
+              1.0265223175627858,
+              0.9879005173829621,
+              1.0182328962113039,
+              0.9951958342827802,
+              1.031371695776552,
+              1.0018958498826043,
+              1.0036677305100106,
+              0.9946013357302961,
+              1.0097752181728281,
+              0.9836186199465694,
+              1.0331018118870527,
+              0.9845911051867011,
+              1.0183206168496783,
+              0.9819571921816455,
+              0.9911693832456139,
+              0.9964880333585655,
+              0.9950387987912178,
+              0.9840669138379889,
+              1.0113735373989758,
+              0.9829827797127155,
+              1.001175672570728,
+              0.9979803413625044,
+              0.9950816392768712,
+              0.9694426180455563,
+              0.9842190892622776,
+              1.0071353017126872,
+              0.9378161399334624,
+              0.9948794679373203,
+              1.0067751442255901,
+              0.9913065487754786,
+              1.0321501926575607,
+              1.0320302534118868,
+              1.0150702696495837,
+              1.0047081694255562,
+              0.9977086875037322,
+              0.9895538538073892,
+              0.9846083248273605,
+              1.015128385097785,
+              1.0047358239844266,
+              0.9944999047009105,
+              1.0124579206126707,
+              1.0027307745243215,
+              0.9847564801608368,
+              1.0016113577021595,
+              0.9973746525999386,
+              0.985306575965018,
+              1.0123084667066113,
+              1.0130025542778547,
+              1.0188928953527199,
+              1.0233972582635442,
+              1.013346376820481,
+              0.9962482474686328,
+              0.9931438323022943,
+              0.9880743565266067,
+              0.9747144702193762,
+              0.9938414860284395,
+              1.0117997989087397,
+              0.9927153072056085,
+              1.0003927455306096,
+              0.9761580640005256,
+              1.003509228233984
+            ],
+            "measurements": {
+              "scale_factor": 8223.9814453125,
+              "scaled_local_stddev": 2600.651123046875,
+              "padded_dim": 2048.0,
+              "actual_num_clients": 10.0,
+              "l2_clip": 1.0
+            },
+            "warnings": [],
+            "mde80_relative": 0.008200455558602108
+          },
+          "A1 dgauss hd": {
+            "N": 245760,
+            "predicted_ratio": 1.0000118762818915,
+            "rms_over_zC": 1.001984806534641,
+            "ratio_to_prediction": 1.001972906821952,
+            "moments": {
+              "mean": -0.0009256908383162694,
+              "std": 1.001984378931495,
+              "skew": 0.01083027559403007,
+              "excess_kurtosis": -0.00016663792759352702
+            },
+            "per_call_rms_sd": 0.015996872332800605,
+            "per_call_rms": [
+              1.0157067088182734,
+              0.9911118416420979,
+              1.0029164276597393,
+              1.0043328868761725,
+              0.9951003049068502,
+              1.0007434904774295,
+              1.0025021541558006,
+              0.955662774501726,
+              1.019086308473261,
+              0.9982722102785971,
+              1.026874176252013,
+              1.0109203416319683,
+              0.9751226610216676,
+              0.9703027400280023,
+              1.0177540767505242,
+              1.0217075629281085,
+              0.9915291370659319,
+              0.9887014412454531,
+              1.0064485778952028,
+              1.0014841818778841,
+              1.024373028397717,
+              1.0090873916067424,
+              0.9895577795068445,
+              0.9931709450005686,
+              1.0199434726125938,
+              1.0091815127325612,
+              1.019216638041867,
+              1.0046806718213181,
+              1.0226814238465525,
+              1.0035032611520256,
+              1.0104646072252648,
+              0.9826961114423963,
+              1.0150362697856568,
+              0.9961240919706086,
+              0.9921273511430585,
+              0.9998198804931153,
+              0.9872370565876303,
+              1.0083977255405998,
+              0.9934722300735439,
+              1.005792750710644,
+              0.9999344976567716,
+              0.9616029293540761,
+              0.9914844113546706,
+              1.0047087118575388,
+              1.0237621351287116,
+              0.9787427355811459,
+              0.9674429252087101,
+              0.9725698518418003,
+              1.0370806968858104,
+              1.0021978191200225,
+              1.0061997786213486,
+              1.0036011111343601,
+              1.0188591025216074,
+              1.0154270543091848,
+              1.0211455940910545,
+              1.0003121319353212,
+              0.9837340797728348,
+              0.973488870667327,
+              0.9932818057832178,
+              1.0085415341361659,
+              0.9914876165193608,
+              1.0017087806559155,
+              0.9966628646781444,
+              1.0101352930185326,
+              1.0211327660352234,
+              0.9941936928226787,
+              1.0009061343415133,
+              0.9620117829394208,
+              1.025102147902808,
+              0.9848705329357895,
+              0.9754978958947317,
+              1.0083152568610492,
+              1.000818416013163,
+              1.0132801610329114,
+              1.016928802058414,
+              1.0109805796046247,
+              1.0090741306454947,
+              1.007958692308117,
+              1.0060238872624687,
+              0.9995787106785201,
+              1.0069289712373815,
+              1.0046504565436039,
+              1.0162105290788517,
+              0.9983622703650978,
+              1.0094001862966975,
+              0.9954530692316023,
+              1.0015294356115576,
+              0.9687971603180845,
+              0.9737006087402121,
+              1.0262883944173433,
+              1.0378107538773003,
+              1.013908765213744,
+              0.9989990059106766,
+              1.0284037150186813,
+              0.9918666723202627,
+              0.9857018416992637,
+              1.0205503142876031,
+              1.0008095324088955,
+              1.0045209234674874,
+              0.9999658657951512,
+              0.9909400131611867,
+              1.0060265166604203,
+              0.9996796192599816,
+              1.0090208939426357,
+              1.0009830304795604,
+              1.0327836774664543,
+              1.0104571689590678,
+              1.0039225064241553,
+              0.9904146937849927,
+              1.0014699522983257,
+              1.004933620762877,
+              1.0069472814501332,
+              0.991942358326071,
+              0.9932620665918427,
+              0.973104307385934,
+              1.000932659408928,
+              1.0235472344170344,
+              1.0117743196245617,
+              1.0091548756438744,
+              0.994194545947243
+            ],
+            "measurements": {
+              "scale_factor": 8223.9814453125,
+              "scaled_local_stddev": 2600.651123046875,
+              "padded_dim": 2048.0,
+              "actual_num_clients": 10.0,
+              "l2_clip": 1.0
+            },
+            "warnings": [],
+            "mde80_relative": 0.008200455558602108
+          }
+        },
+        "A2": {
+          "A2 skellam bits 4": {
+            "N": 163840,
+            "predicted_ratio": 0.9999977271472892,
+            "preregistered_ratio": 1.0,
+            "rms_over_zC": 0.9971546055403944,
+            "ratio_to_prediction": 0.9971568719310938,
+            "measurements": {
+              "scale_factor": 1.2836198806762695,
+              "scaled_local_stddev": 0.4059162437915802
+            },
+            "warnings": [],
+            "integer_scale": 1
+          },
+          "A2 dgauss bits 4": {
+            "N": 163840,
+            "predicted_ratio": 2.4209461101422463,
+            "preregistered_ratio": 2.42095,
+            "rms_over_zC": 2.4164632638909973,
+            "ratio_to_prediction": 0.9981483081211644,
+            "measurements": {
+              "scale_factor": 1.2836198806762695,
+              "scaled_local_stddev": 0.4059162437915802
+            },
+            "warnings": [],
+            "integer_scale": 1
+          },
+          "A2 skellam bits 5": {
+            "N": 163840,
+            "predicted_ratio": 0.9999372789651247,
+            "preregistered_ratio": 0.99994,
+            "rms_over_zC": 1.001131254122144,
+            "ratio_to_prediction": 1.001194050049074,
+            "measurements": {
+              "scale_factor": 3.706960678100586,
+              "scaled_local_stddev": 1.1722439527511597
+            },
+            "warnings": [],
+            "integer_scale": 2
+          },
+          "A2 dgauss bits 5": {
+            "N": 163840,
+            "predicted_ratio": 1.6748894410255615,
+            "preregistered_ratio": 1.67489,
+            "rms_over_zC": 1.6747284871605919,
+            "ratio_to_prediction": 0.9999039017973204,
+            "measurements": {
+              "scale_factor": 3.706960678100586,
+              "scaled_local_stddev": 1.1722439527511597
+            },
+            "warnings": [],
+            "integer_scale": 2
+          },
+          "A2 skellam bits 8": {
+            "N": 163840,
+            "predicted_ratio": 0.9998791306371447,
+            "preregistered_ratio": 0.99988,
+            "rms_over_zC": 0.9971169208435423,
+            "ratio_to_prediction": 0.9972374562995007,
+            "measurements": {
+              "scale_factor": 32.087806701660156,
+              "scaled_local_stddev": 10.147055625915527
+            },
+            "warnings": [],
+            "integer_scale": 11
+          },
+          "A2 dgauss bits 8": {
+            "N": 163840,
+            "predicted_ratio": 1.0836089214281304,
+            "preregistered_ratio": 1.08361,
+            "rms_over_zC": 1.083826440399556,
+            "ratio_to_prediction": 1.000200735677904,
+            "measurements": {
+              "scale_factor": 32.087806701660156,
+              "scaled_local_stddev": 10.147055625915527
+            },
+            "warnings": [],
+            "integer_scale": 11
+          },
+          "A2 skellam bits 12": {
+            "N": 163840,
+            "predicted_ratio": 0.9998780120922243,
+            "preregistered_ratio": 0.99988,
+            "rms_over_zC": 1.0008737956335265,
+            "ratio_to_prediction": 1.000995905029673,
+            "measurements": {
+              "scale_factor": 513.9965209960938,
+              "scaled_local_stddev": 162.5399627685547
+            },
+            "warnings": [],
+            "integer_scale": 163
+          },
+          "A2 dgauss bits 12": {
+            "N": 163840,
+            "predicted_ratio": 1.002702107181067,
+            "preregistered_ratio": 1.0027,
+            "rms_over_zC": 1.003886425916931,
+            "ratio_to_prediction": 1.0011811272035656,
+            "measurements": {
+              "scale_factor": 513.9965209960938,
+              "scaled_local_stddev": 162.5399627685547
+            },
+            "warnings": [],
+            "integer_scale": 163
+          }
+        },
+        "A3": {
+          "A3 skellam bits 16": {
+            "N": 163840,
+            "predicted": 1.000000012321244,
+            "preregistered": 1.0,
+            "rms_error_over_zC": 1.0008404018963653,
+            "warnings": [],
+            "mde80_absolute": 0.009470251788731458
+          },
+          "A3 skellam bits 5": {
+            "N": 163840,
+            "predicted": 1.0209311501600715,
+            "preregistered": 1.0209,
+            "rms_error_over_zC": 1.018618538790626,
+            "warnings": [],
+            "mde80_absolute": 0.009470251788731458
+          },
+          "A3 skellam bits 4": {
+            "N": 163840,
+            "predicted": 1.0635760397810525,
+            "preregistered": 1.0636,
+            "rms_error_over_zC": 1.0671237749881421,
+            "warnings": [],
+            "mde80_absolute": 0.009470251788731458
+          }
+        }
+      },
+      "checks": [
+        {
+          "check": "A1 skellam dft: RMS over z C within 0.007 of the prediction 0.99988",
+          "expected": "1 +- 0.007",
+          "observed": 1.0033212100167204,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": -0.006130766652600756,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": 0.004046842426224551,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: absolute mean at most 4 standard errors",
+          "expected": "<= 0.008094525670328326",
+          "observed": 0.0006801250015300297,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+          "expected": "[0.0116, 0.0197]",
+          "observed": 0.017207179906979907,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam dft: scale_factor equals 8223.98 within 1e-5",
+          "expected": 8223.98,
+          "observed": 8223.9814453125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam dft: scaled_local_stddev equals 2600.651 within 1e-5",
+          "expected": 2600.651,
+          "observed": 2600.651123046875,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam dft: padded_dim 2048, actual_num_clients 10, l2_clip 1.0",
+          "expected": [
+            2048,
+            10,
+            1.0
+          ],
+          "observed": [
+            2048.0,
+            10.0,
+            1.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam hd: RMS over z C within 0.007 of the prediction 0.99988",
+          "expected": "1 +- 0.007",
+          "observed": 0.999212016994477,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": 0.0003578993568098026,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": 0.009528506071513565,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: absolute mean at most 4 standard errors",
+          "expected": "<= 0.008061373806228563",
+          "observed": -0.0009527012499131331,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+          "expected": "[0.0116, 0.0197]",
+          "observed": 0.01912483581848813,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 skellam hd: scale_factor equals 8223.98 within 1e-5",
+          "expected": 8223.98,
+          "observed": 8223.9814453125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam hd: scaled_local_stddev equals 2600.651 within 1e-5",
+          "expected": 2600.651,
+          "observed": 2600.651123046875,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 skellam hd: padded_dim 2048, actual_num_clients 10, l2_clip 1.0",
+          "expected": [
+            2048,
+            10,
+            1.0
+          ],
+          "observed": [
+            2048.0,
+            10.0,
+            1.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss dft: RMS over z C within 0.007 of the prediction 1.00001",
+          "expected": "1 +- 0.007",
+          "observed": 0.9992739481899329,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": 0.00058417053432038,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": -0.004325585752106953,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: absolute mean at most 4 standard errors",
+          "expected": "<= 0.008062952756009538",
+          "observed": 0.0019752135299513657,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+          "expected": "[0.0116, 0.0197]",
+          "observed": 0.015600488235719362,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss dft: scale_factor equals 8223.98 within 1e-5",
+          "expected": 8223.98,
+          "observed": 8223.9814453125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss dft: scaled_local_stddev equals 2600.651 within 1e-5",
+          "expected": 2600.651,
+          "observed": 2600.651123046875,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss dft: padded_dim 2048, actual_num_clients 10, l2_clip 1.0",
+          "expected": [
+            2048,
+            10,
+            1.0
+          ],
+          "observed": [
+            2048.0,
+            10.0,
+            1.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss hd: RMS over z C within 0.007 of the prediction 1.00001",
+          "expected": "1 +- 0.007",
+          "observed": 1.001972906821952,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: absolute skewness at most 0.02",
+          "expected": "<= 0.02",
+          "observed": 0.01083027559403007,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: absolute excess kurtosis at most 0.04",
+          "expected": "<= 0.04",
+          "observed": -0.00016663792759352702,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: absolute mean at most 4 standard errors",
+          "expected": "<= 0.00808473014346151",
+          "observed": -0.0009256908383162694,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+          "expected": "[0.0116, 0.0197]",
+          "observed": 0.015996872332800605,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A1 dgauss hd: scale_factor equals 8223.98 within 1e-5",
+          "expected": 8223.98,
+          "observed": 8223.9814453125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss hd: scaled_local_stddev equals 2600.651 within 1e-5",
+          "expected": 2600.651,
+          "observed": 2600.651123046875,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A1 dgauss hd: padded_dim 2048, actual_num_clients 10, l2_clip 1.0",
+          "expected": [
+            2048,
+            10,
+            1.0
+          ],
+          "observed": [
+            2048.0,
+            10.0,
+            1.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 4: RMS over z C within 0.007 of the prediction 1.0",
+          "expected": "1 +- 0.007",
+          "observed": 0.9971568719310938,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 skellam bits 4: scale_factor within 1e-4 of 1.2836",
+          "expected": 1.2836,
+          "observed": 1.2836198806762695,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 4: scaled_local_stddev within 1e-4 of 0.40592",
+          "expected": 0.40592,
+          "observed": 0.4059162437915802,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 4: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 1.0,
+          "observed": 0.9999977271472892,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 4: no warning at construction and no exception",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 4: RMS over z C within 0.007 of the prediction 2.42095",
+          "expected": "1 +- 0.007",
+          "observed": 0.9981483081211644,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 dgauss bits 4: scale_factor within 1e-4 of 1.2836",
+          "expected": 1.2836,
+          "observed": 1.2836198806762695,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 4: scaled_local_stddev within 1e-4 of 0.40592",
+          "expected": 0.40592,
+          "observed": 0.4059162437915802,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 4: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 2.42095,
+          "observed": 2.4209461101422463,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 5: RMS over z C within 0.007 of the prediction 0.99994",
+          "expected": "1 +- 0.007",
+          "observed": 1.001194050049074,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 skellam bits 5: scale_factor within 1e-4 of 3.707",
+          "expected": 3.707,
+          "observed": 3.706960678100586,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 5: scaled_local_stddev within 1e-4 of 1.17224",
+          "expected": 1.17224,
+          "observed": 1.1722439527511597,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 5: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 0.99994,
+          "observed": 0.9999372789651247,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 5: no warning at construction and no exception",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 5: RMS over z C within 0.007 of the prediction 1.67489",
+          "expected": "1 +- 0.007",
+          "observed": 0.9999039017973204,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 dgauss bits 5: scale_factor within 1e-4 of 3.707",
+          "expected": 3.707,
+          "observed": 3.706960678100586,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 5: scaled_local_stddev within 1e-4 of 1.17224",
+          "expected": 1.17224,
+          "observed": 1.1722439527511597,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 5: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 1.67489,
+          "observed": 1.6748894410255615,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 8: RMS over z C within 0.007 of the prediction 0.99988",
+          "expected": "1 +- 0.007",
+          "observed": 0.9972374562995007,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 skellam bits 8: scale_factor within 1e-4 of 32.088",
+          "expected": 32.088,
+          "observed": 32.087806701660156,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 8: scaled_local_stddev within 1e-4 of 10.14705",
+          "expected": 10.14705,
+          "observed": 10.147055625915527,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 8: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 0.99988,
+          "observed": 0.9998791306371447,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 8: no warning at construction and no exception",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 8: RMS over z C within 0.007 of the prediction 1.08361",
+          "expected": "1 +- 0.007",
+          "observed": 1.000200735677904,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 dgauss bits 8: scale_factor within 1e-4 of 32.088",
+          "expected": 32.088,
+          "observed": 32.087806701660156,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 8: scaled_local_stddev within 1e-4 of 10.14705",
+          "expected": 10.14705,
+          "observed": 10.147055625915527,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 8: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 1.08361,
+          "observed": 1.0836089214281304,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 12: RMS over z C within 0.007 of the prediction 0.99988",
+          "expected": "1 +- 0.007",
+          "observed": 1.000995905029673,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 skellam bits 12: scale_factor within 1e-4 of 513.997",
+          "expected": 513.997,
+          "observed": 513.9965209960938,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 12: scaled_local_stddev within 1e-4 of 162.54",
+          "expected": 162.54,
+          "observed": 162.5399627685547,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 12: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 0.99988,
+          "observed": 0.9998780120922243,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 skellam bits 12: no warning at construction and no exception",
+          "expected": [],
+          "observed": [],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 12: RMS over z C within 0.007 of the prediction 1.0027",
+          "expected": "1 +- 0.007",
+          "observed": 1.0011811272035656,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A2 dgauss bits 12: scale_factor within 1e-4 of 513.997",
+          "expected": 513.997,
+          "observed": 513.9965209960938,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 12: scaled_local_stddev within 1e-4 of 162.54",
+          "expected": 162.54,
+          "observed": 162.5399627685547,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A2 dgauss bits 12: helper reproduces the pre-registered ratio within 5e-5 relative",
+          "expected": 1.0027,
+          "observed": 1.002702107181067,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A3 skellam bits 16: RMS of the error over z C within 0.008 (absolute) of 1.0",
+          "expected": "1.0 +- 0.008",
+          "observed": 1.0008404018963653,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A3 skellam bits 16: helper reproduces the pre-registered value within 1e-4",
+          "expected": 1.0,
+          "observed": 1.000000012321244,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A3 skellam bits 5: RMS of the error over z C within 0.008 (absolute) of 1.0209",
+          "expected": "1.0209 +- 0.008",
+          "observed": 1.018618538790626,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A3 skellam bits 5: helper reproduces the pre-registered value within 1e-4",
+          "expected": 1.0209,
+          "observed": 1.0209311501600715,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "A3 skellam bits 4: RMS of the error over z C within 0.008 (absolute) of 1.0636",
+          "expected": "1.0636 +- 0.008",
+          "observed": 1.0671237749881421,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "A3 skellam bits 4: helper reproduces the pre-registered value within 1e-4",
+          "expected": 1.0636,
+          "observed": 1.0635760397810525,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "power: smallest deviation found with 80% power at N 245,760 and 163,840 (pre-registered 0.820% and 0.847%)",
+          "expected": "0.820% and 0.847% +- 0.002%",
+          "observed": [
+            0.008200455558602108,
+            0.008470251788731457
+          ],
+          "held": true,
+          "kind": "exact"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 93.4
+    },
+    {
+      "id": "D-replication",
+      "configuration": {
+        "n": 10,
+        "z": 0.0,
+        "calls": 80,
+        "target_norm": 3.0
+      },
+      "measured": {
+        "b 16 beta 0": {
+          "scale_predicted": 38115.28984642636,
+          "scale_factor": 38115.2890625,
+          "bound_over_C": 1.0011873144393832,
+          "preregistered_bound": 1.00119,
+          "mean_norm_over_C": 1.0000001125291895,
+          "preregistered_mean": 1.0,
+          "largest_norm": 1.0000244106456493,
+          "share_above_C": 0.5125,
+          "sd": 1.0661427636723779e-05,
+          "norms": [
+            0.9999957153880679,
+            0.9999981110248467,
+            1.0000084279634036,
+            0.9999822788447313,
+            0.9999926160898162,
+            1.0000055904692995,
+            0.999992444981196,
+            0.9999990010426515,
+            0.9999950612531459,
+            0.9999983394196544,
+            1.0000050023061289,
+            1.0000105176038059,
+            0.9999896187101467,
+            1.000008366854072,
+            1.000011832346561,
+            1.0000123052321466,
+            1.0000074019214729,
+            0.9999957774023681,
+            0.999994468469177,
+            1.0000054153531124,
+            1.0000036553382516,
+            1.0000082064455074,
+            0.9999953543926567,
+            0.9999872422578333,
+            1.0000010352846693,
+            0.9999865283205251,
+            0.9999854961077204,
+            0.999989443290367,
+            1.0000177782694037,
+            1.0000068343415474,
+            1.0000132097428291,
+            0.9999857306807798,
+            1.0000173874187324,
+            0.9999886762172283,
+            1.0000171068391506,
+            1.0000059332120277,
+            0.9999876818271043,
+            1.0000037468857925,
+            0.9999908986913443,
+            1.0000055814419604,
+            0.9999930809360069,
+            1.0000032752143517,
+            1.0000054406910583,
+            0.9999948179701815,
+            0.999976379919966,
+            0.9999917440853828,
+            1.0000004871626815,
+            1.0000019335876682,
+            1.0000126085762473,
+            0.9999838815608632,
+            1.0000143217826145,
+            0.9999947251835376,
+            1.0000049226339176,
+            0.9999930895148444,
+            1.0000124514224726,
+            0.9999830283423929,
+            1.0000007386304604,
+            0.9999953601134492,
+            1.0000244106456493,
+            1.0000050625328658,
+            1.0000127444420408,
+            1.0000035633311544,
+            0.9999926114464792,
+            1.000014700032038,
+            0.9999832172167561,
+            0.999997838281533,
+            0.9999972146929991,
+            1.0000042119482866,
+            0.9999981159307099,
+            1.0000090267738024,
+            0.9999919674910619,
+            1.0000149321202534,
+            1.0000085378430514,
+            1.0000154155554037,
+            1.0000181497773366,
+            1.0000038340153068,
+            0.999983827680121,
+            0.9999856630822958,
+            0.9999960338720534,
+            0.9999798166146281
+          ],
+          "scaled_inflated_l2_over_scale_factor": 1.0011973336651119,
+          "warnings": [],
+          "mde80_absolute": 1.1003198915412744e-05
+        },
+        "b 8 beta 0": {
+          "scale_predicted": 148.71581269492586,
+          "scale_factor": 148.7158203125,
+          "bound_over_C": 1.3043041165284446,
+          "preregistered_bound": 1.30434,
+          "mean_norm_over_C": 1.0080034684353307,
+          "preregistered_mean": 1.00765,
+          "largest_norm": 1.0151807214609234,
+          "share_above_C": 1.0,
+          "sd": 0.0027474898947346857,
+          "norms": [
+            1.0017300712599457,
+            1.0075807697584167,
+            1.012505046027751,
+            1.0079396621445464,
+            1.0096204395899306,
+            1.0086796567536336,
+            1.010359096619313,
+            1.0090604827958332,
+            1.0106498150124188,
+            1.0061436789103182,
+            1.0058290750570387,
+            1.01067236565401,
+            1.002789961117771,
+            1.0096651682856068,
+            1.0079845377871184,
+            1.012438007673688,
+            1.0066603789517918,
+            1.00883643750122,
+            1.0049520741719251,
+            1.0063233892330035,
+            1.0097549171238747,
+            1.0075582897047468,
+            1.0069746140358278,
+            1.0064582981987276,
+            1.0089485961051285,
+            1.0100456827593933,
+            1.0028577538072676,
+            1.0098219549860132,
+            1.0103592238550834,
+            1.0064806354260085,
+            1.0062784713733213,
+            1.0122814786494114,
+            1.0087692712252054,
+            1.0114326044030664,
+            1.0080740716992183,
+            1.0049520902550053,
+            1.0070197024245315,
+            1.0054244618990578,
+            1.0075806723330132,
+            1.0120806762496848,
+            1.0054243982316078,
+            1.0091275984220494,
+            1.0070644800573934,
+            1.0093964781294777,
+            1.0099786607956107,
+            1.0145125173964935,
+            1.0076929201272091,
+            1.0038717885998443,
+            1.0070869583717006,
+            1.0083881051033712,
+            1.0101578663509039,
+            1.0067053962173425,
+            1.005941513423034,
+            1.0085450157989855,
+            1.0084328251033141,
+            1.0069073870158407,
+            1.0148912334042879,
+            1.007423593218311,
+            1.0117008538532577,
+            1.0151807214609234,
+            1.0076256075733334,
+            1.005671814410322,
+            1.0037816025556616,
+            1.0056267980448308,
+            1.0075582849582143,
+            1.0050644499112757,
+            1.003376252905188,
+            1.0093965221732404,
+            1.0045020755137486,
+            1.0074909521690907,
+            1.0028578841648368,
+            1.00632330766066,
+            1.0065929597003946,
+            1.0097322705051395,
+            1.007962003731358,
+            1.006210933066715,
+            1.0076705589035442,
+            1.0106051305657477,
+            1.0114550150970394,
+            1.008769159316298
+          ],
+          "scaled_inflated_l2_over_scale_factor": 1.3043140739403092,
+          "warnings": [],
+          "mde80_absolute": 0.0014585281236643374,
+          "without_the_client_max_abs_output": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "b 5 beta 0": {
+          "scale_predicted": 17.180472629518352,
+          "scale_factor": 17.18047332763672,
+          "bound_over_C": 3.6340855092766877,
+          "preregistered_bound": 3.6341,
+          "mean_norm_over_C": 1.4521144354946238,
+          "preregistered_mean": 1.454,
+          "largest_norm": 1.5009821502517346,
+          "share_above_C": 1.0,
+          "sd": 0.02026698663782821,
+          "norms": [
+            1.4138088269813085,
+            1.4399270039148504,
+            1.4885163777751436,
+            1.4078058791338606,
+            1.442277934627443,
+            1.4563034111240485,
+            1.4551398790299819,
+            1.4469681751860197,
+            1.441102845825008,
+            1.450475870907671,
+            1.443452022377069,
+            1.413808982681948,
+            1.4469684728325156,
+            1.4375721393903644,
+            1.4516435707957418,
+            1.4655792525019757,
+            1.4352133537862826,
+            1.4504760541226212,
+            1.4713472803507501,
+            1.487377765284191,
+            1.5009821502517346,
+            1.4516432880209444,
+            1.4896541060639434,
+            1.467889030669461,
+            1.477092465814093,
+            1.395721126665655,
+            1.4233618701816022,
+            1.4457969942443434,
+            1.4528098742999713,
+            1.4328510925965348,
+            1.4816726746436872,
+            1.4690426854960594,
+            1.434032947171428,
+            1.4434518056686654,
+            1.4411031625018167,
+            1.4185931723048395,
+            1.4504762665757167,
+            1.448138510026887,
+            1.4713473218237165,
+            1.417398796031967,
+            1.4493075551177226,
+            1.466734949543087,
+            1.4644229973199507,
+            1.45280967518701,
+            1.4446248646607247,
+            1.438750019222435,
+            1.4292998876202294,
+            1.4747967129864092,
+            1.4667349137660064,
+            1.4316685564532297,
+            1.4197871525122177,
+            1.46904297263757,
+            1.4667346207822476,
+            1.4644230313109299,
+            1.4399268224045236,
+            1.4493077327316857,
+            1.4434517167712453,
+            1.466734656943936,
+            1.4828154412324877,
+            1.4434520327717502,
+            1.4411029141461802,
+            1.4759453229903485,
+            1.4747972257354935,
+            1.4782389577518338,
+            1.4469679383581195,
+            1.4632659361576787,
+            1.4352134666356897,
+            1.4493076324841032,
+            1.4609489324319749,
+            1.4850983837486496,
+            1.436393327464283,
+            1.4724981143197553,
+            1.4609487506120795,
+            1.4632659390194724,
+            1.4411025992602555,
+            1.4457967391564663,
+            1.4411029357640153,
+            1.4667347828682369,
+            1.4493076025502978,
+            1.4574665864577119
+          ],
+          "scaled_inflated_l2_over_scale_factor": 3.6340953488175876,
+          "warnings": [],
+          "mde80_absolute": 0.021907044694813662
+        },
+        "b 8 beta exp(-0.5)": {
+          "scale_predicted": 148.71581269492586,
+          "scale_factor": 148.7158203125,
+          "bound_over_C": 1.0153312708006763,
+          "preregistered_bound": 1.0153,
+          "mean_norm_over_C": 1.0078913584258147,
+          "preregistered_mean": 1.0077,
+          "largest_norm": 1.0129068538583754,
+          "share_above_C": 1.0,
+          "sd": 0.0024106789650717554,
+          "norms": [
+            1.0094189751234086,
+            1.007849799051644,
+            1.0090155685429607,
+            1.0079172225429411,
+            1.0043894976199867,
+            1.009508617740109,
+            1.0082984326306306,
+            1.0129068538583754,
+            1.0062783944115798,
+            1.0065928246753473,
+            1.0056941778873498,
+            1.0108289457163164,
+            1.0072887779663138,
+            1.0047496641209714,
+            1.0069074402478597,
+            1.00324114837565,
+            1.0077602426237537,
+            1.0064357403859434,
+            1.010269649897335,
+            1.0071992339184284,
+            1.0092173372959803,
+            1.0041419881677456,
+            1.0099340029776578,
+            1.004636905396579,
+            1.0065031865674858,
+            1.0113208509032057,
+            1.0040968469968516,
+            1.0016620005063153,
+            1.0090156198996723,
+            1.0033087143064192,
+            1.0108289420256689,
+            1.011432735947014,
+            1.0060313888082308,
+            1.0098890937316252,
+            1.0090604963315077,
+            1.0085898989147342,
+            1.0102920128449935,
+            1.0073114600549606,
+            1.0094636903002492,
+            1.009127628484249,
+            1.0090155770366773,
+            1.0070196876743667,
+            1.0055594630839042,
+            1.0106499875366421,
+            1.0057167433511236,
+            1.0097547810850538,
+            1.0108513158180084,
+            1.0054018392691477,
+            1.0049295931185964,
+            1.0073563780694361,
+            1.0082985165897154,
+            1.0016849070908684,
+            1.0097324150586575,
+            1.0072215805539588,
+            1.0100907805387507,
+            1.0071992304834407,
+            1.0117231811538483,
+            1.0118571913617864,
+            1.0108738128990087,
+            1.007827675895552,
+            1.0088587720571018,
+            1.007266569082871,
+            1.008365636913646,
+            1.0113879299465633,
+            1.0072890115971171,
+            1.0089036799718232,
+            1.0066154019928026,
+            1.0037365892535186,
+            1.0086122372943025,
+            1.0062560014370059,
+            1.010761734762957,
+            1.01060513373047,
+            1.0071993267496016,
+            1.0092397822544117,
+            1.005267198357314,
+            1.0062786517174735,
+            1.0078498639277724,
+            1.0090382099432833,
+            1.0075135243869335,
+            1.009082753221604
+          ],
+          "scaled_inflated_l2_over_scale_factor": 1.0153411982467084,
+          "warnings": [
+            "The selected beta 0.6065306597126334 is greater than zero. This indicates that conditional randomize"
+          ],
+          "mde80_absolute": 0.0014268355238690588
+        },
+        "b 5 beta exp(-0.5)": {
+          "scale_predicted": 17.180472629518352,
+          "scale_factor": 17.18047332763672,
+          "bound_over_C": 1.6939499754653795,
+          "preregistered_bound": 1.6939,
+          "mean_norm_over_C": 1.4522486176727751,
+          "preregistered_mean": 1.4537,
+          "largest_norm": 1.4975925783192814,
+          "share_above_C": 1.0,
+          "sd": 0.02005330614051067,
+          "norms": [
+            1.426927871716826,
+            1.4328511165174804,
+            1.4411026756725045,
+            1.467889355803647,
+            1.455139974613326,
+            1.4281142733362755,
+            1.4328508511593503,
+            1.4724980684067661,
+            1.453975265527362,
+            1.4375721771482683,
+            1.4375723847938748,
+            1.4759450864350543,
+            1.4292998921866606,
+            1.4328508604985637,
+            1.4828153190519915,
+            1.431668494768407,
+            1.4528097269886042,
+            1.4304845717119201,
+            1.4399271278887236,
+            1.4609488103631576,
+            1.4411027852293248,
+            1.4907906108746245,
+            1.4551399598025772,
+            1.4304844603977718,
+            1.4850984776556757,
+            1.4574661987263926,
+            1.4434516992894673,
+            1.4328508907923658,
+            1.4724980815390725,
+            1.4493074980828797,
+            1.4434518488290145,
+            1.4528099158480878,
+            1.4340327574841243,
+            1.4411026933548043,
+            1.4759452921021887,
+            1.4563036030260363,
+            1.4586282734459899,
+            1.4632659977195583,
+            1.4644230600356374,
+            1.4574660542859899,
+            1.4586283176181765,
+            1.4493077481295973,
+            1.4422780196831142,
+            1.458628253982402,
+            1.4504761904940735,
+            1.4528099317573397,
+            1.428114426025263,
+            1.444624915025926,
+            1.4747968382046968,
+            1.4387500824575683,
+            1.4090082177479588,
+            1.4805287098429476,
+            1.4269275831735475,
+            1.4713470688469927,
+            1.4828152138749708,
+            1.464423116096983,
+            1.4352136056070832,
+            1.4690427957553631,
+            1.4551397746562365,
+            1.4828154335002484,
+            1.4597889688180188,
+            1.4724981493020053,
+            1.442277894493543,
+            1.4839571222097527,
+            1.4090082905030181,
+            1.4209795223849513,
+            1.4257401744823772,
+            1.4481386554443019,
+            1.4655793901853515,
+            1.4597889469492742,
+            1.458627898953039,
+            1.4185934171579608,
+            1.4975925783192814,
+            1.4516434522399515,
+            1.4690426134054901,
+            1.4233619056790274,
+            1.439926857858632,
+            1.48509843654708,
+            1.4574662884384455,
+            1.4862385448596747
+          ],
+          "scaled_inflated_l2_over_scale_factor": 1.6939599108122594,
+          "warnings": [
+            "The selected beta 0.6065306597126334 is greater than zero. This indicates that conditional randomize"
+          ],
+          "mde80_absolute": 0.021886938190276182
+        }
+      },
+      "checks": [
+        {
+          "check": "b 16 beta 0: mean norm over C within 1e-05 of 1.0",
+          "expected": "1.0 +- 1e-05",
+          "observed": 1.0000001125291895,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 16 beta 0: every norm at most the bound 1.00119",
+          "expected": "<= 1.0011873144393832",
+          "observed": 1.0000244106456493,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 16 beta 0: scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 1.0011973144393833,
+          "observed": 1.0011973336651119,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 16 beta 0: scale_factor within 1e-4 of the formula",
+          "expected": 38115.28984642636,
+          "observed": 38115.2890625,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 16 beta 0: helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 1.00119,
+          "observed": 1.0011873144393832,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: output without the client is exactly zero (5 calls)",
+          "expected": 0.0,
+          "observed": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: mean norm over C within 0.0012 of 1.00765",
+          "expected": "1.00765 +- 0.0012",
+          "observed": 1.0080034684353307,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 8 beta 0: every norm at most the bound 1.30430",
+          "expected": "<= 1.3043041165284446",
+          "observed": 1.0151807214609234,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 1.3043141165284446,
+          "observed": 1.3043140739403092,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: scale_factor within 1e-4 of the formula",
+          "expected": 148.71581269492586,
+          "observed": 148.7158203125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta 0: helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 1.30434,
+          "observed": 1.3043041165284446,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta 0: mean norm over C within 0.02 of 1.454",
+          "expected": "1.454 +- 0.02",
+          "observed": 1.4521144354946238,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 5 beta 0: every norm at most the bound 3.63409",
+          "expected": "<= 3.6340855092766877",
+          "observed": 1.5009821502517346,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta 0: scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 3.634095509276688,
+          "observed": 3.6340953488175876,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta 0: scale_factor within 1e-4 of the formula",
+          "expected": 17.180472629518352,
+          "observed": 17.18047332763672,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta 0: helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 3.6341,
+          "observed": 3.6340855092766877,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): mean norm over C within 0.0012 of 1.0077",
+          "expected": "1.0077 +- 0.0012",
+          "observed": 1.0078913584258147,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): every norm at most the bound 1.01533",
+          "expected": "<= 1.0153312708006763",
+          "observed": 1.0129068538583754,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 1.0153412708006764,
+          "observed": 1.0153411982467084,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): scale_factor within 1e-4 of the formula",
+          "expected": 148.71581269492586,
+          "observed": 148.7158203125,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 1.0153,
+          "observed": 1.0153312708006763,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8 beta exp(-0.5): construction emitted a warning about beta above zero",
+          "expected": ">= 1 warning",
+          "observed": [
+            "The selected beta 0.6065306597126334 is greater than zero. This indicates that conditional randomize"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): mean norm over C within 0.02 of 1.4537",
+          "expected": "1.4537 +- 0.02",
+          "observed": 1.4522486176727751,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): every norm at most the bound 1.69395",
+          "expected": "<= 1.6939499754653795",
+          "observed": 1.4975925783192814,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): scaled_inflated_l2 over scale_factor equals the bound plus 1e-5 within 1e-4",
+          "expected": 1.6939599754653796,
+          "observed": 1.6939599108122594,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): scale_factor within 1e-4 of the formula",
+          "expected": 17.180472629518352,
+          "observed": 17.18047332763672,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): helper bound reproduces the pre-registered bound within 5e-5 relative",
+          "expected": 1.6939,
+          "observed": 1.6939499754653795,
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 5 beta exp(-0.5): construction emitted a warning about beta above zero",
+          "expected": ">= 1 warning",
+          "observed": [
+            "The selected beta 0.6065306597126334 is greater than zero. This indicates that conditional randomize"
+          ],
+          "held": true,
+          "kind": "exact"
+        },
+        {
+          "check": "b 8: mean norm with beta above 0 differs from beta 0 by less than 0.001",
+          "expected": "< 0.001",
+          "observed": 0.00011211000951605321,
+          "held": true,
+          "kind": "stat"
+        },
+        {
+          "check": "b 5: mean norm with beta above 0 differs from beta 0 by less than 0.001",
+          "expected": "< 0.001",
+          "observed": 0.00013418217815130973,
+          "held": true,
+          "kind": "stat"
+        }
+      ],
+      "prediction_held": true,
+      "seconds": 30.4
+    }
+  ],
+  "summary": {
+    "rows_total": 12,
+    "rows_held": 8,
+    "rows_failed": [
+      "A",
+      "C",
+      "D",
+      "J"
+    ],
+    "checks_total": 199,
+    "checks_held": 194,
+    "checks_failed": [
+      {
+        "row": "A",
+        "check": "A1 skellam dft: sd of per-call RMS between 0.0116 and 0.0197 (repeated-noise pair check)",
+        "expected": "[0.0116, 0.0197]",
+        "observed": 0.021797780788046138,
+        "held": false,
+        "kind": "stat"
+      },
+      {
+        "row": "A",
+        "check": "A3 skellam bits 16: RMS of the error over z C within 0.008 (absolute) of 1.0",
+        "expected": "1.0 +- 0.008",
+        "observed": 1.0081184379504118,
+        "held": false,
+        "kind": "stat"
+      },
+      {
+        "row": "C",
+        "check": "skellam m 20: noise-free output norm is 0.5 m",
+        "expected": "10.0 within 1e-4 relative",
+        "observed": 9.972869417322087,
+        "held": false,
+        "kind": "exact"
+      },
+      {
+        "row": "D",
+        "check": "b 5: mean norm with beta above 0 differs from beta 0 by less than 0.001",
+        "expected": "< 0.001",
+        "observed": 0.004844633888162031,
+        "held": false,
+        "kind": "stat"
+      },
+      {
+        "row": "J",
+        "check": "a call of the wrapper runs under the test C++ execution context",
+        "expected": "runs",
+        "observed": "DecodeError: Error parsing message",
+        "held": false,
+        "kind": "exact"
+      }
+    ],
+    "mismatch_found_rows": []
+  },
+  "runtime_seconds": 375.1
+}
