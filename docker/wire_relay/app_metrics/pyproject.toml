@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "feddisclosure-secagg-wire-p2-metrics"
+version = "0.1.0"
+requires-python = ">=3.11,<3.14"
+dependencies = ["feddisclosure-lab", "flwr[simulation]>=1.27,<1.28"]
+
+# Same application as docker/wire_relay/app, with the P2 metric returning client and the strategy hook.
+# This directory holds code configuration only. It is mounted read-only into the Flower CLI container.
+[tool.flwr.app]
+publisher = "feddisclosure"
+
+[tool.flwr.app.components]
+serverapp = "feddisclosure.training.p2_metrics_server:app"
+clientapp = "feddisclosure.training.p2_metrics_client:app"
+
+[tool.flwr.app.config]
+num-server-rounds = 1
+clients = 4
+num-shares = 4
+reconstruction-threshold = 2
+max-weight = 1000.0
+timeout = 60.0
+use-secagg = true
+proximal-mu = 0.0
+local-epochs = 1
+batch-size = 8
+learning-rate = 0.15
+seed = 0
+features = 64
+classes = 10
+data-root = "../../data/training/digits-iid"
+artifact-dir = "../../reports/results/privacy/v0150/wire/_unused"
+wire-capture = true
+wire-capture-dir = "wire"
