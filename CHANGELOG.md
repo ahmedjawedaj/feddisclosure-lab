@@ -2,6 +2,21 @@
 
 All notable changes are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dates are release tags in this project's own history, not hosted releases. Failed gates and withdrawn claims are listed on purpose.
 
+## [0.16.12] - 2026-11-26
+
+Documents only. No result number, verdict, threshold or script changed.
+
+### Corrected
+- `docs/novelty-status.md` was written at release 0.16.2 and is rewritten for releases up to 0.16.11. It now records four measured framework families, the adaptive clipping comparison with its paper (v0.16.3), the TFF distributed DP measurement, the earlier public reports of the Flower adaptive clipping behaviour (issues 8295 and 8297), the part of the Cebere et al. text that was read, and the single comment on FedML issue 1586.
+- README, v0.16.9 section: the sentence that listed distributed DP as not covered now points to the v0.16.11 section.
+- `docs/v0.16-p2-server-view-inventory.md`: the header said nothing was measured. Channel 1, the release rule of channel 6 and the weight effect of channel 3 were measured in v0.16.0, and channel 2 has the v0.15 tests. The predictions S4, S6 and S6b were not run.
+- `docs/v0.16-fedml-dp-audit.md` and `docs/v0.16-nvflare-selection-audit.md`: dated update notes on the tracker comments and on the CI gate workflow added in 0.16.7.
+
+### Recorded on purpose
+- The prior-art gate for a paper draft (tables filled from threads and release notes) stays open. Release notes were not read for Flower or TFF.
+- Disclosure wording was not changed. `docs/disclosure-protocol.md` is untouched.
+- Package version is 0.16.12.
+
 ## [0.16.11] - 2026-11-26
 
 Measurement of the distributed DP aggregator of TensorFlow Federated 0.87.0. No earlier result number, verdict or threshold changed.
