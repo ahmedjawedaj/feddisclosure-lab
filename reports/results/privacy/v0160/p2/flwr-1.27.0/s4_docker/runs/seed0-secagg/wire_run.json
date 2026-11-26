@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "seed": 0,
+  "mode": "secagg",
+  "ok": true,
+  "data_dir": "/home/claude/work/fdl-v1613/reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/data/seed0",
+  "relay_dir": "relay",
+  "capture_dir": "server/wire",
+  "started_utc": "2026-11-26T15:27:34.448053+00:00",
+  "flower_command": [
+    "docker",
+    "compose",
+    "--env-file",
+    "/home/claude/work/fdl-v1613/reports/results/privacy/v0160/p2/flwr-1.27.0/s4_docker/env/seed0-secagg.env",
+    "-f",
+    "/home/claude/work/fdl-v1613/compose.flower.n4.yaml",
+    "-f",
+    "/home/claude/work/fdl-v1613/compose.wire.yaml",
+    "run",
+    "--rm",
+    "--no-deps",
+    "-v",
+    "/home/claude/work/fdl-v1613/docker/wire_relay/app_metrics:/alt-app:ro",
+    "--entrypoint",
+    "sh",
+    "flwr-cli",
+    "-c",
+    "cp -r /alt-app /tmp/alt-app && exec flwr run /tmp/alt-app fdl-docker --stream --run-config \"$0\"",
+    "num-server-rounds=1 local-epochs=1 batch-size=8 learning-rate=0.15 proximal-mu=0.0 clients=4 seed=0 features=64 classes=10 data-root=\"/never-mounted-client-data\" artifact-dir=\"/artifacts\" use-secagg=true num-shares=4 reconstruction-threshold=2 timeout=60.0 wire-capture=true"
+  ],
+  "cli_attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 1,
+      "superlink_unreachable": true
+    },
+    {
+      "attempt": 2,
+      "exit_code": 0,
+      "superlink_unreachable": false
+    }
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "finished_utc": "2026-11-26T15:29:03.127052+00:00"
+}

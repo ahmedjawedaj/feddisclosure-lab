@@ -1,0 +1,15 @@
+allowed_observations:
+- masked_vectors
+- sample_counts
+- relay_byte_streams
+batch_size: 8
+clients: 4
+dataset: sklearn_digits
+id: wire-seed1
+learning_rate: 0.15
+local_epochs: 1
+observer: wire_capture
+partition: iid
+rounds: 1
+seed: 1
+source_limit: null

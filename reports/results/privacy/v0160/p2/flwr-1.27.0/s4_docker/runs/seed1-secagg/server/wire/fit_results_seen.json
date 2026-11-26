@@ -1,0 +1,46 @@
+{
+  "failures": 0,
+  "results": [
+    {
+      "cid": "729306204715335682",
+      "metrics": {
+        "n_local": 8,
+        "probe_const": 1237.5,
+        "train_loss": 2.3707118034362793
+      },
+      "node_id": "729306204715335682",
+      "num_examples": 8
+    },
+    {
+      "cid": "13441214861620970904",
+      "metrics": {
+        "n_local": 8,
+        "probe_const": 1234.5,
+        "train_loss": 2.306891918182373
+      },
+      "node_id": "13441214861620970904",
+      "num_examples": 8
+    },
+    {
+      "cid": "15903807724530626748",
+      "metrics": {
+        "n_local": 8,
+        "probe_const": 1236.5,
+        "train_loss": 2.273165702819824
+      },
+      "node_id": "15903807724530626748",
+      "num_examples": 8
+    },
+    {
+      "cid": "14787158246810152967",
+      "metrics": {
+        "n_local": 8,
+        "probe_const": 1235.5,
+        "train_loss": 2.2432868480682373
+      },
+      "node_id": "14787158246810152967",
+      "num_examples": 8
+    }
+  ],
+  "server_round": 1
+}
